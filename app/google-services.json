@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "229769436108",
+    "project_id": "stop-and-flight",
+    "storage_bucket": "stop-and-flight.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:229769436108:android:6e0b9e0cb10ada9ba01b69",
+        "android_client_info": {
+          "package_name": "com.example.stop_and_flight"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "229769436108-5b8joasusmdmi4msfg72nv771kkdc2n8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAY-k7O9IouPqacK3PlRWr4-fgdsHzkqc4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "229769436108-5b8joasusmdmi4msfg72nv771kkdc2n8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
