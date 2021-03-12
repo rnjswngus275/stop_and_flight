@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/stop_and_flight.iml" filepath="$PROJECT_DIR$/.idea/modules/stop_and_flight.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/stop_and_flight.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/stop_and_flight.app.iml" />
+    </modules>
+  </component>
+</project>
