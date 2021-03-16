@@ -15,7 +15,7 @@ public class AppGuide extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_app_guide);
 
         ViewPager viewPager = findViewById(R.id.pager);
         setupViewPager(viewPager);
