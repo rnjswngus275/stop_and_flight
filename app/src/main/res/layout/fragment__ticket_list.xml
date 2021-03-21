@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<com.transferwise.sequencelayout.SequenceLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ticket_list">
+
+        <com.transferwise.sequencelayout.SequenceStep
+            app:anchor="날짜 보여줄 자리"
+            app:title="티켓 보여줄 자리"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.transferwise.sequencelayout.SequenceStep
+            app:title="티켓보여줄 자리"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.transferwise.sequencelayout.SequenceStep
+            app:active="true"
+            app:anchor="날짜 보여줄 자리"
+            app:subtitle="서브타이틀"
+            app:title="티켓 보여줄 자리"
+            app:titleTextAppearance="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.transferwise.sequencelayout.SequenceStep
+            app:title="티켓"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.transferwise.sequencelayout.SequenceStep
+            app:anchor="날짜"
+            app:title="티켓"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.transferwise.sequencelayout.SequenceLayout>
+
