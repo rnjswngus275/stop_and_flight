@@ -51,5 +51,5 @@ dependencies {
     implementation 'com.github.transferwise:sequence-layout:1.0.7'
     implementation 'com.webianks.library:scroll-choice:1.0.1'
     implementation 'com.vipulasri:ticketview:1.1.2'
-
 }
+
