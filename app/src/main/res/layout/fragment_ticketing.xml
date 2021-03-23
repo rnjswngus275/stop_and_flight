@@ -64,7 +64,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="138dp"
+        android:layout_height="154dp"
         android:orientation="vertical">
 
         <TextView
@@ -76,32 +76,27 @@
             android:textSize="20dp" />
 
         <com.webianks.library.scroll_choice.ScrollChoice
-            android:id="@+id/scoll_chice"
+            android:id="@+id/scroll_choice"
             android:layout_width="match_parent"
-            android:layout_height="154dp"
+            android:layout_height="173dp"
             app:scroll_atmospheric="true"
-            app:scroll_background_color="#f5f5f5"
+            app:scroll_background_color="#ffffff"
             app:scroll_indicator="true"
-            app:scroll_indicator_color="#ffffff"
+            app:scroll_indicator_color="#f5f5f5"
             app:scroll_indicator_size="1dp"
             app:scroll_item_align="center"
             app:scroll_item_text_color="?attr/colorAccent"
-            app:scroll_item_text_size="17sp"
+            app:scroll_item_text_size="15sp"
             app:scroll_selected_item_background="#ffffff"
             app:scroll_selected_item_text_color="#ffc107" />
 
-        <TextView
-            android:id="@+id/choice_result"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="choice" />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/button4"
         android:layout_width="match_parent"
-        android:layout_height="73dp"
+        android:layout_height="50dp"
         android:text="Button" />
 
 
