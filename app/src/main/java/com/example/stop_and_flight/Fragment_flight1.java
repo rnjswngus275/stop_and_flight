@@ -1,19 +1,43 @@
 package com.example.stop_and_flight;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link Fragment_flight1#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Fragment_flight1 extends Fragment {
+public class Fragment_flight1 extends Fragment implements View.OnClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,8 +48,10 @@ public class Fragment_flight1 extends Fragment {
     private String mParam1;
     private String mParam2;
 
+
+    // Required empty public constructor
+
     public Fragment_flight1() {
-        // Required empty public constructor
     }
 
     /**
@@ -58,7 +84,224 @@ public class Fragment_flight1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_flight1, container, false);
+
+        Button emergancybutton = v.findViewById(R.id.button_emergancy);
+        Button appaccessbutton = v.findViewById(R.id.button_app);
+
+        List<PackageInfo> packlist = new List<PackageInfo>() {
+            @Override
+            public int size() {
+                return 0;
+            }
+
+            @Override
+            public boolean isEmpty() {
+                return false;
+            }
+
+            @Override
+            public boolean contains(@Nullable Object o) {
+                return false;
+            }
+
+            @NonNull
+            @Override
+            public Iterator<PackageInfo> iterator() {
+                return null;
+            }
+
+            @NonNull
+            @Override
+            public Object[] toArray() {
+                return new Object[0];
+            }
+
+            @NonNull
+            @Override
+            public <T> T[] toArray(@NonNull T[] a) {
+                return null;
+            }
+
+            @Override
+            public boolean add(PackageInfo packageInfo) {
+                return false;
+            }
+
+            @Override
+            public boolean remove(@Nullable Object o) {
+                return false;
+            }
+
+            @Override
+            public boolean containsAll(@NonNull Collection<?> c) {
+                return false;
+            }
+
+            @Override
+            public boolean addAll(@NonNull Collection<? extends PackageInfo> c) {
+                return false;
+            }
+
+            @Override
+            public boolean addAll(int index, @NonNull Collection<? extends PackageInfo> c) {
+                return false;
+            }
+
+            @Override
+            public boolean removeAll(@NonNull Collection<?> c) {
+                return false;
+            }
+
+            @Override
+            public boolean retainAll(@NonNull Collection<?> c) {
+                return false;
+            }
+
+            @Override
+            public void clear() {
+
+            }
+
+            @Override
+            public PackageInfo get(int index) {
+                return null;
+            }
+
+            @Override
+            public PackageInfo set(int index, PackageInfo element) {
+                return null;
+            }
+
+            @Override
+            public void add(int index, PackageInfo element) {
+
+            }
+
+            @Override
+            public PackageInfo remove(int index) {
+                return null;
+            }
+
+            @Override
+            public int indexOf(@Nullable Object o) {
+                return 0;
+            }
+
+            @Override
+            public int lastIndexOf(@Nullable Object o) {
+                return 0;
+            }
+
+            @NonNull
+            @Override
+            public ListIterator<PackageInfo> listIterator() {
+                return null;
+            }
+
+            @NonNull
+            @Override
+            public ListIterator<PackageInfo> listIterator(int index) {
+                return null;
+            }
+
+            @NonNull
+            @Override
+            public List<PackageInfo> subList(int fromIndex, int toIndex) {
+                return null;
+            }
+        };
+
+        emergancybutton.setOnClickListener(this);
+        appaccessbutton.setOnClickListener(this);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_flight1, container, false);
+        return v;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_emergancy:
+                ShowEmergancyMessage(v);
+                break;
+            case R.id.button_app:
+                ShowAccessApplist(v);
+                break;
+        }
+    }
+
+    private void ShowAccessApplist(View v) {
+
+        ArrayList<String> applist = new ArrayList<>();
+
+        installedApplist(applist);
+
+        Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(R.layout.app_dialog_searchable_spinner);
+        dialog.getWindow().setLayout(800, 800);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        EditText editText = dialog.findViewById(R.id.app_edit_text);
+        ListView listView = dialog.findViewById(R.id.app_list_view);
+        ArrayAdapter adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, applist);
+        listView.setAdapter(adapter);
+        dialog.show();
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent launchIntent = getActivity().getPackageManager().getLaunchIntentForPackage(adapter.getItem(position).toString());
+                startActivity(launchIntent);
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void ShowEmergancyMessage(View v) {
+        AlertDialog.Builder embuilder = new AlertDialog.Builder(getActivity());
+        embuilder.setTitle("손님!! 비상 탈출 하시겠습니까?");
+        embuilder.setMessage("비상 탈출시 손님의 기록이 떨어질 수 있습니다. 그래도 탈출하시겠습니까?");
+        embuilder.setPositiveButton("살고싶어요..", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getContext(), "끔", Toast.LENGTH_SHORT).show();
+            }
+        });
+        embuilder.setNegativeButton("조금 더 해볼래요", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getContext(), "안 끔", Toast.LENGTH_SHORT).show();
+            }
+        });
+        embuilder.show();
+    }
+
+    private void installedApplist(List<String> applist) {
+        List<PackageInfo> packList = getActivity().getPackageManager().getInstalledPackages(0);
+        PackageInfo packInfo = null;
+        for (int i=0; i < packList.size(); i++)
+        {
+            packInfo = packList.get(i);
+            if ((packInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
+            {
+                applist.add(packInfo.packageName);
+            }
+        }
     }
 }
