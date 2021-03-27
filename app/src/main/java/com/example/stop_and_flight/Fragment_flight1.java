@@ -86,7 +86,7 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_flight1, container, false);
 
-        Button emergancybutton = v.findViewById(R.id.button_emergancy);
+        Button emergencybutton = v.findViewById(R.id.button_emergency);
         Button appaccessbutton = v.findViewById(R.id.button_app);
 
         List<PackageInfo> packlist = new List<PackageInfo>() {
@@ -212,7 +212,7 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
             }
         };
 
-        emergancybutton.setOnClickListener(this);
+        emergencybutton.setOnClickListener(this);
         appaccessbutton.setOnClickListener(this);
         // Inflate the layout for this fragment
         return v;
@@ -221,8 +221,8 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.button_emergancy:
-                ShowEmergancyMessage(v);
+            case R.id.button_emergency:
+                ShowEmergencyMessage(v);
                 break;
             case R.id.button_app:
                 ShowAccessApplist(v);
@@ -273,10 +273,12 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
         });
     }
 
-    private void ShowEmergancyMessage(View v) {
+    private void ShowEmergencyMessage(View v) {
         AlertDialog.Builder embuilder = new AlertDialog.Builder(getActivity());
         embuilder.setTitle("손님!! 비상 탈출 하시겠습니까?");
-        embuilder.setMessage("비상 탈출시 손님의 기록이 떨어질 수 있습니다. 그래도 탈출하시겠습니까?");
+        LayoutInflater factory = LayoutInflater.from(getActivity());
+        final View view = factory.inflate(R.layout.emergency_dialog, null);
+        embuilder.setView(view);
         embuilder.setPositiveButton("살고싶어요..", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -291,6 +293,9 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
         });
         embuilder.show();
     }
+
+
+
 
     private void installedApplist(List<String> applist) {
         List<PackageInfo> packList = getActivity().getPackageManager().getInstalledPackages(0);
