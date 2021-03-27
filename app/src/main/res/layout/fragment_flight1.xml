@@ -38,7 +38,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button_emergancy"
+            android:id="@+id/button_emergency"
             android:layout_width="147dp"
             android:layout_height="wrap_content"
             android:text="비상탈출" />
