@@ -76,7 +76,7 @@
             android:textSize="20dp" />
 
         <com.webianks.library.scroll_choice.ScrollChoice
-            android:id="@+id/scoll_chice"
+            android:id="@+id/scroll_choice"
             android:layout_width="match_parent"
             android:layout_height="154dp"
             app:scroll_atmospheric="true"

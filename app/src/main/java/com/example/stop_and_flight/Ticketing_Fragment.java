@@ -29,15 +29,13 @@ public class Ticketing_Fragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
-    List<String> Todo = new ArrayList<>();
-    TextView textView;
-    ScrollChoice scrollChoice;
-
-
     public Ticketing_Fragment() {
         // Required empty public constructor
     }
+
+    private List<String> Todo = new ArrayList<>();
+    private TextView textView;
+    private ScrollChoice scrollChoice;
 
     /**
      * Use this factory method to create a new instance of
@@ -60,40 +58,43 @@ public class Ticketing_Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-        initVeiws();
-        loadTodo();
-
-        scrollChoice.addItems(Todo, 3);
-        scrollChoice.setOnItemSelectedListener(new ScrollChoice.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(ScrollChoice scrollChoice, int position, String name) {
-                textView.setText("choice" + name);
-            }
-        });
     }
 
-    private void loadTodo() {
-        Todo.add("Todo1");
-        Todo.add("Todo2");
-        Todo.add("Todo3");
-        Todo.add("Todo4");
-        Todo.add("Todo5");
+    private List<String> inti_todo(List<String> Todo) {
+        Todo.add("Brazil");
+        Todo.add("USA");
+        Todo.add("China");
+        Todo.add("Pakistan");
+        Todo.add("Australia");
+        Todo.add("India");
+        Todo.add("Nepal");
+        Todo.add("Sri Lanka");
+        Todo.add("Spain");
+        Todo.add("Italy");
+        Todo.add("France");
+        return Todo;
     }
 
-    private void initVeiws() {
-        textView = (TextView) getView().findViewById(R.id.choice_result);
-        scrollChoice = (ScrollChoice) getView().findViewById(R.id.scoll_chice);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_ticketing, container, false);
+        Todo = inti_todo(Todo);
+        scrollChoice = (ScrollChoice) v.findViewById(R.id.scroll_choice);
+        textView = (TextView) v.findViewById(R.id.choice_result);
+        scrollChoice.addItems(Todo, 3);
+        scrollChoice.setOnItemSelectedListener(new ScrollChoice.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(ScrollChoice scrollChoice, int position, String name) {
+                textView.setText("choice" + name);
+            }});
         return inflater.inflate(R.layout.fragment_ticketing, container, false);
     }
 }
