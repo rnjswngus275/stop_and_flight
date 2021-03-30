@@ -58,13 +58,43 @@
             app:cornerRadius="20dp"
             app:backgroundTint=" #769fcd" />
 
-        <TextView
-            android:id="@+id/textView4"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-            android:text="회원이신가요? 로그인하러가기"
-            android:textSize="18dp" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="54dp"
+                android:layout_height="match_parent">
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="131dp"
+                android:layout_height="36dp"
+
+                android:gravity="center"
+                android:text="회원이신가요?"
+                android:textSize="18dp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/go_login"
+                android:layout_width="171dp"
+                android:layout_height="wrap_content"
+                android:text="로그인하러 가기"
+                app:cornerRadius="20dp"
+                app:backgroundTint="#4A82C1" />
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
 </LinearLayout>
