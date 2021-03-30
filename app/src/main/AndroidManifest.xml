@@ -21,6 +21,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".select_signup_method"/>
         <activity android:name=".JoinActivity"/>
+        <activity android:name=".LoginActivity"/>
     </application>
 
 </manifest>
