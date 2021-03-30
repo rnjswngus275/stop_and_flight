@@ -32,9 +32,8 @@ public class select_signup_method extends AppCompatActivity {
         email_signup.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent intent=new Intent(getApplicationContext(),SignupActivity.class);
+                Intent intent=new Intent(getApplicationContext(),JoinActivity.class);
                 startActivity(intent);
-
 
             }
 

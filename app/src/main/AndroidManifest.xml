@@ -20,7 +20,7 @@
         <activity android:name=".AppGuide"/>
         <activity android:name=".MainActivity" />
         <activity android:name=".select_signup_method"/>
-        <activity android:name=".SignupActivity"/>
+        <activity android:name=".JoinActivity"/>
     </application>
 
 </manifest>
