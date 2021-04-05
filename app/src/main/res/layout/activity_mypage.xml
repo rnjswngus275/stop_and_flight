@@ -9,8 +9,8 @@
         android:id="@+id/imageView4"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="28dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/selector_indicator" />
@@ -30,9 +30,10 @@
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="9dp"
-        android:layout_marginBottom="10dp"
-        android:text="TextView"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="4dp"
+        android:text="닉네임"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/button5"
         app:layout_constraintEnd_toStartOf="@+id/button5" />
 
@@ -40,51 +41,34 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="9dp"
-        android:text="TextView"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="64dp"
+        android:text="칭호"
+        android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/button6"
         app:layout_constraintTop_toTopOf="@+id/button6" />
 
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="43dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="@+id/button7"
-        app:layout_constraintEnd_toStartOf="@+id/button7" />
-
     <Button
         android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="64dp"
+        android:layout_height="50dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="16dp"
-        android:text="Button"
+        android:text="변경"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:backgroundTint="#769FCD"/>
 
     <Button
         android:id="@+id/button6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="64dp"
+        android:layout_height="50dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:text="Button"
+        android:text="변경"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button5" />
-
-    <Button
-        android:id="@+id/button7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="9dp"
-        android:layout_marginEnd="2dp"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="@+id/button6"
-        app:layout_constraintTop_toBottomOf="@+id/button6" />
+        app:layout_constraintTop_toBottomOf="@+id/button5"
+        app:backgroundTint="#769FCD"/>
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -96,35 +80,48 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <Button
-            android:id="@+id/button11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="77dp"
-            android:text="탈퇴하기" />
+        <LinearLayout
+            android:layout_width="362dp"
+            android:layout_height="421dp"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/button10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="7dp"
-            android:text="개발자에게 문의하기" />
+            <Button
+                android:id="@+id/button8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="허용앱 설정"
+                app:backgroundTint="#769FCD"/>
 
-        <Button
-            android:id="@+id/button9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="허용앱 설정" />
+            <Button
+                android:id="@+id/button12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="사운드설정"
+                app:backgroundTint="#769FCD"/>
 
-        <Button
-            android:id="@+id/button8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="69dp"
-            android:layout_marginTop="36dp"
-            android:text="사운드 설정" />
+            <Button
+                android:id="@+id/button9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="개발자에게 문의하기"
+                app:backgroundTint="#769FCD"/>
+
+            <Button
+                android:id="@+id/button11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="로그아웃"
+                app:backgroundTint="#769FCD"
+                />
+
+            <Button
+                android:id="@+id/DeleteID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="회원탈퇴"
+                app:backgroundTint="#769FCD"/>
+        </LinearLayout>
+
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,10 +23,20 @@ public class AppGuide extends AppCompatActivity {
         mIndicator.setViewPager(viewPager);
 
         Button signup_button=(Button)findViewById(R.id.button2);
+        Button login_button=(Button)findViewById(R.id.go_login);
+
         signup_button.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view){
                 Intent intent= new Intent(getApplicationContext(),select_signup_method.class);
+                startActivity(intent);
+            }
+        });
+
+        login_button.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent= new Intent(getApplicationContext(),LoginActivity.class);
                 startActivity(intent);
             }
         });
