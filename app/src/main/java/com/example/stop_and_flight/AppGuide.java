@@ -32,7 +32,6 @@ public class AppGuide extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         login_button.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view){
