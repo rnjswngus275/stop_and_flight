@@ -37,8 +37,6 @@ public class GoalFragment extends Fragment {
     private int id_count = 0;
     private int current_id=0;
     private String UID;
-    private FirebaseDatabase database;
-    private String edit_before;
     private DatabaseReference mDatabase;
 
 
@@ -76,7 +74,6 @@ public class GoalFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             UID = getArguments().getString("UID", "0");
-            database = FirebaseDatabase.getInstance();
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
@@ -98,7 +95,6 @@ public class GoalFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         context = container.getContext();
         View rootView = inflater.inflate(R.layout.fragment_goal,container,false);
 
@@ -140,7 +136,6 @@ public class GoalFragment extends Fragment {
                                                if (edit_count % 2 == 0) {
                                                    editLinear.setVisibility(rootView.VISIBLE);
                                                    edit_count++;
-                                                   edit_before = btn.getText().toString();
                                                    editGoalText.setText(btn.getText());
                                                    current_id = btn.getId();
                                                } else {
