@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setHomeAsUpIndicator(R.drawable.menu_icon); //뒤로가기 버튼 이미지 지정
 
         FragmentManager fragmentManager = getSupportFragmentManager(); //fragment 매니저
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction(); //fragment 트랜색션
         //fragment 객체 생성
 
         Fragment_Ticket_list ticket_list = new Fragment_Ticket_list();
@@ -62,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction(); //fragment 트랜색션
                 menuItem.setChecked(true);
                 mDrawerLayout.closeDrawers();
                 int id = menuItem.getItemId();
@@ -71,13 +71,13 @@ public class MainActivity extends AppCompatActivity {
                 } else if (id == R.id.menu2) {
                     Toast.makeText(context, title + ": menu2 성공.", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.menu3) {
-                    fragmentTransaction.replace(R.id.container, ticket_list).addToBackStack(null).commit();
+                    fragmentTransaction.replace(R.id.container, ticket_list).addToBackStack(null).commitAllowingStateLoss();
                     goalFragment.setArguments(bundle);
                 } else if (id == R.id.menu4) {
-                    fragmentTransaction.replace(R.id.container, ticketing_fragment).addToBackStack(null).commit();
+                    fragmentTransaction.replace(R.id.container, ticketing_fragment).addToBackStack(null).commitAllowingStateLoss();
                     goalFragment.setArguments(bundle);
                 } else if (id == R.id.menu5) {
-                    fragmentTransaction.replace(R.id.container, goalFragment).addToBackStack(null).commit();
+                    fragmentTransaction.replace(R.id.container, goalFragment).addToBackStack(null).commitAllowingStateLoss();
                     goalFragment.setArguments(bundle);
                 } else if (id == R.id.menu6) {
                     Toast.makeText(context, title + ": menu6 성공", Toast.LENGTH_SHORT).show();

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
 import com.webianks.library.scroll_choice.ScrollChoice;
 
 import java.util.ArrayList;
@@ -31,11 +32,14 @@ public class Ticketing_Fragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private String UID;
+    private DatabaseReference mDatabase;
+
     public Ticketing_Fragment() {
         // Required empty public constructor
     }
 
-    private List<String> Todo = new ArrayList<>();
+    private List<String> goal_list = new ArrayList<>();
     private TextView textView;
     private ScrollChoice scrollChoice;
 
@@ -62,17 +66,18 @@ public class Ticketing_Fragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
+            UID = getArguments().getString("UID", "0");
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
-    private List<String> init_todo(List<String> Todo) {
-        Todo.add("토익");
-        Todo.add("한국사");
-        Todo.add("정보처리기사");
-        Todo.add("Opic");
-        return Todo;
+    private List<String> init_todo(List<String> goal_list) {
+        search_GOALDB();
+        return goal_list;
+    }
+
+    private void search_GOALDB() {
     }
 
 
@@ -86,9 +91,9 @@ public class Ticketing_Fragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Todo = init_todo(Todo);
+        goal_list = init_todo(goal_list);
         scrollChoice = (ScrollChoice) view.findViewById(R.id.scroll_choice);
-        scrollChoice.addItems(Todo, 3);
+        scrollChoice.addItems(goal_list, 1);
         scrollChoice.setOnItemSelectedListener(new ScrollChoice.OnItemSelectedListener() {
             @Override
             public void onItemSelected(ScrollChoice scrollChoice, int position, String name) {
