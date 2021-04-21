@@ -1,5 +1,6 @@
 package com.example.stop_and_flight;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -9,15 +10,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.Toast;
-import  androidx.recyclerview.widget.RecyclerView;
 
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
+import com.firebase.ui.auth.data.model.User;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,13 +36,11 @@ public class GoalFragment extends Fragment {
     private int edit_count=0;
     private int id_count = 0;
     private int current_id=0;
-    private View.OnClickListener editConfirmListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            // do something when the button is clicked
-            // Yes we will handle click here but which button clicked??? We don't know
+    private String UID;
+    private FirebaseDatabase database;
+    private String edit_before;
+    private DatabaseReference mDatabase;
 
-        }
-    };
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -75,12 +75,11 @@ public class GoalFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            UID = getArguments().getString("UID", "0");
+            database = FirebaseDatabase.getInstance();
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
-        //Spiner
         /*
         Spinner tagSpinner = (Spinner)getView().findViewById(R.id.tag);
         Spinner editTagSpinner = (Spinner)getView().findViewById(R.id.edit_tag);
@@ -93,9 +92,7 @@ public class GoalFragment extends Fragment {
 
         tagSpinner.setAdapter(tagAdapter);
         editTagSpinner.setAdapter(tagAdapter);
-
          */
-
     }
 
     @Override
@@ -103,7 +100,6 @@ public class GoalFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         context = container.getContext();
-
         View rootView = inflater.inflate(R.layout.fragment_goal,container,false);
 
         LinearLayout linear = (LinearLayout)rootView.findViewById(R.id.linear);
@@ -111,12 +107,11 @@ public class GoalFragment extends Fragment {
         LinearLayout editLinear = (LinearLayout)rootView.findViewById(R.id.editLayout);
 
         Button addBtn = (Button)rootView.findViewById(R.id.addGoal);
+        // + 버튼을 눌렀을 때
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                if(count%2==0) {
+                if(count % 2 == 0) {
                     addLinear.setVisibility(rootView.VISIBLE);
                     count++;
                 }else{
@@ -125,27 +120,27 @@ public class GoalFragment extends Fragment {
                 }
             }
         });
-
-        EditText goalText = (EditText)rootView.findViewById(R.id.text);
+        EditText goalText = (EditText)rootView.findViewById(R.id.goal_text);
         EditText editGoalText = (EditText)rootView.findViewById(R.id.edit_text);
-
         Button confirmBtn = (Button)rootView.findViewById(R.id.confirm_button);
+
+        // 목표를 설정하고 확인버튼을 눌렀을 때
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Button btn = new Button(getContext());
                 btn.setText(goalText.getText());
-                btn.setId(id_count+1);
-                /*목표버튼 하나하나에 달리는 리스너!*/
+                btn.setId(id_count);
+                insert_GOALDB(goalText, id_count);
+                // 리스트를 다시 눌렀을 때
                 btn.setOnClickListener(new View.OnClickListener() {
                                            @Override
                                            public void onClick(View v) {
-
                                                if (edit_count % 2 == 0) {
                                                    editLinear.setVisibility(rootView.VISIBLE);
                                                    edit_count++;
-
+                                                   edit_before = btn.getText().toString();
                                                    editGoalText.setText(btn.getText());
                                                    current_id = btn.getId();
                                                } else {
@@ -155,10 +150,9 @@ public class GoalFragment extends Fragment {
                                            }
                                        });
                 linear.addView(btn);
+                btn.setId(id_count);
                 id_count++;
-                goalText.setText("목표를 임력하세요");
-
-                if(count%2==0) {
+                if(count % 2==0) {
                     addLinear.setVisibility(rootView.VISIBLE);
                     count++;
                 }else{
@@ -166,9 +160,10 @@ public class GoalFragment extends Fragment {
                     count++;
                 }
             }
-        });//confirmBtn 리스너 끝(add의 Confirm)
+        });
 
         Button EditConfirmBtn = (Button)rootView.findViewById(R.id.edit_confirm_button);
+        // 수정을 한 후 확인버튼을 눌렀 때
         EditConfirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,6 +178,7 @@ public class GoalFragment extends Fragment {
                     editLinear.setVisibility(rootView.GONE);
                     edit_count++;
                 }
+                update_GOALDB(editGoalText.getText().toString(), current_id);
             }
         });
 
@@ -190,7 +186,6 @@ public class GoalFragment extends Fragment {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Button btn = (Button)rootView.findViewById(current_id);
                 btn.setVisibility(rootView.GONE);
 
@@ -201,16 +196,40 @@ public class GoalFragment extends Fragment {
                     editLinear.setVisibility(rootView.GONE);
                     edit_count++;
                 }
+                delete_GOALDB(current_id);
             }
         });
-
-
         // Inflate the layout for this fragment
         return rootView;
-
-        //View rootView = (View)inflater.inflate(R.layout.fragment_search,container,false);
-
     }
 
+    private void insert_GOALDB(EditText goalText, int id_count) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        String goal_title = goalText.getText().toString();
+        Goal goal = new Goal(UID, goal_title, id_count);
+
+        mDatabase.child("GOAL").child(UID).child(Integer.toString(id_count)).setValue(goal);
+    }
+
+    private void update_GOALDB(String text, int id_count) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        String key = mDatabase.child("GOAL").child(UID).child(Integer.toString(id_count)).getKey();
+        Goal goal = new Goal(UID, text, id_count);
+
+        Map<String, Object> postValues = goal.toMap();
+        Map<String, Object> childUpdates = new HashMap<>();
+
+        childUpdates.put("/GOAL/" + UID + "/" + key, postValues);
+
+        mDatabase.updateChildren(childUpdates);
+    }
+
+    private void delete_GOALDB(int id_count)
+    {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        mDatabase.child("GOAL").child(UID).child(Integer.toString(id_count)).removeValue();
+    }
 }
