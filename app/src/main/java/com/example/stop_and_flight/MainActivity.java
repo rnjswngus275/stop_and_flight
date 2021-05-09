@@ -49,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
 
         Fragment_Ticket_list ticket_list = new Fragment_Ticket_list();
         Ticketing_Fragment ticketing_fragment= new Ticketing_Fragment();
+        GoalFragment goalFragment = new GoalFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("UID", "7ZmvGMQPsgdemHQubKJIoajYuel1");
 
 
         //<div>아이콘 제작자 <a href="https://www.flaticon.com/kr/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/kr/" title="Flaticon">www.flaticon.com</a></div>
@@ -62,29 +66,35 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction(); //fragment 트랜색션
                 menuItem.setChecked(true);
                 mDrawerLayout.closeDrawers();
 
                 int id = menuItem.getItemId();
                 String title = menuItem.getTitle().toString();
-                if (id == R.id.menu1) {       //여기에 메뉴 버튼 클릭했을때 옮길 페이지 연결하시면 됩니다.
-                    Toast.makeText(context, title + ": menu1 성공.", Toast.LENGTH_SHORT).show();
 
+                if (id == R.id.menu1) {       //여기에 메뉴 버튼 클릭했을때 옮길 페이지 연결하시면 됩니다.
+                   try{ Intent intent = new Intent(MainActivity.this, MypageActivity.class);
+                    startActivity(intent);}
+                   catch(Exception e){
+                       e.printStackTrace();
+                            throw e;
+                    }
                 } else if (id == R.id.menu2) {
                     Toast.makeText(context, title + ": menu2 성공.", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.menu3) {
-                    try {
-                        fragmentTransaction.replace(R.id.container, ticket_list).commit();
-                        throw new Exception();
-                    }
-                    catch (Exception e){
-                        Toast.makeText(context, title + ": 같은 페이지 입니다.", Toast.LENGTH_SHORT).show();
-                    }
+                    fragmentTransaction.replace(R.id.container, ticket_list).addToBackStack(null).commitAllowingStateLoss();
+                    ticket_list.setArguments(bundle);
+
                 } else if (id == R.id.menu4) {
 
-                    fragmentTransaction.replace(R.id.container, ticketing_fragment).commit();
+                    fragmentTransaction.replace(R.id.container, ticketing_fragment).addToBackStack(null).commitAllowingStateLoss();
+                    ticketing_fragment.setArguments(bundle);
+
                 } else if (id == R.id.menu5) {
-                    Toast.makeText(context, title + ": menu5 성공", Toast.LENGTH_SHORT).show();
+                    fragmentTransaction.replace(R.id.container, goalFragment).addToBackStack(null).commitAllowingStateLoss();
+                    goalFragment.setArguments(bundle);
+
                 } else if (id == R.id.menu6) {
                     Toast.makeText(context, title + ": menu6 성공", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.menu7) {
