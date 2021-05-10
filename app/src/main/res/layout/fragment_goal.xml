@@ -10,10 +10,10 @@
 
     <Button
         android:id="@+id/addGoal"
-        android:layout_width="match_parent"
+        android:layout_width="345dp"
         android:layout_height="wrap_content"
-        android:text="+"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:text="+" />
 
     <LinearLayout
         android:id="@+id/addLayout"
@@ -29,11 +29,11 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/text"
+                android:id="@+id/goal_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="목표를 입력하세요"/>
+                android:hint="목표를 입력하세요"/>
 
             <Button
                 android:id="@+id/confirm_button"
@@ -83,7 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="목표를 입력하세요"/>
+                android:hint="목표를 입력하세요"/>
 
             <Button
                 android:id="@+id/edit_confirm_button"

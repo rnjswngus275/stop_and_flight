@@ -12,7 +12,7 @@
         <activity android:name=".LoginMethodActivity"></activity>
         <activity android:name=".JoinSNSNickname" />
         <activity android:name=".IntroActivity">
-            <intent-filter>
+          <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -24,7 +24,5 @@
         <activity android:name=".JoinActivity" />
         <activity android:name=".LoginActivity" />
     </application>
-
     <uses-permission android:name="android.permission.INTERNET" />
-
 </manifest>

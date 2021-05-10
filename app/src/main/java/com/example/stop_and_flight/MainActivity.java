@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private Context context = this;
 
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,24 +42,21 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼 만들기
         actionBar.setHomeAsUpIndicator(R.drawable.menu_icon); //뒤로가기 버튼 이미지 지정
 
-        FragmentManager fragmentManager = getSupportFragmentManager();      //fragment 매니저
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction(); //fragment 트랜색션
+        FragmentManager fragmentManager = getSupportFragmentManager(); //fragment 매니저
         //fragment 객체 생성
 
         Fragment_Ticket_list ticket_list = new Fragment_Ticket_list();
         Ticketing_Fragment ticketing_fragment= new Ticketing_Fragment();
         GoalFragment goalFragment = new GoalFragment();
 
+
         Bundle bundle = new Bundle();
         bundle.putString("UID", "7ZmvGMQPsgdemHQubKJIoajYuel1");
-
-
         //<div>아이콘 제작자 <a href="https://www.flaticon.com/kr/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/kr/" title="Flaticon">www.flaticon.com</a></div>
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -69,36 +65,26 @@ public class MainActivity extends AppCompatActivity {
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction(); //fragment 트랜색션
                 menuItem.setChecked(true);
                 mDrawerLayout.closeDrawers();
-
                 int id = menuItem.getItemId();
+
                 String title = menuItem.getTitle().toString();
 
                 if (id == R.id.menu1) {       //여기에 메뉴 버튼 클릭했을때 옮길 페이지 연결하시면 됩니다.
-                   try{ Intent intent = new Intent(MainActivity.this, MypageActivity.class);
-                    startActivity(intent);}
-                   catch(Exception e){
-                       e.printStackTrace();
-                            throw e;
-                    }
+                    Intent intent = new Intent(MainActivity.this, MypageActivity.class);
+                    startActivity(intent);
                 } else if (id == R.id.menu2) {
                     Toast.makeText(context, title + ": menu2 성공.", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.menu3) {
                     fragmentTransaction.replace(R.id.container, ticket_list).addToBackStack(null).commitAllowingStateLoss();
                     ticket_list.setArguments(bundle);
-
                 } else if (id == R.id.menu4) {
-
                     fragmentTransaction.replace(R.id.container, ticketing_fragment).addToBackStack(null).commitAllowingStateLoss();
                     ticketing_fragment.setArguments(bundle);
-
                 } else if (id == R.id.menu5) {
                     fragmentTransaction.replace(R.id.container, goalFragment).addToBackStack(null).commitAllowingStateLoss();
                     goalFragment.setArguments(bundle);
-
                 } else if (id == R.id.menu6) {
                     Toast.makeText(context, title + ": menu6 성공", Toast.LENGTH_SHORT).show();
-                } else if (id == R.id.menu7) {
-                    Toast.makeText(context, title + ": menu7 성공", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.menu8) {
                     Toast.makeText(context, title + ": menu8 성공", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.menu9) {
@@ -106,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
                 } else if (id == R.id.menu10) {
                     Toast.makeText(context, title + ": menu10 성공", Toast.LENGTH_SHORT).show();
                 }
-
                 return true;
             }
         });

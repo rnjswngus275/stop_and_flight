@@ -5,12 +5,13 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:layout_weight="1"
     tools:context=".Ticketing_Fragment">
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="171dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
@@ -18,18 +19,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="departing time"
-            android:textSize="20dp" />
+            android:text="출발 시간"
+            android:textSize="15dp" />
 
         <TimePicker
+            android:id="@+id/depart_time"
             android:layout_width="match_parent"
-            android:layout_height="157dp"
+            android:layout_height="140dp"
             android:timePickerMode="spinner" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="148dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
@@ -37,34 +39,93 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="arriving time"
-            android:textSize="20dp" />
+            android:text="도착 시간"
+            android:textSize="15dp" />
 
         <TimePicker
+            android:id="@+id/arrive_time"
             android:layout_width="match_parent"
-            android:layout_height="135dp"
+            android:layout_height="140dp"
             android:timePickerMode="spinner" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="71dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <CheckBox
-            android:id="@+id/repeat_checkbutton"
-            android:layout_width="98dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:text="repeat"
-            android:textSize="20dp" />
+        <TextView
+            android:id="@+id/repeat_title"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:gravity="center"
+            android:text="반복"
+            android:textSize="15dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/Mon_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="월" />
+
+            <RadioButton
+                android:id="@+id/Tues_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="화" />
+
+            <RadioButton
+                android:id="@+id/Wed_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="수" />
+
+            <RadioButton
+                android:id="@+id/Thurs_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="목" />
+
+            <RadioButton
+                android:id="@+id/Fri_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="금" />
+
+            <RadioButton
+                android:id="@+id/Set_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="토" />
+
+            <RadioButton
+                android:id="@+id/radioButton7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="일" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="154dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
@@ -72,13 +133,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Todo"
-            android:textSize="20dp" />
+            android:text="목표"
+            android:textSize="15dp" />
 
         <com.webianks.library.scroll_choice.ScrollChoice
             android:id="@+id/scroll_choice"
             android:layout_width="match_parent"
-            android:layout_height="173dp"
+            android:layout_height="142dp"
             app:scroll_atmospheric="true"
             app:scroll_background_color="#ffffff"
             app:scroll_indicator="true"
@@ -86,17 +147,16 @@
             app:scroll_indicator_size="1dp"
             app:scroll_item_align="center"
             app:scroll_item_text_color="?attr/colorAccent"
-            app:scroll_item_text_size="15sp"
+            app:scroll_item_text_size="13sp"
             app:scroll_selected_item_background="#ffffff"
             app:scroll_selected_item_text_color="#ffc107" />
-
 
     </LinearLayout>
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/ticketing_button"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:text="Button" />
 
 
