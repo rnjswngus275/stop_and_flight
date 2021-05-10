@@ -9,19 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Stop_and_flight">
-
+        <activity android:name=".MypageActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-<!--        <activity android:name=".AppGuide"/>-->
-<!--        <activity android:name=".MainActivity" />-->
-        <activity android:name=".select_signup_method"/>
-        <activity android:name=".JoinActivity"/>
-        <activity android:name=".LoginActivity"/>
+        </activity> <!-- <activity android:name=".AppGuide"/> -->
+        <!-- <activity android:name=".MainActivity" /> -->
+        <activity android:name=".select_signup_method" />
+        <activity android:name=".JoinActivity" />
+        <activity android:name=".LoginActivity" />
     </application>
 
 </manifest>

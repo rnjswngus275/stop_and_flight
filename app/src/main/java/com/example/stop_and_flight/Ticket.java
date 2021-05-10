@@ -5,26 +5,29 @@ import com.google.firebase.database.Exclude;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Goal {
+public class Ticket {
+    public String depart_time;
+    public String arrive_time;
     public String goal;
-    public int  goal_id;
     public Map<String, Boolean> stars = new HashMap<>();
 
-    public Goal() {
+    public Ticket() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Goal(String goal, int goal_id) {
+    public Ticket(String depart_time, String arrive_time, String goal) {
+        this.depart_time = depart_time;
+        this.arrive_time = arrive_time;
         this.goal = goal;
-        this.goal_id = goal_id;
 
     }
 
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
+        result.put("depart_time", depart_time);
+        result.put("arrive_time", arrive_time);
         result.put("goal", goal);
-        result.put("goal_id", goal_id);
         result.put("stars", stars);
 
         return result;

@@ -10,10 +10,10 @@
 
     <Button
         android:id="@+id/addGoal"
-        android:layout_width="match_parent"
+        android:layout_width="345dp"
         android:layout_height="wrap_content"
-        android:text="+"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:text="+" />
 
     <LinearLayout
         android:id="@+id/addLayout"

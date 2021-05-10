@@ -202,7 +202,7 @@ public class GoalFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         String goal_title = goalText.getText().toString();
-        Goal goal = new Goal(UID, goal_title, id_count);
+        Goal goal = new Goal(goal_title, id_count);
 
         mDatabase.child("GOAL").child(UID).child(Integer.toString(id_count)).setValue(goal);
     }
@@ -211,7 +211,7 @@ public class GoalFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         String key = mDatabase.child("GOAL").child(UID).child(Integer.toString(id_count)).getKey();
-        Goal goal = new Goal(UID, text, id_count);
+        Goal goal = new Goal(text, id_count);
 
         Map<String, Object> postValues = goal.toMap();
         Map<String, Object> childUpdates = new HashMap<>();

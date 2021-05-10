@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         Ticketing_Fragment ticketing_fragment= new Ticketing_Fragment();
         GoalFragment goalFragment = new GoalFragment();
 
+
+
         Bundle bundle = new Bundle();
         bundle.putString("UID", "7ZmvGMQPsgdemHQubKJIoajYuel1");
         //<div>아이콘 제작자 <a href="https://www.flaticon.com/kr/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/kr/" title="Flaticon">www.flaticon.com</a></div>
@@ -65,24 +67,25 @@ public class MainActivity extends AppCompatActivity {
                 menuItem.setChecked(true);
                 mDrawerLayout.closeDrawers();
                 int id = menuItem.getItemId();
+
                 String title = menuItem.getTitle().toString();
+
                 if (id == R.id.menu1) {       //여기에 메뉴 버튼 클릭했을때 옮길 페이지 연결하시면 됩니다.
-                    Toast.makeText(context, title + ": menu1 성공.", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, MypageActivity.class);
+                    startActivity(intent);
                 } else if (id == R.id.menu2) {
                     Toast.makeText(context, title + ": menu2 성공.", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.menu3) {
                     fragmentTransaction.replace(R.id.container, ticket_list).addToBackStack(null).commitAllowingStateLoss();
-                    goalFragment.setArguments(bundle);
+                    ticket_list.setArguments(bundle);
                 } else if (id == R.id.menu4) {
                     fragmentTransaction.replace(R.id.container, ticketing_fragment).addToBackStack(null).commitAllowingStateLoss();
-                    goalFragment.setArguments(bundle);
+                    ticketing_fragment.setArguments(bundle);
                 } else if (id == R.id.menu5) {
                     fragmentTransaction.replace(R.id.container, goalFragment).addToBackStack(null).commitAllowingStateLoss();
                     goalFragment.setArguments(bundle);
                 } else if (id == R.id.menu6) {
                     Toast.makeText(context, title + ": menu6 성공", Toast.LENGTH_SHORT).show();
-                } else if (id == R.id.menu7) {
-                    Toast.makeText(context, title + ": menu7 성공", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.menu8) {
                     Toast.makeText(context, title + ": menu8 성공", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.menu9) {
@@ -90,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
                 } else if (id == R.id.menu10) {
                     Toast.makeText(context, title + ": menu10 성공", Toast.LENGTH_SHORT).show();
                 }
-
                 return true;
             }
         });
