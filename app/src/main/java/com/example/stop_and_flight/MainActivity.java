@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         GoalFragment goalFragment = new GoalFragment();
 
 
-
         Bundle bundle = new Bundle();
         bundle.putString("UID", "7ZmvGMQPsgdemHQubKJIoajYuel1");
         //<div>아이콘 제작자 <a href="https://www.flaticon.com/kr/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/kr/" title="Flaticon">www.flaticon.com</a></div>
