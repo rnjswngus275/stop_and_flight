@@ -66,9 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 menuItem.setChecked(true);
                 mDrawerLayout.closeDrawers();
                 int id = menuItem.getItemId();
-
                 String title = menuItem.getTitle().toString();
-
                 if (id == R.id.menu1) {       //여기에 메뉴 버튼 클릭했을때 옮길 페이지 연결하시면 됩니다.
                     Intent intent = new Intent(MainActivity.this, MypageActivity.class);
                     startActivity(intent);
