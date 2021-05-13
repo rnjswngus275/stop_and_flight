@@ -1,24 +1,37 @@
 package com.example.stop_and_flight;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
-import com.firebase.ui.auth.data.model.User;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 /**
@@ -26,18 +39,20 @@ import java.util.Map;
  * Use the {@link GoalFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GoalFragment extends Fragment {
+public class GoalFragment extends Fragment implements DialogCloseListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private int count = 0;
-    private int edit_count=0;
-    private int id_count = 0;
-    private int current_id=0;
+    private RecyclerView taskRecyclerView;
+    private TaskAdapter taskAdapter;
+    private FloatingActionButton fab;
+    public ArrayList<Task> taskList = new ArrayList<>();;
+    public Task getTask;
     private String UID;
     private DatabaseReference mDatabase;
+    private TaskDatabaseHandler db;
 
 
     // TODO: Rename and change types of parameters
@@ -77,154 +92,75 @@ public class GoalFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        /*
-        Spinner tagSpinner = (Spinner)getView().findViewById(R.id.tag);
-        Spinner editTagSpinner = (Spinner)getView().findViewById(R.id.edit_tag);
-
-        ArrayAdapter tagAdapter = ArrayAdapter.createFromResource( getContext(),
-
-                R.array.tag_value, android.R.layout.simple_spinner_item);
-
-        tagAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        tagSpinner.setAdapter(tagAdapter);
-        editTagSpinner.setAdapter(tagAdapter);
-         */
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        context = container.getContext();
-        View rootView = inflater.inflate(R.layout.fragment_goal,container,false);
-
-        LinearLayout linear = (LinearLayout)rootView.findViewById(R.id.linear);
-        LinearLayout addLinear = (LinearLayout)rootView.findViewById(R.id.addLayout);
-        LinearLayout editLinear = (LinearLayout)rootView.findViewById(R.id.editLayout);
-
-        Button addBtn = (Button)rootView.findViewById(R.id.addGoal);
-        // + 버튼을 눌렀을 때
-        addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(count % 2 == 0) {
-                    addLinear.setVisibility(rootView.VISIBLE);
-                    count++;
-                }else{
-                    addLinear.setVisibility(rootView.GONE);
-                    count++;
-                }
-            }
-        });
-        EditText goalText = (EditText)rootView.findViewById(R.id.goal_text);
-        EditText editGoalText = (EditText)rootView.findViewById(R.id.edit_text);
-        Button confirmBtn = (Button)rootView.findViewById(R.id.confirm_button);
-
-        // 목표를 설정하고 확인버튼을 눌렀을 때
-        confirmBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Button btn = new Button(getContext());
-                btn.setText(goalText.getText());
-                btn.setId(id_count);
-                insert_GOALDB(goalText, id_count);
-                // 리스트를 다시 눌렀을 때
-                btn.setOnClickListener(new View.OnClickListener() {
-                                           @Override
-                                           public void onClick(View v) {
-                                               if (edit_count % 2 == 0) {
-                                                   editLinear.setVisibility(rootView.VISIBLE);
-                                                   edit_count++;
-                                                   editGoalText.setText(btn.getText());
-                                                   current_id = btn.getId();
-                                               } else {
-                                                   editLinear.setVisibility(rootView.GONE);
-                                                   edit_count++;
-                                               }
-                                           }
-                                       });
-                linear.addView(btn);
-                btn.setId(id_count);
-                id_count++;
-                if(count % 2==0) {
-                    addLinear.setVisibility(rootView.VISIBLE);
-                    count++;
-                }else{
-                    addLinear.setVisibility(rootView.GONE);
-                    count++;
-                }
-            }
-        });
-
-        Button EditConfirmBtn = (Button)rootView.findViewById(R.id.edit_confirm_button);
-        // 수정을 한 후 확인버튼을 눌렀 때
-        EditConfirmBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Button btn = (Button)rootView.findViewById(current_id);
-                btn.setText(editGoalText.getText());
-
-                if(edit_count%2==0) {
-                    editLinear.setVisibility(rootView.VISIBLE);
-                    edit_count++;
-                }else{
-                    editLinear.setVisibility(rootView.GONE);
-                    edit_count++;
-                }
-                update_GOALDB(editGoalText.getText().toString(), current_id);
-            }
-        });
-
-        Button deleteBtn = (Button)rootView.findViewById(R.id.edit_delete);
-        deleteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Button btn = (Button)rootView.findViewById(current_id);
-                btn.setVisibility(rootView.GONE);
-
-                if(edit_count%2==0) {
-                    editLinear.setVisibility(rootView.VISIBLE);
-                    edit_count++;
-                }else{
-                    editLinear.setVisibility(rootView.GONE);
-                    edit_count++;
-                }
-                delete_GOALDB(current_id);
-            }
-        });
+        View v = inflater.inflate(R.layout.fragment_goal,container,false);
+        Context ct = container.getContext();
         // Inflate the layout for this fragment
-        return rootView;
+
+        fab = v.findViewById(R.id.fab);
+        taskRecyclerView = v.findViewById(R.id.taskRecyclerView);
+        taskRecyclerView.setLayoutManager(new LinearLayoutManager(ct, LinearLayoutManager.VERTICAL, false));
+        taskAdapter = new TaskAdapter(db, ct);
+        taskRecyclerView.setAdapter(taskAdapter);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        db = new TaskDatabaseHandler(mDatabase);
+        mDatabase.child("TASK").child(UID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
+                    getTask = fileSnapshot.getValue(Task.class);
+                    taskList.add(getTask);
+                    System.out.println("check");
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
+            }
+        });
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerItemTouchHelper(taskAdapter));
+        itemTouchHelper.attachToRecyclerView(taskRecyclerView);
+
+        Task task = new Task(1,"test",1);
+        taskList.add(task);
+        Collections.reverse(taskList);
+        taskAdapter.setTasks(taskList);
+        System.out.println("taskList.getClass()");
+
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddNewTask.newInstance().show(getActivity().getSupportFragmentManager(), AddNewTask.TAG);
+            }
+        });
+        return v;
     }
 
-    private void insert_GOALDB(EditText goalText, int id_count) {
+    @Override
+    public void handleDialogClose(DialogInterface dialog){
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        String goal_title = goalText.getText().toString();
-        Goal goal = new Goal(goal_title, id_count);
-
-        mDatabase.child("GOAL").child(UID).child(Integer.toString(id_count)).setValue(goal);
-    }
-
-    private void update_GOALDB(String text, int id_count) {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        String key = mDatabase.child("GOAL").child(UID).child(Integer.toString(id_count)).getKey();
-        Goal goal = new Goal(text, id_count);
-
-        Map<String, Object> postValues = goal.toMap();
-        Map<String, Object> childUpdates = new HashMap<>();
-
-        childUpdates.put("/GOAL/" + UID + "/" + key, postValues);
-
-        mDatabase.updateChildren(childUpdates);
-    }
-
-    private void delete_GOALDB(int id_count)
-    {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        mDatabase.child("GOAL").child(UID).child(Integer.toString(id_count)).removeValue();
+//        mDatabase.child("TASK").child(UID).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
+//                    getTask = fileSnapshot.getValue(Task.class);
+//                    taskList.add(getTask);
+//                }
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
+//            }
+//        });
+//        Collections.reverse(taskList);
+//        taskAdapter.setTasks(taskList);
+//        taskAdapter.notifyDataSetChanged();
     }
 }

@@ -44,7 +44,6 @@ public class select_signup_method extends AppCompatActivity {
     );
     // Create and launch sign-in intent
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

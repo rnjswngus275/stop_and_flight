@@ -1,5 +1,6 @@
 package com.example.stop_and_flight;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 import me.relex.circleindicator.CircleIndicator;
@@ -16,7 +17,6 @@ public class AppGuide extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_guide);
-
         ViewPager viewPager = findViewById(R.id.pager);
         setupViewPager(viewPager);
         mIndicator=(CircleIndicator)findViewById(R.id.indicator);
