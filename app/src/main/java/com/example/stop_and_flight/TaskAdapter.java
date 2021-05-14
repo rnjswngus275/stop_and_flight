@@ -24,12 +24,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     private List<Task> taskList;
     private Context context;
-    private String uid = "7ZmvGMQPsgdemHQubKJIoajYuel1";
     private TaskDatabaseHandler db;
+    private String  UID;
 
-    public TaskAdapter(TaskDatabaseHandler db, Context context) {
+    public TaskAdapter(TaskDatabaseHandler db, Context context, String UID) {
         this.db = db;
         this.context = context;
+        this.UID = UID;
     }
 
     @NonNull
@@ -82,9 +83,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     public void deleteItem(int position){
         Task item = taskList.get(position);
-        db.delete_TaskDB(uid, item.getId());
+        db.delete_TaskDB(UID, item);
         taskList.remove(position);
-        notifyItemRemoved(position);
+        notifyDataSetChanged();
     }
 
 
@@ -95,6 +96,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         bundle.putInt("id", item.getId());
         bundle.putString("task", item.getTask());
         bundle.putInt("type", item.getType());
+        bundle.putString("UID", UID);
         AddNewTask fragment = new AddNewTask();
         fragment.setArguments(bundle);
         fragment.show(manager, AddNewTask.TAG);

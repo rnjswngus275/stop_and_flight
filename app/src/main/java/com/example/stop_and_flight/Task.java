@@ -10,7 +10,7 @@ public class Task {
     public int type;
     private int id;
     private String task;
-    public List<Task> invisibleChildren;
+    public List<Task> todo;
     public Map<String, Boolean> stars = new HashMap<>();
 
     public int getType() {

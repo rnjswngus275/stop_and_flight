@@ -26,19 +26,26 @@ public class AddNewTask extends BottomSheetDialogFragment {
 
     public static final String TAG = "ActionBottomDialog";
     public static int id = 1;
-    private String uid = "7ZmvGMQPsgdemHQubKJIoajYuel1";
+    private static String UID;
+    private static int Task_size;
     private EditText newTaskText;
     private Button newTaskSaveButton;
     private DatabaseReference mDatabase;
     private TaskDatabaseHandler db;
 
-    public static AddNewTask newInstance(){
+    public static AddNewTask newInstance(String uid, int task_size){
+        UID = uid;
+        Task_size = task_size;
         return new AddNewTask();
     }
 
     @Override
     public void onCreate(Bundle SavedInstanceState){
         super.onCreate(SavedInstanceState);
+        if (getArguments() != null) {
+            UID = getArguments().getString("UID", "0");
+            Task_size = getArguments().getInt("Task_size", 0);
+        }
         setStyle(STYLE_NORMAL, R.style.DialogStyle);
     }
 
@@ -69,8 +76,6 @@ public class AddNewTask extends BottomSheetDialogFragment {
             if(task.length() > 0)
                 newTaskSaveButton.setTextColor(ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.colorPrimaryDark));
         }
-        db = new TaskDatabaseHandler(mDatabase);
-
         newTaskText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -93,18 +98,17 @@ public class AddNewTask extends BottomSheetDialogFragment {
 
             }
         });
-
         boolean finalIsUpdate = isUpdate;
         newTaskSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = newTaskText.getText().toString();
                 if(finalIsUpdate){
-                     db.update_TaskDB(uid, bundle.getInt("type"), text, bundle.getInt("id"));
+                     db.update_TaskDB(bundle.getString("UID"), bundle.getInt("type"), text, bundle.getInt("id"));
                 }
                 else{
-                    Task task = new Task(0, text, id++);
-                    db.insert_task(uid, task);
+                    Task task = new Task(0, text, Task_size + 1);
+                    db.insert_task(UID, task);
                 }
                 dismiss();
             }

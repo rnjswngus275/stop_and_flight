@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.health.UidHealthStats;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,9 +50,9 @@ public class GoalFragment extends Fragment implements DialogCloseListener {
     private TaskAdapter taskAdapter;
     private FloatingActionButton fab;
     public ArrayList<Task> taskList = new ArrayList<>();;
-    public Task getTask;
-    private String UID;
+    private static String UID;
     private DatabaseReference mDatabase;
+    private Task getTask;
     private TaskDatabaseHandler db;
 
 
@@ -97,70 +98,65 @@ public class GoalFragment extends Fragment implements DialogCloseListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_goal,container,false);
+        View v = inflater.inflate(R.layout.fragment_goal, container, false);
         Context ct = container.getContext();
-        // Inflate the layout for this fragment
-
-        fab = v.findViewById(R.id.fab);
-        taskRecyclerView = v.findViewById(R.id.taskRecyclerView);
-        taskRecyclerView.setLayoutManager(new LinearLayoutManager(ct, LinearLayoutManager.VERTICAL, false));
-        taskAdapter = new TaskAdapter(db, ct);
-        taskRecyclerView.setAdapter(taskAdapter);
-
         mDatabase = FirebaseDatabase.getInstance().getReference();
         db = new TaskDatabaseHandler(mDatabase);
+        taskRecyclerView = v.findViewById(R.id.taskRecyclerView);
+        taskAdapter = new TaskAdapter(db, ct, UID);
+        taskRecyclerView.setLayoutManager(new LinearLayoutManager(ct, LinearLayoutManager.VERTICAL, false));
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerItemTouchHelper(taskAdapter));
+        itemTouchHelper.attachToRecyclerView(taskRecyclerView);
+
+        fab = v.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddNewTask.newInstance(UID, taskList.size()).show(getActivity().getSupportFragmentManager(), AddNewTask.TAG);
+            }
+        });
+
         mDatabase.child("TASK").child(UID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                taskRecyclerView.removeAllViewsInLayout();
+                taskList.clear();
                 for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
                     getTask = fileSnapshot.getValue(Task.class);
                     taskList.add(getTask);
-                    System.out.println("check");
                 }
+                taskAdapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
             }
         });
-
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerItemTouchHelper(taskAdapter));
-        itemTouchHelper.attachToRecyclerView(taskRecyclerView);
-
-        Task task = new Task(1,"test",1);
-        taskList.add(task);
         Collections.reverse(taskList);
         taskAdapter.setTasks(taskList);
-        System.out.println("taskList.getClass()");
+        taskRecyclerView.setAdapter(taskAdapter);
 
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AddNewTask.newInstance().show(getActivity().getSupportFragmentManager(), AddNewTask.TAG);
-            }
-        });
         return v;
     }
 
     @Override
     public void handleDialogClose(DialogInterface dialog){
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-//        mDatabase.child("TASK").child(UID).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
-//                    getTask = fileSnapshot.getValue(Task.class);
-//                    taskList.add(getTask);
-//                }
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
-//            }
-//        });
-//        Collections.reverse(taskList);
-//        taskAdapter.setTasks(taskList);
-//        taskAdapter.notifyDataSetChanged();
+        mDatabase.child("TASK").child(UID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
+                    getTask = fileSnapshot.getValue(Task.class);
+                    taskList.add(getTask);
+                }
+                taskAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
+            }
+        });
+        Collections.reverse(taskList);
+        taskAdapter.setTasks(taskList);
     }
 }
