@@ -28,14 +28,19 @@ public class AddNewTask extends BottomSheetDialogFragment {
     public static int id = 1;
     private static String UID;
     private static int Task_size;
+    private static int Todo_size;
+    private static int Type;
     private EditText newTaskText;
     private Button newTaskSaveButton;
     private DatabaseReference mDatabase;
     private TaskDatabaseHandler db;
+    private TodoDatabaseHandler tododb;
 
-    public static AddNewTask newInstance(String uid, int task_size){
+    public static AddNewTask newInstance(String uid, int type, int task_size, int todo_size){
         UID = uid;
+        Type = type;
         Task_size = task_size;
+        Todo_size = todo_size;
         return new AddNewTask();
     }
 
@@ -45,6 +50,7 @@ public class AddNewTask extends BottomSheetDialogFragment {
         if (getArguments() != null) {
             UID = getArguments().getString("UID", "0");
             Task_size = getArguments().getInt("Task_size", 0);
+            Todo_size = getArguments().getInt("Todo_size", 0);
         }
         setStyle(STYLE_NORMAL, R.style.DialogStyle);
     }
@@ -65,6 +71,7 @@ public class AddNewTask extends BottomSheetDialogFragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         db = new TaskDatabaseHandler(mDatabase);
+        tododb = new TodoDatabaseHandler(mDatabase);
 
         boolean isUpdate = false;
 
@@ -104,11 +111,19 @@ public class AddNewTask extends BottomSheetDialogFragment {
             public void onClick(View v) {
                 String text = newTaskText.getText().toString();
                 if(finalIsUpdate){
-                     db.update_TaskDB(bundle.getString("UID"), bundle.getInt("type"), text, bundle.getInt("id"));
+                    if (bundle.getInt("type") == 0)
+                        db.update_TaskDB(bundle.getString("UID"), bundle.getInt("type"), text, bundle.getInt("id"));
+                    else
+                        tododb.update_todoDB(bundle.getString("UID"), bundle.getInt("type"), text, bundle.getInt("id"), bundle.getInt("parent_id"));
                 }
                 else{
-                    Task task = new Task(0, text, Task_size + 1);
-                    db.insert_task(UID, task);
+                    if (Type == 0) {
+                        Task task = new Task(Type, 0, Task_size + 1, text);
+                        db.insert_taskDB(UID, task);
+                    } else {
+                        Task todo = new Task(Type, Task_size, Todo_size + 1, text);
+                        tododb.insert_todoDB(UID, todo, Task_size);
+                    }
                 }
                 dismiss();
             }

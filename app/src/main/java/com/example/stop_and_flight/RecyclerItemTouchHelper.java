@@ -54,7 +54,6 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
         }
     }
 
-    @SuppressLint("ResourceAsColor")
     @Override
     public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive)
     {

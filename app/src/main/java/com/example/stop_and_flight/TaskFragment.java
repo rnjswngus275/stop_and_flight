@@ -5,21 +5,17 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.health.UidHealthStats;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,20 +23,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link GoalFragment#newInstance} factory method to
+ * Use the {@link TaskFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GoalFragment extends Fragment implements DialogCloseListener {
+public class TaskFragment extends Fragment implements DialogCloseListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,11 +43,15 @@ public class GoalFragment extends Fragment implements DialogCloseListener {
     private TaskAdapter taskAdapter;
     private FloatingActionButton fab;
     public ArrayList<Task> taskList = new ArrayList<>();;
+    public ArrayList<Task> todoList = new ArrayList<>();
     private static String UID;
     private DatabaseReference mDatabase;
     private Task getTask;
+    private Task getTodo;
     private TaskDatabaseHandler db;
-
+    private TodoDatabaseHandler tododb;
+    private HashMap<String, Object> TodoMap;
+    private HashMap<String, Object> TaskMap;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -63,7 +60,7 @@ public class GoalFragment extends Fragment implements DialogCloseListener {
     private RecyclerView recyclerview;
     private Context context;
 
-    public GoalFragment() {
+    public TaskFragment() {
         // Required empty public constructor
     }
 
@@ -76,8 +73,8 @@ public class GoalFragment extends Fragment implements DialogCloseListener {
      * @return A new instance of fragment GoalFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static GoalFragment newInstance(String param1, String param2) {
-        GoalFragment fragment = new GoalFragment();
+    public static TaskFragment newInstance(String param1, String param2) {
+        TaskFragment fragment = new TaskFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -98,13 +95,13 @@ public class GoalFragment extends Fragment implements DialogCloseListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_goal, container, false);
+        View v = inflater.inflate(R.layout.fragment_task, container, false);
         Context ct = container.getContext();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         db = new TaskDatabaseHandler(mDatabase);
+        tododb = new TodoDatabaseHandler(mDatabase);
         taskRecyclerView = v.findViewById(R.id.taskRecyclerView);
-        taskAdapter = new TaskAdapter(db, ct, UID);
-        taskRecyclerView.setLayoutManager(new LinearLayoutManager(ct, LinearLayoutManager.VERTICAL, false));
+        taskAdapter = new TaskAdapter(db, tododb,ct, UID);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerItemTouchHelper(taskAdapter));
         itemTouchHelper.attachToRecyclerView(taskRecyclerView);
@@ -113,18 +110,29 @@ public class GoalFragment extends Fragment implements DialogCloseListener {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddNewTask.newInstance(UID, taskList.size()).show(getActivity().getSupportFragmentManager(), AddNewTask.TAG);
+                AddNewTask.newInstance(UID, 0, taskList.size(), 0).show(getActivity().getSupportFragmentManager(), AddNewTask.TAG);
             }
         });
-
         mDatabase.child("TASK").child(UID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 taskRecyclerView.removeAllViewsInLayout();
                 taskList.clear();
                 for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
-                    getTask = fileSnapshot.getValue(Task.class);
+                    TaskMap = (HashMap<String, Object>) fileSnapshot.getValue();
+                    System.out.println(TaskMap);
+                    int type = Integer.parseInt(String.valueOf(TaskMap.get("viewType")));
+                    int task_id = Integer.parseInt(String.valueOf(TaskMap.get("id")));
+                    int parent_id = Integer.parseInt(String.valueOf(TaskMap.get("parent_id")));
+                    getTask = new Task(type, parent_id, task_id, (String)TaskMap.get("task"));
                     taskList.add(getTask);
+                    for (DataSnapshot todoSnapshot : fileSnapshot.child("todo").getChildren()) {
+                        TodoMap = (HashMap<String, Object>) todoSnapshot.getValue();
+                        type = Integer.parseInt(String.valueOf(TodoMap.get("viewType")));
+                        int todo_id = Integer.parseInt(String.valueOf(TodoMap.get("id")));
+                        getTodo = new Task(type, task_id, todo_id, (String)TodoMap.get("task"));
+                        taskList.add(getTodo);
+                    }
                 }
                 taskAdapter.notifyDataSetChanged();
             }
@@ -133,6 +141,9 @@ public class GoalFragment extends Fragment implements DialogCloseListener {
                 Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
             }
         });
+
+        taskRecyclerView.setLayoutManager(new LinearLayoutManager(ct, LinearLayoutManager.VERTICAL, false));
+
         Collections.reverse(taskList);
         taskAdapter.setTasks(taskList);
         taskRecyclerView.setAdapter(taskAdapter);
@@ -145,9 +156,22 @@ public class GoalFragment extends Fragment implements DialogCloseListener {
         mDatabase.child("TASK").child(UID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                taskRecyclerView.removeAllViewsInLayout();
+                taskList.clear();
                 for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
-                    getTask = fileSnapshot.getValue(Task.class);
+                    TaskMap = (HashMap<String, Object>) fileSnapshot.getValue();
+                    int type = Integer.parseInt(String.valueOf(TaskMap.get("viewType")));
+                    int parent_id = Integer.parseInt(String.valueOf(TaskMap.get("id")));
+                    getTask = new Task(type, 0, parent_id, (String)TaskMap.get("task"));
                     taskList.add(getTask);
+
+                    for (DataSnapshot todoSnapshot : fileSnapshot.child("todo").getChildren()) {
+                        TodoMap = (HashMap<String, Object>) todoSnapshot.getValue();
+                        type = Integer.parseInt(String.valueOf(TodoMap.get("viewType")));
+                        int id = Integer.parseInt(String.valueOf(TodoMap.get("id")));
+                        getTask = new Task(type, parent_id, id, (String)TodoMap.get("task"));
+                        taskList.add(getTask);
+                    }
                 }
                 taskAdapter.notifyDataSetChanged();
             }

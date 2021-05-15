@@ -2,23 +2,44 @@ package com.example.stop_and_flight;
 
 import com.google.firebase.database.Exclude;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Task {
-    public int type;
+    private int viewType;
+    private int parent_id;
     private int id;
     private String task;
-    public List<Task> todo;
+    public ArrayList<Task> todo;
     public Map<String, Boolean> stars = new HashMap<>();
 
-    public int getType() {
-        return type;
+    public ArrayList<Task> getTodo() {
+        return todo;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setTodo(Map<String, Task> todo) {
+        this.todo = new ArrayList<>();
+        for(Task o: todo.values()){
+            this.todo.add(o);
+        }
+    }
+
+    public int getParent_id() {
+        return parent_id;
+    }
+
+    public void setParent_id(int parent_id) {
+        this.parent_id = parent_id;
+    }
+
+    public int getViewType() {
+        return viewType;
+    }
+
+    public void setViewType(int viewType) {
+        viewType = viewType;
     }
 
     public int getId() {
@@ -38,23 +59,30 @@ public class Task {
     }
 
     public Task() {
-        this.type = 0;
-        this.id = 1;
-        this.task = null;
     }
 
-    public Task(int type, String task, int id) {
-        this.type = type;
+    public Task(int type, int parent_id, int id, String task) {
+        this.parent_id = parent_id;
+        this.viewType = type;
         this.id = id;
         this.task = task;
+    }
+
+    public Map<String, Boolean> getStars() {
+        return stars;
+    }
+
+    public void setStars(Map<String, Boolean> stars) {
+        this.stars = stars;
     }
 
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("type", type);
-        result.put("task", task);
+        result.put("viewType", viewType);
+        result.put("parent_id", parent_id);
         result.put("id", id);
+        result.put("task", task);
         result.put("stars", stars);
 
         return result;
