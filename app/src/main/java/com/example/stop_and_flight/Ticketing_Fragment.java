@@ -175,10 +175,6 @@ public class Ticketing_Fragment extends Fragment {
     private void init_todo(List<String> goal_list) {
         goal_list.clear();
         goal_list.add("없음");
-        search_GOALDB();
-    }
-
-    private void search_GOALDB() {
     }
 
     private void insert_TicketDB(String depart_time, String arrive_time, String todo) {

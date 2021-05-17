@@ -11,7 +11,7 @@
         android:theme="@style/Theme.Stop_and_flight">
         <activity android:name=".LoginMethodActivity"></activity>
         <activity android:name=".JoinSNSNickname" />
-        <activity android:name=".IntroActivity">
+        <activity android:name=".MainActivity">
           <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AppGuide" />
-        <activity android:name=".MainActivity" />
+<!--        <activity android:name=".MainActivity" />-->
         <activity android:name=".MypageActivity" />
         <activity android:name=".select_signup_method" />
         <activity android:name=".JoinActivity" />

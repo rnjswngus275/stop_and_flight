@@ -7,7 +7,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
 
 import androidx.appcompat.widget.Toolbar;
 import android.content.Context;
@@ -18,9 +17,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
-
-import me.relex.circleindicator.CircleIndicator;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -47,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         Fragment_Ticket_list ticket_list = new Fragment_Ticket_list();
         Ticketing_Fragment ticketing_fragment= new Ticketing_Fragment();
-        GoalFragment goalFragment = new GoalFragment();
+        TaskFragment taskFragment = new TaskFragment();
 
 
         Bundle bundle = new Bundle();
@@ -79,8 +75,8 @@ public class MainActivity extends AppCompatActivity {
                     fragmentTransaction.replace(R.id.container, ticketing_fragment).addToBackStack(null).commitAllowingStateLoss();
                     ticketing_fragment.setArguments(bundle);
                 } else if (id == R.id.menu5) {
-                    fragmentTransaction.replace(R.id.container, goalFragment).addToBackStack(null).commitAllowingStateLoss();
-                    goalFragment.setArguments(bundle);
+                    fragmentTransaction.replace(R.id.container, taskFragment).addToBackStack(null).commitAllowingStateLoss();
+                    taskFragment.setArguments(bundle);
                 } else if (id == R.id.menu6) {
                     Toast.makeText(context, title + ": menu6 성공", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.menu8) {
