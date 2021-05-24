@@ -12,6 +12,7 @@ public class Task {
     private int parent_id;
     private int id;
     private String task;
+    private int todo_size;
     public ArrayList<Task> todo;
     public Map<String, Boolean> stars = new HashMap<>();
 
