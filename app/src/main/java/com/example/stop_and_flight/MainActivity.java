@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         //fragment 객체 생성
 
         Fragment_Ticket_list ticket_list = new Fragment_Ticket_list();
-        Ticketing_Fragment ticketing_fragment= new Ticketing_Fragment();
+        Ticketing_Fragment ticketing_fragment = new Ticketing_Fragment();
         TaskFragment taskFragment = new TaskFragment();
 
         //<div>아이콘 제작자 <a href="https://www.flaticon.com/kr/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/kr/" title="Flaticon">www.flaticon.com</a></div>
@@ -114,5 +115,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    public void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, fragment).addToBackStack(null).commitAllowingStateLoss();
+    }
 }
