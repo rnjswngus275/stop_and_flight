@@ -15,6 +15,13 @@
     android:id="@+id/count_txt"
     android:textSize="30dp"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/read_time"
+        android:textSize="30dp"/>
+
     <ImageView
         android:layout_width="267dp"
         android:layout_height="314dp"

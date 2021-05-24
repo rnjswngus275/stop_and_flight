@@ -21,29 +21,35 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 
 import android.os.CountDownTimer;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,13 +63,27 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    DatabaseReference mDatabase ;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private CountDownTimer countDownTimer;
     private TextView count_txt;
+    private TextView read_time;
+    String uid="";
+    String time="";
+    String set_year;
+    String set_date;
+    String set_day;
+    HashMap<String,Object> ticket_info=new HashMap<String,Object>();
+    HashMap<String,Object> ticket_info2=new HashMap<String,Object>();
 
+    String[] getTicket;
+    int arr;
+    int dpt;
+    int num;//일정개수
 
     // Required empty public constructor
 
@@ -91,42 +111,39 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FirebaseAuth mAuth;
+        mAuth = FirebaseAuth.getInstance(); // 유저 계정 정보 가져오기
+        mDatabase = FirebaseDatabase.getInstance().getReference(); // 파이어베이스 realtime database 에서 정보 가져오기
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
+        if(user!=null){
+            uid  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
+        }
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        countDownTimer();
-        countDownTimer.start();
-    }
-  
-    public void countDownTimer(){
-        countDownTimer = new CountDownTimer(200000,1000) {          //첫번째 인자 : 총시간(제한시간) 두번째 인수: 몇초마다 타이머 작동
-            @Override
-            public void onTick(long millisUntilFinished) {
-                count_txt=(TextView)getView().findViewById(R.id.count_txt);
-                count_txt.setText(getTime());
-            }
 
-            @Override
-            public void onFinish() {
-
-            }
-        };
     }
 
-    private String getTime() {
+
+
+
+    private String getTime(String set_hour,String set_min) {
         Date date = new Date();
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(date);
         int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
+        int month = calendar.get(Calendar.MONTH)+1;
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int c_hour = calendar.get(Calendar.HOUR_OF_DAY);
         int c_min = calendar.get(Calendar.MINUTE);
         int c_sec = calendar.get(Calendar.SECOND);
 
+
         Calendar baseCal = new GregorianCalendar(year, month, day, c_hour, c_min, c_sec);        //현재날짜
-        Calendar targetCal = new GregorianCalendar(year, month, day + 2, 0, 0, 0);  //비교대상날짜
+        Calendar targetCal = new GregorianCalendar(year, month, day, Integer.parseInt(set_hour), Integer.parseInt(set_min), 0);  //비교대상날짜
         //지금은 현재날짜에서 +2일로 해놨는데 나중에 설정된 날짜 시간 받아와서 해야함
 
         long diffSec = (targetCal.getTimeInMillis() - baseCal.getTimeInMillis()) / 1000;        //비교대상 날짜-현재날짜를 1000분의 1초 단위로 하는게 gettimeinmills 그래서 1000으로 나눠줘야함
@@ -142,7 +159,7 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
         String min = String.format("%02d", minTime);
         String sec = String.format("%02d", secTime);
 
-        return year + "년" + month + "월" + (day + 2) + "일 까지 " + hour + " 시간 " + min + " 분 " + sec + "초 남았습니다.";
+        return  "잠금해제까지 " + hour + " 시간 " + min + " 분 " + sec + "초 남았습니다.";
 
     }
       @Override
@@ -153,6 +170,32 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
         } catch (Exception e) {}
         countDownTimer=null;
     }
+    public String[] ticket_infomation (String arr,String dpt,String id,String wait){
+
+            String[] ticket=new String[4];
+            ticket[0]=arr;
+            ticket[1]=dpt;
+            ticket[2]=id;
+            ticket[3]=wait;
+            System.out.println("확인 티켓함수안"+Arrays.toString(ticket));
+            return ticket;
+    }
+
+    public void countDownTimer(View v,String set_hour,String set_min){
+        countDownTimer = new CountDownTimer(200000,1000) {          //첫번째 인자 : 총시간(제한시간) 두번째 인수: 몇초마다 타이머 작동
+            @Override
+            public void onTick(long millisUntilFinished) {
+                count_txt=(TextView)v.findViewById(R.id.count_txt);
+                count_txt.setText(getTime(set_hour,set_min));
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        };
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -160,6 +203,78 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
 
         Button emergencybutton = v.findViewById(R.id.button_emergency);
         Button appaccessbutton = v.findViewById(R.id.button_app);
+
+        Date date = new Date();
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int c_hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int c_min = calendar.get(Calendar.MINUTE);
+        int c_sec = calendar.get(Calendar.SECOND);
+
+        String str_year=Integer.toString(year);
+        String str_month=Integer.toString(month+1);
+        String str_day=Integer.toString(day);
+
+        System.out.println("확인"+str_year+str_month+str_day);
+        String today=str_year+"-"+str_month+"-"+str_day;
+
+        ArrayList al =new ArrayList();
+
+        //데이터 베이스 읽어오기(시간) 조건 : 오늘날짜에 맞음, 시간
+       final DatabaseReference ref = mDatabase.child("TICKET").child(uid).child(today);
+       Query query =ref.orderByChild("depart_time");
+       query.addValueEventListener(new ValueEventListener() {
+            @Override
+
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                al.clear();
+                for (DataSnapshot messageData : snapshot.getChildren()) {// child 내에 있는 데이터만큼 반복합니다.
+                    //for (변수선언:배열 또는 배열을 리턴하는 함수(받을 데이터))
+
+                    ticket_info2=(HashMap<String, Object>)messageData.getValue();
+                    System.out.println("확인해당날짜만"+ticket_info2);
+                    String set_arr= (String.valueOf( ticket_info2.get("arrive_time")));
+                    String set_dpt= (String.valueOf( ticket_info2.get("depart_time")));
+                    String set_id=(String.valueOf( ticket_info2.get("id")));
+                    String set_wait=(String.valueOf(ticket_info2.get("wait")));
+
+                    System.out.println("확인 저장은되나?"+set_arr);
+                    al.addAll(Arrays.asList(ticket_infomation(set_arr,set_dpt,set_id,set_wait)));
+
+                }
+                int size=al.size();
+                for(int i=3;i<size;i=i+4){
+                    System.out.println("확인for"+al.get(i));
+
+                    if(String.valueOf(al.get(i)).equals("true"))
+                    {
+                        String set_time = (String) al.get(i-3);
+                        int idx=set_time.indexOf(":");
+                        String set_time1=set_time.substring(0,idx);
+                        String set_time2=set_time.substring(idx+1);
+                        System.out.println("확인 타임1"+set_time1);
+                        System.out.println("확인 타임2"+set_time2);
+
+                        countDownTimer(v,set_time1,set_time2);
+                        countDownTimer.start();
+                        break;
+                    }
+                }
+                read_time=(TextView)v.findViewById(R.id.read_time);
+                read_time.setText(time);
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         List<PackageInfo> packlist = new List<PackageInfo>() {
             @Override
@@ -379,4 +494,5 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
             }
         }
     }
+
 }

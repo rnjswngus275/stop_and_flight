@@ -1,22 +1,32 @@
 package com.example.stop_and_flight;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,12 +36,16 @@ import com.webianks.library.scroll_choice.ScrollChoice;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 import static android.content.ContentValues.TAG;
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,6 +54,7 @@ import static android.content.ContentValues.TAG;
  */
 public class Ticketing_Fragment extends Fragment {
 
+    Context mContext;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -49,9 +64,15 @@ public class Ticketing_Fragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private String UID;
+    private String real_uid; //규원님 이거 제가 uid 가져오려고 만든 변수예요 원래 있던 코드는 디폴트값으로 설정되어있는것같아서 101~104줄 추가해써욤
     private String select_todo;
     private DatabaseReference mDatabase;
-
+    private int YEAR;
+    private int MONTH;
+    private int DAY;
+    private String ticket_Date;
+    int num;
+    HashMap<String,Object> num_info=new HashMap<>();
     public Ticketing_Fragment() {
         // Required empty public constructor
     }
@@ -81,12 +102,23 @@ public class Ticketing_Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
+        if(user!=null){
+            real_uid  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
+        }
         if (getArguments() != null) {
             UID = getArguments().getString("UID", "0");
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+    }
+    @Override
+    public void onAttach(Context context) {
+
+        super.onAttach(context);
+         mContext= context;
     }
 
 
@@ -95,6 +127,36 @@ public class Ticketing_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ticketing, container, false);
         // Inflate the layout for this fragment
+       TextView txt_date=(TextView)view.findViewById(R.id.txt_Date);
+       ImageButton btn_date=(ImageButton) view.findViewById(R.id.btn_datepick);
+
+
+        btn_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    final Calendar c=Calendar.getInstance();
+                    int mYear=c.get(Calendar.YEAR);
+                    int mMonth=c.get(Calendar.MONTH);
+                    int mDay=c.get(Calendar.DAY_OF_MONTH);
+
+                    DatePickerDialog datePickerDialog =new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                            txt_date.setText(year+"년"+(monthOfYear+1)+"월"+dayOfMonth+"일");
+                            YEAR=year;
+                            MONTH=monthOfYear;
+                            DAY=dayOfMonth;
+                            String str_year=Integer.toString(year);
+                            String str_month=Integer.toString(monthOfYear+1);
+                            String str_day=Integer.toString(dayOfMonth);
+                            ticket_Date= str_year+"-"+str_month+"-"+str_day;
+                        }
+                    },mYear,mMonth,mDay);
+                    datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                    datePickerDialog.show();
+            }
+        });
+
 
         init_todo(goal_list);
         scrollChoice = (ScrollChoice) view.findViewById(R.id.scroll_choice);
@@ -158,7 +220,7 @@ public class Ticketing_Fragment extends Fragment {
                     {
                         String depart_time =  Integer.toString(depart_hour) + ":" + Integer.toString(depart_min);
                         String arrive_time =  Integer.toString(arrive_hour) + ":" + Integer.toString(arrive_min);
-                        insert_TicketDB(depart_time, arrive_time, select_todo);
+                        insert_TicketDB(depart_time, arrive_time, select_todo,ticket_Date);
                     }
                     else {
                         Toast.makeText(getContext(), "출발 시간이 도착 시간 보다 빨라야 합니다.", Toast.LENGTH_SHORT).show();
@@ -167,19 +229,43 @@ public class Ticketing_Fragment extends Fragment {
                 else {
                     Toast.makeText(getContext(), "현재 보다 이전 시간을 설정할 수 없습니다.", Toast.LENGTH_SHORT).show();
                 }
+                Toast.makeText(getContext(), "확인버튼", Toast.LENGTH_SHORT).show();
+
+                //날짜 db에 저장
+//                insert_DateDB(YEAR,MONTH,DAY,select_todo);
+
+                //프래그먼트 전환
+
             }
         });
+
+
         return view;
-    }
+    }//oncreateview 끝
 
     private void init_todo(List<String> goal_list) {
         goal_list.clear();
         goal_list.add("없음");
     }
 
-    private void insert_TicketDB(String depart_time, String arrive_time, String todo) {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+    private void insert_TicketDB(String depart_time, String arrive_time, String todo,String ticket_date) {
+        //mDatabase = FirebaseDatabase.getInstance().getReference(); 규원님 제가 이라인 oncreate로 올려놓았어용
         Ticket ticket = new Ticket(depart_time, arrive_time, todo);
-        mDatabase.child("TICKET").child(UID).child(todo).setValue(ticket);
+        mDatabase.child("TICKET").child(real_uid).child(ticket_date).child(String.valueOf(num)).setValue(ticket);
+
+
+        mDatabase.child("TICKET").child(real_uid).child(ticket_date).child(String.valueOf(num)).child("wait").setValue("true");
+        mDatabase.child("TICKET").child(real_uid).child(ticket_date).child(String.valueOf(num)).child("id").setValue(num);
+        num++;
+        mDatabase.child("TICKET").child(real_uid).child("total_num").setValue(num);
+        System.out.println("확인"+num);
+
     }
+    //TODO: todo가 저장이 안됨
+//    private void insert_DateDB(int year,int month,int day,String todo){
+//
+//        String date= year+"/"+month+"/"+day;
+//        mDatabase.child("TICKET").child(real_uid).child(date).child("date").setValue(date);
+//
+//    }
 }
