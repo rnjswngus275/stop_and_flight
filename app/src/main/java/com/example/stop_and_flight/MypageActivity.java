@@ -1,11 +1,29 @@
 package com.example.stop_and_flight;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -13,10 +31,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
 public class MypageActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     private Button buttonDeleteID;
+    private Button buttonAllowedApps;
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
@@ -43,5 +68,178 @@ public class MypageActivity extends AppCompatActivity {
                 });
             }
         });
+        List<PackageInfo> packlist = new List<PackageInfo>() {
+            @Override
+            public int size() {
+                return 0;
+            }
+
+            @Override
+            public boolean isEmpty() {
+                return false;
+            }
+
+            @Override
+            public boolean contains(@Nullable Object o) {
+                return false;
+            }
+
+            @NonNull
+            @Override
+            public Iterator<PackageInfo> iterator() {
+                return null;
+            }
+
+            @NonNull
+            @Override
+            public Object[] toArray() {
+                return new Object[0];
+            }
+
+            @NonNull
+            @Override
+            public <T> T[] toArray(@NonNull T[] a) {
+                return null;
+            }
+
+            @Override
+            public boolean add(PackageInfo packageInfo) {
+                return false;
+            }
+
+            @Override
+            public boolean remove(@Nullable Object o) {
+                return false;
+            }
+
+            @Override
+            public boolean containsAll(@NonNull Collection<?> c) {
+                return false;
+            }
+
+            @Override
+            public boolean addAll(@NonNull Collection<? extends PackageInfo> c) {
+                return false;
+            }
+
+            @Override
+            public boolean addAll(int index, @NonNull Collection<? extends PackageInfo> c) {
+                return false;
+            }
+
+            @Override
+            public boolean removeAll(@NonNull Collection<?> c) {
+                return false;
+            }
+
+            @Override
+            public boolean retainAll(@NonNull Collection<?> c) {
+                return false;
+            }
+
+            @Override
+            public void clear() {
+
+            }
+
+            @Override
+            public PackageInfo get(int index) {
+                return null;
+            }
+
+            @Override
+            public PackageInfo set(int index, PackageInfo element) {
+                return null;
+            }
+
+            @Override
+            public void add(int index, PackageInfo element) {
+
+            }
+
+            @Override
+            public PackageInfo remove(int index) {
+                return null;
+            }
+
+            @Override
+            public int indexOf(@Nullable Object o) {
+                return 0;
+            }
+
+            @Override
+            public int lastIndexOf(@Nullable Object o) {
+                return 0;
+            }
+
+            @NonNull
+            @Override
+            public ListIterator<PackageInfo> listIterator() {
+                return null;
+            }
+
+            @NonNull
+            @Override
+            public ListIterator<PackageInfo> listIterator(int index) {
+                return null;
+            }
+
+            @NonNull
+            @Override
+            public List<PackageInfo> subList(int fromIndex, int toIndex) {
+                return null;
+            }
+        };
+
+        buttonAllowedApps = (Button) findViewById(R.id.button8);
+        buttonAllowedApps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    ArrayList<String> applist = new ArrayList<>();
+
+                    installedApplist(applist);
+
+                    Dialog dialog = new Dialog(MypageActivity.this);
+                    dialog.setContentView(R.layout.app_dialog_searchable_spinner);
+                    dialog.getWindow().setLayout(1000, 1200);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                    EditText editText = dialog.findViewById(R.id.app_edit_text);
+                    ListView listView = dialog.findViewById(R.id.app_list_view);
+                    ArrayAdapter adapter = new ArrayAdapter<>(MypageActivity.this, android.R.layout.simple_list_item_1, applist);
+                    listView.setAdapter(adapter);
+                    dialog.show();
+
+                    editText.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            adapter.getFilter().filter(s);
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+
+                        }
+                    });
+            }
+            private void installedApplist(List<String> applist) {
+                List<PackageInfo> packList = getPackageManager().getInstalledPackages(0);
+                PackageInfo packInfo = null;
+                for (int i=0; i < packList.size(); i++)
+                {
+                    packInfo = packList.get(i);
+                    if ((packInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
+                    {
+                        applist.add(packInfo.packageName);
+                    }
+                }
+            }
+        });
+
     }
 }

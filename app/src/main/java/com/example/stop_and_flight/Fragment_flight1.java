@@ -425,7 +425,7 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
 
         Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.app_dialog_searchable_spinner);
-        dialog.getWindow().setLayout(800, 800);
+        dialog.getWindow().setLayout(1000, 1200);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         EditText editText = dialog.findViewById(R.id.app_edit_text);
