@@ -43,7 +43,6 @@ public class TaskFragment extends Fragment implements DialogCloseListener {
     private TaskAdapter taskAdapter;
     private FloatingActionButton fab;
     public ArrayList<Task> taskList = new ArrayList<>();;
-    public ArrayList<Task> todoList = new ArrayList<>();
     private static String UID;
     private DatabaseReference mDatabase;
     private Task getTask;
@@ -119,19 +118,23 @@ public class TaskFragment extends Fragment implements DialogCloseListener {
                 taskRecyclerView.removeAllViewsInLayout();
                 taskList.clear();
                 for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
-                    TaskMap = (HashMap<String, Object>) fileSnapshot.getValue();
-                    System.out.println(TaskMap);
-                    int type = Integer.parseInt(String.valueOf(TaskMap.get("viewType")));
-                    int task_id = Integer.parseInt(String.valueOf(TaskMap.get("id")));
-                    int parent_id = Integer.parseInt(String.valueOf(TaskMap.get("parent_id")));
-                    getTask = new Task(type, parent_id, task_id, (String)TaskMap.get("task"));
-                    taskList.add(getTask);
-                    for (DataSnapshot todoSnapshot : fileSnapshot.child("todo").getChildren()) {
-                        TodoMap = (HashMap<String, Object>) todoSnapshot.getValue();
-                        type = Integer.parseInt(String.valueOf(TodoMap.get("viewType")));
-                        int todo_id = Integer.parseInt(String.valueOf(TodoMap.get("id")));
-                        getTodo = new Task(type, task_id, todo_id, (String)TodoMap.get("task"));
-                        taskList.add(getTodo);
+                    if (fileSnapshot != null) {
+                        TaskMap = (HashMap<String, Object>) fileSnapshot.getValue();
+                        System.out.println(TaskMap);
+                        int type = Integer.parseInt(String.valueOf(TaskMap.get("viewType")));
+                        int task_id = Integer.parseInt(String.valueOf(TaskMap.get("id")));
+                        int parent_id = Integer.parseInt(String.valueOf(TaskMap.get("parent_id")));
+                        getTask = new Task(type, parent_id, task_id, (String)TaskMap.get("task"));
+                        taskList.add(getTask);
+                        for (DataSnapshot todoSnapshot : fileSnapshot.child("todo").getChildren()) {
+                            if (todoSnapshot != null){
+                                TodoMap = (HashMap<String, Object>) todoSnapshot.getValue();
+                                type = Integer.parseInt(String.valueOf(TodoMap.get("viewType")));
+                                int todo_id = Integer.parseInt(String.valueOf(TodoMap.get("id")));
+                                getTodo = new Task(type, task_id, todo_id, (String)TodoMap.get("task"));
+                                taskList.add(getTodo);
+                            }
+                        }
                     }
                 }
                 taskAdapter.notifyDataSetChanged();

@@ -11,12 +11,15 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.widget.Toolbar;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -30,7 +33,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Bundle bundle = new Bundle();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            bundle.putString("UID", user.getUid());
+            bundle.putString("name", user.getDisplayName());
+            bundle.putString("email", user.getEmail());
+            Toast.makeText(context, "사용자의 정보를 가져오기를 성공했습니다.", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(context, "사용자의 정보를 가져오기를 실패했습니다.", Toast.LENGTH_SHORT).show();
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -45,9 +58,6 @@ public class MainActivity extends AppCompatActivity {
         Ticketing_Fragment ticketing_fragment= new Ticketing_Fragment();
         TaskFragment taskFragment = new TaskFragment();
 
-
-        Bundle bundle = new Bundle();
-        bundle.putString("UID", "7ZmvGMQPsgdemHQubKJIoajYuel1");
         //<div>아이콘 제작자 <a href="https://www.flaticon.com/kr/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/kr/" title="Flaticon">www.flaticon.com</a></div>
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);

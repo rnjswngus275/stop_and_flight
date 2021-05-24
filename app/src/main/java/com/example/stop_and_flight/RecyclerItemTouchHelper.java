@@ -31,9 +31,9 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
         final int position = viewHolder.getAdapterPosition();
         if(direction == ItemTouchHelper.LEFT) {
             AlertDialog.Builder builder = new AlertDialog.Builder(adapter.getContext());
-            builder.setTitle("Delete Task");
-            builder.setMessage("Are you sure you want to Delete this task?");
-            builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            builder.setTitle("설정한 목표 삭제");
+            builder.setMessage("정말로 설정한 목표를 지우시겠습니까?");
+            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     adapter.deleteItem(position);

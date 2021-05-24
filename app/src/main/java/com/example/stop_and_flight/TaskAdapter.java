@@ -22,7 +22,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     public static final int HEADER = 0;
     public static final int CHILD = 1;
-    public static int Todo_Size = 0;
+    public static final int Todo_Size = 1;
     private List<Task> taskList;
     private Context context;
     private TaskDatabaseHandler db;
@@ -92,7 +92,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                 holder.btn_expand_toggle.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                            AddNewTask.newInstance(UID, 1, item.getId(),  Todo_Size++).show(getActivity().getSupportFragmentManager(), AddNewTask.TAG);
+                        int pos = taskList.indexOf(holder.refferalItem);
+                        int count = 0;
+                        while (taskList.size() > pos + 1 && taskList.get(pos + 1).getViewType() == CHILD) {
+                            pos++;
+                            count++;
+                        }
+                        AddNewTask.newInstance(UID, 1, item.getId(),  count).show(getActivity().getSupportFragmentManager(), AddNewTask.TAG);
                     }
                 });
                 break;
