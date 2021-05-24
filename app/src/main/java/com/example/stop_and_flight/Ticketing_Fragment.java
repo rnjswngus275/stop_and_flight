@@ -38,9 +38,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
@@ -66,6 +69,129 @@ public class Ticketing_Fragment extends Fragment {
     private String UID;
     private String real_uid; //규원님 이거 제가 uid 가져오려고 만든 변수예요 원래 있던 코드는 디폴트값으로 설정되어있는것같아서 101~104줄 추가해써욤
     private String select_todo;
+    private HashMap<String, Object> TodoMap;
+    private List<String> todolist = new List<String>() {
+        @Override
+        public int size() {
+            return 0;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return false;
+        }
+
+        @Override
+        public boolean contains(@Nullable Object o) {
+            return false;
+        }
+
+        @NonNull
+        @Override
+        public Iterator<String> iterator() {
+            return null;
+        }
+
+        @NonNull
+        @Override
+        public Object[] toArray() {
+            return new Object[0];
+        }
+
+        @NonNull
+        @Override
+        public <T> T[] toArray(@NonNull T[] a) {
+            return null;
+        }
+
+        @Override
+        public boolean add(String s) {
+            return false;
+        }
+
+        @Override
+        public boolean remove(@Nullable Object o) {
+            return false;
+        }
+
+        @Override
+        public boolean containsAll(@NonNull Collection<?> c) {
+            return false;
+        }
+
+        @Override
+        public boolean addAll(@NonNull Collection<? extends String> c) {
+            return false;
+        }
+
+        @Override
+        public boolean addAll(int index, @NonNull Collection<? extends String> c) {
+            return false;
+        }
+
+        @Override
+        public boolean removeAll(@NonNull Collection<?> c) {
+            return false;
+        }
+
+        @Override
+        public boolean retainAll(@NonNull Collection<?> c) {
+            return false;
+        }
+
+        @Override
+        public void clear() {
+
+        }
+
+        @Override
+        public String get(int index) {
+            return null;
+        }
+
+        @Override
+        public String set(int index, String element) {
+            return null;
+        }
+
+        @Override
+        public void add(int index, String element) {
+
+        }
+
+        @Override
+        public String remove(int index) {
+            return null;
+        }
+
+        @Override
+        public int indexOf(@Nullable Object o) {
+            return 0;
+        }
+
+        @Override
+        public int lastIndexOf(@Nullable Object o) {
+            return 0;
+        }
+
+        @NonNull
+        @Override
+        public ListIterator<String> listIterator() {
+            return null;
+        }
+
+        @NonNull
+        @Override
+        public ListIterator<String> listIterator(int index) {
+            return null;
+        }
+
+        @NonNull
+        @Override
+        public List<String> subList(int fromIndex, int toIndex) {
+            return null;
+        }
+    };
     private DatabaseReference mDatabase;
     private int YEAR;
     private int MONTH;
@@ -77,7 +203,6 @@ public class Ticketing_Fragment extends Fragment {
         // Required empty public constructor
     }
 
-    private List<String> goal_list = new ArrayList<>();
     private TextView textView;
     private ScrollChoice scrollChoice;
 
@@ -108,9 +233,11 @@ public class Ticketing_Fragment extends Fragment {
             real_uid  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
         }
         if (getArguments() != null) {
-            UID = getArguments().getString("UID", "0");
             mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            if (getArguments().getString(ARG_PARAM2) != null)
+                UID = getArguments().getString(ARG_PARAM2);
+            else
+                UID = getArguments().getString("UID", "0");
         }
 
     }
@@ -158,14 +285,7 @@ public class Ticketing_Fragment extends Fragment {
         });
 
 
-        init_todo(goal_list);
-        scrollChoice = (ScrollChoice) view.findViewById(R.id.scroll_choice);
-        scrollChoice.addItems(goal_list, 1);
-        scrollChoice.setOnItemSelectedListener(new ScrollChoice.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(ScrollChoice scrollChoice, int position, String name) {
-                select_todo = name;
-            }});
+        Button select_todo_button = (Button) view.findViewById(R.id.select_todo_button);
 
         long now = System.currentTimeMillis();
         Date date = new Date(now);
@@ -190,6 +310,18 @@ public class Ticketing_Fragment extends Fragment {
         String strCurDay = CurDayFormat.format(date);
         String strCurHour = CurHourFormat.format(date);
         String strCurMinute = CurMinuteFormat.format(date);
+
+        select_todo_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(SelectTodoFragment.newInstance(null, UID));
+            }
+        });
+
+        if (mParam1 != null)
+        {
+            select_todo_button.setText(mParam1);
+        }
 
         ticketing_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -220,7 +352,7 @@ public class Ticketing_Fragment extends Fragment {
                     {
                         String depart_time =  Integer.toString(depart_hour) + ":" + Integer.toString(depart_min);
                         String arrive_time =  Integer.toString(arrive_hour) + ":" + Integer.toString(arrive_min);
-                        insert_TicketDB(depart_time, arrive_time, select_todo,ticket_Date);
+                        insert_TicketDB(depart_time, arrive_time, mParam1, ticket_Date);
                     }
                     else {
                         Toast.makeText(getContext(), "출발 시간이 도착 시간 보다 빨라야 합니다.", Toast.LENGTH_SHORT).show();
@@ -238,15 +370,8 @@ public class Ticketing_Fragment extends Fragment {
 
             }
         });
-
-
         return view;
     }//oncreateview 끝
-
-    private void init_todo(List<String> goal_list) {
-        goal_list.clear();
-        goal_list.add("없음");
-    }
 
     private void insert_TicketDB(String depart_time, String arrive_time, String todo,String ticket_date) {
         //mDatabase = FirebaseDatabase.getInstance().getReference(); 규원님 제가 이라인 oncreate로 올려놓았어용

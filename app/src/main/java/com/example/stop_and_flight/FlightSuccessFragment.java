@@ -97,8 +97,6 @@ public class FlightSuccessFragment extends Fragment {
                     }
                 });
                 //TODO: 스탬프 페이지 완성되면 FRAGMENT로 화면 전환
-
-
             }
         });
 

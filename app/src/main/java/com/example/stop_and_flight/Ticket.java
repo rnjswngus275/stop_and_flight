@@ -9,6 +9,7 @@ public class Ticket {
     public String depart_time;
     public String arrive_time;
     public String goal;
+    public int wait;
     public Map<String, Boolean> stars = new HashMap<>();
 
     public Ticket() {
