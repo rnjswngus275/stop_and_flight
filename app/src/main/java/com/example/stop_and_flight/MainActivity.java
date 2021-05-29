@@ -90,7 +90,9 @@ public class MainActivity extends AppCompatActivity {
                     fragmentTransaction.replace(R.id.container, taskFragment).addToBackStack(null).commitAllowingStateLoss();
                     taskFragment.setArguments(bundle);
                 } else if (id == R.id.menu6) {
-                    Toast.makeText(context, title + ": menu6 성공", Toast.LENGTH_SHORT).show();
+                    Intent intent2= new Intent(MainActivity.this, FilghtActivity.class);
+                    startActivity(intent2);
+                    Toast.makeText(context, title + ": 임시 flight", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.menu8) {
                     Toast.makeText(context, title + ": menu8 성공", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.menu9) {
