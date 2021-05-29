@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FlightFailureFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+
+        <ImageView
+            android:id="@+id/failed_picture"
+            android:layout_width="450dp"
+            android:layout_height="450dp"
+            android:src="@drawable/failure"
+            android:paddingBottom="16dp"/>
+
+        <TextView
+            android:id="@+id/failure_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="비행 성공률이 %로 감소했습니다."
+            android:paddingBottom="16dp"/>
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:layout_margin="5dp"
+            android:textColor="@color/color_4"
+            android:text="비행 평가" />
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"
+            android:text="잠금시간동안의 집중도를 평가해보세요!" />
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/color_3"
+            android:text="별점평가" />
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:numStars="5"
+            />
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/color_3"
+            android:text="메모" />
+
+        <EditText
+            android:id="@+id/editTextMemo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ems="14"
+            android:inputType="textPersonName"
+            android:text="비행의 반성/칭찬을 메모로 남겨보세요"
+            android:layout_marginBottom="20dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnOk"
+            android:layout_gravity="center"
+            android:background="@drawable/radius"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#769FCD"
+            android:text="확인" />
+
+    </LinearLayout>
+
+</FrameLayout>
