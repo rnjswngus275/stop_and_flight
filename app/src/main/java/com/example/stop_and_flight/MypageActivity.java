@@ -238,6 +238,7 @@ public class MypageActivity extends AppCompatActivity {
                     savebutton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            deleteAppDB(user.getUid());
                             SparseBooleanArray checkeditems = listView.getCheckedItemPositions();
                             int count = adapter.getCount();
 
@@ -255,6 +256,11 @@ public class MypageActivity extends AppCompatActivity {
 
             private void insertAppDB(String uid, int id, String appname) {
                 mDatabase.child("APP").child(uid).child(Integer.toString(id)).setValue(appname);
+            }
+
+            public void deleteAppDB(String uid)
+            {
+                mDatabase.child("APP").child(uid).removeValue();
             }
 
             private void installedApplist(List<AppInfo> applist) {
