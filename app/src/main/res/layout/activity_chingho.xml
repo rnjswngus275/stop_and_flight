@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="59dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/button7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Button"
+            app:backgroundTint="#FFFF5151" />
+
+        <Button
+            android:id="@+id/button14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Button"
+            app:backgroundTint="#FFFF5151" />
+
+        <Button
+            android:id="@+id/button15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Button"
+            app:backgroundTint="#FFFF5151" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="86dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10">
+
+        <ScrollView
+
+            android:id="@+id/main_box_scrollview"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="543dp"
+
+            android:layout_weight="1"
+
+            android:background="#e9edee"
+
+            android:fillViewport="true"
+
+            android:scrollbars="none"
+
+            android:visibility="visible">
+
+
+            <LinearLayout
+
+                android:layout_width="fill_parent"
+
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical">
+
+
+                <ListView
+
+                    android:id="@+id/main_box_text_listview"
+
+                    android:layout_width="423dp"
+
+                    android:layout_height="768dp"
+
+                    android:background="#FFD4D4"
+
+                    android:cacheColorHint="#00000000"
+
+                    android:choiceMode="none"
+
+                    android:clickable="false"
+
+                    android:focusable="false"
+
+                    android:focusableInTouchMode="false"
+                    android:longClickable="false" />
+            </LinearLayout>
+
+
+        </ScrollView>
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="413dp"
+        android:layout_height="62dp"
+        android:layout_marginBottom="52dp"
+        android:background="#FF8383"
+        android:gravity="center"
+        android:text="칭호 전시장"
+        android:textColor="#F8F8F8"
+        android:textColorHint="#FDFDFD"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -61,7 +61,7 @@ public class FilghtActivity extends AppCompatActivity implements Fragment_flight
     }
 
     public void setupViewPager(ViewPager viewPager) {
-        adapter.addFragment(new Fragment_flight1(), "1");
+        /*adapter.addFragment(new Fragment_flight1(), "1");*/
         adapter.addFragment(new Fragment_flight2(), "2");
         viewPager.setAdapter(adapter);
     }
