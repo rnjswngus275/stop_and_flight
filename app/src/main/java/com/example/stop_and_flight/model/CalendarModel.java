@@ -50,7 +50,7 @@ public class CalendarModel {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (onDataChangedListener != null) {
-                    onDataChangedListener.onDateChanged();
+                    /*onDataChangedListener.onDateChanged();*/
                 }
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     int getYear = ds.getValue(CalendarSingle.class).getYear();
