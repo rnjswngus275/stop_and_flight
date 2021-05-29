@@ -12,9 +12,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -459,16 +461,28 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
 
         ArrayList<String> applist = new ArrayList<>();
 
-        installedApplist(applist);
-
         Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.app_dialog_searchable_spinner);
-        dialog.getWindow().setLayout(800, 800);
+        dialog.getWindow().setLayout(1000, 1200);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         EditText editText = dialog.findViewById(R.id.app_edit_text);
         ListView listView = dialog.findViewById(R.id.app_list_view);
         ArrayAdapter adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, applist);
+        mDatabase.child("APP").child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
+                    String appname = fileSnapshot.getValue(String.class);
+                    applist.add(appname);
+                }
+                adapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
+            }
+        });
         listView.setAdapter(adapter);
         dialog.show();
 
@@ -517,20 +531,6 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
             }
         });
         embuilder.show();
-    }
-
-
-    private void installedApplist(List<String> applist) {
-        List<PackageInfo> packList = getActivity().getPackageManager().getInstalledPackages(0);
-        PackageInfo packInfo = null;
-        for (int i=0; i < packList.size(); i++)
-        {
-            packInfo = packList.get(i);
-            if ((packInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
-            {
-                applist.add(packInfo.packageName);
-            }
-        }
     }
 
     @Override
