@@ -68,130 +68,6 @@ public class Ticketing_Fragment extends Fragment {
     private String mParam2;
     private String UID;
     private String real_uid; //규원님 이거 제가 uid 가져오려고 만든 변수예요 원래 있던 코드는 디폴트값으로 설정되어있는것같아서 101~104줄 추가해써욤
-    private String select_todo;
-    private HashMap<String, Object> TodoMap;
-    private List<String> todolist = new List<String>() {
-        @Override
-        public int size() {
-            return 0;
-        }
-
-        @Override
-        public boolean isEmpty() {
-            return false;
-        }
-
-        @Override
-        public boolean contains(@Nullable Object o) {
-            return false;
-        }
-
-        @NonNull
-        @Override
-        public Iterator<String> iterator() {
-            return null;
-        }
-
-        @NonNull
-        @Override
-        public Object[] toArray() {
-            return new Object[0];
-        }
-
-        @NonNull
-        @Override
-        public <T> T[] toArray(@NonNull T[] a) {
-            return null;
-        }
-
-        @Override
-        public boolean add(String s) {
-            return false;
-        }
-
-        @Override
-        public boolean remove(@Nullable Object o) {
-            return false;
-        }
-
-        @Override
-        public boolean containsAll(@NonNull Collection<?> c) {
-            return false;
-        }
-
-        @Override
-        public boolean addAll(@NonNull Collection<? extends String> c) {
-            return false;
-        }
-
-        @Override
-        public boolean addAll(int index, @NonNull Collection<? extends String> c) {
-            return false;
-        }
-
-        @Override
-        public boolean removeAll(@NonNull Collection<?> c) {
-            return false;
-        }
-
-        @Override
-        public boolean retainAll(@NonNull Collection<?> c) {
-            return false;
-        }
-
-        @Override
-        public void clear() {
-
-        }
-
-        @Override
-        public String get(int index) {
-            return null;
-        }
-
-        @Override
-        public String set(int index, String element) {
-            return null;
-        }
-
-        @Override
-        public void add(int index, String element) {
-
-        }
-
-        @Override
-        public String remove(int index) {
-            return null;
-        }
-
-        @Override
-        public int indexOf(@Nullable Object o) {
-            return 0;
-        }
-
-        @Override
-        public int lastIndexOf(@Nullable Object o) {
-            return 0;
-        }
-
-        @NonNull
-        @Override
-        public ListIterator<String> listIterator() {
-            return null;
-        }
-
-        @NonNull
-        @Override
-        public ListIterator<String> listIterator(int index) {
-            return null;
-        }
-
-        @NonNull
-        @Override
-        public List<String> subList(int fromIndex, int toIndex) {
-            return null;
-        }
-    };
     private DatabaseReference mDatabase;
     private int YEAR;
     private int MONTH;
@@ -239,7 +115,6 @@ public class Ticketing_Fragment extends Fragment {
             else
                 UID = getArguments().getString("UID", "0");
         }
-
     }
     @Override
     public void onAttach(Context context) {
@@ -373,11 +248,10 @@ public class Ticketing_Fragment extends Fragment {
         return view;
     }//oncreateview 끝
 
-    private void insert_TicketDB(String depart_time, String arrive_time, String todo,String ticket_date) {
+    private void insert_TicketDB(String depart_time, String arrive_time, String todo, String ticket_date) {
         //mDatabase = FirebaseDatabase.getInstance().getReference(); 규원님 제가 이라인 oncreate로 올려놓았어용
         Ticket ticket = new Ticket(depart_time, arrive_time, todo);
         mDatabase.child("TICKET").child(real_uid).child(ticket_date).child(String.valueOf(num)).setValue(ticket);
-
 
         mDatabase.child("TICKET").child(real_uid).child(ticket_date).child(String.valueOf(num)).child("wait").setValue("true");
         mDatabase.child("TICKET").child(real_uid).child(ticket_date).child(String.valueOf(num)).child("id").setValue(num);

@@ -11,7 +11,7 @@
         android:theme="@style/Theme.Stop_and_flight">
         <activity android:name=".LoginMethodActivity"></activity>
         <activity android:name=".JoinSNSNickname" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".FilghtActivity">
           <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
