@@ -48,8 +48,9 @@ public class FilghtActivity extends AppCompatActivity implements Fragment_flight
 
         //accessibility 서비스 시작
         Intent sintent = new Intent(getApplicationContext(),Accessibility.class); // 이동할 컴포넌트
+        sintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        sintent.putExtra("flight","1");
         startService(sintent); // 서비스 시작
-        sintent.putExtra("flight","on");
         System.out.println("확인 서비스 시작");
     }
 
@@ -61,11 +62,9 @@ public class FilghtActivity extends AppCompatActivity implements Fragment_flight
     }
 
     public void setupViewPager(ViewPager viewPager) {
-        /*adapter.addFragment(new Fragment_flight1(), "1");*/
+        adapter.addFragment(new Fragment_flight1(), "1");
         adapter.addFragment(new Fragment_flight2(), "2");
         viewPager.setAdapter(adapter);
     }
-
-
 
 }
