@@ -5,22 +5,23 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
 
 import androidx.appcompat.widget.Toolbar;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
-
-import me.relex.circleindicator.CircleIndicator;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -29,13 +30,22 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private Context context = this;
 
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Bundle bundle = new Bundle();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            bundle.putString("UID", user.getUid());
+            bundle.putString("name", user.getDisplayName());
+            bundle.putString("email", user.getEmail());
+            Toast.makeText(context, "사용자의 정보를 가져오기를 성공했습니다.", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(context, "사용자의 정보를 가져오기를 실패했습니다.", Toast.LENGTH_SHORT).show();
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -43,13 +53,12 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼 만들기
         actionBar.setHomeAsUpIndicator(R.drawable.menu_icon); //뒤로가기 버튼 이미지 지정
 
-        FragmentManager fragmentManager = getSupportFragmentManager();      //fragment 매니저
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction(); //fragment 트랜색션
+        FragmentManager fragmentManager = getSupportFragmentManager(); //fragment 매니저
         //fragment 객체 생성
 
         Fragment_Ticket_list ticket_list = new Fragment_Ticket_list();
-        Ticketing_Fragment ticketing_fragment= new Ticketing_Fragment();
-
+        Ticketing_Fragment ticketing_fragment = new Ticketing_Fragment();
+        TaskFragment taskFragment = new TaskFragment();
 
         //<div>아이콘 제작자 <a href="https://www.flaticon.com/kr/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/kr/" title="Flaticon">www.flaticon.com</a></div>
 
@@ -57,38 +66,34 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction(); //fragment 트랜색션
                 menuItem.setChecked(true);
                 mDrawerLayout.closeDrawers();
-
                 int id = menuItem.getItemId();
                 String title = menuItem.getTitle().toString();
                 if (id == R.id.menu1) {       //여기에 메뉴 버튼 클릭했을때 옮길 페이지 연결하시면 됩니다.
-                    Toast.makeText(context, title + ": menu1 성공.", Toast.LENGTH_SHORT).show();
-
+                    Intent intent = new Intent(MainActivity.this, MypageActivity.class);
+                    startActivity(intent);
                 } else if (id == R.id.menu2) {
-                    Toast.makeText(context, title + ": menu2 성공.", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
+                    startActivity(intent);
                 } else if (id == R.id.menu3) {
-                    try {
-                        fragmentTransaction.replace(R.id.container, ticket_list).commit();
-                        throw new Exception();
-                    }
-                    catch (Exception e){
-                        Toast.makeText(context, title + ": 같은 페이지 입니다.", Toast.LENGTH_SHORT).show();
-                    }
+                    fragmentTransaction.replace(R.id.container, ticket_list).addToBackStack(null).commitAllowingStateLoss();
+                    ticket_list.setArguments(bundle);
                 } else if (id == R.id.menu4) {
-
-                    fragmentTransaction.replace(R.id.container, ticketing_fragment).commit();
+                    fragmentTransaction.replace(R.id.container, ticketing_fragment).addToBackStack(null).commitAllowingStateLoss();
+                    ticketing_fragment.setArguments(bundle);
                 } else if (id == R.id.menu5) {
-                    Toast.makeText(context, title + ": menu5 성공", Toast.LENGTH_SHORT).show();
+                    fragmentTransaction.replace(R.id.container, taskFragment).addToBackStack(null).commitAllowingStateLoss();
+                    taskFragment.setArguments(bundle);
                 } else if (id == R.id.menu6) {
-                    Toast.makeText(context, title + ": menu6 성공", Toast.LENGTH_SHORT).show();
-                } else if (id == R.id.menu7) {
-                    Toast.makeText(context, title + ": menu7 성공", Toast.LENGTH_SHORT).show();
+                    Intent intent2= new Intent(MainActivity.this, FilghtActivity.class);
+                    startActivity(intent2);
+                    Toast.makeText(context, title + ": 임시 flight", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.menu8) {
                     Toast.makeText(context, title + ": menu8 성공", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.menu9) {
@@ -96,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
                 } else if (id == R.id.menu10) {
                     Toast.makeText(context, title + ": menu10 성공", Toast.LENGTH_SHORT).show();
                 }
-
                 return true;
             }
         });
@@ -114,5 +118,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    public void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, fragment).addToBackStack(null).commitAllowingStateLoss();
+    }
 }

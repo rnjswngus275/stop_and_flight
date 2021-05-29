@@ -1,87 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#F7FBFC">
 
-    <Button
-        android:id="@+id/button_email"
-        android:layout_width="299dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="22dp"
-        android:fontFamily="sans-serif-black"
-        android:text="이메일로 회원가입"
-        android:textColor="#769FCD"
-        app:backgroundTint="#D6E6F2"
-        app:cornerRadius="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
-        app:layout_constraintEnd_toEndOf="@+id/button_kakao"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/button_kakao"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <Button
-        android:id="@+id/button_kakao"
-        android:layout_width="299dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="11dp"
-        android:fontFamily="sans-serif-black"
-        android:text="KAKAO로 가입하기"
-        android:textColor="#769FCD"
-        app:backgroundTint="#D6E6F2"
-        app:cornerRadius="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/button_GOOGLE"
-        app:layout_constraintEnd_toEndOf="@+id/button_GOOGLE"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/button_GOOGLE"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="187dp"
-        android:layout_height="19dp"
-        android:fontFamily="sans-serif-black"
-        android:text="SNS로 계속하기"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/button_kakao"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.605"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_email" />
-
-    <Button
-        android:id="@+id/button_naver"
-        android:layout_width="299dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="94dp"
-        android:fontFamily="sans-serif-black"
-        android:text="NAVER로 가입하기"
-        android:textColor="#769FCD"
-        app:backgroundTint="#D6E6F2"
-        app:cornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/button_GOOGLE"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/button_GOOGLE"
-        app:layout_constraintTop_toBottomOf="@+id/button_GOOGLE" />
-
-    <Button
-        android:id="@+id/button_GOOGLE"
-        android:layout_width="299dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="sans-serif-black"
-        android:text="GOOGLE로 가입하기"
-        android:textColor="#769FCD"
-        app:backgroundTint="#D6E6F2"
-        app:cornerRadius="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/button_naver"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_kakao" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -89,23 +14,51 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="101dp"
         android:layout_marginBottom="30dp"
-        android:src="@drawable/icons8_airplane_take_off_96"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_gravity="center"
+        android:src="@drawable/icons8_airplane_take_off_96" />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="191dp"
-        android:layout_height="73dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginBottom="93dp"
         android:fontFamily="sans-serif-black"
-        android:text="STOPANDFLIGHT"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/button_email"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        android:text="STOP AND FLIGHT"
+        android:textColor="@color/color_3"
+        android:textSize="24sp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:text="가입 방법 선택"
+        android:textColor="@color/color_4"
+        android:textSize="20sp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_email"
+        android:layout_width="299dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:text="이메일로 회원가입"
+        android:background="@drawable/radius"
+        android:layout_marginBottom="20dp"
+        android:textColor="#769FCD"
+        />
+
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_GOOGLE"
+        android:layout_width="299dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:background="@drawable/radius"
+        android:text="GOOGLE로 가입하기"
+        android:textColor="#769FCD" />
+
+
+</LinearLayout>

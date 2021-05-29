@@ -60,7 +60,6 @@ public class CalendarActivity extends AppCompatActivity {
         Calendar calendar1 = Calendar.getInstance();
         calendar1.set(2021,5-1,13);
         List<EventDay> eventDay = new ArrayList <>();
-        eventDay.add(new EventDay(calendar1,R.drawable.ic_message_black_48dp));
         mCalendarView.setDate(calendar1);
         mCalendarView.setEvents(eventDay);
 

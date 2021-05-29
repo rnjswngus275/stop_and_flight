@@ -5,66 +5,41 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:weightSum="10"
     tools:context=".Ticketing_Fragment">
-
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="171dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="40dp"
+        android:orientation="horizontal">
+
 
         <TextView
-            android:id="@+id/departing_time_title"
-            android:layout_width="match_parent"
+            android:id="@+id/txt_Date"
+            android:layout_width="39dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="9"
             android:gravity="center"
-            android:text="departing time"
-            android:textSize="20dp" />
+            android:text="날짜 선택 " />
 
-        <TimePicker
-            android:layout_width="match_parent"
-            android:layout_height="157dp"
-            android:timePickerMode="spinner" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="148dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/arriving_time_title"
-            android:layout_width="match_parent"
+        <ImageButton
+            android:id="@+id/btn_datepick"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="arriving time"
-            android:textSize="20dp" />
-
-        <TimePicker
-            android:layout_width="match_parent"
-            android:layout_height="135dp"
-            android:timePickerMode="spinner" />
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/calendar" />
+        <!--<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="71dp"
-        android:orientation="vertical">
-
-        <CheckBox
-            android:id="@+id/repeat_checkbutton"
-            android:layout_width="98dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:text="repeat"
-            android:textSize="20dp" />
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="154dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
@@ -72,32 +47,129 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Todo"
-            android:textSize="20dp" />
+            android:text="목표"
+            android:textSize="15dp" />
 
-        <com.webianks.library.scroll_choice.ScrollChoice
-            android:id="@+id/scroll_choice"
+        <Button
+            android:id="@+id/select_todo_button"
             android:layout_width="match_parent"
-            android:layout_height="173dp"
-            app:scroll_atmospheric="true"
-            app:scroll_background_color="#ffffff"
-            app:scroll_indicator="true"
-            app:scroll_indicator_color="#f5f5f5"
-            app:scroll_indicator_size="1dp"
-            app:scroll_item_align="center"
-            app:scroll_item_text_color="?attr/colorAccent"
-            app:scroll_item_text_size="15sp"
-            app:scroll_selected_item_background="#ffffff"
-            app:scroll_selected_item_text_color="#ffc107" />
+            android:layout_height="wrap_content"
+            android:text="목표 선택하러가기 >"
+            android:textColor="#000000"
+            app:backgroundTint="#00FFFFFF" />
+
+        <TextView
+            android:id="@+id/departing_time_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="출발 시간"
+            android:textSize="15dp" />
+
+        <TimePicker
+            android:id="@+id/depart_time"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:timePickerMode="spinner" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/arriving_time_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="도착 시간"
+            android:textSize="15dp" />
+
+        <TimePicker
+            android:id="@+id/arrive_time"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:timePickerMode="spinner" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/repeat_title"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:gravity="center"
+            android:text="반복"
+            android:textSize="15dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/Mon_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="월" />
+
+            <RadioButton
+                android:id="@+id/Tues_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="화" />
+
+            <RadioButton
+                android:id="@+id/Wed_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="수" />
+
+            <RadioButton
+                android:id="@+id/Thurs_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="목" />
+
+            <RadioButton
+                android:id="@+id/Fri_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="금" />
+
+            <RadioButton
+                android:id="@+id/Set_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="토" />
+
+            <RadioButton
+                android:id="@+id/radioButton7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="일" />
+
+        </LinearLayout>
 
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Button" />
-
-
+        <Button
+            android:id="@+id/ticketing_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button" />
 </LinearLayout>

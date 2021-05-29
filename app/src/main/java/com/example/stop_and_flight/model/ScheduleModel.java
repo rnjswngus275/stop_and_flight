@@ -37,7 +37,7 @@ public class ScheduleModel {
         databaseReference.child("시간표").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+/*                for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     String className = ds.getValue(Schedule.class).getClassName();
                     String classRoom = ds.getValue(Schedule.class).getClassRoom();
                     String classDay = ds.getValue(Schedule.class).getClassDay();
@@ -45,7 +45,7 @@ public class ScheduleModel {
 
                     Schedule schedule = new Schedule(className, classRoom, classDay, classTime);
                     addScheduleModel(schedule);
-                }
+                }*/
             }
 
             @Override
@@ -59,7 +59,7 @@ public class ScheduleModel {
 
     public void writeSchedule(String className, String classRoom, String classDay, String classTime) {
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child("시간표").
-                push().setValue(Schedule.newSchedule(className, classRoom, classDay, classTime));
+        databaseReference.child("시간표");
+               /* push().setValue(Schedule.newSchedule(className, classRoom, classDay, classTime));*/
     }
 }
