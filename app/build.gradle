@@ -53,5 +53,8 @@ dependencies {
     implementation 'com.webianks.library:scroll-choice:1.0.1'
     implementation 'com.vipulasri:ticketview:1.1.2'
     implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation 'com.applandeo:material-calendar-view:1.0.1'
+    implementation 'androidx.multidex:multidex:2.0.1'
+
 }
 
