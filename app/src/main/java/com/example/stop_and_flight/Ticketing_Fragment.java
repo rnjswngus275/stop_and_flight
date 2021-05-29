@@ -1,8 +1,11 @@
 package com.example.stop_and_flight;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -68,6 +71,12 @@ public class Ticketing_Fragment extends Fragment {
     private String mParam2;
     private String UID;
     private String real_uid; //규원님 이거 제가 uid 가져오려고 만든 변수예요 원래 있던 코드는 디폴트값으로 설정되어있는것같아서 101~104줄 추가해써욤
+    private String select_todo;
+    private HashMap<String, Object> TodoMap;
+    private AlarmManager AM;
+    private PendingIntent ServicePending;
+    int dptH;
+    int dptM;
     private DatabaseReference mDatabase;
     private int YEAR;
     private int MONTH;
@@ -120,7 +129,7 @@ public class Ticketing_Fragment extends Fragment {
     public void onAttach(Context context) {
 
         super.onAttach(context);
-         mContext= context;
+        mContext= context;
     }
 
 
@@ -129,33 +138,33 @@ public class Ticketing_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ticketing, container, false);
         // Inflate the layout for this fragment
-       TextView txt_date=(TextView)view.findViewById(R.id.txt_Date);
-       ImageButton btn_date=(ImageButton) view.findViewById(R.id.btn_datepick);
+        TextView txt_date=(TextView)view.findViewById(R.id.txt_Date);
+        ImageButton btn_date=(ImageButton) view.findViewById(R.id.btn_datepick);
 
 
         btn_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    final Calendar c=Calendar.getInstance();
-                    int mYear=c.get(Calendar.YEAR);
-                    int mMonth=c.get(Calendar.MONTH);
-                    int mDay=c.get(Calendar.DAY_OF_MONTH);
+                final Calendar c=Calendar.getInstance();
+                int mYear=c.get(Calendar.YEAR);
+                int mMonth=c.get(Calendar.MONTH);
+                int mDay=c.get(Calendar.DAY_OF_MONTH);
 
-                    DatePickerDialog datePickerDialog =new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                            txt_date.setText(year+"년"+(monthOfYear+1)+"월"+dayOfMonth+"일");
-                            YEAR=year;
-                            MONTH=monthOfYear;
-                            DAY=dayOfMonth;
-                            String str_year=Integer.toString(year);
-                            String str_month=Integer.toString(monthOfYear+1);
-                            String str_day=Integer.toString(dayOfMonth);
-                            ticket_Date= str_year+"-"+str_month+"-"+str_day;
-                        }
-                    },mYear,mMonth,mDay);
-                    datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
-                    datePickerDialog.show();
+                DatePickerDialog datePickerDialog =new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        txt_date.setText(year+"년"+(monthOfYear+1)+"월"+dayOfMonth+"일");
+                        YEAR=year;
+                        MONTH=monthOfYear;
+                        DAY=dayOfMonth;
+                        String str_year=Integer.toString(year);
+                        String str_month=Integer.toString(monthOfYear+1);
+                        String str_day=Integer.toString(dayOfMonth);
+                        ticket_Date= str_year+"-"+str_month+"-"+str_day;
+                    }
+                },mYear,mMonth,mDay);
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+                datePickerDialog.show();
             }
         });
 
@@ -212,6 +221,8 @@ public class Ticketing_Fragment extends Fragment {
                     depart_min = depart_time.getMinute();
                     arrive_hour = arrive_time.getHour();
                     arrive_min = arrive_time.getMinute();
+                    dptH=depart_hour;
+                    dptM=depart_min;
                 }
                 else
                 {
@@ -219,6 +230,8 @@ public class Ticketing_Fragment extends Fragment {
                     depart_min = depart_time.getCurrentMinute();
                     arrive_hour = arrive_time.getCurrentHour();
                     arrive_min = arrive_time.getCurrentMinute();
+                    dptH=depart_hour;
+                    dptM=depart_min;
                 }
 
                 if((Integer.parseInt(strCurHour) < depart_hour) || ((Integer.parseInt(strCurHour) == depart_hour) && (Integer.parseInt(strCurMinute) <= depart_min)))
@@ -262,6 +275,73 @@ public class Ticketing_Fragment extends Fragment {
     }
     //TODO: todo가 저장이 안됨
 //    private void insert_DateDB(int year,int month,int day,String todo){
+//
+//        String date= year+"/"+month+"/"+day;
+//        mDatabase.child("TICKET").child(real_uid).child(date).child("date").setValue(date);
+//
+//    }
+
+    @Override
+    public void onDestroy() {
+        AM = (AlarmManager) mContext.getSystemService(mContext.ALARM_SERVICE);
+
+//        String date_time= YEAR+"-"+(MONTH+1)+"-"+DAY+" "+ ticket_dpt+":"+00;
+//        SimpleDateFormat dateFormat =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+
+//        Date datetime = null;
+//        try {
+//            datetime = new Date(dateFormat.parse(date_time).getTime());
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println(datetime+"확인datetime");
+        int dpth=dptH;
+        int dptm=dptM;
+        Calendar cal=Calendar.getInstance();
+        cal.clear();
+//        System.out.println(dptH+"확인 ticketdpt");
+        cal.set(Calendar.YEAR,YEAR);
+        cal.set(Calendar.MONTH,MONTH+1);
+        cal.set(Calendar.DAY_OF_MONTH,DAY);
+
+
+        cal.set(Calendar.HOUR_OF_DAY, dpth);
+        cal.set(Calendar.MINUTE, dptm);
+        cal.set(Calendar.SECOND, 0);
+
+//        cal.set(YEAR,MONTH,DAY,dpth,dptm);
+
+
+//        cal.setTime(datetime);
+        //Receiver로 보내기 위한 인텐트
+        Intent intent_alarm = new Intent(getActivity(),AlarmReceiver.class);
+        ServicePending = PendingIntent.getBroadcast(
+                mContext, 0, intent_alarm, 0);
+
+
+
+        if (Build.VERSION.SDK_INT < 23) {
+            // 19 이상
+            if (Build.VERSION.SDK_INT >= 19) {
+                AM.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), ServicePending);
+
+            }
+            // 19 미만
+            else {
+                // pass
+                // 알람셋팅
+                AM.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), ServicePending);
+            }
+            // 23 이상
+        } else {
+            AM.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), ServicePending);
+        }
+        System.out.println("확인 알람설정 ok");
+
+        super.onDestroy();
+    }
+    //    private void insert_DateDB(int year,int month,int day,String todo){
 //
 //        String date= year+"/"+month+"/"+day;
 //        mDatabase.child("TICKET").child(real_uid).child(date).child("date").setValue(date);

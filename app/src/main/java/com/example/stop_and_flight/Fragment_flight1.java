@@ -2,6 +2,7 @@ package com.example.stop_and_flight;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -44,6 +45,9 @@ import java.util.GregorianCalendar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -70,7 +74,7 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private FragmentActivity myContext;
     private CountDownTimer countDownTimer;
     private TextView count_txt;
     private TextView read_time;
@@ -79,16 +83,25 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
     String set_year;
     String set_date;
     String set_day;
+    String today;
     HashMap<String,Object> ticket_info=new HashMap<String,Object>();
     HashMap<String,Object> ticket_info2=new HashMap<String,Object>();
+    String set_dpt_time = null;
+    String set_arr_time= null;
+    String set_goal= null;
+    String set_id= null;
 
     String[] getTicket;
     int arr;
     int dpt;
     int num;//일정개수
-
+    private OnTimePickListener onTimePickListener;
     // Required empty public constructor
 
+    // Flight Activity로 출발시간 도착시간 데이터 보내기
+    public interface OnTimePickListener{
+        public void onTimeSelected(String arr,String dpt);
+    }
     public Fragment_flight1() {
     }
 
@@ -128,9 +141,6 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
         }
 
     }
-
-
-
 
     private String getTime(String set_hour,String set_min) {
         Date date = new Date();
@@ -172,13 +182,14 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
         } catch (Exception e) {}
         countDownTimer=null;
     }
-    public String[] ticket_infomation (String arr,String dpt,String id,String wait){
+    public String[] ticket_infomation (String arr,String dpt,String goal,String id,String wait){
 
-            String[] ticket=new String[4];
+            String[] ticket=new String[5];
             ticket[0]=arr;
             ticket[1]=dpt;
-            ticket[2]=id;
-            ticket[3]=wait;
+            ticket[2]=goal;
+            ticket[3]=id;
+            ticket[4]=wait;
             System.out.println("확인 티켓함수안"+Arrays.toString(ticket));
             return ticket;
     }
@@ -193,14 +204,23 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFinish() {
+                System.out.println("타이머가 끝났을때 뜨는겨");
+                Toast.makeText(myContext,"타이머가 끝",Toast.LENGTH_LONG);
+                replaceFragment(FlightSuccessFragment.newInstance(today,set_dpt_time, set_arr_time,set_goal,set_id));
 
             }
         };
+    }
+    public void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager =getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flight, fragment).addToBackStack(null).commitAllowingStateLoss();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View v = inflater.inflate(R.layout.fragment_flight1, container, false);
 
         Button emergencybutton = v.findViewById(R.id.button_emergency);
@@ -221,7 +241,7 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
         String str_day=Integer.toString(day);
 
         System.out.println("확인"+str_year+str_month+str_day);
-        String today=str_year+"-"+str_month+"-"+str_day;
+         today=str_year+"-"+str_month+"-"+str_day;
 
         ArrayList al =new ArrayList();
 
@@ -240,23 +260,31 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
                     System.out.println("확인해당날짜만"+ticket_info2);
                     String set_arr= (String.valueOf( ticket_info2.get("arrive_time")));
                     String set_dpt= (String.valueOf( ticket_info2.get("depart_time")));
+                    String set_goal=(String.valueOf(ticket_info2.get("goal")));
                     String set_id=(String.valueOf( ticket_info2.get("id")));
                     String set_wait=(String.valueOf(ticket_info2.get("wait")));
 
                     System.out.println("확인 저장은되나?"+set_arr);
-                    al.addAll(Arrays.asList(ticket_infomation(set_arr,set_dpt,set_id,set_wait)));
+                    al.addAll(Arrays.asList(ticket_infomation(set_arr,set_dpt,set_goal,set_id,set_wait)));
 
                 }
+
                 int size=al.size();
-                for(int i=3;i<size;i=i+4){
+
+                for(int i=4;i<size;i=i+5){
                     System.out.println("확인for"+al.get(i));
 
                     if(String.valueOf(al.get(i)).equals("true"))
                     {
-                        String set_time = (String) al.get(i-3);
-                        int idx=set_time.indexOf(":");
-                        String set_time1=set_time.substring(0,idx);
-                        String set_time2=set_time.substring(idx+1);
+                        set_dpt_time = (String) al.get(i-4);
+                        set_arr_time= (String) al.get(i-3);
+                        set_goal = (String) al.get(i-2);
+                        set_id = (String) al.get(i-1);
+
+
+                        int idx=set_dpt_time.indexOf(":");
+                        String set_time1=set_dpt_time.substring(0,idx);
+                        String set_time2=set_dpt_time.substring(idx+1);
                         System.out.println("확인 타임1"+set_time1);
                         System.out.println("확인 타임2"+set_time2);
 
@@ -265,10 +293,20 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
                         break;
                     }
                 }
+
+                onTimePickListener.onTimeSelected(set_arr_time,set_dpt_time);
+
                 read_time=(TextView)v.findViewById(R.id.read_time);
                 read_time.setText(time);
 
-
+//                btn_suc.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                    //이 코드를 타이머가 끝나면 일어나도록 하기
+//                      replaceFragment(FlightSuccessFragment.newInstance(today,set_dpt_time, set_arr_time,set_goal,set_id));
+//
+//                    }
+//                });
             }
 
             @Override
@@ -493,5 +531,21 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
             }
         });
         embuilder.show();
+    }
+
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+        if(context instanceof OnTimePickListener){
+           onTimePickListener=(OnTimePickListener) context;
+
+        }else{
+            throw new RuntimeException(context.toString()+"must iple");
+        }
+    }
+    @Override
+    public void onDetach(){
+        super.onDetach();
+        onTimePickListener=null;
     }
 }
