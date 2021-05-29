@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         Fragment_Ticket_list ticket_list = new Fragment_Ticket_list();
         Ticketing_Fragment ticketing_fragment = new Ticketing_Fragment();
         TaskFragment taskFragment = new TaskFragment();
+        PassportFragment passportFragment =  new PassportFragment();
 
         //<div>아이콘 제작자 <a href="https://www.flaticon.com/kr/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/kr/" title="Flaticon">www.flaticon.com</a></div>
 
@@ -90,7 +91,8 @@ public class MainActivity extends AppCompatActivity {
                     fragmentTransaction.replace(R.id.container, taskFragment).addToBackStack(null).commitAllowingStateLoss();
                     taskFragment.setArguments(bundle);
                 } else if (id == R.id.menu6) {
-                    Toast.makeText(context, title + ": menu6 성공", Toast.LENGTH_SHORT).show();
+                    fragmentTransaction.replace(R.id.container, passportFragment).addToBackStack(null).commitAllowingStateLoss();
+                    passportFragment.setArguments(bundle);
                 } else if (id == R.id.menu8) {
                     Toast.makeText(context, title + ": menu8 성공", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.menu9) {
