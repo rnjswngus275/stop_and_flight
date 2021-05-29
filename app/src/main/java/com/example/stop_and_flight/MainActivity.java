@@ -80,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, MypageActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.menu2) {
-                    Toast.makeText(context, title + ": menu2 성공.", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
+                    startActivity(intent);
                 } else if (id == R.id.menu3) {
                     fragmentTransaction.replace(R.id.container, ticket_list).addToBackStack(null).commitAllowingStateLoss();
                     ticket_list.setArguments(bundle);
