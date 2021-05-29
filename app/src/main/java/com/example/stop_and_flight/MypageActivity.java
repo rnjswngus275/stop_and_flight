@@ -14,6 +14,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,12 +31,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 public class MypageActivity extends AppCompatActivity {
 
@@ -43,6 +48,7 @@ public class MypageActivity extends AppCompatActivity {
     private Button buttonDeleteID;
     private Button buttonAllowedApps;
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,18 +201,18 @@ public class MypageActivity extends AppCompatActivity {
         buttonAllowedApps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    ArrayList<String> applist = new ArrayList<>();
+                    ArrayList<AppInfo> applist = new ArrayList<>();
 
                     installedApplist(applist);
 
                     Dialog dialog = new Dialog(MypageActivity.this);
-                    dialog.setContentView(R.layout.app_dialog_searchable_spinner);
+                    dialog.setContentView(R.layout.app_dialog_select_sipinner);
                     dialog.getWindow().setLayout(1000, 1200);
                     dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                    EditText editText = dialog.findViewById(R.id.app_edit_text);
-                    ListView listView = dialog.findViewById(R.id.app_list_view);
-                    ArrayAdapter adapter = new ArrayAdapter<>(MypageActivity.this, android.R.layout.simple_list_item_1, applist);
+                    EditText editText = dialog.findViewById(R.id.app_select_edit_text);
+                    ListView listView = dialog.findViewById(R.id.app_select_list_view);
+                    ArrayAdapter adapter = new ArrayAdapter<>(MypageActivity.this, android.R.layout.simple_list_item_multiple_choice, applist);
                     listView.setAdapter(adapter);
                     dialog.show();
 
@@ -226,8 +232,32 @@ public class MypageActivity extends AppCompatActivity {
 
                         }
                     });
+
+                    Button savebutton = dialog.findViewById(R.id.save_button);
+
+                    savebutton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            SparseBooleanArray checkeditems = listView.getCheckedItemPositions();
+                            int count = adapter.getCount();
+
+                            for(int i = count - 1; i >= 0; i--){
+                                if (checkeditems.get(i))
+                                {
+                                    System.out.println(applist.get(i).getName());
+                                    insertAppDB(user.getUid(), i, applist.get(i).getName());
+                                }
+                            }
+                            dialog.dismiss();
+                        }
+                    });
             }
-            private void installedApplist(List<String> applist) {
+
+            private void insertAppDB(String uid, int id, String appname) {
+                mDatabase.child("APP").child(uid).child(Integer.toString(id)).setValue(appname);
+            }
+
+            private void installedApplist(List<AppInfo> applist) {
                 List<PackageInfo> packList = getPackageManager().getInstalledPackages(0);
                 PackageInfo packInfo = null;
                 for (int i=0; i < packList.size(); i++)
@@ -235,11 +265,14 @@ public class MypageActivity extends AppCompatActivity {
                     packInfo = packList.get(i);
                     if ((packInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
                     {
-                        applist.add(packInfo.packageName);
+                        AppInfo appinfo = new AppInfo();
+                        appinfo.setName(packInfo.packageName);
+                        applist.add(appinfo);
                     }
                 }
             }
         });
+
 
     }
 }
