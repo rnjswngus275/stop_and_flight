@@ -1,6 +1,8 @@
 package com.example.stop_and_flight;
 
-public class AppInfo {
+import java.io.Serializable;
+
+public class AppInfo implements Serializable {
     private String name = "";
     private boolean checked = false;
 

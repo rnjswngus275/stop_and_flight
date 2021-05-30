@@ -30,7 +30,7 @@
     <ListView
         android:id="@+id/app_select_list_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="800px"
         android:layout_below="@+id/app_select_edit_text"
         android:choiceMode="multipleChoice" />
 
