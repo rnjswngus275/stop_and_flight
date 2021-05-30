@@ -1,5 +1,6 @@
 package com.example.stop_and_flight;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -131,7 +132,8 @@ public class FlightSuccessFragment extends Fragment {
                         //데이터 불러오는데 실패했을때
                     }
                 });
-                //TODO: 스탬프 페이지 완성되면 FRAGMENT로 화면 전환
+                Intent intent = new Intent(getActivity(),MainActivity.class);
+                startActivity(intent);
             }
         });
 

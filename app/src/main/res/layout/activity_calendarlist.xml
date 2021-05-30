@@ -73,7 +73,7 @@
             android:background="@drawable/rectangle"
             android:backgroundTint="#FFEE80"
             android:gravity="center"
-            android:hint="@string/no_todo"
+            android:hint="todo"
             android:textColor="#871818"
             android:textSize="18sp" />
 
@@ -87,7 +87,7 @@
             android:background="@drawable/rectangle"
             android:backgroundTint="#FFEE80"
             android:gravity="center"
-            android:hint="@string/no_time"
+            android:hint="비행시간"
             android:textSize="18sp" />
 
         <TextView
@@ -99,7 +99,7 @@
             android:background="@drawable/rectangle"
             android:backgroundTint="#FFEE80"
             android:gravity="center"
-            android:hint="@string/no_star"
+            android:hint="별점 5점"
             android:textSize="18sp" />
 
         <TextView

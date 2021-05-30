@@ -46,6 +46,9 @@
                 android:resource="@xml/accessibility_service_config" />
         </service>
         <receiver android:name="AlarmReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.sec" />
+            </intent-filter>
         </receiver>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />

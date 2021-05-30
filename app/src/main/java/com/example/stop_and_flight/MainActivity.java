@@ -95,7 +95,8 @@ public class MainActivity extends AppCompatActivity {
                     fragmentTransaction.replace(R.id.container, passportFragment).addToBackStack(null).commitAllowingStateLoss();
                     passportFragment.setArguments(bundle);
                 } else if (id == R.id.menu8) {
-                    Toast.makeText(context, title + ": menu8 성공", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, FilghtActivity.class);
+                    startActivity(intent);
                 } else if (id == R.id.menu9) {
                     Toast.makeText(context, title + ": menu9 성공", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.menu10) {

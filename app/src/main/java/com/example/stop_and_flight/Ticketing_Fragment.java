@@ -255,7 +255,9 @@ public class Ticketing_Fragment extends Fragment {
 //                insert_DateDB(YEAR,MONTH,DAY,select_todo);
 
                 //프래그먼트 전환
-
+                Intent intent = new Intent(getActivity(),MainActivity.class);
+                startActivity(intent);
+                onDestroy();
             }
         });
         return view;
@@ -301,45 +303,51 @@ public class Ticketing_Fragment extends Fragment {
         Calendar cal=Calendar.getInstance();
         cal.clear();
 //        System.out.println(dptH+"확인 ticketdpt");
-        cal.set(Calendar.YEAR,YEAR);
-        cal.set(Calendar.MONTH,MONTH+1);
-        cal.set(Calendar.DAY_OF_MONTH,DAY);
+//        cal.set(Calendar.YEAR,YEAR);
+//        cal.set(Calendar.MONTH,MONTH+1);
+//        cal.set(Calendar.DAY_OF_MONTH,DAY);
+//
+//
+//        cal.set(Calendar.HOUR_OF_DAY, dpth);
+//        cal.set(Calendar.MINUTE, dptm);
+//        cal.set(Calendar.SECOND, 0);
 
-
-        cal.set(Calendar.HOUR_OF_DAY, dpth);
-        cal.set(Calendar.MINUTE, dptm);
-        cal.set(Calendar.SECOND, 0);
-
-//        cal.set(YEAR,MONTH,DAY,dpth,dptm);
+        cal.set(YEAR,MONTH,DAY,dpth,dptm);
+        System.out.println(cal.getTime()+"확인 cal에 셋된시간");
 
 
 //        cal.setTime(datetime);
         //Receiver로 보내기 위한 인텐트
-        Intent intent_alarm = new Intent(getActivity(),AlarmReceiver.class);
+        Intent intent_alarm = new Intent(mContext,AlarmReceiver.class);
+
         ServicePending = PendingIntent.getBroadcast(
-                mContext, 0, intent_alarm, 0);
-
-
-
+                mContext, 0, intent_alarm, PendingIntent.FLAG_ONE_SHOT);
+        long calc_time=cal.getTimeInMillis();
         if (Build.VERSION.SDK_INT < 23) {
             // 19 이상
             if (Build.VERSION.SDK_INT >= 19) {
-                AM.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), ServicePending);
+                AM.setExact(AlarmManager.RTC_WAKEUP,calc_time , ServicePending);
+                System.out.println("확인 19이상");
 
             }
             // 19 미만
             else {
                 // pass
                 // 알람셋팅
-                AM.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), ServicePending);
+                AM.set(AlarmManager.RTC_WAKEUP, calc_time, ServicePending);
+                System.out.println("확인 19미만");
+
             }
             // 23 이상
         } else {
-            AM.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), ServicePending);
+            AM.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calc_time, ServicePending);
+            System.out.println("확인 23이상");
         }
         System.out.println("확인 알람설정 ok");
 
+
         super.onDestroy();
+
     }
     //    private void insert_DateDB(int year,int month,int day,String todo){
 //
