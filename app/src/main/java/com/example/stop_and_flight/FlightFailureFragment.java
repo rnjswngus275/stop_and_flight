@@ -1,5 +1,6 @@
 package com.example.stop_and_flight;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -30,15 +31,17 @@ public class FlightFailureFragment extends Fragment {
 
     DatabaseReference mDatabase ;
     String uid="";
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM3 = "param3";
+    private static final String ARG_PARAM4 = "param4";
+    private static final String ARG_PARAM5 = "param5";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String arr_time;
+    private String dpt_time;
+    private String goal;
+    private String id;
+    private String today;
 
     public FlightFailureFragment() {
         // Required empty public constructor
@@ -53,11 +56,14 @@ public class FlightFailureFragment extends Fragment {
      * @return A new instance of fragment FlightFailureFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static FlightFailureFragment newInstance(String param1, String param2) {
+    public static FlightFailureFragment newInstance(String param1, String param2,String param3,String param4,String param5) {
         FlightFailureFragment fragment = new FlightFailureFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_PARAM3, param3);
+        args.putString(ARG_PARAM4, param4);
+        args.putString(ARG_PARAM5, param5);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,13 +72,21 @@ public class FlightFailureFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            today = getArguments().getString(ARG_PARAM1);
+            arr_time = getArguments().getString(ARG_PARAM2);
+            dpt_time = getArguments().getString(ARG_PARAM3);
+            goal =getArguments().getString(ARG_PARAM4);
+            id =getArguments().getString(ARG_PARAM5);
         }
+    }
 
-        TextView SuccessRate=(TextView)getView().findViewById(R.id.TextSuccessRate);
-        RatingBar RatingBar =(RatingBar)getView().findViewById(R.id.ratingBar);
-        EditText Memo=(EditText)getView().findViewById(R.id.editTextMemo);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_flight_failure, container, false);
+
+        TextView SuccessRate=(TextView)getView().findViewById(R.id.failure_rate);
         Button btnOk=(Button)getView().findViewById(R.id.btnOk);
 
         FirebaseAuth mAuth;
@@ -83,19 +97,8 @@ public class FlightFailureFragment extends Fragment {
         if(user!=null){
             uid  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
         }
+        mDatabase.child("TICKET").child(uid).child(today).child(id).child("wait").setValue("false");
 
-        //비행 완료
-        mDatabase.child("TICKET").child(uid).child("티켓아이디").child("wait").setValue(false);
-
-        //별점 데이터베이스에 저장
-        RatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(android.widget.RatingBar ratingBar, float rating, boolean fromUser) {
-
-                mDatabase.child("TICKET").child(uid).child("티켓아이디").child("rating").setValue(rating);
-
-            }
-        });
 
         //TODO: 성공률 데이터베이스에 저장
         //성공률 데이터베이스에 저장 if 읽어온 성공률 데이터가 존재하지 않으면 100%로 저장 아니면 성공으로 데이터베이스에 전달하고
@@ -104,33 +107,10 @@ public class FlightFailureFragment extends Fragment {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //메모 데이터베이스에 저장
-                String Memo_txt =Memo.getText().toString();
-                mDatabase.child("TICKET").child(uid).child("티켓아이디").child("memo").setValue(Memo_txt);
-
-                //비행시간 데이터 읽어오기
-                mDatabase.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        //데이터 불러오는데 실패했을때
-                    }
-                });
-                //TODO: 스탬프 페이지 완성되면 FRAGMENT로 화면 전환
+                Intent intent = new Intent(getActivity(),MainActivity.class);
+                startActivity(intent);
             }
         });
-
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_flight_failure, container, false);
+        return view;
     }
 }
