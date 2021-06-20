@@ -12,10 +12,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.widget.Toolbar;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -57,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         //fragment 객체 생성
 
         Fragment_Ticket_list ticket_list = new Fragment_Ticket_list();
-        Ticketing_Fragment ticketing_fragment = new Ticketing_Fragment();
+        TicketingFragment ticketing_fragment = new TicketingFragment();
         TaskFragment taskFragment = new TaskFragment();
         PassportFragment passportFragment =  new PassportFragment();
 
