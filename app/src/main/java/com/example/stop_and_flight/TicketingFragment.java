@@ -62,7 +62,8 @@ public class TicketingFragment extends Fragment {
     private int YEAR;
     private int MONTH;
     private int DAY;
-    private int flag;
+    private int flag = 1;
+    private int num = 0;
     private String ticket_Date;
     public String strCurYear;
     public String strCurMonth;
@@ -206,15 +207,12 @@ public class TicketingFragment extends Fragment {
                 }
                 if (YEAR >= Integer.parseInt(strCurYear) && MONTH >= Integer.parseInt(strCurMonth))
                 {
-                    if (DAY > Integer.parseInt(strCurDay)) {
+                    if (DAY > Integer.parseInt(strCurDay))
                         check_Schedule(ticket_Date, depart_hour,depart_min, arrive_hour, arrive_min);
-                    }
                     else if (DAY == Integer.parseInt(strCurDay))
                     {
                         if((Integer.parseInt(strCurHour) < depart_hour) || ((Integer.parseInt(strCurHour) == depart_hour) && (Integer.parseInt(strCurMinute) <= depart_min)))
-                        {
                             check_Schedule(ticket_Date, depart_hour,depart_min, arrive_hour, arrive_min);
-                        }
                         else
                             Toast.makeText(getContext(), "현재 보다 이전 시간을 설정할 수 없습니다.", Toast.LENGTH_SHORT).show();
                     }
@@ -239,17 +237,14 @@ public class TicketingFragment extends Fragment {
 
                         String depart = String.valueOf(TicketMap.get("depart_time"));
                         String arrive = String.valueOf(TicketMap.get("arrive_time"));
+                        num = Integer.parseInt(String.valueOf(TicketMap.get("id")));
                         String[] depart_arr = depart.split(":");
                         String[] arrive_arr = arrive.split(":");
 
                         if (Integer.parseInt(depart_arr[0]) > arrive_hour || (Integer.parseInt(depart_arr[0]) == arrive_hour && Integer.parseInt(depart_arr[1]) > arrive_min))
-                        {
                             continue;
-                        }
                         else if (Integer.parseInt(arrive_arr[0]) < depart_hour || (Integer.parseInt(arrive_arr[0]) == depart_hour && Integer.parseInt(arrive_arr[1]) < depart_min))
-                        {
                             continue;
-                        }
                         else {
                             flag = 1;
                             break;
@@ -304,8 +299,8 @@ public class TicketingFragment extends Fragment {
     private void insert_TicketDB(String depart_time, String arrive_time, String todo, String ticket_date) {
         if (todo == null)
             todo = "default";
-        Ticket ticket = new Ticket(depart_time, arrive_time, todo, 1 , "true");
-        mDatabase.child("TICKET").child(UID).child(ticket_date).child(String.valueOf(1)).setValue(ticket);
+        Ticket ticket = new Ticket(depart_time, arrive_time, todo, ++num , "true");
+        mDatabase.child("TICKET").child(UID).child(ticket_date).child(String.valueOf(num)).setValue(ticket);
 
 //        num++;
 //        mDatabase.child("TICKET").child(UID).child("total_num").setValue(num);
