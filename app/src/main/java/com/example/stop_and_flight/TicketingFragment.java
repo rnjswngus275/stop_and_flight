@@ -306,68 +306,68 @@ public class TicketingFragment extends Fragment {
 //        mDatabase.child("TICKET").child(UID).child("total_num").setValue(num);
 //        System.out.println("확인"+num);
     }
-//
-//    @Override
-//    public void onDestroy() {
-//        AM = (AlarmManager) mContext.getSystemService(mContext.ALARM_SERVICE);
-//
-////        String date_time= YEAR+"-"+(MONTH+1)+"-"+DAY+" "+ ticket_dpt+":"+00;
-////        SimpleDateFormat dateFormat =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//
-//
-////        Date datetime = null;
-////        try {
-////            datetime = new Date(dateFormat.parse(date_time).getTime());
-////        } catch (ParseException e) {
-////            e.printStackTrace();
-////        }
-////        System.out.println(datetime+"확인datetime");
-//        int dpth=dptH;
-//        int dptm=dptM;
-//        Calendar cal=Calendar.getInstance();
-//        cal.clear();
-////        System.out.println(dptH+"확인 ticketdpt");
-////        cal.set(Calendar.YEAR,YEAR);
-////        cal.set(Calendar.MONTH,MONTH+1);
-////        cal.set(Calendar.DAY_OF_MONTH,DAY);
-////
-////
-////        cal.set(Calendar.HOUR_OF_DAY, dpth);
-////        cal.set(Calendar.MINUTE, dptm);
-////        cal.set(Calendar.SECOND, 0);
-//
-//        cal.set(YEAR,MONTH,DAY,dpth,dptm);
-//        System.out.println(cal.getTime()+"확인 cal에 셋된시간");
-//
-//
-////        cal.setTime(datetime);
-//        //Receiver로 보내기 위한 인텐트
-//        Intent intent_alarm = new Intent(mContext,AlarmReceiver.class);
-//
-//        ServicePending = PendingIntent.getBroadcast(
-//                mContext, 0, intent_alarm, PendingIntent.FLAG_ONE_SHOT);
-//        long calc_time=cal.getTimeInMillis();
-//        if (Build.VERSION.SDK_INT < 23) {
-//            // 19 이상
-//            if (Build.VERSION.SDK_INT >= 19) {
-//                AM.setExact(AlarmManager.RTC_WAKEUP,calc_time , ServicePending);
-//                System.out.println("확인 19이상");
-//
-//            }
-//            // 19 미만
-//            else {
-//                // pass
-//                // 알람셋팅
-//                AM.set(AlarmManager.RTC_WAKEUP, calc_time, ServicePending);
-//                System.out.println("확인 19미만");
-//
-//            }
-//            // 23 이상
-//        } else {
-//            AM.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calc_time, ServicePending);
-//            System.out.println("확인 23이상");
+
+    @Override
+    public void onDestroy() {
+        AM = (AlarmManager) mContext.getSystemService(mContext.ALARM_SERVICE);
+
+//        String date_time= YEAR+"-"+(MONTH+1)+"-"+DAY+" "+ ticket_dpt+":"+00;
+//        SimpleDateFormat dateFormat =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+
+//        Date datetime = null;
+//        try {
+//            datetime = new Date(dateFormat.parse(date_time).getTime());
+//        } catch (ParseException e) {
+//            e.printStackTrace();
 //        }
-//        System.out.println("확인 알람설정 ok");
-//        super.onDestroy();
-//    }
+//        System.out.println(datetime+"확인datetime");
+        int dpth=dptH;
+        int dptm=dptM;
+        Calendar cal=Calendar.getInstance();
+        cal.clear();
+//        System.out.println(dptH+"확인 ticketdpt");
+//        cal.set(Calendar.YEAR,YEAR);
+//        cal.set(Calendar.MONTH,MONTH+1);
+//        cal.set(Calendar.DAY_OF_MONTH,DAY);
+//
+//
+//        cal.set(Calendar.HOUR_OF_DAY, dpth);
+//        cal.set(Calendar.MINUTE, dptm);
+//        cal.set(Calendar.SECOND, 0);
+
+        cal.set(YEAR,MONTH,DAY,dpth,dptm);
+        System.out.println(cal.getTime()+"확인 cal에 셋된시간");
+
+
+//        cal.setTime(datetime);
+        //Receiver로 보내기 위한 인텐트
+        Intent intent_alarm = new Intent(mContext,AlarmReceiver.class);
+
+        ServicePending = PendingIntent.getBroadcast(
+                mContext, 0, intent_alarm, PendingIntent.FLAG_ONE_SHOT);
+        long calc_time=cal.getTimeInMillis();
+        if (Build.VERSION.SDK_INT < 23) {
+            // 19 이상
+            if (Build.VERSION.SDK_INT >= 19) {
+                AM.setExact(AlarmManager.RTC_WAKEUP,calc_time , ServicePending);
+                System.out.println("확인 19이상");
+
+            }
+            // 19 미만
+            else {
+                // pass
+                // 알람셋팅
+                AM.set(AlarmManager.RTC_WAKEUP, calc_time, ServicePending);
+                System.out.println("확인 19미만");
+
+            }
+            // 23 이상
+        } else {
+            AM.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calc_time, ServicePending);
+            System.out.println("확인 23이상");
+        }
+        System.out.println("확인 알람설정 ok");
+        super.onDestroy();
+    }
 }
