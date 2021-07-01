@@ -523,8 +523,8 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
                 Intent sintent = new Intent(getActivity(), Accessibility.class); // 이동할 컴포넌트
                 sintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 sintent.putExtra("appname", adapter.getItem(position).toString());
-//                Intent launchIntent = getActivity().getPackageManager().getLaunchIntentForPackage(adapter.getItem(position).toString());
-//                startActivity(launchIntent);
+                Intent launchIntent = getActivity().getPackageManager().getLaunchIntentForPackage(adapter.getItem(position).toString());
+                startActivity(launchIntent);
                 dialog.dismiss();
             }
         });
