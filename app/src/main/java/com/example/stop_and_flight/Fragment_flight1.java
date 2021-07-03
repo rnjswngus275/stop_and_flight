@@ -94,6 +94,7 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
     String set_arr_time= null;
     String set_goal= null;
     String set_id= null;
+    long emergency_time;
 
     String[] getTicket;
     int arr;
@@ -154,7 +155,6 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
         int c_hour = calendar.get(Calendar.HOUR_OF_DAY);
         int c_min = calendar.get(Calendar.MINUTE);
         int c_sec = calendar.get(Calendar.SECOND);
-
 
         Calendar baseCal = new GregorianCalendar(year, month, day, c_hour, c_min, c_sec);        //현재날짜
         Calendar targetCal = new GregorianCalendar(year, month, day, Integer.parseInt(set_hour), Integer.parseInt(set_min), 0);  //비교대상날짜
@@ -230,6 +230,14 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        FirebaseAuth mAuth;
+        mAuth = FirebaseAuth.getInstance(); // 유저 계정 정보 가져오기
+        mDatabase = FirebaseDatabase.getInstance().getReference(); // 파이어베이스 realtime database 에서 정보 가져오기
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
+        if(user!=null){
+            uid  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
+        }
 
         View v = inflater.inflate(R.layout.fragment_flight1, container, false);
 
@@ -260,7 +268,6 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
        Query query =ref.orderByChild("depart_time");
        query.addValueEventListener(new ValueEventListener() {
             @Override
-
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 al.clear();
                 for (DataSnapshot messageData : snapshot.getChildren()) {// child 내에 있는 데이터만큼 반복합니다.
@@ -328,7 +335,16 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
 
             }
         });
-
+        final DatabaseReference ref2 = mDatabase.child("users").child(uid).child("emergency_time");
+        ref2.addValueEventListener(new ValueEventListener() {        //emergency_time 읽어오기
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                emergency_time= snapshot.getValue(long.class);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
 
         List<PackageInfo> packlist = new List<PackageInfo>() {
             @Override
@@ -523,8 +539,8 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
                 Intent sintent = new Intent(getActivity(), Accessibility.class); // 이동할 컴포넌트
                 sintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 sintent.putExtra("appname", adapter.getItem(position).toString());
-//                Intent launchIntent = getActivity().getPackageManager().getLaunchIntentForPackage(adapter.getItem(position).toString());
-//                startActivity(launchIntent);
+                Intent launchIntent = getActivity().getPackageManager().getLaunchIntentForPackage(adapter.getItem(position).toString());
+                startActivity(launchIntent);
                 dialog.dismiss();
             }
         });
@@ -536,11 +552,23 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
         LayoutInflater factory = LayoutInflater.from(getActivity());
         final View view = factory.inflate(R.layout.emergency_dialog, null);
         embuilder.setView(view);
+
+
         embuilder.setPositiveButton("살고싶어요..", new DialogInterface.OnClickListener() {
+            long time2=System.currentTimeMillis();
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                replaceFragment(FlightFailureFragment.newInstance(today,set_dpt_time, set_arr_time,set_goal,set_id));
-                Toast.makeText(getContext(), "끔", Toast.LENGTH_SHORT).show();
+                System.out.println("확인 time2과 db emergency time"+time2+"and"+emergency_time+"and"+(time2-emergency_time));
+
+                if(((time2-emergency_time)/1000.0)>86400||emergency_time==0){          //24시간 지나거나 디폴트 값이면 비상탈출 가능
+                    mDatabase.child("users").child(uid).child("emergency_time").setValue(time2);        //지금 시간으로 갱신
+                    replaceFragment(FlightFailureFragment.newInstance(today,set_dpt_time, set_arr_time,set_goal,set_id));
+                    onDestroy();
+                }
+                else{
+                    Toast.makeText(getContext(), "비상탈출을한지 24시간이 지나지 않았습니다.", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         embuilder.setNegativeButton("조금 더 해볼래요", new DialogInterface.OnClickListener() {

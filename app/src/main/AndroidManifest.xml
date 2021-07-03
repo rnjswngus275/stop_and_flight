@@ -26,7 +26,7 @@
         <activity android:name=".JoinActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".CalendarActivity"/>
-        <activity android:name=".CalendarlistActivity"/>g
+        <activity android:name=".CalendarlistActivity"/>
         <activity android:name=".FilghtActivity">
             <intent-filter>
                 <action android:name="android.intent.action.FLIGHTACTIVITY" />

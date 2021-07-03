@@ -78,6 +78,11 @@ public class FlightFailureFragment extends Fragment {
             goal =getArguments().getString(ARG_PARAM4);
             id =getArguments().getString(ARG_PARAM5);
         }
+        System.out.println("확인파라매터"+ today);
+        System.out.println("확인파라매터"+ arr_time);
+        System.out.println("확인파라매터"+ dpt_time);
+        System.out.println("확인파라매터"+ goal);
+        System.out.println("확인파라매터"+ id);
     }
 
     @Override
@@ -86,27 +91,25 @@ public class FlightFailureFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_flight_failure, container, false);
 
-        TextView SuccessRate=(TextView)getView().findViewById(R.id.failure_rate);
-        Button btnOk=(Button)getView().findViewById(R.id.btnOk);
+        TextView SuccessRate=(TextView)view.findViewById(R.id.TextFailureRate);
+        Button btnOk=(Button)view.findViewById(R.id.btnOk);
 
-        FirebaseAuth mAuth;
-        mAuth = FirebaseAuth.getInstance(); // 유저 계정 정보 가져오기
-        mDatabase = FirebaseDatabase.getInstance().getReference(); // 파이어베이스 realtime database 에서 정보 가져오기
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
-        if(user!=null){
-            uid  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
-        }
-        mDatabase.child("TICKET").child(uid).child(today).child(id).child("wait").setValue("false");
-
-
-        //TODO: 성공률 데이터베이스에 저장
         //성공률 데이터베이스에 저장 if 읽어온 성공률 데이터가 존재하지 않으면 100%로 저장 아니면 성공으로 데이터베이스에 전달하고
         // 성공한 비행(equal to) /전체 비행 *100 계산한 결과 데이터베이스에 저장
 
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FirebaseAuth mAuth;
+                mAuth = FirebaseAuth.getInstance(); // 유저 계정 정보 가져오기
+                mDatabase = FirebaseDatabase.getInstance().getReference(); // 파이어베이스 realtime database 에서 정보 가져오기
+
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
+                if(user!=null){
+                    uid  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
+                }
+                mDatabase.child("TICKET").child(uid).child(today).child(id).child("wait").setValue("true");     //대기중인 예매 완료된 예매
+
                 Intent intent = new Intent(getActivity(),MainActivity.class);
                 startActivity(intent);
             }

@@ -42,8 +42,6 @@ public class AppGuide extends AppCompatActivity {
             }
         });
 
-
-
         Button go_login_button=(Button)findViewById(R.id.go_login);
         go_login_button.setOnClickListener(new Button.OnClickListener(){
                 @Override
@@ -52,8 +50,6 @@ public class AppGuide extends AppCompatActivity {
                     startActivity(intent);
                 }
         });
-
-
 
         if(!checkAccessibilityPermissions()) {
             setAccessibilityPermissions();
@@ -73,8 +69,8 @@ public class AppGuide extends AppCompatActivity {
         AccessibilityManager accessibilityManager =
                 (AccessibilityManager)getSystemService(Context.ACCESSIBILITY_SERVICE);
 
-        List list =
-                accessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC);
+        List <AccessibilityServiceInfo> list =
+                accessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.DEFAULT);
 
         Log.d("service_test", "size : " + list.size());
         for(int i = 0; i < list.size(); i++){

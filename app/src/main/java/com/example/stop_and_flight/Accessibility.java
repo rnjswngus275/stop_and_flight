@@ -52,7 +52,8 @@ public class Accessibility extends AccessibilityService {
                         Toast.makeText(this.getApplicationContext(), event.getPackageName() + "앱이 실행되었습니다", Toast.LENGTH_LONG);
                         break;
 
-                    } else {
+                    }
+                    else {
                         gotoflight();
                         System.out.println("확인 Catch Event Package Name :" + event.getPackageName());
                         System.out.println("확인 else문 안 ");
