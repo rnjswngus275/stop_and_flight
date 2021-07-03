@@ -139,10 +139,12 @@ public class select_signup_method extends AppCompatActivity {
                             Log.d(TAG, "signInWithCredential:success");
                             Toast.makeText(select_signup_method.this, "아이디 생성이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(select_signup_method.this, "아이디 생성이 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                            updateUI(null);
                         }
                     }
                 });
