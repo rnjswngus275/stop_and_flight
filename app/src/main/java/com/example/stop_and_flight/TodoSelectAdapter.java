@@ -20,7 +20,6 @@ public class TodoSelectAdapter extends RecyclerView.Adapter<TodoSelectAdapter.Vi
 
     public static final int HEADER = 0;
     public static final int CHILD = 1;
-
     private List<Task> taskList;
     private Context context;
     private TaskDatabaseHandler db;

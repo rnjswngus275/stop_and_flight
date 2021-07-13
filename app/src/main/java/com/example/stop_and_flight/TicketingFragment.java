@@ -72,7 +72,6 @@ public class TicketingFragment extends Fragment {
     public String strCurMinute;
     private HashMap<String, Object> TicketMap;
 
-
     public TicketingFragment() {
         // Required empty public constructor
     }
@@ -173,7 +172,7 @@ public class TicketingFragment extends Fragment {
                 DatePickerDialog datePickerDialog =new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        select_data_button.setText(year+"년 "+(monthOfYear+1)+" 월 "+dayOfMonth+" 일");
+                        select_data_button.setText(year+ "년 "+ (monthOfYear + 1) + " 월 " + dayOfMonth + " 일");
                         YEAR = year;
                         MONTH = monthOfYear + 1;
                         DAY = dayOfMonth;
@@ -202,8 +201,8 @@ public class TicketingFragment extends Fragment {
                     depart_min = depart_time.getMinute();
                     arrive_hour = arrive_time.getHour();
                     arrive_min = arrive_time.getMinute();
-                    dptH=depart_hour;
-                    dptM=depart_min;
+                    dptH = depart_hour;
+                    dptM = depart_min;
                 }
                 if (YEAR >= Integer.parseInt(strCurYear) && MONTH >= Integer.parseInt(strCurMonth))
                 {
@@ -271,15 +270,10 @@ public class TicketingFragment extends Fragment {
     {
         if (depart_hour > 12 && arrive_hour < 12)
         {
-            if(depart_hour > arrive_hour)
-            {
-                String depart_time =  depart_hour + ":" + depart_min;
-                String arrive_time =  arrive_hour + ":" + arrive_min;
-                insert_TicketDB(depart_time, arrive_time, mParam1, ticket_Date);
-            }
-            else {
-                Toast.makeText(getContext(), "출발 시간이 도착 시간 보다 빨라야 합니다.", Toast.LENGTH_SHORT).show();
-            }
+            String depart_time =  depart_hour + ":" + depart_min;
+            String arrive_time =  arrive_hour + ":" + arrive_min;
+            insert_TicketDB(depart_time, arrive_time, mParam1, ticket_Date);
+            onDestroy();
         }
         else
         {
@@ -288,6 +282,7 @@ public class TicketingFragment extends Fragment {
                 String depart_time =  depart_hour + ":" + depart_min;
                 String arrive_time =  arrive_hour + ":" + arrive_min;
                 insert_TicketDB(depart_time, arrive_time, mParam1, ticket_Date);
+                onDestroy();
             }
             else {
                 Toast.makeText(getContext(), "출발 시간이 도착 시간 보다 빨라야 합니다.", Toast.LENGTH_SHORT).show();
@@ -301,10 +296,6 @@ public class TicketingFragment extends Fragment {
             todo = "default";
         Ticket ticket = new Ticket(depart_time, arrive_time, todo, ++num , "true");
         mDatabase.child("TICKET").child(UID).child(ticket_date).child(String.valueOf(num)).setValue(ticket);
-
-//        num++;
-//        mDatabase.child("TICKET").child(UID).child("total_num").setValue(num);
-//        System.out.println("확인"+num);
     }
 
     @Override
@@ -324,7 +315,7 @@ public class TicketingFragment extends Fragment {
 //        System.out.println(datetime+"확인datetime");
         int dpth=dptH;
         int dptm=dptM;
-        Calendar cal=Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.clear();
 //        System.out.println(dptH+"확인 ticketdpt");
 //        cal.set(Calendar.YEAR,YEAR);
@@ -336,8 +327,8 @@ public class TicketingFragment extends Fragment {
 //        cal.set(Calendar.MINUTE, dptm);
 //        cal.set(Calendar.SECOND, 0);
 
-        cal.set(YEAR,MONTH,DAY,dpth,dptm);
-        System.out.println(cal.getTime()+"확인 cal에 셋된시간");
+        cal.set(YEAR, MONTH - 1, DAY, dpth, dptm);
+        System.out.println(cal.getTime() + "확인 cal에 셋된시간");
 
 
 //        cal.setTime(datetime);
@@ -368,6 +359,7 @@ public class TicketingFragment extends Fragment {
             System.out.println("확인 23이상");
         }
         System.out.println("확인 알람설정 ok");
+
         super.onDestroy();
     }
 }

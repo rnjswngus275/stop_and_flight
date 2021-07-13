@@ -1,12 +1,32 @@
 package com.example.stop_and_flight;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +43,22 @@ public class Fragment_Ticket_list extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private DatabaseReference mDatabase;
+    private RecyclerView ticketRecyclerView;
+//    private TicketAdapter ticketAdapter;
+    public ArrayList<Ticket> TicketList = new ArrayList<>();
+    private Ticket getTicket;
+    private String UID;
+    private String ticket_Date;
+    public String strCurYear;
+    public String strCurMonth;
+    public String strCurDay;
+    public String strCurHour;
+    public String strCurMinute;
+    private int YEAR;
+    private int MONTH;
+    private int DAY;
+    private TicketAdapter ticketAdapter;
 
     public Fragment_Ticket_list() {
         // Required empty public constructor
@@ -49,16 +85,80 @@ public class Fragment_Ticket_list extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
+        if(user != null){
+            UID  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
+        }
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        /* 현재 시간과 날짜를 받아오는 부분 */
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+
+        SimpleDateFormat CurYearFormat = new SimpleDateFormat("yyyy");
+        SimpleDateFormat CurMonthFormat = new SimpleDateFormat("MM");
+        SimpleDateFormat CurDayFormat = new SimpleDateFormat("dd");
+        SimpleDateFormat CurHourFormat = new SimpleDateFormat("HH");
+        SimpleDateFormat CurMinuteFormat = new SimpleDateFormat("mm");
+
+        strCurYear = CurYearFormat.format(date);
+        strCurMonth = CurMonthFormat.format(date);
+        strCurDay = CurDayFormat.format(date);
+        strCurHour = CurHourFormat.format(date);
+        strCurMinute = CurMinuteFormat.format(date);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment__ticket_list, container, false);
+        View view = inflater.inflate(R.layout.fragment__ticket_list, container, false);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        ticketRecyclerView = view.findViewById(R.id.ticketRecyclerView);
+        Context ct = container.getContext();
+
+        ticketAdapter = new TicketAdapter(ct, UID);
+
+
+
+        YEAR =  Integer.parseInt(strCurYear);
+        MONTH =  Integer.parseInt(strCurMonth);
+        DAY =  Integer.parseInt(strCurDay);
+        ticket_Date = YEAR + "-" + MONTH + "-" + DAY;
+
+        TextView countrytitle = (TextView) view.findViewById(R.id.CountryTitle);
+        TextView Departtitle = (TextView) view.findViewById(R.id.DepartTitle);
+        TextView arrivetitle = (TextView) view.findViewById(R.id.ArriveTitle);
+
+        mDatabase.child("TICKET").child(UID).child(ticket_Date).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
+                    if (fileSnapshot != null) {
+                        getTicket = new Ticket();
+                        getTicket = fileSnapshot.getValue(Ticket.class);
+                        TicketList.add(getTicket);
+                    }
+                    System.out.println(TicketList);
+                }
+                ticketAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
+            }
+        });
+
+        ticketRecyclerView.setLayoutManager(new LinearLayoutManager(ct, LinearLayoutManager.VERTICAL, false));
+
+        Collections.reverse(TicketList);
+        ticketAdapter.setTicket(TicketList);
+        ticketRecyclerView.setAdapter(ticketAdapter);
+
+        return view;
     }
 }

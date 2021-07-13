@@ -8,7 +8,7 @@ import java.util.Map;
 public class Ticket {
     private String depart_time;
     private String arrive_time;
-    private String goal;
+    private String Todo;
     private int id;
     private String wait;
     private Map<String, Boolean> stars = new HashMap<>();
@@ -25,12 +25,12 @@ public class Ticket {
         this.arrive_time = arrive_time;
     }
 
-    public String getGoal() {
-        return goal;
+    public String getTodo() {
+        return Todo;
     }
 
-    public void setGoal(String goal) {
-        this.goal = goal;
+    public void setTodo(String todo) {
+        Todo = todo;
     }
 
     public int getId() {
@@ -68,7 +68,7 @@ public class Ticket {
     public Ticket(String depart_time, String arrive_time, String goal, int id, String wait) {
         this.depart_time = depart_time;
         this.arrive_time = arrive_time;
-        this.goal = goal;
+        this.Todo = goal;
         this.id = id;
         this.wait = wait;
     }
@@ -80,7 +80,7 @@ public class Ticket {
         result.put("arrive_time", arrive_time);
         result.put("id", id);
         result.put("wait", wait);
-        result.put("goal", goal);
+        result.put("Todo", Todo);
         result.put("stars", stars);
 
         return result;

@@ -22,7 +22,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     public static final int HEADER = 0;
     public static final int CHILD = 1;
-    public static final int Todo_Size = 1;
     private List<Task> taskList;
     private Context context;
     private TaskDatabaseHandler db;
@@ -40,9 +39,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = null;
-        Context context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
         switch (viewType) {
             case HEADER:
                 System.out.println("check : header");
