@@ -30,23 +30,8 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
     public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction){
         final int position = viewHolder.getAdapterPosition();
         if(direction == ItemTouchHelper.LEFT) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(adapter.getContext());
-            builder.setTitle("설정한 목표 삭제");
-            builder.setMessage("정말로 설정한 목표를 지우시겠습니까?");
-            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    adapter.deleteItem(position);
-                }
-            });
-            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    adapter.notifyItemChanged(viewHolder.getAdapterPosition());
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            adapter.deleteItem(position);
+            adapter.notifyItemChanged(viewHolder.getAdapterPosition());
         }
         else {
             adapter.editItem(position);

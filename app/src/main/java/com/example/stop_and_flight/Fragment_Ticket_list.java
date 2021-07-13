@@ -137,6 +137,8 @@ public class Fragment_Ticket_list extends Fragment {
         mDatabase.child("TICKET").child(UID).child(ticket_Date).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ticketRecyclerView.removeAllViewsInLayout();
+                TicketList.clear();
                 for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
                     if (fileSnapshot != null) {
                         getTicket = new Ticket();

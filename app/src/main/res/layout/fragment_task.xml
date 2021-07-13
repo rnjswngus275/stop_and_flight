@@ -19,7 +19,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="32dp"
-        app:backgroundTint="@android:color/holo_blue_light"
+        app:backgroundTint="@color/color_4"
         app:srcCompat="@drawable/add_image" />
 </RelativeLayout>
 
