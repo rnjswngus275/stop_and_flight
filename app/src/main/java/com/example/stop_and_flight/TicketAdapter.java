@@ -81,7 +81,6 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         public TextView CountryTitle;
         public TextView DepartTitle;
         public TextView ArriveTitle;
-        public TextView GateSeat;
         public TextView user_name;
         public TextView user_class;
         public ImageView user_image;
