@@ -1,10 +1,9 @@
-package com.example.stop_and_flight;
+package com.example.stop_and_flight.model;
 
 import com.google.firebase.database.Exclude;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Task {

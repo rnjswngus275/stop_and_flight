@@ -1,7 +1,6 @@
 package com.example.stop_and_flight;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,6 +15,7 @@ import android.widget.EditText;
 
 import androidx.core.content.ContextCompat;
 
+import com.example.stop_and_flight.model.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;

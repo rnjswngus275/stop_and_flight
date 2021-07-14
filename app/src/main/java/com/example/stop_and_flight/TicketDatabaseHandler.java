@@ -1,0 +1,38 @@
+package com.example.stop_and_flight;
+
+import com.example.stop_and_flight.model.Ticket;
+import com.google.firebase.database.DatabaseReference;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class TicketDatabaseHandler {
+    private DatabaseReference mDatabase;
+
+    public TicketDatabaseHandler(DatabaseReference mDatabase)
+    {
+        this.mDatabase = mDatabase;
+    }
+
+    private void insert_ticketDB(String uid, String date, Ticket ticket)
+    {
+        mDatabase.child("Ticket").child(uid).child(date).child(Integer.toString(ticket.getId())).setValue(ticket);
+    }
+
+    private void update_ticketDB(String uid, String date, String depart_time, String arrive_time, String Todo, int id)
+    {
+        String key = mDatabase.child("Ticket").child(uid).child(date).child(Integer.toString(id)).getKey();
+        Ticket ticket = new Ticket(depart_time, arrive_time, Todo, id);
+
+        Map<String, Object> Values = ticket.toMap();
+        Map<String, Object> childUpdates = new HashMap<>();
+
+        childUpdates.put("/TASK/" + uid + "/" + date + "/"+ key, Values);
+        mDatabase.updateChildren(childUpdates);
+    }
+
+    private void delete_ticketDB(String uid, String date, Ticket ticket)
+    {
+        mDatabase.child("Ticket").child(uid).child(date).child(Integer.toString(ticket.getId())).removeValue();
+    }
+}

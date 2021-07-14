@@ -13,6 +13,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.stop_and_flight.model.Task;
+
 import java.util.ArrayList;
 import java.util.List;
 

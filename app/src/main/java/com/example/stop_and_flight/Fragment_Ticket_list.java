@@ -1,9 +1,11 @@
 package com.example.stop_and_flight;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.stop_and_flight.model.Ticket;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,8 +28,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,11 +48,12 @@ public class Fragment_Ticket_list extends Fragment {
     private String mParam2;
     private DatabaseReference mDatabase;
     private RecyclerView ticketRecyclerView;
-//    private TicketAdapter ticketAdapter;
+    private TicketAdapter ticketAdapter;
     public ArrayList<Ticket> TicketList = new ArrayList<>();
     private Ticket getTicket;
     private String UID;
     private String ticket_Date;
+    private TicketDatabaseHandler db;
     public String strCurYear;
     public String strCurMonth;
     public String strCurDay;
@@ -58,7 +62,6 @@ public class Fragment_Ticket_list extends Fragment {
     private int YEAR;
     private int MONTH;
     private int DAY;
-    private TicketAdapter ticketAdapter;
 
     public Fragment_Ticket_list() {
         // Required empty public constructor
@@ -118,12 +121,11 @@ public class Fragment_Ticket_list extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment__ticket_list, container, false);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        db = new TicketDatabaseHandler(mDatabase);
         ticketRecyclerView = view.findViewById(R.id.ticketRecyclerView);
         Context ct = container.getContext();
 
-        ticketAdapter = new TicketAdapter(ct, UID);
-
-
+        ticketAdapter = new TicketAdapter(db, ct, UID);
 
         YEAR =  Integer.parseInt(strCurYear);
         MONTH =  Integer.parseInt(strCurMonth);
@@ -135,6 +137,7 @@ public class Fragment_Ticket_list extends Fragment {
         TextView arrivetitle = (TextView) view.findViewById(R.id.ArriveTitle);
 
         mDatabase.child("TICKET").child(UID).child(ticket_Date).addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ticketRecyclerView.removeAllViewsInLayout();
@@ -145,8 +148,25 @@ public class Fragment_Ticket_list extends Fragment {
                         getTicket = fileSnapshot.getValue(Ticket.class);
                         TicketList.add(getTicket);
                     }
-                    System.out.println(TicketList);
                 }
+                TicketList.sort(new Comparator<Ticket>() {
+                    @Override
+                    public int compare(Ticket o1, Ticket o2) {
+                        String[] departTime1 = o1.getDepart_time().split(":");
+                        String[] departTime2 = o2.getDepart_time().split(":");
+
+                        if (Integer.parseInt(departTime1[0]) == Integer.parseInt(departTime2[0])
+                                && Integer.parseInt(departTime1[1]) == Integer.parseInt(departTime2[1]))
+                            return 0;
+                        if (Integer.parseInt(departTime1[0]) >= Integer.parseInt(departTime2[0])
+                                && Integer.parseInt(departTime1[1]) >= Integer.parseInt(departTime2[1]))
+                            return 1;
+                        if (Integer.parseInt(departTime1[0]) <= Integer.parseInt(departTime2[0])
+                                && Integer.parseInt(departTime1[1]) <= Integer.parseInt(departTime2[1]))
+                            return -1;
+                        return 0;
+                    }
+                });
                 ticketAdapter.notifyDataSetChanged();
             }
             @Override

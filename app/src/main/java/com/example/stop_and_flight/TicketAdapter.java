@@ -11,15 +11,20 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.stop_and_flight.model.Ticket;
+
 import java.util.List;
 
 public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder> {
 
     private Context context;
     private List<Ticket> TicketList;
+    private TicketDatabaseHandler db;
     private String  UID;
 
-    public TicketAdapter(Context context, String UID) {
+    public TicketAdapter(TicketDatabaseHandler db, Context context, String UID) {
+        this.db = db;
         this.context = context;
         this.UID = UID;
     }
@@ -57,6 +62,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
 
     public void deleteItem(int position){
         Ticket item = TicketList.get(position);
+
         TicketList.remove(position);
         notifyDataSetChanged();
     }
