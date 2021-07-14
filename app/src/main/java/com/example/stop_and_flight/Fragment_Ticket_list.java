@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -120,12 +121,14 @@ public class Fragment_Ticket_list extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment__ticket_list, container, false);
+        Context ct = container.getContext();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         db = new TicketDatabaseHandler(mDatabase);
         ticketRecyclerView = view.findViewById(R.id.ticketRecyclerView);
-        Context ct = container.getContext();
-
         ticketAdapter = new TicketAdapter(db, ct, UID);
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerItemTouchHelper(ticketAdapter));
+        itemTouchHelper.attachToRecyclerView(ticketRecyclerView);
 
         YEAR =  Integer.parseInt(strCurYear);
         MONTH =  Integer.parseInt(strCurMonth);
