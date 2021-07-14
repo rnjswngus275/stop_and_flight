@@ -73,21 +73,39 @@
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="@color/black" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/GateSeat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:textStyle="bold"
-                android:textSize="15dp"
-                android:text="SEAT : NO1 GATE : 6"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                android:textColor="@color/black" />
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="1dp"
                 android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_airline_seat_recline_normal_24" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/GateSeat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:textStyle="bold"
+                    android:textSize="15dp"
+                    android:text="SEAT : NO1 GATE : 6"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="1dp"
+
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_flight_takeoff_24" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -113,7 +131,13 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="1dp"
                 android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_flight_land_24" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -121,7 +145,7 @@
                     android:paddingLeft="10dp"
                     android:textStyle="bold"
                     android:textSize="15dp"
-                    android:text="ARRIVE : "
+                    android:text="  A R R I V E  : "
                     android:textColor="@color/black" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -152,11 +176,8 @@
                 android:id="@+id/user_image"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:paddingLeft="30dp"
-                android:paddingTop="30dp"
-                android:paddingRight="30dp"
-                android:paddingBottom="10dp"
-                app:srcCompat="@drawable/intro" />
+
+                app:srcCompat="@drawable/ic_baseline_local_airport_24" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/user_name"
