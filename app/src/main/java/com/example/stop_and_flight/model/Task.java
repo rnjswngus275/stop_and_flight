@@ -12,7 +12,7 @@ public class Task {
     private int id;
     private String task;
     public ArrayList<Task> todo;
-    public Map<String, Boolean> stars = new HashMap<>();
+    private Map<String, Boolean> stars = new HashMap<>();
 
     public ArrayList<Task> getTodo() {
         return todo;

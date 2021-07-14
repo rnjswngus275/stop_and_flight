@@ -1,6 +1,7 @@
 package com.example.stop_and_flight;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,10 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.stop_and_flight.fragment.SelectTodoFragment;
+import com.example.stop_and_flight.fragment.TicketingFragment;
 import com.example.stop_and_flight.model.Ticket;
+import com.vipulasri.ticketview.TicketView;
 
 import java.util.List;
 
@@ -45,6 +49,11 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         holder.CountryTitle.setText(item.getTodo());
         holder.DepartTitle.setText(item.getDepart_time());
         holder.ArriveTitle.setText(item.getArrive_time());
+        if (item.getWait().equals("false"))
+        {
+            holder.ticketView.setBackgroundBeforeDivider(Drawable.createFromPath("@color/shadow"));
+            holder.ticketView.setBackgroundAfterDivider(Drawable.createFromPath("@color/shadow"));
+        }
     }
 
     public  int getItemCount(){
@@ -62,20 +71,20 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
 
     public void deleteItem(int position){
         Ticket item = TicketList.get(position);
-
+        db.delete_ticketDB(UID, item.getDate(), item);
         TicketList.remove(position);
         notifyDataSetChanged();
     }
 
 
     public void editItem(int position){
-        FragmentManager manager = getActivity().getSupportFragmentManager();
         Ticket item = TicketList.get(position);
         Bundle bundle = new Bundle();
-        bundle.putInt("id", item.getId());
+        bundle.putInt("Id", item.getId());
         bundle.putString("Todo", item.getTodo());
         bundle.putString("Depart_time", item.getDepart_time());
         bundle.putString("Arrive_time", item.getArrive_time());
+        ((MainActivity) getActivity()).replaceFragment(TicketingFragment.newInstance("update", null, bundle));
 
     }
 
@@ -90,10 +99,12 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         public TextView user_name;
         public TextView user_class;
         public ImageView user_image;
+        public TicketView ticketView;
         public Ticket refferalItem;
 
         ViewHolder(View view){
             super(view);
+            ticketView = view.findViewById(R.id.ticketView);
             CountryTitle = view.findViewById(R.id.CountryTitle);
             DepartTitle = view.findViewById(R.id.DepartTitle);
             ArriveTitle = view.findViewById(R.id.ArriveTitle);

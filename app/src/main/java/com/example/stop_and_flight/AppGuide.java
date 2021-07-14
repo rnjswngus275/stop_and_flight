@@ -1,6 +1,5 @@
 package com.example.stop_and_flight;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -16,6 +15,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
+
+import com.example.stop_and_flight.fragment.AppGuideFragment1;
+import com.example.stop_and_flight.fragment.AppGuideFragment2;
 
 import java.util.List;
 

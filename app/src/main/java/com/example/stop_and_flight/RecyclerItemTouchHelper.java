@@ -24,9 +24,9 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
         this.adapter = adapter;
     }
 
-    public RecyclerItemTouchHelper(TicketAdapter adapter){
+    public RecyclerItemTouchHelper(TicketAdapter ticketadapter){
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
-        this.ticketadapter = adapter;
+        this.ticketadapter = ticketadapter;
     }
 
     @Override
@@ -51,11 +51,11 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
         else if (ticketadapter != null)
         {
             if(direction == ItemTouchHelper.LEFT) {
-//                ticketadapter.deleteItem(position);
+                ticketadapter.deleteItem(position);
                 ticketadapter.notifyItemChanged(viewHolder.getAdapterPosition());
             }
             else {
-//                ticketadapter.editItem(position);
+                ticketadapter.editItem(position);
                 ticketadapter.notifyItemChanged(viewHolder.getAdapterPosition());
             }
         }

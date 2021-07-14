@@ -12,8 +12,8 @@ public class Ticket {
     private String arrive_time;
     private String date;
     private String todo;
-    private int id;
     private String wait;
+    private int id;
     private Map<String, Boolean> stars = new HashMap<>();
 
     public Ticket() {
@@ -21,15 +21,16 @@ public class Ticket {
         this.arrive_time = null;
         this.date = null;
         this.todo = null;
-        id = 0;
-        wait = "ture";
+        this.id = 0;
+        this.wait = "ture";
     }
 
-    public Ticket(String depart_time, String arrive_time, String todo, int id) {
+    public Ticket(String depart_time, String arrive_time, String todo, int id, String wait) {
         this.depart_time = depart_time;
         this.arrive_time = arrive_time;
         this.todo = todo;
         this.id = id;
+        this.wait = wait;
     }
 
     public String getDate() {
@@ -88,14 +89,6 @@ public class Ticket {
         this.depart_time = depart_time;
     }
 
-    public Ticket(String depart_time, String arrive_time, String todo, int id, String wait) {
-        this.depart_time = depart_time;
-        this.arrive_time = arrive_time;
-        this.todo = todo;
-        this.id = id;
-        this.wait = wait;
-    }
-
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
@@ -103,7 +96,7 @@ public class Ticket {
         result.put("arrive_time", arrive_time);
         result.put("id", id);
         result.put("wait", wait);
-        result.put("Todo", todo);
+        result.put("todo", todo);
         result.put("stars", stars);
 
         return result;

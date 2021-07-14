@@ -167,7 +167,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="23dp"
             android:orientation="vertical"
-            android:gravity="center"
+            android:layout_gravity="center"
             app:layout_constraintBottom_toBottomOf="@+id/ticketView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -176,7 +176,6 @@
                 android:id="@+id/user_image"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-
                 app:srcCompat="@drawable/ic_baseline_local_airport_24" />
 
             <androidx.appcompat.widget.AppCompatTextView

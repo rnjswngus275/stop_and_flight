@@ -14,25 +14,25 @@ public class TicketDatabaseHandler {
         this.mDatabase = mDatabase;
     }
 
-    private void insert_ticketDB(String uid, String date, Ticket ticket)
+    public void insert_ticketDB(String uid, String date, Ticket ticket)
     {
-        mDatabase.child("Ticket").child(uid).child(date).child(Integer.toString(ticket.getId())).setValue(ticket);
+        mDatabase.child("TICKET").child(uid).child(date).child(Integer.toString(ticket.getId())).setValue(ticket);
     }
 
-    private void update_ticketDB(String uid, String date, String depart_time, String arrive_time, String Todo, int id)
+    public void update_ticketDB(String uid, String date, String depart_time, String arrive_time, String Todo, int id)
     {
-        String key = mDatabase.child("Ticket").child(uid).child(date).child(Integer.toString(id)).getKey();
-        Ticket ticket = new Ticket(depart_time, arrive_time, Todo, id);
+        String key = mDatabase.child("TICKET").child(uid).child(date).child(Integer.toString(id)).getKey();
+        Ticket ticket = new Ticket(depart_time, arrive_time, Todo, id, "true");
 
         Map<String, Object> Values = ticket.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
 
-        childUpdates.put("/TASK/" + uid + "/" + date + "/"+ key, Values);
+        childUpdates.put("/TICKET/" + uid + "/" + date + "/"+ key, Values);
         mDatabase.updateChildren(childUpdates);
     }
 
-    private void delete_ticketDB(String uid, String date, Ticket ticket)
+    public void delete_ticketDB(String uid, String date, Ticket ticket)
     {
-        mDatabase.child("Ticket").child(uid).child(date).child(Integer.toString(ticket.getId())).removeValue();
+        mDatabase.child("TICKET").child(uid).child(date).child(Integer.toString(ticket.getId())).removeValue();
     }
 }

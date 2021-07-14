@@ -1,4 +1,4 @@
-package com.example.stop_and_flight;
+package com.example.stop_and_flight.fragment;
 
 import android.content.Context;
 import android.os.Build;
@@ -17,6 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.stop_and_flight.R;
+import com.example.stop_and_flight.RecyclerItemTouchHelper;
+import com.example.stop_and_flight.TicketAdapter;
+import com.example.stop_and_flight.TicketDatabaseHandler;
 import com.example.stop_and_flight.model.Ticket;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,10 +38,10 @@ import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Fragment_Ticket_list#newInstance} factory method to
+ * Use the {@link TicketListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Fragment_Ticket_list extends Fragment {
+public class TicketListFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -64,7 +68,7 @@ public class Fragment_Ticket_list extends Fragment {
     private int MONTH;
     private int DAY;
 
-    public Fragment_Ticket_list() {
+    public TicketListFragment() {
         // Required empty public constructor
     }
 
@@ -77,8 +81,8 @@ public class Fragment_Ticket_list extends Fragment {
      * @return A new instance of fragment Fragment_Ticket_list.
      */
     // TODO: Rename and change types and number of parameters
-    public static Fragment_Ticket_list newInstance(String param1, String param2) {
-        Fragment_Ticket_list fragment = new Fragment_Ticket_list();
+    public static TicketListFragment newInstance(String param1, String param2) {
+        TicketListFragment fragment = new TicketListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -149,6 +153,7 @@ public class Fragment_Ticket_list extends Fragment {
                     if (fileSnapshot != null) {
                         getTicket = new Ticket();
                         getTicket = fileSnapshot.getValue(Ticket.class);
+                        getTicket.setDate(ticket_Date);
                         TicketList.add(getTicket);
                     }
                 }
@@ -157,7 +162,6 @@ public class Fragment_Ticket_list extends Fragment {
                     public int compare(Ticket o1, Ticket o2) {
                         String[] departTime1 = o1.getDepart_time().split(":");
                         String[] departTime2 = o2.getDepart_time().split(":");
-
                         if (Integer.parseInt(departTime1[0]) == Integer.parseInt(departTime2[0])
                                 && Integer.parseInt(departTime1[1]) == Integer.parseInt(departTime2[1]))
                             return 0;

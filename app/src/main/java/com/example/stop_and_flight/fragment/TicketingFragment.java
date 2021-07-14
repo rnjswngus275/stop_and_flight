@@ -1,4 +1,4 @@
-package com.example.stop_and_flight;
+package com.example.stop_and_flight.fragment;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
@@ -21,6 +21,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.stop_and_flight.AlarmReceiver;
+import com.example.stop_and_flight.MainActivity;
+import com.example.stop_and_flight.R;
+import com.example.stop_and_flight.TicketDatabaseHandler;
 import com.example.stop_and_flight.model.Ticket;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -52,6 +56,7 @@ public class TicketingFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private String Todo = null;
     private String UID;
     private AlarmManager AM;
     private PendingIntent ServicePending;
@@ -62,7 +67,10 @@ public class TicketingFragment extends Fragment {
     private int MONTH;
     private int DAY;
     private int flag = 1;
-    private int num = 0;
+    private int id = 0;
+    private int updateId;
+    private String updateDepart;
+    private String updateArrive;
     private String ticket_Date;
     public String strCurYear;
     public String strCurMonth;
@@ -87,11 +95,12 @@ public class TicketingFragment extends Fragment {
      * @return A new instance of fragment Ticketing_Fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TicketingFragment newInstance(String param1, String param2) {
+    public static TicketingFragment newInstance(String param1, String param2, Bundle ticket) {
         TicketingFragment fragment = new TicketingFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
+        args.putBundle("ticket", ticket);
         fragment.setArguments(args);
         return fragment;
     }
@@ -107,6 +116,14 @@ public class TicketingFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            if (getArguments().getBundle("ticket") != null)
+                Todo = getArguments().getBundle("ticket").getString("Todo");
+            if (mParam1 != null)
+            {
+                updateId = getArguments().getBundle("ticket").getInt("Id");
+                updateDepart = getArguments().getBundle("ticket").getString("Depart_time");
+                updateArrive = getArguments().getBundle("ticket").getString("Arrive_time");
+            }
         }
 
         /* 현재 시간과 날짜를 받아오는 부분 */
@@ -146,13 +163,16 @@ public class TicketingFragment extends Fragment {
         select_todo_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).replaceFragment(SelectTodoFragment.newInstance(null, null));
+                if (mParam1 != null)
+                    ((MainActivity) getActivity()).replaceFragment(SelectTodoFragment.newInstance(mParam1, null, getArguments().getBundle("ticket")));
+                else
+                    ((MainActivity) getActivity()).replaceFragment(SelectTodoFragment.newInstance(null, null, null));
             }
         });
 
-        if (mParam1 != null)
+        if (Todo != null)
         {
-            select_todo_button.setText(mParam1);
+            select_todo_button.setText(Todo);
         }
 
         YEAR =  Integer.parseInt(strCurYear);
@@ -234,13 +254,17 @@ public class TicketingFragment extends Fragment {
 
                         String depart = String.valueOf(TicketMap.get("depart_time"));
                         String arrive = String.valueOf(TicketMap.get("arrive_time"));
-                        num = Integer.parseInt(String.valueOf(TicketMap.get("id")));
+                        id = Integer.parseInt(String.valueOf(TicketMap.get("id")));
                         String[] depart_arr = depart.split(":");
                         String[] arrive_arr = arrive.split(":");
 
-                        if (Integer.parseInt(depart_arr[0]) > arrive_hour || (Integer.parseInt(depart_arr[0]) == arrive_hour && Integer.parseInt(depart_arr[1]) > arrive_min))
+                        if (Integer.parseInt(depart_arr[0]) > arrive_hour ||
+                                (Integer.parseInt(depart_arr[0]) == arrive_hour &&
+                                        Integer.parseInt(depart_arr[1]) > arrive_min))
                             continue;
-                        else if (Integer.parseInt(arrive_arr[0]) < depart_hour || (Integer.parseInt(arrive_arr[0]) == depart_hour && Integer.parseInt(arrive_arr[1]) < depart_min))
+                        else if (Integer.parseInt(arrive_arr[0]) < depart_hour ||
+                                (Integer.parseInt(arrive_arr[0]) == depart_hour &&
+                                        Integer.parseInt(arrive_arr[1]) < depart_min))
                             continue;
                         else {
                             flag = 1;
@@ -266,11 +290,22 @@ public class TicketingFragment extends Fragment {
 
     private void time_Validity(int depart_hour , int depart_min, int arrive_hour, int arrive_min)
     {
+        TicketDatabaseHandler db = new TicketDatabaseHandler(mDatabase);
+        if (Todo == null)
+            Todo = "default";
         if (depart_hour > 12 && arrive_hour < 12)
         {
             String depart_time =  depart_hour + ":" + depart_min;
             String arrive_time =  arrive_hour + ":" + arrive_min;
-            insert_TicketDB(depart_time, arrive_time, mParam1, ticket_Date);
+            Ticket ticket = new Ticket(depart_time, arrive_time, Todo, ++id , "true");
+
+            if (mParam1 != null)
+            {
+                db.update_ticketDB(UID, ticket_Date, depart_time, arrive_time, Todo, updateId);
+                ((MainActivity) getActivity()).replaceFragment(TicketListFragment.newInstance(null, null));
+            }
+            else
+                db.insert_ticketDB(UID, ticket_Date, ticket);
             onDestroy();
         }
         else
@@ -279,21 +314,21 @@ public class TicketingFragment extends Fragment {
             {
                 String depart_time =  depart_hour + ":" + depart_min;
                 String arrive_time =  arrive_hour + ":" + arrive_min;
-                insert_TicketDB(depart_time, arrive_time, mParam1, ticket_Date);
+                Ticket ticket = new Ticket(depart_time, arrive_time, Todo, ++id , "true");
+
+                if (mParam1 != null)
+                {
+                    db.update_ticketDB(UID, ticket_Date, depart_time, arrive_time, Todo, updateId);
+                    ((MainActivity) getActivity()).replaceFragment(TicketListFragment.newInstance(null, null));
+                }
+                else
+                    db.insert_ticketDB(UID, ticket_Date, ticket);
                 onDestroy();
             }
             else {
                 Toast.makeText(getContext(), "출발 시간이 도착 시간 보다 빨라야 합니다.", Toast.LENGTH_SHORT).show();
             }
         }
-    }
-
-
-    private void insert_TicketDB(String depart_time, String arrive_time, String todo, String ticket_date) {
-        if (todo == null)
-            todo = "default";
-        Ticket ticket = new Ticket(depart_time, arrive_time, todo, ++num , "true");
-        mDatabase.child("TICKET").child(UID).child(ticket_date).child(String.valueOf(num)).setValue(ticket);
     }
 
     @Override
@@ -331,7 +366,7 @@ public class TicketingFragment extends Fragment {
 
 //        cal.setTime(datetime);
         //Receiver로 보내기 위한 인텐트
-        Intent intent_alarm = new Intent(mContext,AlarmReceiver.class);
+        Intent intent_alarm = new Intent(mContext, AlarmReceiver.class);
 
         ServicePending = PendingIntent.getBroadcast(
                 mContext, 0, intent_alarm, PendingIntent.FLAG_ONE_SHOT);

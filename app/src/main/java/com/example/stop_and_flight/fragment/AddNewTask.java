@@ -1,4 +1,4 @@
-package com.example.stop_and_flight;
+package com.example.stop_and_flight.fragment;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -15,6 +15,10 @@ import android.widget.EditText;
 
 import androidx.core.content.ContextCompat;
 
+import com.example.stop_and_flight.DialogCloseListener;
+import com.example.stop_and_flight.R;
+import com.example.stop_and_flight.TaskDatabaseHandler;
+import com.example.stop_and_flight.TodoDatabaseHandler;
 import com.example.stop_and_flight.model.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.database.DatabaseReference;
