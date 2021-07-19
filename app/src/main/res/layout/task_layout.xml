@@ -20,7 +20,8 @@
             android:textStyle="bold"
             android:textColor="@android:color/black"
             android:paddingStart="8dp"
-            android:backgroundTint="@android:color/background_light" />
+            android:backgroundTint="@android:color/background_light"
+            />
         <ImageView
             android:id="@+id/btn_expand_toggle"
             android:layout_width="wrap_content"

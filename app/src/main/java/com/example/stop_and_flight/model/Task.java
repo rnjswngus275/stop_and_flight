@@ -1,10 +1,9 @@
-package com.example.stop_and_flight;
+package com.example.stop_and_flight.model;
 
 import com.google.firebase.database.Exclude;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Task {
@@ -12,9 +11,8 @@ public class Task {
     private int parent_id;
     private int id;
     private String task;
-    private int todo_size;
     public ArrayList<Task> todo;
-    public Map<String, Boolean> stars = new HashMap<>();
+    private Map<String, Boolean> stars = new HashMap<>();
 
     public ArrayList<Task> getTodo() {
         return todo;

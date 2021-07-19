@@ -1,4 +1,6 @@
-package com.example.stop_and_flight;
+package com.example.stop_and_flight.model;
+
+import androidx.core.app.NavUtils;
 
 import com.google.firebase.database.Exclude;
 
@@ -8,13 +10,35 @@ import java.util.Map;
 public class Ticket {
     private String depart_time;
     private String arrive_time;
-    private String goal;
-    private int id;
+    private String date;
+    private String todo;
     private String wait;
+    private int id;
     private Map<String, Boolean> stars = new HashMap<>();
 
     public Ticket() {
-        // Default constructor required for calls to DataSnapshot.getValue(Post.class)
+        this.depart_time = null;
+        this.arrive_time = null;
+        this.date = null;
+        this.todo = null;
+        this.id = 0;
+        this.wait = "ture";
+    }
+
+    public Ticket(String depart_time, String arrive_time, String todo, int id, String wait) {
+        this.depart_time = depart_time;
+        this.arrive_time = arrive_time;
+        this.todo = todo;
+        this.id = id;
+        this.wait = wait;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getArrive_time() {
@@ -25,12 +49,12 @@ public class Ticket {
         this.arrive_time = arrive_time;
     }
 
-    public String getGoal() {
-        return goal;
+    public String getTodo() {
+        return todo;
     }
 
-    public void setGoal(String goal) {
-        this.goal = goal;
+    public void setTodo(String todo) {
+        this.todo = todo;
     }
 
     public int getId() {
@@ -65,14 +89,6 @@ public class Ticket {
         this.depart_time = depart_time;
     }
 
-    public Ticket(String depart_time, String arrive_time, String goal, int id, String wait) {
-        this.depart_time = depart_time;
-        this.arrive_time = arrive_time;
-        this.goal = goal;
-        this.id = id;
-        this.wait = wait;
-    }
-
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
@@ -80,7 +96,7 @@ public class Ticket {
         result.put("arrive_time", arrive_time);
         result.put("id", id);
         result.put("wait", wait);
-        result.put("goal", goal);
+        result.put("todo", todo);
         result.put("stars", stars);
 
         return result;

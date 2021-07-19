@@ -16,7 +16,7 @@
             android:id="@+id/TodoSelectRecyclerText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="this is an Sample Task Task inside the application"
+            android:text="this is an Sample Task inside the application"
             android:textStyle="bold"
             android:textColor="@android:color/black"
             android:paddingStart="8dp"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,93 +8,67 @@
     android:orientation="vertical"
     tools:context=".AppGuide">
 
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="245dp"
-        android:layout_height="wrap_content"
-
-        android:text="스탑 앤 플라이트는"
-        android:textSize="30sp"
-        android:textStyle="bold" />
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="476dp"
-        android:orientation="vertical">
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/pager"
-            android:layout_width="match_parent"
-            android:layout_height="415dp"
-            android:background="#FFFFFF" />
-
-        <me.relex.circleindicator.CircleIndicator
-            android:id="@+id/indicator"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_gravity="bottom"
-            app:ci_drawable="@drawable/black_indicator"
-            app:ci_height="5pt"
-            app:ci_width="5pt" />
-    </LinearLayout>
-
-
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="299dp"
-            android:layout_height="40dp"
-            android:layout_marginBottom="22dp"
-            android:text="가입하기"
-            android:layout_gravity="center"
-            app:cornerRadius="20dp"
-            app:backgroundTint=" #769fcd" />
-
-        <LinearLayout
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_weight="0.05"
+            android:background="#FFFFFF" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="54dp"
-                android:layout_height="match_parent">
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="131dp"
-                android:layout_height="36dp"
-
-                android:gravity="center"
-                android:text="회원이신가요?"
-                android:textSize="18dp" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <Button
-                android:id="@+id/go_login"
-                android:layout_width="171dp"
-                android:layout_height="wrap_content"
-                android:text="로그인하러 가기"
-                app:cornerRadius="20dp"
-                app:backgroundTint="#4A82C1" />
-
-        </LinearLayout>
-
-
+        <me.relex.circleindicator.CircleIndicator
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+            app:ci_drawable="@drawable/black_indicator"
+            app:ci_height="3pt"
+            app:ci_width="3pt" />
     </LinearLayout>
 
-</LinearLayout>
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="299dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:text="가입하기"
+        app:backgroundTint=" #769fcd"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="131dp"
+            android:layout_height="36dp"
+            android:gravity="center"
+            android:text="회원이신가요?"
+            android:textSize="18dp" />
+
+        <Button
+            android:id="@+id/go_login"
+            android:layout_width="171dp"
+            android:layout_height="wrap_content"
+            android:text="로그인하러 가기"
+            app:backgroundTint="#4A82C1"
+            app:cornerRadius="20dp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,6 +17,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.stop_and_flight.fragment.TicketListFragment;
+import com.example.stop_and_flight.fragment.TaskFragment;
+import com.example.stop_and_flight.fragment.TicketingFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,17 +36,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Bundle bundle = new Bundle();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            bundle.putString("UID", user.getUid());
-            bundle.putString("name", user.getDisplayName());
-            bundle.putString("email", user.getEmail());
-            Toast.makeText(context, "사용자의 정보를 가져오기를 성공했습니다.", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Toast.makeText(context, "사용자의 정보를 가져오기를 실패했습니다.", Toast.LENGTH_SHORT).show();
-        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -53,13 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager(); //fragment 매니저
         //fragment 객체 생성
-
-        Fragment_Ticket_list ticket_list = new Fragment_Ticket_list();
+        TicketListFragment ticket_list = new TicketListFragment();
         TicketingFragment ticketing_fragment = new TicketingFragment();
         TaskFragment taskFragment = new TaskFragment();
         PassportFragment passportFragment =  new PassportFragment();
-
-        //<div>아이콘 제작자 <a href="https://www.flaticon.com/kr/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/kr/" title="Flaticon">www.flaticon.com</a></div>
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -82,16 +72,12 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                 } else if (id == R.id.menu3) {
                     fragmentTransaction.replace(R.id.container, ticket_list).addToBackStack(null).commitAllowingStateLoss();
-                    ticket_list.setArguments(bundle);
                 } else if (id == R.id.menu4) {
                     fragmentTransaction.replace(R.id.container, ticketing_fragment).addToBackStack(null).commitAllowingStateLoss();
-                    ticketing_fragment.setArguments(bundle);
                 } else if (id == R.id.menu5) {
                     fragmentTransaction.replace(R.id.container, taskFragment).addToBackStack(null).commitAllowingStateLoss();
-                    taskFragment.setArguments(bundle);
                 } else if (id == R.id.menu6) {
                     fragmentTransaction.replace(R.id.container, passportFragment).addToBackStack(null).commitAllowingStateLoss();
-                    passportFragment.setArguments(bundle);
                 } else if (id == R.id.menu8) {
                     Intent intent = new Intent(MainActivity.this, FilghtActivity.class);
                     startActivity(intent);
