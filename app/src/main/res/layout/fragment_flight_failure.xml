@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_1"
+    android:id="@+id/fragment_flight_failure"
+    tools:context=".FlightFailureFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <ImageView
+            android:layout_width="450dp"
+            android:layout_height="260dp"
+            android:paddingBottom="16dp"
+            android:src="@drawable/globe" />
+
+        <TextView
+            android:id="@+id/txt_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="비행 성공률이"
+            android:paddingBottom="16dp"/>
+
+        <TextView
+            android:id="@+id/TextFailureRate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="50dp"
+            />
+
+        <TextView
+            android:id="@+id/txt_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="감소했습니다."
+            android:paddingBottom="16dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnOk"
+            android:layout_gravity="center"
+            android:background="@drawable/radius"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#769FCD"
+            android:text="확인" />
+
+    </LinearLayout>
+
+</LinearLayout>
