@@ -20,6 +20,7 @@
             android:layout_alignLeft="@+id/todoRecyclerText"
             android:src="@drawable/ic_baseline_chevron_right_24"
             ></ImageView>
+
         <TextView
             android:id="@+id/todoRecyclerText"
             android:layout_width="match_parent"
