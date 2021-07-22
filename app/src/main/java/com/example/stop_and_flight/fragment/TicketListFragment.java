@@ -59,6 +59,7 @@ public class TicketListFragment extends Fragment {
     private String UID;
     private String ticket_Date;
     private TicketDatabaseHandler db;
+    public static final int REFRESH_DELAY = 2000;
     public String strCurYear;
     public String strCurMonth;
     public String strCurDay;

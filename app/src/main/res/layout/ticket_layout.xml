@@ -145,7 +145,7 @@
                     android:paddingLeft="10dp"
                     android:textStyle="bold"
                     android:textSize="15dp"
-                    android:text="  A R R I V E  : "
+                    android:text=" A R R I V E   : "
                     android:textColor="@color/black" />
 
                 <androidx.appcompat.widget.AppCompatTextView

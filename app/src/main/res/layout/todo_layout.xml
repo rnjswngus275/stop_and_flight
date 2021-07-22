@@ -13,12 +13,19 @@
         android:background="#BFDEF6"
         android:padding="8dp">
 
+        <ImageView
+            android:id="@+id/todoicon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/todoRecyclerText"
+            android:src="@drawable/ic_baseline_chevron_right_24"
+            ></ImageView>
         <TextView
             android:id="@+id/todoRecyclerText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/background_light"
-            android:paddingStart="8dp"
+            android:paddingStart="20dp"
             android:text="this is an Sample Task Task inside the application" />
 
     </RelativeLayout>

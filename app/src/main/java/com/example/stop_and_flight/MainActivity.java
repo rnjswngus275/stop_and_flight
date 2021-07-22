@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         TicketListFragment ticket_list = new TicketListFragment();
         TicketingFragment ticketing_fragment = new TicketingFragment();
         TaskFragment taskFragment = new TaskFragment();
-        PassportFragment passportFragment =  new PassportFragment();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -76,8 +75,6 @@ public class MainActivity extends AppCompatActivity {
                     fragmentTransaction.replace(R.id.container, ticketing_fragment).addToBackStack(null).commitAllowingStateLoss();
                 } else if (id == R.id.menu5) {
                     fragmentTransaction.replace(R.id.container, taskFragment).addToBackStack(null).commitAllowingStateLoss();
-                } else if (id == R.id.menu6) {
-                    fragmentTransaction.replace(R.id.container, passportFragment).addToBackStack(null).commitAllowingStateLoss();
                 } else if (id == R.id.menu8) {
                     Intent intent = new Intent(MainActivity.this, FilghtActivity.class);
                     startActivity(intent);
