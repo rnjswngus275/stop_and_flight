@@ -15,18 +15,19 @@
 
         <ImageView
             android:id="@+id/todoicon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/todoRecyclerText"
-            android:src="@drawable/ic_baseline_chevron_right_24"
-            ></ImageView>
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/decrease" ></ImageView>
 
         <TextView
             android:id="@+id/todoRecyclerText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_toEndOf="@+id/todoicon"
+            android:layout_centerVertical="true"
             android:backgroundTint="@android:color/background_light"
-            android:paddingStart="20dp"
             android:text="this is an Sample Task Task inside the application" />
 
     </RelativeLayout>

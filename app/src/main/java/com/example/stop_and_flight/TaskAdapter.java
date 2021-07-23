@@ -103,13 +103,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                 break;
             case CHILD:
                 holder.sub_title.setText(taskList.get(position).getTask());
-                holder.sub_title.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        holder.sub_title.setPaintFlags(holder.sub_title.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
-                        return false;
-                    }
-                });
                 break;
         }
     }

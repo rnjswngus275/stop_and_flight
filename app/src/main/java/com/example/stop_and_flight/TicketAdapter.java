@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.stop_and_flight.fragment.SelectTodoFragment;
 import com.example.stop_and_flight.fragment.TicketingFragment;
 import com.example.stop_and_flight.model.Ticket;
+import com.github.vipulasri.timelineview.TimelineView;
 import com.vipulasri.ticketview.TicketView;
 
 import java.util.List;
@@ -38,7 +40,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView = inflater.from(parent.getContext()).inflate(R.layout.ticket_layout, parent, false);
-        ViewHolder header = new ViewHolder(itemView);
+        ViewHolder header = new ViewHolder(itemView, viewType);
         return header;
     }
 
@@ -47,13 +49,31 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         final Ticket item = TicketList.get(position);
         holder.refferalItem = item;
         holder.CountryTitle.setText(item.getTodo());
-        holder.DepartTitle.setText(item.getDepart_time());
-        holder.ArriveTitle.setText(item.getArrive_time());
+        holder.DepartTitle.setText(formatAmPm(item.getDepart_time()));
+        holder.ArriveTitle.setText(formatAmPm(item.getArrive_time()));
+
         if (item.getWait().equals("false"))
         {
             holder.ticketView.setBackgroundBeforeDivider(Drawable.createFromPath("@color/shadow"));
             holder.ticketView.setBackgroundAfterDivider(Drawable.createFromPath("@color/shadow"));
         }
+    }
+
+    public String formatAmPm(String date)
+    {
+        String[] date_arr = date.split(":");
+        String date_set;
+        if (Integer.parseInt(date_arr[0]) < 12)
+            date_set = "AM 0" + date_arr[0];
+        else if(Integer.parseInt(date_arr[0]) / 12 < 10)
+            date_set = "PM 0" + Integer.parseInt(date_arr[0]) / 12;
+        else
+            date_set = "PM " + Integer.parseInt(date_arr[0]) / 12;
+        if (Integer.parseInt(date_arr[1]) < 10)
+            date_set = date_set + ":0" + date_arr[1];
+        else
+            date_set = date_set +":" + date_arr[1];
+        return date_set;
     }
 
     public  int getItemCount(){
@@ -76,6 +96,10 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return TimelineView.getTimeLineViewType(position, getItemCount());
+    }
 
     public void editItem(int position){
         Ticket item = TicketList.get(position);
@@ -101,8 +125,10 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         public ImageView user_image;
         public TicketView ticketView;
         public Ticket refferalItem;
+        public TimelineView mTimelineView;
 
-        ViewHolder(View view){
+
+        ViewHolder(View view, int viewType){
             super(view);
             ticketView = view.findViewById(R.id.ticketView);
             CountryTitle = view.findViewById(R.id.CountryTitle);
@@ -111,6 +137,8 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
             user_name = view.findViewById(R.id.user_name);
             user_class = view.findViewById(R.id.user_class);
             user_image = view.findViewById(R.id.user_image);
+            mTimelineView = (TimelineView) itemView.findViewById(R.id.timeline);
+            mTimelineView.initLine(viewType);
         }
 
     }

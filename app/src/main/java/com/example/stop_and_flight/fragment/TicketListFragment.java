@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,6 +54,7 @@ public class TicketListFragment extends Fragment {
     private String mParam2;
     private DatabaseReference mDatabase;
     private RecyclerView ticketRecyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private TicketAdapter ticketAdapter;
     public ArrayList<Ticket> TicketList = new ArrayList<>();
     private Ticket getTicket;
@@ -131,6 +133,55 @@ public class TicketListFragment extends Fragment {
         db = new TicketDatabaseHandler(mDatabase);
         ticketRecyclerView = view.findViewById(R.id.ticketRecyclerView);
         ticketAdapter = new TicketAdapter(db, ct, UID);
+
+
+        swipeRefreshLayout = view.findViewById(R.id.swipeTicketContainer);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mDatabase.child("TICKET").child(UID).child(ticket_Date).addValueEventListener(new ValueEventListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        ticketRecyclerView.removeAllViewsInLayout();
+                        TicketList.clear();
+                        for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
+                            if (fileSnapshot != null) {
+                                getTicket = new Ticket();
+                                getTicket = fileSnapshot.getValue(Ticket.class);
+                                getTicket.setDate(ticket_Date);
+                                TicketList.add(getTicket);
+                            }
+                        }
+                        TicketList.sort(new Comparator<Ticket>() {
+                            @Override
+                            public int compare(Ticket o1, Ticket o2) {
+                                String[] departTime1 = o1.getDepart_time().split(":");
+                                String[] departTime2 = o2.getDepart_time().split(":");
+                                if (Integer.parseInt(departTime1[0]) == Integer.parseInt(departTime2[0])
+                                        && Integer.parseInt(departTime1[1]) == Integer.parseInt(departTime2[1]))
+                                    return 0;
+                                if (Integer.parseInt(departTime1[0]) >= Integer.parseInt(departTime2[0])
+                                        && Integer.parseInt(departTime1[1]) >= Integer.parseInt(departTime2[1]))
+                                    return 1;
+                                if (Integer.parseInt(departTime1[0]) <= Integer.parseInt(departTime2[0])
+                                        && Integer.parseInt(departTime1[1]) <= Integer.parseInt(departTime2[1]))
+                                    return -1;
+                                return 0;
+                            }
+                        });
+                        ticketAdapter.notifyDataSetChanged();
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
+                    }
+                });
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerItemTouchHelper(ticketAdapter));
         itemTouchHelper.attachToRecyclerView(ticketRecyclerView);
