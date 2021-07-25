@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -144,6 +145,15 @@ public class TicketingFragment extends Fragment {
         TimePicker depart_time = (TimePicker)view.findViewById(R.id.depart_time);
         TimePicker arrive_time = (TimePicker)view.findViewById(R.id.arrive_time);
         Button ticketing_button = (Button) view.findViewById(R.id.ticketing_button);
+
+        CheckBox monday=(CheckBox)view.findViewById(R.id.Mon_button);
+        CheckBox tuesday=(CheckBox)view.findViewById(R.id.Tues_button);
+        CheckBox wedday=(CheckBox)view.findViewById(R.id.Wed_button);
+        CheckBox thursday=(CheckBox)view.findViewById(R.id.Thurs_button);
+        CheckBox friday=(CheckBox)view.findViewById(R.id.Fri_button);
+        CheckBox satday=(CheckBox)view.findViewById(R.id.Sat_button);
+        CheckBox sunday=(CheckBox)view.findViewById(R.id.Sun_button);
+
 
         select_todo_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -336,7 +346,7 @@ public class TicketingFragment extends Fragment {
 //        cal.set(Calendar.MINUTE, dptm);
 //        cal.set(Calendar.SECOND, 0);
 
-        cal.set(YEAR,MONTH,DAY,dpth,dptm);
+        cal.set(YEAR,MONTH-1,DAY,dpth,dptm);
         System.out.println(cal.getTime()+"확인 cal에 셋된시간");
 
 

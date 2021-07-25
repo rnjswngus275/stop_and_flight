@@ -142,14 +142,14 @@
                 android:text="금" />
 
             <CheckBox
-                android:id="@+id/Set_button"
+                android:id="@+id/Sat_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="토" />
 
             <CheckBox
-                android:id="@+id/radioButton7"
+                android:id="@+id/Sun_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

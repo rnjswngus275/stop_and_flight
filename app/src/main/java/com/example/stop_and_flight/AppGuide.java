@@ -17,9 +17,15 @@ import android.view.View;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.List;
 
 public class AppGuide extends AppCompatActivity {
+
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
     //private CircleIndicator mIndicator;
     AppGuideAdapter adapter = new AppGuideAdapter(getSupportFragmentManager());
     @Override
@@ -54,6 +60,7 @@ public class AppGuide extends AppCompatActivity {
         if(!checkAccessibilityPermissions()) {
             setAccessibilityPermissions();
         }
+
     }
 
 
@@ -94,5 +101,17 @@ public class AppGuide extends AppCompatActivity {
                 return;
             }
         }).create().show();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
+
+        if(user!=null && checkAccessibilityPermissions()){
+            startActivity(new Intent(AppGuide.this, MainActivity.class));
+            finish();
+        }
+
     }
 }
