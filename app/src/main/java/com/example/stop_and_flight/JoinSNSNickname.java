@@ -41,8 +41,9 @@ public class JoinSNSNickname extends AppCompatActivity {
                 mDatabase = FirebaseDatabase.getInstance().getReference(); // 파이어베이스 realtime database 에서 정보 가져오기
                 mDatabase.child("users").child(uid).child("nickname").setValue(Nickname);
 
-                //비상탈출 시간 초기화
+                //비상탈출 시간, point 초기화
                 mDatabase.child("users").child(uid).child("emergency_time").setValue(0);
+                mDatabase.child("users").child(uid).child("point").setValue(0);
                 Intent intent = new Intent(JoinSNSNickname.this, MainActivity.class);
                 startActivity(intent);
                 finish();
