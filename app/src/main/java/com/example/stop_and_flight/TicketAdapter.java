@@ -65,10 +65,10 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         String date_set;
         if (Integer.parseInt(date_arr[0]) < 12)
             date_set = "AM 0" + date_arr[0];
-        else if(Integer.parseInt(date_arr[0]) / 12 < 10)
-            date_set = "PM 0" + Integer.parseInt(date_arr[0]) / 12;
+        else if(Integer.parseInt(date_arr[0]) % 12 < 10)
+            date_set = "PM 0" + Integer.parseInt(date_arr[0]) % 12;
         else
-            date_set = "PM " + Integer.parseInt(date_arr[0]) / 12;
+            date_set = "PM " + Integer.parseInt(date_arr[0]) % 12;
         if (Integer.parseInt(date_arr[1]) < 10)
             date_set = date_set + ":0" + date_arr[1];
         else
@@ -120,9 +120,6 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         public TextView CountryTitle;
         public TextView DepartTitle;
         public TextView ArriveTitle;
-        public TextView user_name;
-        public TextView user_class;
-        public ImageView user_image;
         public TicketView ticketView;
         public Ticket refferalItem;
         public TimelineView mTimelineView;
@@ -134,9 +131,6 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
             CountryTitle = view.findViewById(R.id.CountryTitle);
             DepartTitle = view.findViewById(R.id.DepartTitle);
             ArriveTitle = view.findViewById(R.id.ArriveTitle);
-            user_name = view.findViewById(R.id.user_name);
-            user_class = view.findViewById(R.id.user_class);
-            user_image = view.findViewById(R.id.user_image);
             mTimelineView = (TimelineView) itemView.findViewById(R.id.timeline);
             mTimelineView.initLine(viewType);
         }
