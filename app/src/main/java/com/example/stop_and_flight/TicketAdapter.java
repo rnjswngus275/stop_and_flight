@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.stop_and_flight.fragment.SelectTodoFragment;
 import com.example.stop_and_flight.fragment.TicketingFragment;
+import com.example.stop_and_flight.model.CurTime;
 import com.example.stop_and_flight.model.Ticket;
 import com.github.vipulasri.timelineview.TimelineView;
 import com.vipulasri.ticketview.TicketView;
@@ -26,6 +27,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
 
     private Context context;
     private List<Ticket> TicketList;
+    private CurTime curTime;
     private TicketDatabaseHandler db;
     private String  UID;
 
@@ -41,6 +43,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView = inflater.from(parent.getContext()).inflate(R.layout.ticket_layout, parent, false);
         ViewHolder header = new ViewHolder(itemView, viewType);
+        curTime = new CurTime();
         return header;
     }
 
@@ -51,7 +54,16 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         holder.CountryTitle.setText(item.getTodo());
         holder.DepartTitle.setText(formatAmPm(item.getDepart_time()));
         holder.ArriveTitle.setText(formatAmPm(item.getArrive_time()));
+        String[] depart_time =  item.getDepart_time().split(":");
+        String[] arrive_time = item.getArrive_time().split(":");
 
+        if (curTime.getIntHour() > Integer.parseInt(depart_time[0]) || (curTime.getIntHour() == Integer.parseInt(depart_time[0]) && curTime.getIntMinute() > Integer.parseInt(depart_time[1])))
+        {
+            holder.mTimelineView.setMarker(context.getDrawable(R.drawable.ic_baseline_keyboard_arrow_down_24), context.getColor(R.color.color_4));
+            holder.mTimelineView.setEndLineColor(context.getColor(R.color.color_3), getItemViewType(position));
+            holder.mTimelineView.setStartLineColor(context.getColor(R.color.color_3), getItemViewType(position));
+
+        }
         if (item.getWait().equals("false"))
         {
             holder.ticketView.setBackgroundBeforeDivider(Drawable.createFromPath("@color/shadow"));
@@ -109,7 +121,6 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         bundle.putString("Depart_time", item.getDepart_time());
         bundle.putString("Arrive_time", item.getArrive_time());
         ((MainActivity) getActivity()).replaceFragment(TicketingFragment.newInstance("update", null, bundle));
-
     }
 
     private FragmentActivity getActivity() {

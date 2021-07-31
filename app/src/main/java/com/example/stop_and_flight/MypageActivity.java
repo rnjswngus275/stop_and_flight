@@ -264,7 +264,7 @@ public class MypageActivity extends AppCompatActivity {
                     if ((packInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
                     {
                         AppInfo appinfo = new AppInfo();
-                        appinfo.setName(packInfo.packageName);
+                        appinfo.setName(packInfo.applicationInfo.packageName);
                         applist.add(appinfo);
                     }
                 }

@@ -29,6 +29,7 @@ import androidx.fragment.app.Fragment;
 import android.os.CountDownTimer;
 import android.widget.TextView;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -329,130 +330,6 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
             }
         });
 
-
-        List<PackageInfo> packlist = new List<PackageInfo>() {
-            @Override
-            public int size() {
-                return 0;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public boolean contains(@Nullable Object o) {
-                return false;
-            }
-
-            @NonNull
-            @Override
-            public Iterator<PackageInfo> iterator() {
-                return null;
-            }
-
-            @NonNull
-            @Override
-            public Object[] toArray() {
-                return new Object[0];
-            }
-
-            @NonNull
-            @Override
-            public <T> T[] toArray(@NonNull T[] a) {
-                return null;
-            }
-
-            @Override
-            public boolean add(PackageInfo packageInfo) {
-                return false;
-            }
-
-            @Override
-            public boolean remove(@Nullable Object o) {
-                return false;
-            }
-
-            @Override
-            public boolean containsAll(@NonNull Collection<?> c) {
-                return false;
-            }
-
-            @Override
-            public boolean addAll(@NonNull Collection<? extends PackageInfo> c) {
-                return false;
-            }
-
-            @Override
-            public boolean addAll(int index, @NonNull Collection<? extends PackageInfo> c) {
-                return false;
-            }
-
-            @Override
-            public boolean removeAll(@NonNull Collection<?> c) {
-                return false;
-            }
-
-            @Override
-            public boolean retainAll(@NonNull Collection<?> c) {
-                return false;
-            }
-
-            @Override
-            public void clear() {
-
-            }
-
-            @Override
-            public PackageInfo get(int index) {
-                return null;
-            }
-
-            @Override
-            public PackageInfo set(int index, PackageInfo element) {
-                return null;
-            }
-
-            @Override
-            public void add(int index, PackageInfo element) {
-
-            }
-
-            @Override
-            public PackageInfo remove(int index) {
-                return null;
-            }
-
-            @Override
-            public int indexOf(@Nullable Object o) {
-                return 0;
-            }
-
-            @Override
-            public int lastIndexOf(@Nullable Object o) {
-                return 0;
-            }
-
-            @NonNull
-            @Override
-            public ListIterator<PackageInfo> listIterator() {
-                return null;
-            }
-
-            @NonNull
-            @Override
-            public ListIterator<PackageInfo> listIterator(int index) {
-                return null;
-            }
-
-            @NonNull
-            @Override
-            public List<PackageInfo> subList(int fromIndex, int toIndex) {
-                return null;
-            }
-        };
-
         emergencybutton.setOnClickListener(this);
         appaccessbutton.setOnClickListener(this);
         // Inflate the layout for this fragment
@@ -475,13 +352,13 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
 
         ArrayList<String> applist = new ArrayList<>();
 
-        Dialog dialog = new Dialog(getActivity());
-        dialog.setContentView(R.layout.app_dialog_searchable_spinner);
-        dialog.getWindow().setLayout(1000, 1200);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        BottomSheetDialog AccessSheetDialog = new BottomSheetDialog(getActivity());
+        AccessSheetDialog.setContentView(R.layout.app_dialog_searchable_spinner);
+        AccessSheetDialog.getWindow().setLayout(1000, 1200);
+        AccessSheetDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        EditText editText = dialog.findViewById(R.id.app_edit_text);
-        ListView listView = dialog.findViewById(R.id.app_list_view);
+        EditText editText = AccessSheetDialog.findViewById(R.id.app_edit_text);
+        ListView listView = AccessSheetDialog.findViewById(R.id.app_list_view);
         ArrayAdapter adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, applist);
         mDatabase.child("APP").child(uid).addValueEventListener(new ValueEventListener() {
             @Override
@@ -499,7 +376,7 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
             }
         });
         listView.setAdapter(adapter);
-        dialog.show();
+        AccessSheetDialog.show();
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -525,7 +402,7 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
                 sintent.putExtra("appname", adapter.getItem(position).toString());
                 Intent launchIntent = getActivity().getPackageManager().getLaunchIntentForPackage(adapter.getItem(position).toString());
                 startActivity(launchIntent);
-                dialog.dismiss();
+                AccessSheetDialog.dismiss();
             }
         });
     }

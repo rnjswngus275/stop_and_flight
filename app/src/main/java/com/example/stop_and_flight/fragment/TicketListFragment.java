@@ -162,11 +162,11 @@ public class TicketListFragment extends Fragment {
                                 if (Integer.parseInt(departTime1[0]) == Integer.parseInt(departTime2[0])
                                         && Integer.parseInt(departTime1[1]) == Integer.parseInt(departTime2[1]))
                                     return 0;
-                                if (Integer.parseInt(departTime1[0]) >= Integer.parseInt(departTime2[0])
-                                        && Integer.parseInt(departTime1[1]) >= Integer.parseInt(departTime2[1]))
+                                if (Integer.parseInt(departTime1[0]) > Integer.parseInt(departTime2[0]) || (Integer.parseInt(departTime1[0]) == Integer.parseInt(departTime2[0])
+                                        && Integer.parseInt(departTime1[1]) > Integer.parseInt(departTime2[1])))
                                     return 1;
-                                if (Integer.parseInt(departTime1[0]) <= Integer.parseInt(departTime2[0])
-                                        && Integer.parseInt(departTime1[1]) <= Integer.parseInt(departTime2[1]))
+                                if (Integer.parseInt(departTime1[0]) <= Integer.parseInt(departTime2[0]) || (Integer.parseInt(departTime1[0]) <= Integer.parseInt(departTime2[0])
+                                        && Integer.parseInt(departTime1[1]) <= Integer.parseInt(departTime2[1])))
                                     return -1;
                                 return 0;
                             }

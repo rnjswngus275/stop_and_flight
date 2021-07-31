@@ -25,6 +25,7 @@ import com.example.stop_and_flight.AlarmReceiver;
 import com.example.stop_and_flight.MainActivity;
 import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.TicketDatabaseHandler;
+import com.example.stop_and_flight.model.CurTime;
 import com.example.stop_and_flight.model.Ticket;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -72,11 +73,7 @@ public class TicketingFragment extends Fragment {
     private String updateDepart;
     private String updateArrive;
     private String ticket_Date;
-    public String strCurYear;
-    public String strCurMonth;
-    public String strCurDay;
-    public String strCurHour;
-    public String strCurMinute;
+    private CurTime curTime;
     private HashMap<String, Object> TicketMap;
 
     public TicketingFragment() {
@@ -125,22 +122,6 @@ public class TicketingFragment extends Fragment {
                 updateArrive = getArguments().getBundle("ticket").getString("Arrive_time");
             }
         }
-
-        /* 현재 시간과 날짜를 받아오는 부분 */
-        long now = System.currentTimeMillis();
-        Date date = new Date(now);
-
-        SimpleDateFormat CurYearFormat = new SimpleDateFormat("yyyy");
-        SimpleDateFormat CurMonthFormat = new SimpleDateFormat("MM");
-        SimpleDateFormat CurDayFormat = new SimpleDateFormat("dd");
-        SimpleDateFormat CurHourFormat = new SimpleDateFormat("HH");
-        SimpleDateFormat CurMinuteFormat = new SimpleDateFormat("mm");
-
-        strCurYear = CurYearFormat.format(date);
-        strCurMonth = CurMonthFormat.format(date);
-        strCurDay = CurDayFormat.format(date);
-        strCurHour = CurHourFormat.format(date);
-        strCurMinute = CurMinuteFormat.format(date);
     }
 
     @Override
@@ -153,6 +134,7 @@ public class TicketingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ticketing, container, false);
+        curTime = new CurTime();
 
         Button select_data_button = (Button)view.findViewById(R.id.select_data_button);
         Button select_todo_button = (Button) view.findViewById(R.id.select_todo_button);
@@ -175,9 +157,9 @@ public class TicketingFragment extends Fragment {
             select_todo_button.setText(Todo);
         }
 
-        YEAR =  Integer.parseInt(strCurYear);
-        MONTH =  Integer.parseInt(strCurMonth);
-        DAY =  Integer.parseInt(strCurDay);
+        YEAR =  curTime.getIntYear();
+        MONTH =  curTime.getIntMonth();
+        DAY =  curTime.getIntDay();
         ticket_Date = YEAR + "-" + MONTH + "-" + DAY;
         select_data_button.setText(YEAR + " 년 " + MONTH + " 월 " + DAY + " 일");
 
@@ -195,10 +177,7 @@ public class TicketingFragment extends Fragment {
                         YEAR = year;
                         MONTH = monthOfYear + 1;
                         DAY = dayOfMonth;
-                        String str_year = Integer.toString(year);
-                        String str_month = Integer.toString(monthOfYear+1);
-                        String str_day = Integer.toString(dayOfMonth);
-                        ticket_Date = str_year  + "-" + str_month  + "-" + str_day;
+                        ticket_Date = YEAR  + "-" + MONTH  + "-" + DAY;
                     }
                 },mYear,mMonth,mDay);
                 datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
@@ -210,10 +189,10 @@ public class TicketingFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                int depart_hour = Integer.parseInt(strCurHour);
-                int depart_min = Integer.parseInt(strCurMinute);
-                int arrive_hour = Integer.parseInt(strCurHour);
-                int arrive_min = Integer.parseInt(strCurMinute);
+                int depart_hour = curTime.getIntHour();
+                int depart_min = curTime.getIntMinute();
+                int arrive_hour = curTime.getIntHour();
+                int arrive_min = curTime.getIntMinute();
 
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     depart_hour = depart_time.getHour();
@@ -223,13 +202,14 @@ public class TicketingFragment extends Fragment {
                     dptH = depart_hour;
                     dptM = depart_min;
                 }
-                if (YEAR >= Integer.parseInt(strCurYear) && MONTH >= Integer.parseInt(strCurMonth))
+
+                if (YEAR > curTime.getIntYear() || (YEAR == curTime.getIntYear() && MONTH >= curTime.getIntMonth()))
                 {
-                    if (DAY > Integer.parseInt(strCurDay))
+                    if (DAY > curTime.getIntDay())
                         check_Schedule(ticket_Date, depart_hour,depart_min, arrive_hour, arrive_min);
-                    else if (DAY == Integer.parseInt(strCurDay))
+                    else if (DAY == curTime.getIntDay())
                     {
-                        if((Integer.parseInt(strCurHour) < depart_hour) || ((Integer.parseInt(strCurHour) == depart_hour) && (Integer.parseInt(strCurMinute) <= depart_min)))
+                        if(curTime.getIntHour() < depart_hour || (curTime.getIntHour() == depart_hour && curTime.getIntMinute() <= depart_min))
                             check_Schedule(ticket_Date, depart_hour,depart_min, arrive_hour, arrive_min);
                         else
                             Toast.makeText(getContext(), "현재 보다 이전 시간을 설정할 수 없습니다.", Toast.LENGTH_SHORT).show();
@@ -322,8 +302,10 @@ public class TicketingFragment extends Fragment {
                     ((MainActivity) getActivity()).replaceFragment(TicketListFragment.newInstance(null, null));
                 }
                 else
+                {
                     db.insert_ticketDB(UID, ticket_Date, ticket);
-                onDestroy();
+                    onDestroy();
+                }
             }
             else {
                 Toast.makeText(getContext(), "출발 시간이 도착 시간 보다 빨라야 합니다.", Toast.LENGTH_SHORT).show();
