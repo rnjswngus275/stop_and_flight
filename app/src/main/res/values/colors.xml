@@ -12,5 +12,7 @@
     <color name="color_3">#b9d7ea</color>
     <color name="color_4">#769fcd</color>
     <color name="shadow">#F6F5F5</color>
+    <color name="silver">#BDC3C7</color>
     <color name="red">#FF0000</color>
+    <color name="brickred">#f9ccca</color>
 </resources>

@@ -22,6 +22,7 @@ import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.RecyclerItemTouchHelper;
 import com.example.stop_and_flight.TicketAdapter;
 import com.example.stop_and_flight.TicketDatabaseHandler;
+import com.example.stop_and_flight.model.CurTime;
 import com.example.stop_and_flight.model.Ticket;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -59,14 +60,9 @@ public class TicketListFragment extends Fragment {
     public ArrayList<Ticket> TicketList = new ArrayList<>();
     private Ticket getTicket;
     private String UID;
-    private String ticket_Date;
     private TicketDatabaseHandler db;
     public static final int REFRESH_DELAY = 2000;
-    public String strCurYear;
-    public String strCurMonth;
-    public String strCurDay;
-    public String strCurHour;
-    public String strCurMinute;
+    private CurTime curTime;
     private int YEAR;
     private int MONTH;
     private int DAY;
@@ -106,21 +102,7 @@ public class TicketListFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        /* 현재 시간과 날짜를 받아오는 부분 */
-        long now = System.currentTimeMillis();
-        Date date = new Date(now);
-
-        SimpleDateFormat CurYearFormat = new SimpleDateFormat("yyyy");
-        SimpleDateFormat CurMonthFormat = new SimpleDateFormat("MM");
-        SimpleDateFormat CurDayFormat = new SimpleDateFormat("dd");
-        SimpleDateFormat CurHourFormat = new SimpleDateFormat("HH");
-        SimpleDateFormat CurMinuteFormat = new SimpleDateFormat("mm");
-
-        strCurYear = CurYearFormat.format(date);
-        strCurMonth = CurMonthFormat.format(date);
-        strCurDay = CurDayFormat.format(date);
-        strCurHour = CurHourFormat.format(date);
-        strCurMinute = CurMinuteFormat.format(date);
+        curTime = new CurTime();
     }
 
     @Override
@@ -133,51 +115,21 @@ public class TicketListFragment extends Fragment {
         db = new TicketDatabaseHandler(mDatabase);
         ticketRecyclerView = view.findViewById(R.id.ticketRecyclerView);
         ticketAdapter = new TicketAdapter(db, ct, UID);
+        TextView date_title = view.findViewById(R.id.date_title);
 
+        YEAR =  curTime.getIntYear();
+        MONTH =  curTime.getIntMonth();
+        DAY =  curTime.getIntDay();
+
+        date_title.setText(YEAR + "년 " + MONTH + "월 " + DAY + "일");
+        String ticket_Date = YEAR + "-" + MONTH + "-" + DAY;
 
         swipeRefreshLayout = view.findViewById(R.id.swipeTicketContainer);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mDatabase.child("TICKET").child(UID).child(ticket_Date).addValueEventListener(new ValueEventListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.N)
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        ticketRecyclerView.removeAllViewsInLayout();
-                        TicketList.clear();
-                        for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
-                            if (fileSnapshot != null) {
-                                getTicket = new Ticket();
-                                getTicket = fileSnapshot.getValue(Ticket.class);
-                                getTicket.setDate(ticket_Date);
-                                TicketList.add(getTicket);
-                            }
-                        }
-                        TicketList.sort(new Comparator<Ticket>() {
-                            @Override
-                            public int compare(Ticket o1, Ticket o2) {
-                                String[] departTime1 = o1.getDepart_time().split(":");
-                                String[] departTime2 = o2.getDepart_time().split(":");
-                                if (Integer.parseInt(departTime1[0]) == Integer.parseInt(departTime2[0])
-                                        && Integer.parseInt(departTime1[1]) == Integer.parseInt(departTime2[1]))
-                                    return 0;
-                                if (Integer.parseInt(departTime1[0]) > Integer.parseInt(departTime2[0]) || (Integer.parseInt(departTime1[0]) == Integer.parseInt(departTime2[0])
-                                        && Integer.parseInt(departTime1[1]) > Integer.parseInt(departTime2[1])))
-                                    return 1;
-                                if (Integer.parseInt(departTime1[0]) <= Integer.parseInt(departTime2[0]) || (Integer.parseInt(departTime1[0]) <= Integer.parseInt(departTime2[0])
-                                        && Integer.parseInt(departTime1[1]) <= Integer.parseInt(departTime2[1])))
-                                    return -1;
-                                return 0;
-                            }
-                        });
-                        ticketAdapter.notifyDataSetChanged();
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
-                    }
-                });
+                getTicketDate(ticket_Date);
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -186,15 +138,19 @@ public class TicketListFragment extends Fragment {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerItemTouchHelper(ticketAdapter));
         itemTouchHelper.attachToRecyclerView(ticketRecyclerView);
 
-        YEAR =  Integer.parseInt(strCurYear);
-        MONTH =  Integer.parseInt(strCurMonth);
-        DAY =  Integer.parseInt(strCurDay);
-        ticket_Date = YEAR + "-" + MONTH + "-" + DAY;
+        getTicketDate(ticket_Date);
 
-        TextView countrytitle = (TextView) view.findViewById(R.id.CountryTitle);
-        TextView Departtitle = (TextView) view.findViewById(R.id.DepartTitle);
-        TextView arrivetitle = (TextView) view.findViewById(R.id.ArriveTitle);
+        ticketRecyclerView.setLayoutManager(new LinearLayoutManager(ct, LinearLayoutManager.VERTICAL, false));
 
+        Collections.reverse(TicketList);
+        ticketAdapter.setTicket(TicketList);
+        ticketRecyclerView.setAdapter(ticketAdapter);
+
+        return view;
+    }
+
+    private void getTicketDate(String ticket_Date)
+    {
         mDatabase.child("TICKET").child(UID).child(ticket_Date).addValueEventListener(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -233,13 +189,5 @@ public class TicketListFragment extends Fragment {
                 Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
             }
         });
-
-        ticketRecyclerView.setLayoutManager(new LinearLayoutManager(ct, LinearLayoutManager.VERTICAL, false));
-
-        Collections.reverse(TicketList);
-        ticketAdapter.setTicket(TicketList);
-        ticketRecyclerView.setAdapter(ticketAdapter);
-
-        return view;
     }
 }

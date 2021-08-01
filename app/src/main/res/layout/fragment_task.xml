@@ -27,7 +27,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="32dp"
-        app:backgroundTint="@color/color_4"
-        app:srcCompat="@drawable/add_image" />
+        android:src="@drawable/add_image"
+        app:backgroundTint="@color/color_4" />
 </RelativeLayout>
 

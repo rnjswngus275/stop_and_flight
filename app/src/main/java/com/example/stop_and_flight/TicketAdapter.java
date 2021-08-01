@@ -62,12 +62,15 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
             holder.mTimelineView.setMarker(context.getDrawable(R.drawable.ic_baseline_keyboard_arrow_down_24), context.getColor(R.color.color_4));
             holder.mTimelineView.setEndLineColor(context.getColor(R.color.color_3), getItemViewType(position));
             holder.mTimelineView.setStartLineColor(context.getColor(R.color.color_3), getItemViewType(position));
+            holder.ticketView.setBackgroundBeforeDivider(context.getDrawable(R.color.brickred));
+            holder.ticketView.setBackgroundAfterDivider(context.getDrawable(R.color.brickred));
 
         }
         if (item.getWait().equals("false"))
         {
-            holder.ticketView.setBackgroundBeforeDivider(Drawable.createFromPath("@color/shadow"));
-            holder.ticketView.setBackgroundAfterDivider(Drawable.createFromPath("@color/shadow"));
+            holder.stampImage.setImageResource(R.drawable.stamp);
+            holder.ticketView.setBackgroundBeforeDivider(context.getDrawable(R.color.color_2));
+            holder.ticketView.setBackgroundAfterDivider(context.getDrawable(R.color.color_2));
         }
     }
 
@@ -75,8 +78,10 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
     {
         String[] date_arr = date.split(":");
         String date_set;
-        if (Integer.parseInt(date_arr[0]) < 12)
+        if (Integer.parseInt(date_arr[0]) < 10)
             date_set = "AM 0" + date_arr[0];
+        else if (Integer.parseInt(date_arr[0]) < 12)
+            date_set = "AM " + date_arr[0];
         else if(Integer.parseInt(date_arr[0]) % 12 < 10)
             date_set = "PM 0" + Integer.parseInt(date_arr[0]) % 12;
         else
@@ -132,6 +137,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         public TextView DepartTitle;
         public TextView ArriveTitle;
         public TicketView ticketView;
+        public ImageView stampImage;
         public Ticket refferalItem;
         public TimelineView mTimelineView;
 
@@ -142,6 +148,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
             CountryTitle = view.findViewById(R.id.CountryTitle);
             DepartTitle = view.findViewById(R.id.DepartTitle);
             ArriveTitle = view.findViewById(R.id.ArriveTitle);
+            stampImage = view.findViewById(R.id.stampImage);
             mTimelineView = (TimelineView) itemView.findViewById(R.id.timeline);
             mTimelineView.initLine(viewType);
         }
