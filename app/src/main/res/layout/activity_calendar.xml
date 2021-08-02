@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.stop_and_flight.CalendarActivity">
+    android:background="#FFFFFF"
+    tools:context="com.example.stop_and_flight.CalendarFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,12 +18,229 @@
         <com.applandeo.materialcalendarview.CalendarView
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
-            android:layout_height="455dp"
+            android:layout_height="450dp"
             android:layout_marginBottom="8dp"
-            app:headerColor="#769FCD">
+            app:headerColor="#769FCD" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#769FCD"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView19"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:shadowColor="#000000"
+                    android:text="Date"
+                    android:textColor="#FFFFFF"
+                    android:textColorHighlight="#1E68BA"
+                    android:textSize="18sp"
+                    android:textStyle="normal|bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView7"
+                        android:layout_width="0.1dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/ic_check" />
+
+                    <TextView
+                        android:id="@+id/todo"
+                        android:layout_width="22dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:text=" Todo : "
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView20"
+                        android:layout_width="283dp"
+                        android:layout_height="match_parent"
+                        android:gravity="left|center_vertical"
+                        android:text=""
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView8"
+                        android:layout_width="0.1dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/ic_baseline_flight_takeoff_24" />
+
+                    <TextView
+                        android:id="@+id/Depart_time"
+                        android:layout_width="22dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:text=" 이륙시간 : "
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView21"
+                        android:layout_width="283dp"
+                        android:layout_height="match_parent"
+                        android:gravity="left|center_vertical"
+                        android:text=""
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView9"
+                        android:layout_width="0.1dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/ic_baseline_flight_land_24" />
+
+                    <TextView
+                        android:id="@+id/Arrive_time"
+                        android:layout_width="22dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:text=" 착륙시간 : "
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView22"
+                        android:layout_width="283dp"
+                        android:layout_height="match_parent"
+                        android:gravity="left|center_vertical"
+                        android:text=""
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:orientation="horizontal">
 
 
-        </com.applandeo.materialcalendarview.CalendarView>
+                    <TextView
+                        android:id="@+id/textView23"
+                        android:layout_width="304dp"
+                        android:layout_height="match_parent"
+                        android:gravity="right|center_vertical"
+                        android:text=""
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/imageView10"
+                        android:layout_width="111dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/timer" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView11"
+                        android:layout_width="0.1dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/memo" />
+
+                    <TextView
+                        android:id="@+id/Memo"
+                        android:layout_width="22dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:text=" 메모 : "
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView24"
+                        android:layout_width="283dp"
+                        android:layout_height="match_parent"
+                        android:gravity="left|center_vertical"
+                        android:text=""
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageView12"
+                        android:layout_width="0.1dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/ic_star" />
+
+                    <TextView
+                        android:id="@+id/Star_rating"
+                        android:layout_width="22dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:text=" 별점 : "
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView25"
+                        android:layout_width="283dp"
+                        android:layout_height="match_parent"
+                        android:gravity="left|center_vertical"
+                        android:text=""
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
 
 
     </LinearLayout>

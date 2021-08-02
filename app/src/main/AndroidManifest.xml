@@ -25,7 +25,7 @@
         <activity android:name=".select_signup_method" />
         <activity android:name=".JoinActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".CalendarActivity"/>
+        <activity android:name=".CalendarFragment"/>
         <activity android:name=".CalendarlistActivity"/>
         <activity android:name=".FilghtActivity">
             <intent-filter>
