@@ -51,8 +51,12 @@ public class MainActivity extends AppCompatActivity {
         TicketingFragment ticketing_fragment = new TicketingFragment();
         TaskFragment taskFragment = new TaskFragment();
         PassportFragment passportFragment =  new PassportFragment();
+<<<<<<< HEAD
         StatisticsFragment statisticsFragment = new StatisticsFragment();
         CalendarFragment calendarFragment = new CalendarFragment();
+=======
+        MypageActivity mypage=new MypageActivity();
+>>>>>>> feffe08593d5cbafd8200256c4afe75170517e7f
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -68,8 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 int id = menuItem.getItemId();
                 String title = menuItem.getTitle().toString();
                 if (id == R.id.menu1) {       //여기에 메뉴 버튼 클릭했을때 옮길 페이지 연결하시면 됩니다.
-                    Intent intent = new Intent(MainActivity.this, MypageActivity.class);
-                    startActivity(intent);
+                    fragmentTransaction.replace(R.id.container, mypage).addToBackStack(null).commitAllowingStateLoss();
                 } else if (id == R.id.menu2) {
                     fragmentTransaction.replace(R.id.container, calendarFragment).addToBackStack(null).commitAllowingStateLoss();
                 } else if (id == R.id.menu3) {

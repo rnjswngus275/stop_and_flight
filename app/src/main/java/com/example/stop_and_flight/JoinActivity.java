@@ -1,9 +1,13 @@
 package com.example.stop_and_flight;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +37,17 @@ public class JoinActivity extends AppCompatActivity {
         editTextName = (EditText) findViewById(R.id.editText_name);
 
         buttonJoin = (Button) findViewById(R.id.btn_join);
+        CheckBox checkBox=(CheckBox)findViewById(R.id.checkBox);
 
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("log");
+
+                Intent intent = new Intent(JoinActivity.this,InfoActivity.class);
+                startActivity(intent);
+            }
+        });
 
         buttonJoin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +73,8 @@ public class JoinActivity extends AppCompatActivity {
                     mAuth = FirebaseAuth.getInstance(); // 유저 계정 정보 가져오기
                     mDatabase = FirebaseDatabase.getInstance().getReference(); // 파이어베이스 realtime database 에서 정보 가져오기
                     mDatabase.child("users").child(uid).child("nickname").setValue(Nickname);
+                    mDatabase.child("users").child(uid).child("emergency_time").setValue(0);
+                    mDatabase.child("users").child(uid).child("point").setValue(0);
                 } else {
 // 이메일과 비밀번호가 공백인 경우
                     Toast.makeText(JoinActivity.this, "계정과 비밀번호를 입력하세요.", Toast.LENGTH_LONG).show();
