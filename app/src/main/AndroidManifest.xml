@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.stop_and_flight">
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -10,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Stop_and_flight">
-        <activity android:name=".LoginMethodActivity"></activity>
+
+        <activity android:name=".LoginMethodActivity" />
         <activity android:name=".JoinSNSNickname" />
         <activity android:name=".IntroActivity">
             <intent-filter>
@@ -21,12 +21,12 @@
         </activity>
         <activity android:name=".AppGuide" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".MypageActivity" />
         <activity android:name=".select_signup_method" />
         <activity android:name=".JoinActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".CalendarActivity"/>
-        <activity android:name=".CalendarlistActivity"/>
+        <activity android:name=".CalendarlistActivity" />
+        <activity android:name=".InfoActivity"/>
+
         <activity android:name=".FilghtActivity">
             <intent-filter>
                 <action android:name="android.intent.action.FLIGHTACTIVITY" />
@@ -34,9 +34,15 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <receiver android:name=".AlarmReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.sec" />
+            </intent-filter>
+        </receiver>
+
         <service
-            android:name="Accessibility"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" >
+            android:name=".Accessibility"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
@@ -45,11 +51,12 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility_service_config" />
         </service>
-        <receiver android:name="AlarmReceiver" >
-            <intent-filter>
-                <action android:name="android.intent.action.sec" />
-            </intent-filter>
-        </receiver>
+
     </application>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
 </manifest>

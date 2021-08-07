@@ -1,10 +1,5 @@
 package com.example.stop_and_flight;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-//import me.relex.circleindicator.CircleIndicator;
-
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,16 +11,27 @@ import android.view.View;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
 import com.example.stop_and_flight.fragment.AppGuideFragment1;
 import com.example.stop_and_flight.fragment.AppGuideFragment2;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
 import me.relex.circleindicator.CircleIndicator;
 
+//import me.relex.circleindicator.CircleIndicator;
+
 public class AppGuide extends AppCompatActivity {
 
     private CircleIndicator mIndicator;
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    //private CircleIndicator mIndicator;
     AppGuideAdapter adapter = new AppGuideAdapter(getSupportFragmentManager());
 
     @Override
@@ -60,6 +66,7 @@ public class AppGuide extends AppCompatActivity {
         if(!checkAccessibilityPermissions()) {
             setAccessibilityPermissions();
         }
+
     }
 
 
@@ -100,5 +107,17 @@ public class AppGuide extends AppCompatActivity {
                 return;
             }
         }).create().show();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
+
+        if(user!=null && checkAccessibilityPermissions()){
+            startActivity(new Intent(AppGuide.this, MainActivity.class));
+            finish();
+        }
+
     }
 }

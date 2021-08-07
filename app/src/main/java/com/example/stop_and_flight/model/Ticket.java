@@ -22,7 +22,7 @@ public class Ticket {
         this.date = null;
         this.todo = null;
         this.id = 0;
-        this.wait = "ture";
+        this.wait = "true";
     }
 
     public Ticket(String depart_time, String arrive_time, String todo, int id, String wait) {

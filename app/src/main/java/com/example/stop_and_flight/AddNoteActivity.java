@@ -34,7 +34,7 @@ public class AddNoteActivity extends AppCompatActivity {
                 }
                  myEventDay = new MyEventDay(datePicker.getSelectedDate(),
                         R.drawable.ic_message_black_48dp, noteEditText.getText().toString());
-                returnIntent.putExtra(CalendarActivity.RESULT, myEventDay);
+                returnIntent.putExtra(CalendarFragment.RESULT, myEventDay);
                 setResult(Activity.RESULT_OK, returnIntent);
                 sendCalendar();
 

@@ -15,11 +15,11 @@ public class NotePreviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_note_preview);
         Intent intent = getIntent();
         //이후 텍스트뷰 설정을 위한 intent
-        Intent putintet = new Intent(this, CalendarActivity.class);
+        Intent putintet = new Intent(this, CalendarFragment.class);
 
         TextView note = (TextView) findViewById(R.id.note);
         if (intent != null) {
-            Object event = intent.getParcelableExtra(CalendarActivity.EVENT);
+            Object event = intent.getParcelableExtra(CalendarFragment.EVENT);
             if(event instanceof MyEventDay){
                 MyEventDay myEventDay = (MyEventDay)event;
                // getSupportActionBar().setTitle(getFormattedDate(myEventDay.getCalendar().getTime()));

@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.stop_and_flight.fragment.StatisticsFragment;
 import com.example.stop_and_flight.fragment.TicketListFragment;
 import com.example.stop_and_flight.fragment.TaskFragment;
 import com.example.stop_and_flight.fragment.TicketingFragment;
@@ -51,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
         TaskFragment taskFragment = new TaskFragment();
         PassportFragment passportFragment =  new PassportFragment();
 
+        StatisticsFragment statisticsFragment = new StatisticsFragment();
+        CalendarFragment calendarFragment = new CalendarFragment();
+        MypageActivity mypage=new MypageActivity();
+
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -65,11 +71,9 @@ public class MainActivity extends AppCompatActivity {
                 int id = menuItem.getItemId();
                 String title = menuItem.getTitle().toString();
                 if (id == R.id.menu1) {       //여기에 메뉴 버튼 클릭했을때 옮길 페이지 연결하시면 됩니다.
-                    Intent intent = new Intent(MainActivity.this, MypageActivity.class);
-                    startActivity(intent);
+                    fragmentTransaction.replace(R.id.container, mypage).addToBackStack(null).commitAllowingStateLoss();
                 } else if (id == R.id.menu2) {
-                    Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
-                    startActivity(intent);
+                    fragmentTransaction.replace(R.id.container, calendarFragment).addToBackStack(null).commitAllowingStateLoss();
                 } else if (id == R.id.menu3) {
                     fragmentTransaction.replace(R.id.container, ticket_list).addToBackStack(null).commitAllowingStateLoss();
                 } else if (id == R.id.menu4) {
@@ -82,9 +86,9 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, FilghtActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.menu9) {
-                    Toast.makeText(context, title + ": menu9 성공", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, title + ": 친구페이지 성공", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.menu10) {
-                    Toast.makeText(context, title + ": menu10 성공", Toast.LENGTH_SHORT).show();
+                    fragmentTransaction.replace(R.id.container, statisticsFragment).addToBackStack(null).commitAllowingStateLoss();
                 }
                 return true;
             }

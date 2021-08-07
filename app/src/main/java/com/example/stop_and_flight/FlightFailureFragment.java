@@ -91,7 +91,6 @@ public class FlightFailureFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_flight_failure, container, false);
 
-        TextView SuccessRate=(TextView)view.findViewById(R.id.TextFailureRate);
         Button btnOk=(Button)view.findViewById(R.id.btnOk);
 
         //성공률 데이터베이스에 저장 if 읽어온 성공률 데이터가 존재하지 않으면 100%로 저장 아니면 성공으로 데이터베이스에 전달하고

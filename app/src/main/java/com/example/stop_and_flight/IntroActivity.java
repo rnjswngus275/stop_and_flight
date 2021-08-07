@@ -31,6 +31,7 @@ public class IntroActivity extends AppCompatActivity {
         }
              },2000); //2초 후 인트로 실행
 
+
     }
     @Override protected void onPause(){
         super.onPause();

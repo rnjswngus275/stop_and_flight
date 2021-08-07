@@ -22,6 +22,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 
 public class FlightSuccessFragment extends Fragment {
 
@@ -39,7 +44,8 @@ public class FlightSuccessFragment extends Fragment {
     private String goal;
     private String id;
     private String today;
-
+    int point_result;
+    int point;
     public FlightSuccessFragment() {
         // Required empty public constructor
     }
@@ -87,6 +93,57 @@ public class FlightSuccessFragment extends Fragment {
         RatingBar RatingBar =(RatingBar)view.findViewById(R.id.ratingBar);
         EditText Memo=(EditText)view.findViewById(R.id.editTextMemo);
         Button btnOk=(Button)view.findViewById(R.id.btnOk);
+
+        //TODO: 시간 자르기 IF (출발시간<도착시간이면 24:00 - 출발시간 + 도착시간) 10분당 1pt 부여
+
+        SimpleDateFormat f=new SimpleDateFormat("HH:mm", Locale.KOREA);
+
+        int idx=dpt_time.indexOf(":");
+        String dpt_h=dpt_time.substring(0,idx);
+        String dpt_m=dpt_time.substring(idx+1);
+
+        int idx2=arr_time.indexOf(":");
+        String arr_h=arr_time.substring(0,idx2);
+        String arr_m=arr_time.substring(idx+1);
+
+        //형변환
+        int dpt_h2=Integer.parseInt(dpt_h);
+        int dpt_m2=Integer.parseInt(dpt_m);
+        int arr_h2=Integer.parseInt(arr_h);
+        int arr_m2=Integer.parseInt(arr_m);
+        if((arr_h2-dpt_h2)>=0){
+            point_result=((arr_h2*60+arr_m2)-(dpt_h2*60+dpt_m2))/10;
+            //분단위로 변환하여 빼고 10분당 1pt
+        }
+        else{
+            int point2=((24-dpt_h2-1)*60+(60-dpt_m2))/10;           //출발시간에서 ~ 24:00까지
+            if(arr_h2==0){                                          //24:00부터 도착시간까지
+                point_result=point2+(arr_m2/10);
+            }
+            else{
+                point_result=point2+((arr_h2*60+arr_m2)/10);
+            }
+        }
+
+        //TODO: point db에서 불러오기 그값에 point_result 더해서 저장하기
+
+        final DatabaseReference ref2 = mDatabase.child("users").child(uid).child("point");
+        ref2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                point= snapshot.getValue(int.class);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+        point=point+point_result;
+        mDatabase.child("users").child(uid).child("point").setValue(point);
+
+        //TODO: textview 에 set text해서 point 얼마 얻었는지 알려주기
+
+        SuccessRate.setText(point_result);
 
         FirebaseAuth mAuth;
         mAuth = FirebaseAuth.getInstance(); // 유저 계정 정보 가져오기
