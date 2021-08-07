@@ -80,7 +80,7 @@ public class MypageFragment extends Fragment {
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.Fragment_mypage, container, false);
+        View view = inflater.inflate(R.layout.fragment_mypage, container, false);
         firebaseAuth = FirebaseAuth.getInstance();
         imageView=(ImageView)view.findViewById(R.id.imageView4);
 
@@ -183,129 +183,6 @@ public class MypageFragment extends Fragment {
 //                });
             }
         });
-
-        List<PackageInfo> packlist = new List<PackageInfo>() {
-            @Override
-            public int size() {
-                return 0;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public boolean contains(@Nullable Object o) {
-                return false;
-            }
-
-            @NonNull
-            @Override
-            public Iterator<PackageInfo> iterator() {
-                return null;
-            }
-
-            @NonNull
-            @Override
-            public Object[] toArray() {
-                return new Object[0];
-            }
-
-            @NonNull
-            @Override
-            public <T> T[] toArray(@NonNull T[] a) {
-                return null;
-            }
-
-            @Override
-            public boolean add(PackageInfo packageInfo) {
-                return false;
-            }
-
-            @Override
-            public boolean remove(@Nullable Object o) {
-                return false;
-            }
-
-            @Override
-            public boolean containsAll(@NonNull Collection<?> c) {
-                return false;
-            }
-
-            @Override
-            public boolean addAll(@NonNull Collection<? extends PackageInfo> c) {
-                return false;
-            }
-
-            @Override
-            public boolean addAll(int index, @NonNull Collection<? extends PackageInfo> c) {
-                return false;
-            }
-
-            @Override
-            public boolean removeAll(@NonNull Collection<?> c) {
-                return false;
-            }
-
-            @Override
-            public boolean retainAll(@NonNull Collection<?> c) {
-                return false;
-            }
-
-            @Override
-            public void clear() {
-
-            }
-
-            @Override
-            public PackageInfo get(int index) {
-                return null;
-            }
-
-            @Override
-            public PackageInfo set(int index, PackageInfo element) {
-                return null;
-            }
-
-            @Override
-            public void add(int index, PackageInfo element) {
-
-            }
-
-            @Override
-            public PackageInfo remove(int index) {
-                return null;
-            }
-
-            @Override
-            public int indexOf(@Nullable Object o) {
-                return 0;
-            }
-
-            @Override
-            public int lastIndexOf(@Nullable Object o) {
-                return 0;
-            }
-
-            @NonNull
-            @Override
-            public ListIterator<PackageInfo> listIterator() {
-                return null;
-            }
-
-            @NonNull
-            @Override
-            public ListIterator<PackageInfo> listIterator(int index) {
-                return null;
-            }
-
-            @NonNull
-            @Override
-            public List<PackageInfo> subList(int fromIndex, int toIndex) {
-                return null;
-            }
-        };
 
         buttonAllowedApps = (Button) view.findViewById(R.id.button8);
         buttonAllowedApps.setOnClickListener(new View.OnClickListener() {

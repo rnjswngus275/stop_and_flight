@@ -5,12 +5,37 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/ticketRecyclerView"
-        android:layout_height="match_parent"
+    <TextView
+        android:id="@+id/date_title"
         android:layout_width="match_parent"
-        android:layout_margin="10dp"
-        android:nestedScrollingEnabled="true" />
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="2021. 7 - 31" />
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipeTicketContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/date_title">
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ticketRecyclerView"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_margin="10dp"
+            android:nestedScrollingEnabled="true" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/ticketFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="32dp"
+        app:backgroundTint="@color/color_4"
+        android:src="@drawable/add_image" />
 </RelativeLayout>
 

@@ -14,7 +14,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.StatisticsViewPagerAdapter;
-import com.example.stop_and_flight.ViewPagerAdapter;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;

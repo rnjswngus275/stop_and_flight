@@ -33,12 +33,6 @@
             android:title="목표설정"
             />
         <item
-            android:id="@+id/menu6"
-            android:icon="@drawable/ic_launcher_foreground"
-            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-            android:title="여권도장"
-            />
-        <item
             android:id="@+id/menu8"
             android:icon="@drawable/ic_launcher_foreground"
             style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
