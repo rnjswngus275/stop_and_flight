@@ -37,10 +37,8 @@ import com.example.stop_and_flight.model.AppInfo;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -61,7 +59,7 @@ import java.util.ListIterator;
 
 import static android.app.Activity.RESULT_OK;
 
-public class MypageActivity extends Fragment {
+public class MypageFragment extends Fragment {
     private GoogleSignInClient mGoogleSignInClient;
     private GoogleSignInOptions gso;
     private static final int REQUEST_CODE = 0;
@@ -82,7 +80,7 @@ public class MypageActivity extends Fragment {
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.activity_mypage, container, false);
+        View view = inflater.inflate(R.layout.Fragment_mypage, container, false);
         firebaseAuth = FirebaseAuth.getInstance();
         imageView=(ImageView)view.findViewById(R.id.imageView4);
 

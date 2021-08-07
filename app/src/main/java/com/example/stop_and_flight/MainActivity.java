@@ -51,10 +51,10 @@ public class MainActivity extends AppCompatActivity {
         TicketingFragment ticketing_fragment = new TicketingFragment();
         TaskFragment taskFragment = new TaskFragment();
         PassportFragment passportFragment =  new PassportFragment();
+        MypageFragment mypage=new MypageFragment();
 
         StatisticsFragment statisticsFragment = new StatisticsFragment();
         CalendarFragment calendarFragment = new CalendarFragment();
-        MypageActivity mypage=new MypageActivity();
 
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
