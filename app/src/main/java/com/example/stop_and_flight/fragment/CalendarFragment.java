@@ -354,10 +354,4 @@ public class CalendarFragment extends Fragment {
             }
         });
     }
-
-    public void replaceDialogFragment(Fragment fragment) {
-        FragmentManager fragmentManager = fragment.getChildFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container, fragment).addToBackStack(null).commitAllowingStateLoss();
-    }
 }
