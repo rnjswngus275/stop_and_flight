@@ -56,7 +56,7 @@ public class AddNewTask extends BottomSheetDialogFragment {
             Task_size = getArguments().getInt("Task_size", 0);
             Todo_size = getArguments().getInt("Todo_size", 0);
         }
-        setStyle(STYLE_NORMAL, R.style.DialogStyle);
+        setStyle(STYLE_NORMAL, R.style.AppBottomSheetDialogTheme);
     }
 
     @Override

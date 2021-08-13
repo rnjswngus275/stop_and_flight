@@ -105,7 +105,6 @@ public class MypageFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 point= snapshot.getValue(int.class);
-
                 Point.setText(Integer.toString(point)+"점");
             }
             @Override

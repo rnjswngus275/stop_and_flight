@@ -28,6 +28,7 @@ import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.TicketDatabaseHandler;
 import com.example.stop_and_flight.model.CurTime;
 import com.example.stop_and_flight.model.Ticket;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -49,7 +50,6 @@ import java.util.HashMap;
  */
 public class TicketingFragment extends Fragment {
 
-    Context mContext;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -62,6 +62,7 @@ public class TicketingFragment extends Fragment {
     private String UID;
     private AlarmManager AM;
     private PendingIntent ServicePending;
+    private Context context;
     int dptH;
     int dptM;
     private DatabaseReference mDatabase;
@@ -77,7 +78,8 @@ public class TicketingFragment extends Fragment {
     private CurTime curTime;
     private HashMap<String, Object> TicketMap;
 
-    public TicketingFragment() {
+    public TicketingFragment(Context context) {
+        this.context = context;
         // Required empty public constructor
     }
 
@@ -93,8 +95,8 @@ public class TicketingFragment extends Fragment {
      * @return A new instance of fragment Ticketing_Fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TicketingFragment newInstance(String param1, String param2, Bundle ticket) {
-        TicketingFragment fragment = new TicketingFragment();
+    public static TicketingFragment newInstance(String param1, String param2, Bundle ticket, Context context) {
+        TicketingFragment fragment = new TicketingFragment(context);
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -128,7 +130,7 @@ public class TicketingFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext= context;
+        this.context = context;
     }
 
     @Override
@@ -156,9 +158,9 @@ public class TicketingFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (mParam1 != null)
-                    ((MainActivity) getActivity()).replaceFragment(SelectTodoFragment.newInstance(mParam1, null, getArguments().getBundle("ticket")));
+                    ((TicketingBottomSheetDialog) getParentFragment()).DialogReplaceFragment(SelectTodoFragment.newInstance(mParam1, null, getArguments().getBundle("ticket")));
                 else
-                    ((MainActivity) getActivity()).replaceFragment(SelectTodoFragment.newInstance(null, null, null));
+                    ((TicketingBottomSheetDialog) getParentFragment()).DialogReplaceFragment(SelectTodoFragment.newInstance(null, null, null));
             }
         });
 
@@ -180,7 +182,7 @@ public class TicketingFragment extends Fragment {
                 int mYear=c.get(Calendar.YEAR);
                 int mMonth=c.get(Calendar.MONTH);
                 int mDay=c.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog =new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog =new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         select_data_button.setText(year+ "년 "+ (monthOfYear + 1) + " 월 " + dayOfMonth + " 일");
@@ -283,38 +285,34 @@ public class TicketingFragment extends Fragment {
         TicketDatabaseHandler db = new TicketDatabaseHandler(mDatabase);
         if (Todo == null)
             Todo = "default";
+        String depart_time =  depart_hour + ":" + depart_min;
+        String arrive_time =  arrive_hour + ":" + arrive_min;
+        Ticket ticket = new Ticket(depart_time, arrive_time, Todo, ++id , "true");
+
         if (depart_hour > 12 && arrive_hour < 12)
         {
-            String depart_time =  depart_hour + ":" + depart_min;
-            String arrive_time =  arrive_hour + ":" + arrive_min;
-            Ticket ticket = new Ticket(depart_time, arrive_time, Todo, ++id , "true");
-
             if (mParam1 != null)
             {
                 db.update_ticketDB(UID, ticket_Date, depart_time, arrive_time, Todo, updateId);
-                ((MainActivity) getActivity()).replaceFragment(TicketListFragment.newInstance(null, null));
             }
             else
+            {
                 db.insert_ticketDB(UID, ticket_Date, ticket);
-            onDestroy();
+                SetAlarmManager();
+            }
         }
         else
         {
             if((depart_hour < arrive_hour) || ((depart_hour == arrive_hour) && (depart_min <= arrive_min)))
             {
-                String depart_time =  depart_hour + ":" + depart_min;
-                String arrive_time =  arrive_hour + ":" + arrive_min;
-                Ticket ticket = new Ticket(depart_time, arrive_time, Todo, ++id , "true");
-
                 if (mParam1 != null)
                 {
                     db.update_ticketDB(UID, ticket_Date, depart_time, arrive_time, Todo, updateId);
-                    ((MainActivity) getActivity()).replaceFragment(TicketListFragment.newInstance(null, null));
                 }
                 else
                 {
                     db.insert_ticketDB(UID, ticket_Date, ticket);
-                    onDestroy();
+                    SetAlarmManager();
                 }
             }
             else {
@@ -323,9 +321,8 @@ public class TicketingFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onDestroy() {
-        AM = (AlarmManager) mContext.getSystemService(mContext.ALARM_SERVICE);
+    public void SetAlarmManager() {
+        AM = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
 
 //        String date_time= YEAR+"-"+(MONTH+1)+"-"+DAY+" "+ ticket_dpt+":"+00;
 //        SimpleDateFormat dateFormat =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -357,10 +354,10 @@ public class TicketingFragment extends Fragment {
 
 //        cal.setTime(datetime);
         //Receiver로 보내기 위한 인텐트
-        Intent intent_alarm = new Intent(mContext, AlarmReceiver.class);
+        Intent intent_alarm = new Intent(context, AlarmReceiver.class);
 
         ServicePending = PendingIntent.getBroadcast(
-                mContext, 0, intent_alarm, PendingIntent.FLAG_ONE_SHOT);
+                context, 0, intent_alarm, PendingIntent.FLAG_ONE_SHOT);
         long calc_time=cal.getTimeInMillis();
         if (Build.VERSION.SDK_INT < 23) {
             // 19 이상
@@ -386,4 +383,5 @@ public class TicketingFragment extends Fragment {
 
         super.onDestroy();
     }
+
 }

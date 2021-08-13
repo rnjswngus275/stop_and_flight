@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.stop_and_flight.fragment.CalendarFragment;
 import com.example.stop_and_flight.fragment.StatisticsFragment;
 import com.example.stop_and_flight.fragment.TicketListFragment;
 import com.example.stop_and_flight.fragment.TaskFragment;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager(); //fragment 매니저
         //fragment 객체 생성
         TicketListFragment ticket_list = new TicketListFragment();
-        TicketingFragment ticketing_fragment = new TicketingFragment();
+//        TicketingFragment ticketing_fragment = new TicketingFragment();
         TaskFragment taskFragment = new TaskFragment();
         MypageFragment mypage=new MypageFragment();
 
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (id == R.id.menu3) {
                     fragmentTransaction.replace(R.id.container, ticket_list).addToBackStack(null).commitAllowingStateLoss();
                 } else if (id == R.id.menu4) {
-                    fragmentTransaction.replace(R.id.container, ticketing_fragment).addToBackStack(null).commitAllowingStateLoss();
+//                    fragmentTransaction.replace(R.id.container, ticketing_fragment).addToBackStack(null).commitAllowingStateLoss();
                 } else if (id == R.id.menu5) {
                     fragmentTransaction.replace(R.id.container, taskFragment).addToBackStack(null).commitAllowingStateLoss();
                 } else if (id == R.id.menu8) {

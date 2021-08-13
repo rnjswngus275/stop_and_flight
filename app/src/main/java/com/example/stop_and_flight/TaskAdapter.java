@@ -44,12 +44,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         switch (viewType) {
             case HEADER:
-                System.out.println("check : header");
                 itemView = inflater.from(parent.getContext()).inflate(R.layout.task_layout, parent, false);
                 ViewHolder header = new ViewHolder(itemView);
                 return header;
             case CHILD:
-                System.out.println("check : child");
                 itemView = inflater.from(parent.getContext()).inflate(R.layout.todo_layout, parent, false);
                 ViewHolder Child_header = new ViewHolder(itemView);
                 return Child_header;

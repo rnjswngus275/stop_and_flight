@@ -5,15 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="0.7"
+    android:background="@drawable/bottomsheetdialog_radius"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".fragment.TicketingFragment">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/Todo_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="목  표"
         android:textSize="15dp"

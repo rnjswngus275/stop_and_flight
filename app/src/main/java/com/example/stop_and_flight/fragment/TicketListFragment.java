@@ -125,7 +125,6 @@ public class TicketListFragment extends Fragment {
         String ticket_Date = YEAR + "-" + MONTH + "-" + DAY;
 
         swipeRefreshLayout = view.findViewById(R.id.swipeTicketContainer);
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

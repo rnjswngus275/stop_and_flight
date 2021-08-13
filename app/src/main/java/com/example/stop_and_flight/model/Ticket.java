@@ -13,6 +13,7 @@ public class Ticket {
     private String date;
     private String todo;
     private String wait;
+    private String viewtype;
     private int id;
     private Map<String, Boolean> stars = new HashMap<>();
 

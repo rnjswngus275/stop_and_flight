@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.stop_and_flight.fragment.AddNewTask;
+import com.example.stop_and_flight.fragment.TicketingBottomSheetDialog;
 import com.example.stop_and_flight.fragment.TicketingFragment;
 import com.example.stop_and_flight.model.Task;
 
@@ -101,13 +102,13 @@ public class TodoSelectAdapter extends RecyclerView.Adapter<TodoSelectAdapter.Vi
                         if (bundle != null)
                         {
                             bundle.putString("Todo", item.getTask());
-                            ((MainActivity) getActivity()).replaceFragment(TicketingFragment.newInstance("update", null, bundle));
+                            ((MainActivity) getActivity()).replaceFragment(TicketingFragment.newInstance("update", null, bundle, context));
                         }
                         else
                         {
                             Bundle bundle = new Bundle();
                             bundle.putString("Todo", item.getTask());
-                            ((MainActivity) getActivity()).replaceFragment(TicketingFragment.newInstance(null, null, bundle));
+                            ((MainActivity) getActivity()).replaceFragment(TicketingFragment.newInstance(null, null, bundle, context));
                         }
                     }
                 });

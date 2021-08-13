@@ -340,7 +340,7 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
         ref2.addValueEventListener(new ValueEventListener() {        //emergency_time 읽어오기
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                emergency_time= snapshot.getValue(long.class);
+                emergency_time = snapshot.getValue(long.class);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

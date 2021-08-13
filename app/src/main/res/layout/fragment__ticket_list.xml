@@ -27,15 +27,5 @@
             android:nestedScrollingEnabled="true" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/ticketFab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="32dp"
-        app:backgroundTint="@color/color_4"
-        android:src="@drawable/add_image" />
 </RelativeLayout>
 
