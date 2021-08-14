@@ -128,12 +128,6 @@ public class TicketingFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.context = context;
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ticketing, container, false);
@@ -153,14 +147,14 @@ public class TicketingFragment extends Fragment {
         CheckBox satday=(CheckBox)view.findViewById(R.id.Set_button);
         CheckBox sunday=(CheckBox)view.findViewById(R.id.Sun_button);
 
-
+        // context 전달 필요 = Adapter까지 전달!!
         select_todo_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mParam1 != null)
-                    ((TicketingBottomSheetDialog) getParentFragment()).DialogReplaceFragment(SelectTodoFragment.newInstance(mParam1, null, getArguments().getBundle("ticket")));
+                    ((TicketingBottomSheetDialog) getParentFragment()).DialogReplaceFragment(SelectTodoFragment.newInstance(mParam1, null, getArguments().getBundle("ticket"), context));
                 else
-                    ((TicketingBottomSheetDialog) getParentFragment()).DialogReplaceFragment(SelectTodoFragment.newInstance(null, null, null));
+                    ((TicketingBottomSheetDialog) getParentFragment()).DialogReplaceFragment(SelectTodoFragment.newInstance(null, null, null, context));
             }
         });
 

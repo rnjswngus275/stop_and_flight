@@ -125,7 +125,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         bundle.putString("Todo", item.getTodo());
         bundle.putString("Depart_time", item.getDepart_time());
         bundle.putString("Arrive_time", item.getArrive_time());
-        ((MainActivity) getActivity()).replaceFragment(TicketingFragment.newInstance("update", null, bundle, context));
+//        ((MainActivity) getActivity()).replaceFragment(TicketingFragment.newInstance("update", null, bundle, context));
     }
 
     private FragmentActivity getActivity() {

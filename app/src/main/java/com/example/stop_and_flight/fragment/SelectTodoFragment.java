@@ -51,6 +51,7 @@ public class SelectTodoFragment extends Fragment {
     public ArrayList<Task> taskList = new ArrayList<>();;
     private static String UID;
     private DatabaseReference mDatabase;
+    private Context context;
     private Task getTask;
     private Task getTodo;
     private TaskDatabaseHandler db;
@@ -58,7 +59,8 @@ public class SelectTodoFragment extends Fragment {
     private HashMap<String, Object> TodoMap;
     private HashMap<String, Object> TaskMap;
 
-    public SelectTodoFragment() {
+    public SelectTodoFragment(Context context) {
+        this.context = context;
         // Required empty public constructor
     }
 
@@ -71,8 +73,8 @@ public class SelectTodoFragment extends Fragment {
      * @return A new instance of fragment SelectTodoFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SelectTodoFragment newInstance(String param1, String param2, Bundle ticket) {
-        SelectTodoFragment fragment = new SelectTodoFragment();
+    public static SelectTodoFragment newInstance(String param1, String param2, Bundle ticket, Context context) {
+        SelectTodoFragment fragment = new SelectTodoFragment(context);
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -99,13 +101,13 @@ public class SelectTodoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_select_todo, container, false);
-        Context ct = container.getContext();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         db = new TaskDatabaseHandler(mDatabase);
         tododb = new TodoDatabaseHandler(mDatabase);
         selectTaskRecyclerView = v.findViewById(R.id.selectTaskRecyclerView);
-        todoSelectAdapter = new TodoSelectAdapter(db, tododb,ct, UID, getArguments().getBundle("ticket"));
+        Fragment BottomSheetdialog = ((TicketingBottomSheetDialog) getParentFragment());
 
+        todoSelectAdapter = new TodoSelectAdapter(db, tododb, context, UID, getArguments().getBundle("ticket"), BottomSheetdialog);
         mDatabase.child("TASK").child(UID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -139,7 +141,7 @@ public class SelectTodoFragment extends Fragment {
             }
         });
 
-        selectTaskRecyclerView.setLayoutManager(new LinearLayoutManager(ct, LinearLayoutManager.VERTICAL, false));
+        selectTaskRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
 
         Collections.reverse(taskList);
         todoSelectAdapter.setTasks(taskList);
