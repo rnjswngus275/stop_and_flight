@@ -372,9 +372,9 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
 
         BottomSheetDialog AccessSheetDialog = new BottomSheetDialog(getActivity());
         AccessSheetDialog.setContentView(R.layout.app_dialog_searchable_spinner);
-        AccessSheetDialog.getWindow().setLayout(1000, 1200);
-        AccessSheetDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
+//        AccessSheetDialog.getWindow().setLayout(1000, 1200);
+//        AccessSheetDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        AccessSheetDialog.getWindow().getContainer().setStyle(STYLE_NORMAL, R.style.AppBottomSheetDialogTheme);
         EditText editText = AccessSheetDialog.findViewById(R.id.app_edit_text);
         ListView listView = AccessSheetDialog.findViewById(R.id.app_list_view);
         ArrayAdapter adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, applist);

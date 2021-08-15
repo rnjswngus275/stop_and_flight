@@ -18,6 +18,7 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
 
     private TaskAdapter adapter;
     private TicketAdapter ticketadapter;
+    private CalenderAdapter calenderAdapter;
 
     public RecyclerItemTouchHelper(TaskAdapter adapter){
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
@@ -27,6 +28,11 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
     public RecyclerItemTouchHelper(TicketAdapter ticketadapter){
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         this.ticketadapter = ticketadapter;
+    }
+
+    public RecyclerItemTouchHelper(CalenderAdapter calenderAdapter){
+        super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
+        this.calenderAdapter = calenderAdapter;
     }
 
     @Override
@@ -59,6 +65,17 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
                 ticketadapter.notifyItemChanged(viewHolder.getAdapterPosition());
             }
         }
+        else if (calenderAdapter != null)
+        {
+            if(direction == ItemTouchHelper.LEFT) {
+                calenderAdapter.deleteItem(position);
+                calenderAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+            }
+            else {
+                calenderAdapter.editItem(position);
+                calenderAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+            }
+        }
     }
 
     @Override
@@ -89,6 +106,16 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
             } else {
                 icon = ContextCompat.getDrawable(ticketadapter.getContext(), R.drawable.ic_baseline_delete);
                 background = new ColorDrawable(ContextCompat.getColor(ticketadapter.getContext(), R.color.red));
+
+            }
+        }
+        else if (calenderAdapter != null) {
+            if (dX > 0) {
+                icon = ContextCompat.getDrawable(calenderAdapter.getContext(), R.drawable.ic_baseline_edit);
+                background = new ColorDrawable(ContextCompat.getColor(calenderAdapter.getContext(), R.color.colorPrimaryDark));
+            } else {
+                icon = ContextCompat.getDrawable(calenderAdapter.getContext(), R.drawable.ic_baseline_delete);
+                background = new ColorDrawable(ContextCompat.getColor(calenderAdapter.getContext(), R.color.red));
 
             }
         }

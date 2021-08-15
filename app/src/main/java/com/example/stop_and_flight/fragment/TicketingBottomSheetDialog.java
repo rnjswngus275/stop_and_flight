@@ -30,6 +30,8 @@ public class TicketingBottomSheetDialog extends BottomSheetDialogFragment {
     private String mParam1;
     private String mParam2;
     private Context context;
+    private String Todo = null;
+    private int updateId;
 
     public TicketingBottomSheetDialog(Context context) {
         this.context = context;
@@ -60,6 +62,16 @@ public class TicketingBottomSheetDialog extends BottomSheetDialogFragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+            if (getArguments().getBundle("Todo") != null)
+            {
+                Todo = getArguments().getString("Todo");
+                updateId = getArguments().getInt("Id");
+
+            }
         }
         setStyle(STYLE_NORMAL, R.style.AppBottomSheetDialogTheme);
     }

@@ -14,8 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
 
@@ -31,6 +33,7 @@ import com.applandeo.materialcalendarview.EventDay;
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 import com.example.stop_and_flight.CalenderAdapter;
 import com.example.stop_and_flight.R;
+import com.example.stop_and_flight.RecyclerItemTouchHelper;
 import com.example.stop_and_flight.TicketDatabaseHandler;
 import com.example.stop_and_flight.fragment.AddNewTask;
 import com.example.stop_and_flight.model.CalendarModel;
@@ -70,6 +73,7 @@ public class CalendarFragment extends Fragment {
     private FloatingActionButton ticketFab;
     private TicketDatabaseHandler db;
     private CurTime curTime;
+    private String ticket_Date;
     private int YEAR;
     private int MONTH;
     private int DAY;
@@ -106,18 +110,20 @@ public class CalendarFragment extends Fragment {
         }
 
         CollapsibleCalendar collapsibleCalendar = view.findViewById(R.id.calendarView);
+        Context ct = container.getContext();
+        BottomSheetDialogFragment ticketingBottomSheetDialog = new TicketingBottomSheetDialog(ct);
+
         reviewRecyclerView = view.findViewById(R.id.reviewRecyclerView);
         mDatabase =  FirebaseDatabase.getInstance().getReference();
         db = new TicketDatabaseHandler(mDatabase);
-        Context ct = container.getContext();
-        calenderAdapter = new CalenderAdapter(db, ct, UID);
+        calenderAdapter = new CalenderAdapter(db, ct, UID, (TicketingBottomSheetDialog) ticketingBottomSheetDialog, getFragmentManager());
         curTime = new CurTime();
 
         YEAR =  curTime.getIntYear();
         MONTH =  curTime.getIntMonth();
         DAY =  curTime.getIntDay();
 
-        String ticket_Date = YEAR + "-" + MONTH + "-" + DAY;
+        ticket_Date = YEAR + "-" + MONTH + "-" + DAY;
 
         collapsibleCalendar.setCalendarListener(new CollapsibleCalendar.CalendarListener() {
             @Override
@@ -125,8 +131,8 @@ public class CalendarFragment extends Fragment {
                 Day day = collapsibleCalendar.getSelectedDay();
                 Log.i(getClass().getName(), "Selected Day: "
                         + day.getYear() + "/" + (day.getMonth() + 1) + "/" + day.getDay());
-                String date = day.getYear() + "-" + (day.getMonth() + 1) + "-" + day.getDay();
-                getTicketDate(date);
+                ticket_Date = day.getYear() + "-" + (day.getMonth() + 1) + "-" + day.getDay();
+                getTicketDate(ticket_Date);
             }
 
             @Override
@@ -149,9 +155,17 @@ public class CalendarFragment extends Fragment {
 
             }
         });
-        getTicketDate(ticket_Date);
 
-        BottomSheetDialogFragment ticketingBottomSheetDialog = new TicketingBottomSheetDialog(ct);
+        SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeTicketContainer);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getTicketDate(ticket_Date);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        getTicketDate(ticket_Date);
 
         ticketFab = view.findViewById(R.id.ticketFab);
         ticketFab.setOnClickListener(new View.OnClickListener() {
@@ -162,15 +176,17 @@ public class CalendarFragment extends Fragment {
         });
 
 
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerItemTouchHelper(calenderAdapter));
+        itemTouchHelper.attachToRecyclerView(reviewRecyclerView);
+
         reviewRecyclerView.setLayoutManager(new LinearLayoutManager(ct, LinearLayoutManager.VERTICAL, false));
 
         Collections.reverse(TicketList);
         calenderAdapter.setTicket(TicketList);
         reviewRecyclerView.setAdapter(calenderAdapter);
 
-
-//        mCalendarView = (CalendarView) view.findViewById(R.id.calendarView);
-//        databaseReference =  FirebaseDatabase.getInstance().getReference();
+//
+//        mCalendarView = view.findViewById(R.id.calendarView);
 //        Calendar calendar = Calendar.getInstance();
 //        List<EventDay> eventDay = new ArrayList <>();
 //        mCalendarView.setDate(calendar);
@@ -210,7 +226,7 @@ public class CalendarFragment extends Fragment {
 //
 //
 //
-//                databaseReference.child("TICKET").child(UID).child(date).addValueEventListener(new ValueEventListener() {
+//                mDatabase.child("TICKET").child(UID).child(date).addValueEventListener(new ValueEventListener() {
 //                    @RequiresApi(api = Build.VERSION_CODES.N)
 //                    @Override
 //                    public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -279,9 +295,9 @@ public class CalendarFragment extends Fragment {
 //            }
 //        };
 //        // databaseReference.addValueEventListener(calendarlistener);
-//
-//
-//
+
+
+
         return view;
     }
 
@@ -329,22 +345,19 @@ public class CalendarFragment extends Fragment {
                         TicketList.add(getTicket);
                     }
                 }
-                TicketList.sort(new Comparator<Ticket>() {
-                    @Override
-                    public int compare(Ticket o1, Ticket o2) {
-                        String[] departTime1 = o1.getDepart_time().split(":");
-                        String[] departTime2 = o2.getDepart_time().split(":");
-                        if (Integer.parseInt(departTime1[0]) == Integer.parseInt(departTime2[0])
-                                && Integer.parseInt(departTime1[1]) == Integer.parseInt(departTime2[1]))
-                            return 0;
-                        if (Integer.parseInt(departTime1[0]) >= Integer.parseInt(departTime2[0])
-                                && Integer.parseInt(departTime1[1]) >= Integer.parseInt(departTime2[1]))
-                            return 1;
-                        if (Integer.parseInt(departTime1[0]) <= Integer.parseInt(departTime2[0])
-                                && Integer.parseInt(departTime1[1]) <= Integer.parseInt(departTime2[1]))
-                            return -1;
+                TicketList.sort((o1, o2) -> {
+                    String[] departTime1 = o1.getDepart_time().split(":");
+                    String[] departTime2 = o2.getDepart_time().split(":");
+                    if (Integer.parseInt(departTime1[0]) == Integer.parseInt(departTime2[0])
+                            && Integer.parseInt(departTime1[1]) == Integer.parseInt(departTime2[1]))
                         return 0;
-                    }
+                    if (Integer.parseInt(departTime1[0]) >= Integer.parseInt(departTime2[0])
+                            && Integer.parseInt(departTime1[1]) >= Integer.parseInt(departTime2[1]))
+                        return 1;
+                    if (Integer.parseInt(departTime1[0]) <= Integer.parseInt(departTime2[0])
+                            && Integer.parseInt(departTime1[1]) <= Integer.parseInt(departTime2[1]))
+                        return -1;
+                    return 0;
                 });
                 calenderAdapter.notifyDataSetChanged();
             }

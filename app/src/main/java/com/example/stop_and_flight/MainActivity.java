@@ -48,14 +48,13 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager(); //fragment 매니저
         //fragment 객체 생성
-        TicketListFragment ticket_list = new TicketListFragment();
-//        TicketingFragment ticketing_fragment = new TicketingFragment();
-        TaskFragment taskFragment = new TaskFragment();
-        MypageFragment mypage=new MypageFragment();
 
+        TicketingFragment ticketing_fragment = new TicketingFragment(context);
         StatisticsFragment statisticsFragment = new StatisticsFragment();
         CalendarFragment calendarFragment = new CalendarFragment();
-
+        TaskFragment taskFragment = new TaskFragment();
+        TicketListFragment ticketListFragment = new TicketListFragment();
+        MypageFragment mypage = new MypageFragment();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -75,9 +74,9 @@ public class MainActivity extends AppCompatActivity {
                 } else if (id == R.id.menu2) {
                     fragmentTransaction.replace(R.id.container, calendarFragment).addToBackStack(null).commitAllowingStateLoss();
                 } else if (id == R.id.menu3) {
-                    fragmentTransaction.replace(R.id.container, ticket_list).addToBackStack(null).commitAllowingStateLoss();
+                    fragmentTransaction.replace(R.id.container, ticketListFragment).addToBackStack(null).commitAllowingStateLoss();
                 } else if (id == R.id.menu4) {
-//                    fragmentTransaction.replace(R.id.container, ticketing_fragment).addToBackStack(null).commitAllowingStateLoss();
+                    fragmentTransaction.replace(R.id.container, ticketing_fragment).addToBackStack(null).commitAllowingStateLoss();
                 } else if (id == R.id.menu5) {
                     fragmentTransaction.replace(R.id.container, taskFragment).addToBackStack(null).commitAllowingStateLoss();
                 } else if (id == R.id.menu8) {

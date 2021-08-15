@@ -15,10 +15,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.stop_and_flight.fragment.SelectTodoFragment;
+import com.example.stop_and_flight.fragment.TicketingBottomSheetDialog;
 import com.example.stop_and_flight.fragment.TicketingFragment;
 import com.example.stop_and_flight.model.CurTime;
 import com.example.stop_and_flight.model.Ticket;
 import com.github.vipulasri.timelineview.TimelineView;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.vipulasri.ticketview.TicketView;
 
 import java.util.List;
@@ -30,11 +32,15 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
     private CurTime curTime;
     private TicketDatabaseHandler db;
     private String  UID;
+    private TicketingBottomSheetDialog ticketingBottomSheetDialog;
+    private FragmentManager fragmentManager;
 
-    public CalenderAdapter(TicketDatabaseHandler db, Context context, String UID) {
+    public CalenderAdapter(TicketDatabaseHandler db, Context context, String UID, TicketingBottomSheetDialog ticketingBottomSheetDialog, FragmentManager fragmentManager) {
         this.db = db;
         this.context = context;
         this.UID = UID;
+        this.ticketingBottomSheetDialog = ticketingBottomSheetDialog;
+        this.fragmentManager = fragmentManager;
     }
 
     @NonNull
@@ -102,11 +108,6 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
         notifyDataSetChanged();
     }
 
-    public void setReview(List<Ticket> TicketList){
-        this.TicketList = TicketList;
-        notifyDataSetChanged();
-    }
-
     public Context getContext(){
         return context;
     }
@@ -128,9 +129,10 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
         Bundle bundle = new Bundle();
         bundle.putInt("Id", item.getId());
         bundle.putString("Todo", item.getTodo());
-        bundle.putString("Depart_time", item.getDepart_time());
-        bundle.putString("Arrive_time", item.getArrive_time());
-        ((MainActivity) getActivity()).replaceFragment(TicketingFragment.newInstance("update", null, bundle, context));
+//        bundle.putString("Depart_time", item.getDepart_time());
+//        bundle.putString("Arrive_time", item.getArrive_time());
+        ticketingBottomSheetDialog.setArguments(bundle);
+        ticketingBottomSheetDialog.show(fragmentManager, ticketingBottomSheetDialog.getTag());
     }
 
     private FragmentActivity getActivity() {
