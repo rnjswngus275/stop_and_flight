@@ -1,10 +1,9 @@
-package com.example.stop_and_flight.fragment;
+package com.example.stop_and_flight.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
@@ -62,16 +61,9 @@ public class TicketingBottomSheetDialog extends BottomSheetDialogFragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-            if (getArguments().getBundle("Todo") != null)
-            {
-                Todo = getArguments().getString("Todo");
-                updateId = getArguments().getInt("Id");
-
-            }
+            Todo = getArguments().getString("Todo");
+            updateId = getArguments().getInt("Id");
+            System.out.println(Todo + updateId);
         }
         setStyle(STYLE_NORMAL, R.style.AppBottomSheetDialogTheme);
     }
@@ -83,6 +75,14 @@ public class TicketingBottomSheetDialog extends BottomSheetDialogFragment {
 
         FragmentTransaction childFt = getChildFragmentManager().beginTransaction(); //fragment 매니저
         TicketingFragment ticketingFragment = new TicketingFragment(context);
+
+        if (Todo != null )
+        {
+            Bundle bundle = new Bundle();
+            bundle.putInt("Id", updateId);
+            bundle.putString("Todo", Todo);
+            ticketingFragment.setArguments(bundle);
+        }
         childFt.replace(R.id.dialog_container, ticketingFragment);
         childFt.addToBackStack(null);
         childFt.commit();

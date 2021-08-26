@@ -1,4 +1,4 @@
-package com.example.stop_and_flight;
+package com.example.stop_and_flight.utils;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,9 +14,11 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.stop_and_flight.fragment.AddNewTask;
-import com.example.stop_and_flight.fragment.TicketingBottomSheetDialog;
-import com.example.stop_and_flight.fragment.TicketingFragment;
+import com.example.stop_and_flight.Fragment.AddNewTask;
+import com.example.stop_and_flight.Fragment.TaskDatabaseHandler;
+import com.example.stop_and_flight.Fragment.TicketingBottomSheetDialog;
+import com.example.stop_and_flight.Fragment.TicketingFragment;
+import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.model.Task;
 
 import java.util.ArrayList;
@@ -31,15 +33,15 @@ public class TodoSelectAdapter extends RecyclerView.Adapter<TodoSelectAdapter.Vi
     private Fragment fragment;
     private TaskDatabaseHandler db;
     private TodoDatabaseHandler tododb;
-    private Bundle bundle;
+    private int updateId;
     private String  UID;
 
-    public TodoSelectAdapter(TaskDatabaseHandler db, TodoDatabaseHandler tododb, Context context, String UID, Bundle bundle, Fragment fragment) {
+    public TodoSelectAdapter(TaskDatabaseHandler db, TodoDatabaseHandler tododb, Context context, String UID, int updateId, Fragment fragment) {
         this.db = db;
         this.tododb = tododb;
         this.context = context;
         this.UID = UID;
-        this.bundle = bundle;
+        this.updateId = updateId;
         this.fragment = fragment;
     }
 
@@ -102,17 +104,7 @@ public class TodoSelectAdapter extends RecyclerView.Adapter<TodoSelectAdapter.Vi
                 holder.sub_title.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (bundle != null)
-                        {
-                            bundle.putString("Todo", item.getTask());
-                            ((TicketingBottomSheetDialog) fragment).DialogReplaceFragment(TicketingFragment.newInstance("update", null, bundle, context));
-                        }
-                        else
-                        {
-                            Bundle bundle = new Bundle();
-                            bundle.putString("Todo", item.getTask());
-                            ((TicketingBottomSheetDialog) fragment).DialogReplaceFragment(TicketingFragment.newInstance(null, null, bundle, context));
-                        }
+                        ((TicketingBottomSheetDialog) fragment).DialogReplaceFragment(TicketingFragment.newInstance(updateId, item.getTask(), context));
                     }
                 });
                 break;

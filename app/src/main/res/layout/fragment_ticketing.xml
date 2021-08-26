@@ -8,7 +8,7 @@
     android:background="@drawable/bottomsheetdialog_radius"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".fragment.TicketingFragment">
+    tools:context=".Fragment.TicketingFragment">
 
     <ImageView
         android:layout_width="match_parent"

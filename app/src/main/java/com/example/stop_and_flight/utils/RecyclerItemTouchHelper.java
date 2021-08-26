@@ -1,8 +1,5 @@
-package com.example.stop_and_flight;
+package com.example.stop_and_flight.utils;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -12,22 +9,18 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.stop_and_flight.model.Ticket;
+import com.example.stop_and_flight.R;
+import com.example.stop_and_flight.utils.CalenderAdapter;
+import com.example.stop_and_flight.utils.TaskAdapter;
 
 public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
 
     private TaskAdapter adapter;
-    private TicketAdapter ticketadapter;
     private CalenderAdapter calenderAdapter;
 
     public RecyclerItemTouchHelper(TaskAdapter adapter){
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         this.adapter = adapter;
-    }
-
-    public RecyclerItemTouchHelper(TicketAdapter ticketadapter){
-        super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
-        this.ticketadapter = ticketadapter;
     }
 
     public RecyclerItemTouchHelper(CalenderAdapter calenderAdapter){
@@ -52,17 +45,6 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
             else {
                 adapter.editItem(position);
                 adapter.notifyItemChanged(viewHolder.getAdapterPosition());
-            }
-        }
-        else if (ticketadapter != null)
-        {
-            if(direction == ItemTouchHelper.LEFT) {
-                ticketadapter.deleteItem(position);
-                ticketadapter.notifyItemChanged(viewHolder.getAdapterPosition());
-            }
-            else {
-                ticketadapter.editItem(position);
-                ticketadapter.notifyItemChanged(viewHolder.getAdapterPosition());
             }
         }
         else if (calenderAdapter != null)
@@ -97,16 +79,6 @@ public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
             } else {
                 icon = ContextCompat.getDrawable(adapter.getContext(), R.drawable.ic_baseline_delete);
                 background = new ColorDrawable(ContextCompat.getColor(adapter.getContext(), R.color.red));
-            }
-        }
-        else if (ticketadapter != null) {
-            if (dX > 0) {
-                icon = ContextCompat.getDrawable(ticketadapter.getContext(), R.drawable.ic_baseline_edit);
-                background = new ColorDrawable(ContextCompat.getColor(ticketadapter.getContext(), R.color.colorPrimaryDark));
-            } else {
-                icon = ContextCompat.getDrawable(ticketadapter.getContext(), R.drawable.ic_baseline_delete);
-                background = new ColorDrawable(ContextCompat.getColor(ticketadapter.getContext(), R.color.red));
-
             }
         }
         else if (calenderAdapter != null) {

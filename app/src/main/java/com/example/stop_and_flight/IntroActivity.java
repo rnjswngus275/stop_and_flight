@@ -1,19 +1,10 @@
 package com.example.stop_and_flight;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.accessibilityservice.AccessibilityServiceInfo;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.Settings;
-import android.util.Log;
-import android.view.accessibility.AccessibilityManager;
-
-import java.util.List;
 
 public class IntroActivity extends AppCompatActivity {
 

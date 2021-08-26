@@ -1,4 +1,4 @@
-package com.example.stop_and_flight.fragment;
+package com.example.stop_and_flight.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,11 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.stop_and_flight.R;
-import com.example.stop_and_flight.TaskDatabaseHandler;
-import com.example.stop_and_flight.TodoDatabaseHandler;
-import com.example.stop_and_flight.TodoSelectAdapter;
 import com.example.stop_and_flight.model.Task;
-import com.example.stop_and_flight.model.Ticket;
+import com.example.stop_and_flight.utils.TodoDatabaseHandler;
+import com.example.stop_and_flight.utils.TodoSelectAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -44,7 +42,7 @@ public class SelectTodoFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private int mParam1;
     private String mParam2;
     private RecyclerView selectTaskRecyclerView;
     private TodoSelectAdapter todoSelectAdapter;
@@ -73,12 +71,11 @@ public class SelectTodoFragment extends Fragment {
      * @return A new instance of fragment SelectTodoFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SelectTodoFragment newInstance(String param1, String param2, Bundle ticket, Context context) {
+    public static SelectTodoFragment newInstance(int param1, String param2, Context context) {
         SelectTodoFragment fragment = new SelectTodoFragment(context);
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putInt(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
-        args.putBundle("ticket", ticket);
         fragment.setArguments(args);
         return fragment;
     }
@@ -92,8 +89,9 @@ public class SelectTodoFragment extends Fragment {
             UID  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
         }
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam1 = getArguments().getInt(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            System.out.println(mParam1 + mParam2);
         }
     }
 
@@ -107,7 +105,7 @@ public class SelectTodoFragment extends Fragment {
         selectTaskRecyclerView = v.findViewById(R.id.selectTaskRecyclerView);
         Fragment BottomSheetdialog = ((TicketingBottomSheetDialog) getParentFragment());
 
-        todoSelectAdapter = new TodoSelectAdapter(db, tododb, context, UID, getArguments().getBundle("ticket"), BottomSheetdialog);
+        todoSelectAdapter = new TodoSelectAdapter(db, tododb, context, UID, mParam1, BottomSheetdialog);
         mDatabase.child("TASK").child(UID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -1,4 +1,4 @@
-package com.example.stop_and_flight.fragment;
+package com.example.stop_and_flight;
 
 import android.graphics.Color;
 import android.os.Bundle;

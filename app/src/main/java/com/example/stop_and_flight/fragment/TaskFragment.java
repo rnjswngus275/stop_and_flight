@@ -1,4 +1,4 @@
-package com.example.stop_and_flight.fragment;
+package com.example.stop_and_flight.Fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,13 +16,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.stop_and_flight.DialogCloseListener;
 import com.example.stop_and_flight.R;
-import com.example.stop_and_flight.RecyclerItemTouchHelper;
-import com.example.stop_and_flight.TaskAdapter;
-import com.example.stop_and_flight.TaskDatabaseHandler;
-import com.example.stop_and_flight.TodoDatabaseHandler;
 import com.example.stop_and_flight.model.Task;
+import com.example.stop_and_flight.utils.DialogCloseListener;
+import com.example.stop_and_flight.utils.RecyclerItemTouchHelper;
+import com.example.stop_and_flight.utils.TaskAdapter;
+import com.example.stop_and_flight.utils.TodoDatabaseHandler;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

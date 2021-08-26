@@ -1,7 +1,6 @@
-package com.example.stop_and_flight;
+package com.example.stop_and_flight.utils;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,9 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.stop_and_flight.fragment.AddNewTask;
+import com.example.stop_and_flight.Fragment.AddNewTask;
+import com.example.stop_and_flight.Fragment.TaskDatabaseHandler;
+import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.model.Task;
 
 import java.util.ArrayList;

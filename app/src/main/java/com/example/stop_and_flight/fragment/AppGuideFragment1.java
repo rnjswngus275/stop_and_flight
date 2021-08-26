@@ -1,4 +1,4 @@
-package com.example.stop_and_flight.fragment;
+package com.example.stop_and_flight.Fragment;
 
 import android.os.Bundle;
 
