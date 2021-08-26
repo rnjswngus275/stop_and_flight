@@ -65,7 +65,7 @@ public class TicketingFragment extends Fragment {
     private int YEAR;
     private int MONTH;
     private int DAY;
-    private int flag = 99;
+    private int flag = 1;
     private int id = 0;
     private int updateId = -1;
     private String ticket_Date;
@@ -225,12 +225,12 @@ public class TicketingFragment extends Fragment {
 
     private void check_Schedule(String Date, int depart_hour , int depart_min, int arrive_hour, int arrive_min)
     {
+        flag = 0;
         mDatabase.child("TICKET").child(UID).child(Date).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
                     if (fileSnapshot != null) {
-                        flag = 0;
                         TicketMap = (HashMap<String, Object>) fileSnapshot.getValue();
                         String depart = String.valueOf(TicketMap.get("depart_time"));
                         String arrive = String.valueOf(TicketMap.get("arrive_time"));
@@ -257,20 +257,20 @@ public class TicketingFragment extends Fragment {
                         }
                     }
                 }
-                if (flag == 0)
-                {
-                    time_Validity(depart_hour, depart_min, arrive_hour, arrive_min);
-                }
-                else if (flag == 1)
-                {
-                    Toast.makeText(getContext(),  "이미 예약된 일정이 있습니다.", Toast.LENGTH_SHORT).show();
-                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
             }
         });
+        if (flag == 0)
+        {
+            time_Validity(depart_hour, depart_min, arrive_hour, arrive_min);
+        }
+        else
+        {
+            Toast.makeText(getContext(),  "이미 예약된 일정이 있습니다.", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
