@@ -70,5 +70,10 @@ dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
     implementation "com.google.android.material:material:1.2.0-alpha01"
     implementation 'com.github.shrikanth7698:Collapsible-Calendar-View-Android:v1.0.0'
+    implementation 'com.ogaclejapan.smarttablayout:library:2.0.0@aar'
+    implementation 'com.ogaclejapan.smarttablayout:utils-v4:2.0.0@aar'
+    implementation 'com.ogaclejapan.smarttablayout:library:1.7.0@aar'
+    implementation 'com.ogaclejapan.smarttablayout:utils-v4:1.7.0@aar'
+
 }
 

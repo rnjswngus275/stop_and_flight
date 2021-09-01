@@ -15,7 +15,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.stop_and_flight.Fragment.AddNewTask;
-import com.example.stop_and_flight.Fragment.TaskDatabaseHandler;
 import com.example.stop_and_flight.Fragment.TicketingBottomSheetDialog;
 import com.example.stop_and_flight.Fragment.TicketingFragment;
 import com.example.stop_and_flight.R;

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.model.Task;
+import com.example.stop_and_flight.utils.TaskDatabaseHandler;
 import com.example.stop_and_flight.utils.TodoDatabaseHandler;
 import com.example.stop_and_flight.utils.TodoSelectAdapter;
 import com.google.firebase.auth.FirebaseAuth;

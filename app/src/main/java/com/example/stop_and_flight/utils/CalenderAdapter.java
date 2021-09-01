@@ -47,6 +47,8 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
         View itemView = inflater.from(parent.getContext()).inflate(R.layout.ticket_layout, parent, false);
         ViewHolder header = new ViewHolder(itemView, viewType);
         curTime = new CurTime();
+
+        System.out.println("check >>> viewtype : " + viewType);
         return header;
     }
 

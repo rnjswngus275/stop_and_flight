@@ -21,6 +21,7 @@ import com.example.stop_and_flight.model.Task;
 import com.example.stop_and_flight.utils.DialogCloseListener;
 import com.example.stop_and_flight.utils.RecyclerItemTouchHelper;
 import com.example.stop_and_flight.utils.TaskAdapter;
+import com.example.stop_and_flight.utils.TaskDatabaseHandler;
 import com.example.stop_and_flight.utils.TodoDatabaseHandler;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
