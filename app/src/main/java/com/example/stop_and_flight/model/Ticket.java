@@ -13,6 +13,7 @@ public class Ticket {
     private String date;
     private String todo;
     private String wait;
+    private String review;
     private int id;
     private Map<String, Boolean> stars = new HashMap<>();
 
@@ -23,6 +24,14 @@ public class Ticket {
         this.todo = null;
         this.id = 0;
         this.wait = "true";
+    }
+
+    public String getReview() {
+        return review;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
     }
 
     public Ticket(String depart_time, String arrive_time, String todo, int id, String wait) {
@@ -98,6 +107,7 @@ public class Ticket {
         result.put("wait", wait);
         result.put("todo", todo);
         result.put("stars", stars);
+        result.put("review", review);
 
         return result;
     }

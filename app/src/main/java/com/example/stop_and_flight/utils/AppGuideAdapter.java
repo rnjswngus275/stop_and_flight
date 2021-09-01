@@ -1,6 +1,5 @@
-package com.example.stop_and_flight;
+package com.example.stop_and_flight.utils;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;

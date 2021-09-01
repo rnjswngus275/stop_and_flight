@@ -52,10 +52,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -104,9 +101,11 @@ public class MypageFragment extends Fragment {
         ref2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                point= snapshot.getValue(int.class);
-
-                Point.setText(Integer.toString(point)+"점");
+                if (snapshot != null)
+                {
+                    point= snapshot.getValue(int.class);
+                    Point.setText(Integer.toString(point)+"점");
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -156,7 +155,7 @@ public class MypageFragment extends Fragment {
             public void onClick(View v) {
                 signOut();
                 Toast.makeText(getContext(), "로그아웃되었습니다.", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getContext(),AppGuide.class);
+                Intent intent = new Intent(getContext(), AppGuide.class);
                 startActivity(intent);
             }
         });

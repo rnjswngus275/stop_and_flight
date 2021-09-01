@@ -1,4 +1,4 @@
-package com.example.stop_and_flight.fragment;
+package com.example.stop_and_flight.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,11 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.stop_and_flight.R;
-import com.example.stop_and_flight.TaskDatabaseHandler;
-import com.example.stop_and_flight.TodoDatabaseHandler;
-import com.example.stop_and_flight.TodoSelectAdapter;
 import com.example.stop_and_flight.model.Task;
-import com.example.stop_and_flight.model.Ticket;
+import com.example.stop_and_flight.utils.TaskDatabaseHandler;
+import com.example.stop_and_flight.utils.TodoDatabaseHandler;
+import com.example.stop_and_flight.utils.TodoSelectAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -44,13 +43,14 @@ public class SelectTodoFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private int mParam1;
     private String mParam2;
     private RecyclerView selectTaskRecyclerView;
     private TodoSelectAdapter todoSelectAdapter;
     public ArrayList<Task> taskList = new ArrayList<>();;
     private static String UID;
     private DatabaseReference mDatabase;
+    private Context context;
     private Task getTask;
     private Task getTodo;
     private TaskDatabaseHandler db;
@@ -58,7 +58,8 @@ public class SelectTodoFragment extends Fragment {
     private HashMap<String, Object> TodoMap;
     private HashMap<String, Object> TaskMap;
 
-    public SelectTodoFragment() {
+    public SelectTodoFragment(Context context) {
+        this.context = context;
         // Required empty public constructor
     }
 
@@ -71,12 +72,11 @@ public class SelectTodoFragment extends Fragment {
      * @return A new instance of fragment SelectTodoFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SelectTodoFragment newInstance(String param1, String param2, Bundle ticket) {
-        SelectTodoFragment fragment = new SelectTodoFragment();
+    public static SelectTodoFragment newInstance(int param1, String param2, Context context) {
+        SelectTodoFragment fragment = new SelectTodoFragment(context);
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putInt(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
-        args.putBundle("ticket", ticket);
         fragment.setArguments(args);
         return fragment;
     }
@@ -90,8 +90,9 @@ public class SelectTodoFragment extends Fragment {
             UID  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
         }
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam1 = getArguments().getInt(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            System.out.println(mParam1 + mParam2);
         }
     }
 
@@ -99,13 +100,13 @@ public class SelectTodoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_select_todo, container, false);
-        Context ct = container.getContext();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         db = new TaskDatabaseHandler(mDatabase);
         tododb = new TodoDatabaseHandler(mDatabase);
         selectTaskRecyclerView = v.findViewById(R.id.selectTaskRecyclerView);
-        todoSelectAdapter = new TodoSelectAdapter(db, tododb,ct, UID, getArguments().getBundle("ticket"));
+        Fragment BottomSheetdialog = ((TicketingBottomSheetDialog) getParentFragment());
 
+        todoSelectAdapter = new TodoSelectAdapter(db, tododb, context, UID, mParam1, BottomSheetdialog);
         mDatabase.child("TASK").child(UID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -139,7 +140,7 @@ public class SelectTodoFragment extends Fragment {
             }
         });
 
-        selectTaskRecyclerView.setLayoutManager(new LinearLayoutManager(ct, LinearLayoutManager.VERTICAL, false));
+        selectTaskRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
 
         Collections.reverse(taskList);
         todoSelectAdapter.setTasks(taskList);

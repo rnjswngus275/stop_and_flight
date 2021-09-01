@@ -1,4 +1,4 @@
-package com.example.stop_and_flight;
+package com.example.stop_and_flight.utils;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,14 +13,14 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.stop_and_flight.fragment.AddNewTask;
-import com.example.stop_and_flight.fragment.TicketingFragment;
+import com.example.stop_and_flight.Fragment.AddNewTask;
+import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.model.Task;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TodoSelectAdapter extends RecyclerView.Adapter<TodoSelectAdapter.ViewHolder> {
+public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     public static final int HEADER = 0;
     public static final int CHILD = 1;
@@ -28,32 +28,26 @@ public class TodoSelectAdapter extends RecyclerView.Adapter<TodoSelectAdapter.Vi
     private Context context;
     private TaskDatabaseHandler db;
     private TodoDatabaseHandler tododb;
-    private Bundle bundle;
     private String  UID;
 
-    public TodoSelectAdapter(TaskDatabaseHandler db, TodoDatabaseHandler tododb, Context context, String UID, Bundle bundle) {
+    public TaskAdapter(TaskDatabaseHandler db, TodoDatabaseHandler tododb, Context context, String UID) {
         this.db = db;
         this.tododb = tododb;
         this.context = context;
         this.UID = UID;
-        this.bundle = bundle;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = null;
-        Context context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
         switch (viewType) {
             case HEADER:
-                System.out.println("check : header");
-                itemView = inflater.from(parent.getContext()).inflate(R.layout.task_select_layout, parent, false);
+                itemView = inflater.from(parent.getContext()).inflate(R.layout.task_layout, parent, false);
                 ViewHolder header = new ViewHolder(itemView);
                 return header;
             case CHILD:
-                System.out.println("check : child");
                 itemView = inflater.from(parent.getContext()).inflate(R.layout.todo_layout, parent, false);
                 ViewHolder Child_header = new ViewHolder(itemView);
                 return Child_header;
@@ -92,25 +86,21 @@ public class TodoSelectAdapter extends RecyclerView.Adapter<TodoSelectAdapter.Vi
                         }
                     }
                 });
+                holder.btn_expand_toggle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int pos = taskList.indexOf(holder.refferalItem);
+                        int count = 0;
+                        while (taskList.size() > pos + 1 && taskList.get(pos + 1).getViewType() == CHILD) {
+                            pos++;
+                            count++;
+                        }
+                        AddNewTask.newInstance(UID, 1, item.getId(),  count).show(getActivity().getSupportFragmentManager(), AddNewTask.TAG);
+                    }
+                });
                 break;
             case CHILD:
                 holder.sub_title.setText(taskList.get(position).getTask());
-                holder.sub_title.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (bundle != null)
-                        {
-                            bundle.putString("Todo", item.getTask());
-                            ((MainActivity) getActivity()).replaceFragment(TicketingFragment.newInstance("update", null, bundle));
-                        }
-                        else
-                        {
-                            Bundle bundle = new Bundle();
-                            bundle.putString("Todo", item.getTask());
-                            ((MainActivity) getActivity()).replaceFragment(TicketingFragment.newInstance(null, null, bundle));
-                        }
-                    }
-                });
                 break;
         }
     }
@@ -170,7 +160,7 @@ public class TodoSelectAdapter extends RecyclerView.Adapter<TodoSelectAdapter.Vi
 
         ViewHolder(View view){
             super(view);
-            header_title = view.findViewById(R.id.TodoSelectRecyclerText);
+            header_title = view.findViewById(R.id.taskRecyclerText);
             btn_expand_toggle = view.findViewById(R.id.btn_expand_toggle);
             sub_title = view.findViewById(R.id.todoRecyclerText);
         }

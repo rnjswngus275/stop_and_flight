@@ -17,10 +17,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.stop_and_flight.fragment.StatisticsFragment;
-import com.example.stop_and_flight.fragment.TicketListFragment;
-import com.example.stop_and_flight.fragment.TaskFragment;
-import com.example.stop_and_flight.fragment.TicketingFragment;
+import com.example.stop_and_flight.Fragment.CalendarFragment;
+import com.example.stop_and_flight.Fragment.RankingFragment;
+import com.example.stop_and_flight.Fragment.TaskFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -47,14 +46,12 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager(); //fragment 매니저
         //fragment 객체 생성
-        TicketListFragment ticket_list = new TicketListFragment();
-        TicketingFragment ticketing_fragment = new TicketingFragment();
-        TaskFragment taskFragment = new TaskFragment();
-        MypageFragment mypage=new MypageFragment();
 
         StatisticsFragment statisticsFragment = new StatisticsFragment();
         CalendarFragment calendarFragment = new CalendarFragment();
-
+        TaskFragment taskFragment = new TaskFragment();
+        MypageFragment mypage = new MypageFragment();
+        RankingFragment rankingFragment = new RankingFragment();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -73,17 +70,13 @@ public class MainActivity extends AppCompatActivity {
                     fragmentTransaction.replace(R.id.container, mypage).addToBackStack(null).commitAllowingStateLoss();
                 } else if (id == R.id.menu2) {
                     fragmentTransaction.replace(R.id.container, calendarFragment).addToBackStack(null).commitAllowingStateLoss();
-                } else if (id == R.id.menu3) {
-                    fragmentTransaction.replace(R.id.container, ticket_list).addToBackStack(null).commitAllowingStateLoss();
-                } else if (id == R.id.menu4) {
-                    fragmentTransaction.replace(R.id.container, ticketing_fragment).addToBackStack(null).commitAllowingStateLoss();
                 } else if (id == R.id.menu5) {
                     fragmentTransaction.replace(R.id.container, taskFragment).addToBackStack(null).commitAllowingStateLoss();
                 } else if (id == R.id.menu8) {
+                    fragmentTransaction.replace(R.id.container, rankingFragment).addToBackStack(null).commitAllowingStateLoss();
+                } else if (id == R.id.menu9) {
                     Intent intent = new Intent(MainActivity.this, FilghtActivity.class);
                     startActivity(intent);
-                } else if (id == R.id.menu9) {
-                    Toast.makeText(context, title + ": 친구페이지 성공", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.menu10) {
                     fragmentTransaction.replace(R.id.container, statisticsFragment).addToBackStack(null).commitAllowingStateLoss();
                 }

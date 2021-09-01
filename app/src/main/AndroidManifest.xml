@@ -25,7 +25,6 @@
         <activity android:name=".JoinActivity" />
         <activity android:name=".LoginActivity" />
 
-        <activity android:name=".CalendarlistActivity" />
         <activity android:name=".InfoActivity"/>
         <activity android:name=".FilghtActivity">
             <intent-filter>

@@ -1,7 +1,6 @@
-package com.example.stop_and_flight;
+package com.example.stop_and_flight.utils;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,42 +9,52 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.stop_and_flight.fragment.AddNewTask;
+import com.example.stop_and_flight.Fragment.AddNewTask;
+import com.example.stop_and_flight.Fragment.TicketingBottomSheetDialog;
+import com.example.stop_and_flight.Fragment.TicketingFragment;
+import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.model.Task;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
+public class TodoSelectAdapter extends RecyclerView.Adapter<TodoSelectAdapter.ViewHolder> {
 
     public static final int HEADER = 0;
     public static final int CHILD = 1;
     private List<Task> taskList;
     private Context context;
+    private Fragment fragment;
     private TaskDatabaseHandler db;
     private TodoDatabaseHandler tododb;
+    private int updateId;
     private String  UID;
 
-    public TaskAdapter(TaskDatabaseHandler db, TodoDatabaseHandler tododb, Context context, String UID) {
+    public TodoSelectAdapter(TaskDatabaseHandler db, TodoDatabaseHandler tododb, Context context, String UID, int updateId, Fragment fragment) {
         this.db = db;
         this.tododb = tododb;
         this.context = context;
         this.UID = UID;
+        this.updateId = updateId;
+        this.fragment = fragment;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = null;
+        Context context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
         switch (viewType) {
             case HEADER:
                 System.out.println("check : header");
-                itemView = inflater.from(parent.getContext()).inflate(R.layout.task_layout, parent, false);
+                itemView = inflater.from(parent.getContext()).inflate(R.layout.task_select_layout, parent, false);
                 ViewHolder header = new ViewHolder(itemView);
                 return header;
             case CHILD:
@@ -88,21 +97,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                         }
                     }
                 });
-                holder.btn_expand_toggle.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int pos = taskList.indexOf(holder.refferalItem);
-                        int count = 0;
-                        while (taskList.size() > pos + 1 && taskList.get(pos + 1).getViewType() == CHILD) {
-                            pos++;
-                            count++;
-                        }
-                        AddNewTask.newInstance(UID, 1, item.getId(),  count).show(getActivity().getSupportFragmentManager(), AddNewTask.TAG);
-                    }
-                });
                 break;
             case CHILD:
                 holder.sub_title.setText(taskList.get(position).getTask());
+                holder.sub_title.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((TicketingBottomSheetDialog) fragment).DialogReplaceFragment(TicketingFragment.newInstance(updateId, item.getTask(), context));
+                    }
+                });
                 break;
         }
     }
@@ -162,7 +165,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
         ViewHolder(View view){
             super(view);
-            header_title = view.findViewById(R.id.taskRecyclerText);
+            header_title = view.findViewById(R.id.TodoSelectRecyclerText);
             btn_expand_toggle = view.findViewById(R.id.btn_expand_toggle);
             sub_title = view.findViewById(R.id.todoRecyclerText);
         }

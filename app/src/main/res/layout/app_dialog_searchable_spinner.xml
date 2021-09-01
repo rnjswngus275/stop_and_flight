@@ -6,7 +6,7 @@
     android:orientation="vertical"
     app:layout_constraintCircleRadius="10dp"
     android:padding="16dp"
-    android:background="@color/white">
+    android:background="@drawable/bottomsheetdialog_radius">
 
     <TextView
         android:layout_width="wrap_content"

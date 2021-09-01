@@ -1,7 +1,6 @@
-package com.example.stop_and_flight;
+package com.example.stop_and_flight.utils;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,32 +8,36 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.stop_and_flight.fragment.SelectTodoFragment;
-import com.example.stop_and_flight.fragment.TicketingFragment;
+import com.example.stop_and_flight.Fragment.TicketingBottomSheetDialog;
+import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.model.CurTime;
 import com.example.stop_and_flight.model.Ticket;
 import com.github.vipulasri.timelineview.TimelineView;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.vipulasri.ticketview.TicketView;
 
 import java.util.List;
 
-public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder> {
+public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHolder> {
 
     private Context context;
     private List<Ticket> TicketList;
     private CurTime curTime;
     private TicketDatabaseHandler db;
     private String  UID;
+    private TicketingBottomSheetDialog ticketingBottomSheetDialog;
+    private FragmentManager fragmentManager;
 
-    public TicketAdapter(TicketDatabaseHandler db, Context context, String UID) {
+    public CalenderAdapter(TicketDatabaseHandler db, Context context, String UID, TicketingBottomSheetDialog ticketingBottomSheetDialog, FragmentManager fragmentManager) {
         this.db = db;
         this.context = context;
         this.UID = UID;
+        this.ticketingBottomSheetDialog = ticketingBottomSheetDialog;
+        this.fragmentManager = fragmentManager;
     }
 
     @NonNull
@@ -44,6 +47,8 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         View itemView = inflater.from(parent.getContext()).inflate(R.layout.ticket_layout, parent, false);
         ViewHolder header = new ViewHolder(itemView, viewType);
         curTime = new CurTime();
+
+        System.out.println("check >>> viewtype : " + viewType);
         return header;
     }
 
@@ -55,22 +60,27 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         holder.DepartTitle.setText(formatAmPm(item.getDepart_time()));
         holder.ArriveTitle.setText(formatAmPm(item.getArrive_time()));
         String[] depart_time =  item.getDepart_time().split(":");
-        String[] arrive_time = item.getArrive_time().split(":");
 
-        if (curTime.getIntHour() > Integer.parseInt(depart_time[0]) || (curTime.getIntHour() == Integer.parseInt(depart_time[0]) && curTime.getIntMinute() > Integer.parseInt(depart_time[1])))
-        {
-            holder.mTimelineView.setMarker(context.getDrawable(R.drawable.ic_baseline_keyboard_arrow_down_24), context.getColor(R.color.color_4));
-            holder.mTimelineView.setEndLineColor(context.getColor(R.color.color_3), getItemViewType(position));
-            holder.mTimelineView.setStartLineColor(context.getColor(R.color.color_3), getItemViewType(position));
-            holder.ticketView.setBackgroundBeforeDivider(context.getDrawable(R.color.brickred));
-            holder.ticketView.setBackgroundAfterDivider(context.getDrawable(R.color.brickred));
+        String[] setDay = item.getDate().split("-");
 
-        }
-        if (item.getWait().equals("false"))
+        if (curTime.getIntYear() > Integer.parseInt(setDay[0]) || (curTime.getIntYear() == Integer.parseInt((setDay[0])) && curTime.getIntMonth() > Integer.parseInt(setDay[1])) ||
+                (curTime.getIntYear() == Integer.parseInt((setDay[0])) && curTime.getIntMonth() == Integer.parseInt(setDay[1]) && curTime.getIntDay() >= Integer.parseInt(setDay[2])))
         {
-            holder.stampImage.setImageResource(R.drawable.stamp);
-            holder.ticketView.setBackgroundBeforeDivider(context.getDrawable(R.color.color_2));
-            holder.ticketView.setBackgroundAfterDivider(context.getDrawable(R.color.color_2));
+            if (curTime.getIntHour() > Integer.parseInt(depart_time[0]) || (curTime.getIntHour() == Integer.parseInt(depart_time[0]) && curTime.getIntMinute() > Integer.parseInt(depart_time[1])))
+            {
+                holder.mTimelineView.setMarker(context.getDrawable(R.drawable.ic_baseline_keyboard_arrow_down_24), context.getColor(R.color.color_4));
+                holder.mTimelineView.setEndLineColor(context.getColor(R.color.color_3), getItemViewType(position));
+                holder.mTimelineView.setStartLineColor(context.getColor(R.color.color_3), getItemViewType(position));
+                holder.ticketView.setBackgroundBeforeDivider(context.getDrawable(R.color.brickred));
+                holder.ticketView.setBackgroundAfterDivider(context.getDrawable(R.color.brickred));
+            }
+            if (item.getWait().equals("false"))
+            {
+                holder.stampImage.setImageResource(R.drawable.stamp);
+                holder.ticketView.setBackgroundBeforeDivider(context.getDrawable(R.color.color_2));
+                holder.ticketView.setBackgroundAfterDivider(context.getDrawable(R.color.color_2));
+                holder.review.setText(item.getReview());
+            }
         }
     }
 
@@ -123,9 +133,9 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         Bundle bundle = new Bundle();
         bundle.putInt("Id", item.getId());
         bundle.putString("Todo", item.getTodo());
-        bundle.putString("Depart_time", item.getDepart_time());
-        bundle.putString("Arrive_time", item.getArrive_time());
-        ((MainActivity) getActivity()).replaceFragment(TicketingFragment.newInstance("update", null, bundle));
+        BottomSheetDialogFragment ticketingBottomSheetDialog = new TicketingBottomSheetDialog(context);
+        ticketingBottomSheetDialog.setArguments(bundle);
+        ticketingBottomSheetDialog.show(fragmentManager, ticketingBottomSheetDialog.getTag());
     }
 
     private FragmentActivity getActivity() {
@@ -140,6 +150,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         public ImageView stampImage;
         public Ticket refferalItem;
         public TimelineView mTimelineView;
+        public TextView review;
 
 
         ViewHolder(View view, int viewType){
@@ -148,6 +159,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
             CountryTitle = view.findViewById(R.id.CountryTitle);
             DepartTitle = view.findViewById(R.id.DepartTitle);
             ArriveTitle = view.findViewById(R.id.ArriveTitle);
+            review = view.findViewById(R.id.review);
             stampImage = view.findViewById(R.id.stampImage);
             mTimelineView = (TimelineView) itemView.findViewById(R.id.timeline);
             mTimelineView.initLine(viewType);
