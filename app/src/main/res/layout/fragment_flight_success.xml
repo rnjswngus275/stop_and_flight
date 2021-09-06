@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/color_1"
-    tools:context=".kwon.FlightSuccessFragment"
+    tools:context=".FlightSuccessFragment"
     android:id="@+id/fragment_flight_success"
     android:weightSum="10">
 

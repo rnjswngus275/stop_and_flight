@@ -11,10 +11,10 @@
         android:theme="@style/Theme.Stop_and_flight"
         android:usesCleartextTraffic="true"
         >
-
-        <activity android:name=".kwon.LoginMethodActivity" />
-        <activity android:name=".kwon.JoinSNSNickname" />
-        <activity android:name=".kwon.IntroActivity">
+        <activity android:name=".AppGuide" />
+        <activity android:name=".LoginMethodActivity" />
+        <activity android:name=".JoinSNSNickname" />
+        <activity android:name=".IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,14 +22,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".lee.AppGuide" />
-        <activity android:name=".kwon.MainActivity" />
-        <activity android:name=".kwon.select_signup_method" />
-        <activity android:name=".kwon.JoinActivity" />
-        <activity android:name=".kwon.LoginActivity" />
-        <activity android:name=".kim.CalendarlistActivity" />
-        <activity android:name=".kwon.InfoActivity"/>
-        <activity android:name=".kwon.FilghtActivity">
+        <activity android:name=".MainActivity" />
+        <activity android:name=".select_signup_method" />
+        <activity android:name=".JoinActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".InfoActivity"/>
+        <activity android:name=".FilghtActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.FLIGHTACTIVITY" />
@@ -37,14 +35,14 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <receiver android:name=".kwon.AlarmReceiver">
+        <receiver android:name=".AlarmReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.sec" />
             </intent-filter>
         </receiver>
 
         <service
-            android:name=".kwon.Accessibility"
+            android:name=".Accessibility"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />

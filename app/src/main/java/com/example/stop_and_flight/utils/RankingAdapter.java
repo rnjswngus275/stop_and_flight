@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.stop_and_flight.Fragment.AddNewTask;
+import com.example.stop_and_flight.fragments.AddNewTask;
 import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.model.Task;
 

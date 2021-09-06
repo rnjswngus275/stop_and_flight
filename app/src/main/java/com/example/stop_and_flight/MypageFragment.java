@@ -1,4 +1,4 @@
-package com.example.stop_and_flight.kwon;
+package com.example.stop_and_flight;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,23 +35,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.stop_and_flight.R;
-import com.example.stop_and_flight.lee.AppGuide;
-import com.example.stop_and_flight.lee.model.AppInfo;
+import com.example.stop_and_flight.model.AppInfo;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-<<<<<<< HEAD:app/src/main/java/com/example/stop_and_flight/kwon/MypageActivity.java
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
-=======
->>>>>>> origin/develop:app/src/main/java/com/example/stop_and_flight/MypageFragment.java
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -85,7 +82,7 @@ public class MypageFragment extends Fragment {
     String picturePath;
     Uri selectedImage;
     int point;
-    private static final String TAG = MypageActivity.class.getSimpleName();
+    private static final String TAG = MypageFragment.class.getSimpleName();
     public ProgressDialog mProgressDialog;
 
 
@@ -95,12 +92,8 @@ public class MypageFragment extends Fragment {
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState){
-<<<<<<< HEAD:app/src/main/java/com/example/stop_and_flight/kwon/MypageActivity.java
-        View view = inflater.inflate(R.layout.activity_mypage, container, false);
-=======
         View view = inflater.inflate(R.layout.fragment_mypage, container, false);
-        firebaseAuth = FirebaseAuth.getInstance();
->>>>>>> origin/develop:app/src/main/java/com/example/stop_and_flight/MypageFragment.java
+
         imageView=(ImageView)view.findViewById(R.id.imageView4);
 
         String filename=UID+"_ProfileImage";
@@ -172,13 +165,9 @@ public class MypageFragment extends Fragment {
         Logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-<<<<<<< HEAD:app/src/main/java/com/example/stop_and_flight/kwon/MypageActivity.java
                 accountLogout(getContext());
                 Toast.makeText(getContext(),"로그아웃되었습니다.", Toast.LENGTH_SHORT).show();
-=======
-                signOut();
-                Toast.makeText(getContext(), "로그아웃되었습니다.", Toast.LENGTH_SHORT).show();
->>>>>>> origin/develop:app/src/main/java/com/example/stop_and_flight/MypageFragment.java
+
                 Intent intent = new Intent(getContext(), AppGuide.class);
                 startActivity(intent);
             }
