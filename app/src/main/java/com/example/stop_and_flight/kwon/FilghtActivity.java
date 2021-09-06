@@ -12,6 +12,7 @@ import android.util.Log;
 import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.lee.AppGuideAdapter;
 import com.example.stop_and_flight.lee.model.AppInfo;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

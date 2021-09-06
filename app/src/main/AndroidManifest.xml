@@ -21,6 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".lee.AppGuide" />
         <activity android:name=".kwon.MainActivity" />
         <activity android:name=".kwon.select_signup_method" />
@@ -29,6 +30,7 @@
         <activity android:name=".kim.CalendarlistActivity" />
         <activity android:name=".kwon.InfoActivity"/>
         <activity android:name=".kwon.FilghtActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.FLIGHTACTIVITY" />
 

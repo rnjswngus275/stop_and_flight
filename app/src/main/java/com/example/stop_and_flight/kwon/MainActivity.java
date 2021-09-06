@@ -107,10 +107,12 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager(); //fragment 매니저
         //fragment 객체 생성
-        TicketListFragment ticket_list = new TicketListFragment();
-        TicketingFragment ticketing_fragment = new TicketingFragment();
+
+        StatisticsFragment statisticsFragment = new StatisticsFragment();
+        CalendarFragment calendarFragment = new CalendarFragment();
         TaskFragment taskFragment = new TaskFragment();
-        MypageActivity mypage=new MypageActivity();
+        MypageFragment mypage = new MypageFragment();
+        RankingFragment rankingFragment = new RankingFragment();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -151,22 +153,17 @@ public class MainActivity extends AppCompatActivity {
                 if (id == R.id.menu1) {       //여기에 메뉴 버튼 클릭했을때 옮길 페이지 연결하시면 됩니다.
                     fragmentTransaction.replace(R.id.container, mypage).addToBackStack(null).commitAllowingStateLoss();
                 } else if (id == R.id.menu2) {
-//                    Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
-//                    startActivity(intent);
-                } else if (id == R.id.menu3) {
-                    fragmentTransaction.replace(R.id.container, ticket_list).addToBackStack(null).commitAllowingStateLoss();
-                } else if (id == R.id.menu4) {
-                    fragmentTransaction.replace(R.id.container, ticketing_fragment).addToBackStack(null).commitAllowingStateLoss();
-                } else if (id == R.id.menu5) {
+                    fragmentTransaction.replace(R.id.container, calendarFragment).addToBackStack(null).commitAllowingStateLoss();
+                }
+                 else if (id == R.id.menu5) {
                     fragmentTransaction.replace(R.id.container, taskFragment).addToBackStack(null).commitAllowingStateLoss();
-                } else if (id == R.id.menu6) {
                 } else if (id == R.id.menu8) {
+                    fragmentTransaction.replace(R.id.container, rankingFragment).addToBackStack(null).commitAllowingStateLoss();
+                } else if (id == R.id.menu9) {
                     Intent intent = new Intent(MainActivity.this, FilghtActivity.class);
                     startActivity(intent);
-                } else if (id == R.id.menu9) {
-                    Toast.makeText(context, title + ": menu9 성공", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.menu10) {
-                    Toast.makeText(context, title + ": menu10 성공", Toast.LENGTH_SHORT).show();
+                    fragmentTransaction.replace(R.id.container, statisticsFragment).addToBackStack(null).commitAllowingStateLoss();
                 }
                 return true;
             }

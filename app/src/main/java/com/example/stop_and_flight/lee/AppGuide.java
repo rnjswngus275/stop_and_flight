@@ -21,6 +21,7 @@ import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.lee.fragment.AppGuideFragment1;
 import com.example.stop_and_flight.lee.fragment.AppGuideFragment2;
 import com.example.stop_and_flight.kwon.select_signup_method;
+import com.example.stop_and_flight.utils.AppGuideAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -28,14 +29,11 @@ import java.util.List;
 
 import me.relex.circleindicator.CircleIndicator;
 
-//import me.relex.circleindicator.CircleIndicator;
-
 public class AppGuide extends AppCompatActivity {
 
     private CircleIndicator mIndicator;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
-    //private CircleIndicator mIndicator;
     AppGuideAdapter adapter = new AppGuideAdapter(getSupportFragmentManager());
 
     @Override
@@ -48,7 +46,6 @@ public class AppGuide extends AppCompatActivity {
         mIndicator.setViewPager(viewPager);
 
         Button signup_button=(Button)findViewById(R.id.button2);
-        Button login_button=(Button)findViewById(R.id.go_login);
 
         signup_button.setOnClickListener(new Button.OnClickListener(){
             @Override

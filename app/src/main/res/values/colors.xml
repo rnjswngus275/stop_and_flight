@@ -13,4 +13,10 @@
     <color name="color_4">#769fcd</color>
     <color name="shadow">#F6F5F5</color>
     <color name="light_black">#646464</color>
+    <color name="silver">#BDC3C7</color>
+    <color name="red">#FF0000</color>
+    <color name="brickred">#f9ccca</color>
+    <color name="gold">#D4AF37</color>
+    <color name="silver2">#C0C0C0</color>
+    <color name="bronze">#9F7A34</color>
 </resources>

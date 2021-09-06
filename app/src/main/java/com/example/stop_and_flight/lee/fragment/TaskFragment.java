@@ -9,19 +9,20 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.stop_and_flight.lee.DialogCloseListener;
 import com.example.stop_and_flight.R;
-import com.example.stop_and_flight.lee.RecyclerItemTouchHelper;
-import com.example.stop_and_flight.lee.TaskAdapter;
-import com.example.stop_and_flight.lee.TaskDatabaseHandler;
-import com.example.stop_and_flight.lee.TodoDatabaseHandler;
-import com.example.stop_and_flight.lee.model.Task;
+import com.example.stop_and_flight.model.Task;
+import com.example.stop_and_flight.utils.DialogCloseListener;
+import com.example.stop_and_flight.utils.RecyclerItemTouchHelper;
+import com.example.stop_and_flight.utils.TaskAdapter;
+import com.example.stop_and_flight.utils.TaskDatabaseHandler;
+import com.example.stop_and_flight.utils.TodoDatabaseHandler;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -49,9 +50,11 @@ public class TaskFragment extends Fragment implements DialogCloseListener {
     private RecyclerView taskRecyclerView;
     private TaskAdapter taskAdapter;
     private FloatingActionButton fab;
-    public ArrayList<Task> taskList = new ArrayList<>();;
+    public ArrayList<Task> taskList = new ArrayList<>();
+    ;
     private static String UID;
     private DatabaseReference mDatabase;
+    private SwipeRefreshLayout swipeContainer;
     private Task getTask;
     private Task getTodo;
     private TaskDatabaseHandler db;
@@ -93,8 +96,8 @@ public class TaskFragment extends Fragment implements DialogCloseListener {
         super.onCreate(savedInstanceState);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
-        if(user != null){
-            UID  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
+        if (user != null) {
+            UID = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
         }
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -111,7 +114,49 @@ public class TaskFragment extends Fragment implements DialogCloseListener {
         db = new TaskDatabaseHandler(mDatabase);
         tododb = new TodoDatabaseHandler(mDatabase);
         taskRecyclerView = v.findViewById(R.id.taskRecyclerView);
-        taskAdapter = new TaskAdapter(db, tododb,ct, UID);
+        taskAdapter = new TaskAdapter(db, tododb, ct, UID);
+
+        swipeContainer = (SwipeRefreshLayout) v.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mDatabase.child("TASK").child(UID).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        taskRecyclerView.removeAllViewsInLayout();
+                        taskList.clear();
+                        for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
+                            if (fileSnapshot != null) {
+                                TaskMap = (HashMap<String, Object>) fileSnapshot.getValue();
+                                System.out.println(TaskMap);
+                                int type = Integer.parseInt(String.valueOf(TaskMap.get("viewType")));
+                                int task_id = Integer.parseInt(String.valueOf(TaskMap.get("id")));
+                                int parent_id = Integer.parseInt(String.valueOf(TaskMap.get("parent_id")));
+                                getTask = new Task(type, parent_id, task_id, (String) TaskMap.get("task"));
+                                taskList.add(getTask);
+                                for (DataSnapshot todoSnapshot : fileSnapshot.child("todo").getChildren()) {
+                                    if (todoSnapshot != null) {
+                                        TodoMap = (HashMap<String, Object>) todoSnapshot.getValue();
+                                        type = Integer.parseInt(String.valueOf(TodoMap.get("viewType")));
+                                        int todo_id = Integer.parseInt(String.valueOf(TodoMap.get("id")));
+                                        getTodo = new Task(type, task_id, todo_id, (String) TodoMap.get("task"));
+                                        taskList.add(getTodo);
+                                    }
+                                }
+                            }
+                        }
+                        taskAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
+                    }
+                });
+                swipeContainer.setRefreshing(false);
+            }
+        });
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new RecyclerItemTouchHelper(taskAdapter));
         itemTouchHelper.attachToRecyclerView(taskRecyclerView);
@@ -135,14 +180,14 @@ public class TaskFragment extends Fragment implements DialogCloseListener {
                         int type = Integer.parseInt(String.valueOf(TaskMap.get("viewType")));
                         int task_id = Integer.parseInt(String.valueOf(TaskMap.get("id")));
                         int parent_id = Integer.parseInt(String.valueOf(TaskMap.get("parent_id")));
-                        getTask = new Task(type, parent_id, task_id, (String)TaskMap.get("task"));
+                        getTask = new Task(type, parent_id, task_id, (String) TaskMap.get("task"));
                         taskList.add(getTask);
                         for (DataSnapshot todoSnapshot : fileSnapshot.child("todo").getChildren()) {
-                            if (todoSnapshot != null){
+                            if (todoSnapshot != null) {
                                 TodoMap = (HashMap<String, Object>) todoSnapshot.getValue();
                                 type = Integer.parseInt(String.valueOf(TodoMap.get("viewType")));
                                 int todo_id = Integer.parseInt(String.valueOf(TodoMap.get("id")));
-                                getTodo = new Task(type, task_id, todo_id, (String)TodoMap.get("task"));
+                                getTodo = new Task(type, task_id, todo_id, (String) TodoMap.get("task"));
                                 taskList.add(getTodo);
                             }
                         }
@@ -150,6 +195,7 @@ public class TaskFragment extends Fragment implements DialogCloseListener {
                 }
                 taskAdapter.notifyDataSetChanged();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
@@ -157,7 +203,6 @@ public class TaskFragment extends Fragment implements DialogCloseListener {
         });
 
         taskRecyclerView.setLayoutManager(new LinearLayoutManager(ct, LinearLayoutManager.VERTICAL, false));
-
         Collections.reverse(taskList);
         taskAdapter.setTasks(taskList);
         taskRecyclerView.setAdapter(taskAdapter);
@@ -166,7 +211,7 @@ public class TaskFragment extends Fragment implements DialogCloseListener {
     }
 
     @Override
-    public void handleDialogClose(DialogInterface dialog){
+    public void handleDialogClose(DialogInterface dialog) {
         mDatabase.child("TASK").child(UID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -176,19 +221,20 @@ public class TaskFragment extends Fragment implements DialogCloseListener {
                     TaskMap = (HashMap<String, Object>) fileSnapshot.getValue();
                     int type = Integer.parseInt(String.valueOf(TaskMap.get("viewType")));
                     int parent_id = Integer.parseInt(String.valueOf(TaskMap.get("id")));
-                    getTask = new Task(type, 0, parent_id, (String)TaskMap.get("task"));
+                    getTask = new Task(type, 0, parent_id, (String) TaskMap.get("task"));
                     taskList.add(getTask);
 
                     for (DataSnapshot todoSnapshot : fileSnapshot.child("todo").getChildren()) {
                         TodoMap = (HashMap<String, Object>) todoSnapshot.getValue();
                         type = Integer.parseInt(String.valueOf(TodoMap.get("viewType")));
                         int id = Integer.parseInt(String.valueOf(TodoMap.get("id")));
-                        getTask = new Task(type, parent_id, id, (String)TodoMap.get("task"));
+                        getTask = new Task(type, parent_id, id, (String) TodoMap.get("task"));
                         taskList.add(getTask);
                     }
                 }
                 taskAdapter.notifyDataSetChanged();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());

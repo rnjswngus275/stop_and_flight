@@ -90,7 +90,7 @@ public class FragmentNicknameModify extends Fragment {
                 mDatabase = FirebaseDatabase.getInstance().getReference(); // 파이어베이스 realtime database 에서 정보 가져오기
                 mDatabase.child("users").child(uid).child("nickname").setValue(Nickname);
 // Create new fragment and transaction
-                Fragment newFragment = new MypageActivity();
+                Fragment newFragment = new MypageFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
 // Replace whatever is in the fragment_container view with this fragment,
