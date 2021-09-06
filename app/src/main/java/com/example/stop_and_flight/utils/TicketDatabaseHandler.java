@@ -1,10 +1,7 @@
-<<<<<<< HEAD:app/src/main/java/com/example/stop_and_flight/lee/TicketDatabaseHandler.java
-package com.example.stop_and_flight.lee;
-=======
-package com.example.stop_and_flight.utils;
->>>>>>> origin/develop:app/src/main/java/com/example/stop_and_flight/utils/TicketDatabaseHandler.java
 
-import com.example.stop_and_flight.lee.model.Ticket;
+package com.example.stop_and_flight.utils;
+
+import com.example.stop_and_flight.model.Ticket;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.HashMap;

@@ -1,8 +1,5 @@
-<<<<<<< HEAD:app/src/main/java/com/example/stop_and_flight/lee/AppGuideAdapter.java
-package com.example.stop_and_flight.lee;
-=======
+
 package com.example.stop_and_flight.utils;
->>>>>>> origin/develop:app/src/main/java/com/example/stop_and_flight/utils/AppGuideAdapter.java
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;

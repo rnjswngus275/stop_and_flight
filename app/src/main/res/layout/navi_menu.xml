@@ -18,40 +18,22 @@
             android:id="@+id/menu3"
             android:icon="@drawable/cloud"
             style="@style/Text.gyeongiStyle"
-            android:title="티켓확인"
+            android:title="목표설정"
             />
         <item
             android:id="@+id/menu4"
             android:icon="@drawable/cloud"
             style="@style/Text.gyeongiStyle"
-            android:title="티켓예매"
+            android:title="랭킹"
             />
         <item
             android:id="@+id/menu5"
             android:icon="@drawable/cloud"
             style="@style/Text.gyeongiStyle"
-            android:title="목표설정"
-            />
-        <item
-            android:id="@+id/menu6"
-            android:icon="@drawable/cloud"
-            style="@style/Text.gyeongiStyle"
-            android:title="여권도장"
-            />
-        <item
-            android:id="@+id/menu8"
-            android:icon="@drawable/cloud"
-            style="@style/Text.gyeongiStyle"
-            android:title="랭킹"
-            />
-        <item
-            android:id="@+id/menu9"
-            android:icon="@drawable/cloud"
-            style="@style/Text.gyeongiStyle"
             android:title="친구관리"
             />
         <item
-            android:id="@+id/menu10"
+            android:id="@+id/menu6"
             android:icon="@drawable/cloud"
             style="@style/Text.gyeongiStyle"
             android:title="통계"

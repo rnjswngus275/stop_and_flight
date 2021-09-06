@@ -1,8 +1,5 @@
-<<<<<<< HEAD:app/src/main/java/com/example/stop_and_flight/lee/TaskAdapter.java
-package com.example.stop_and_flight.lee;
-=======
+
 package com.example.stop_and_flight.utils;
->>>>>>> origin/develop:app/src/main/java/com/example/stop_and_flight/utils/TaskAdapter.java
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,15 +14,10 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-<<<<<<< HEAD:app/src/main/java/com/example/stop_and_flight/lee/TaskAdapter.java
-import com.example.stop_and_flight.R;
-import com.example.stop_and_flight.lee.fragment.AddNewTask;
-import com.example.stop_and_flight.lee.model.Task;
-=======
-import com.example.stop_and_flight.Fragment.AddNewTask;
+
+import com.example.stop_and_flight.fragments.AddNewTask;
 import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.model.Task;
->>>>>>> origin/develop:app/src/main/java/com/example/stop_and_flight/utils/TaskAdapter.java
 
 import java.util.ArrayList;
 import java.util.List;

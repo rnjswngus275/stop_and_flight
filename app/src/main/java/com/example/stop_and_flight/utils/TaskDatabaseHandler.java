@@ -1,10 +1,7 @@
-<<<<<<< HEAD:app/src/main/java/com/example/stop_and_flight/lee/TaskDatabaseHandler.java
-package com.example.stop_and_flight.lee;
-import com.example.stop_and_flight.lee.model.Task;
-=======
 package com.example.stop_and_flight.utils;
+
 import com.example.stop_and_flight.model.Task;
->>>>>>> origin/develop:app/src/main/java/com/example/stop_and_flight/utils/TaskDatabaseHandler.java
+
 import com.google.firebase.database.DatabaseReference;
 import java.util.HashMap;
 import java.util.Map;

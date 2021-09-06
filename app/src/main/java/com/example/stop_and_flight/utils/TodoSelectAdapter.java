@@ -1,8 +1,5 @@
-<<<<<<< HEAD:app/src/main/java/com/example/stop_and_flight/lee/TodoSelectAdapter.java
-package com.example.stop_and_flight.lee;
-=======
+
 package com.example.stop_and_flight.utils;
->>>>>>> origin/develop:app/src/main/java/com/example/stop_and_flight/utils/TodoSelectAdapter.java
 
 import android.content.Context;
 import android.os.Bundle;
@@ -18,19 +15,13 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-<<<<<<< HEAD:app/src/main/java/com/example/stop_and_flight/lee/TodoSelectAdapter.java
 import com.example.stop_and_flight.R;
-import com.example.stop_and_flight.lee.fragment.AddNewTask;
-import com.example.stop_and_flight.lee.fragment.TicketingFragment;
-import com.example.stop_and_flight.kwon.MainActivity;
-import com.example.stop_and_flight.lee.model.Task;
-=======
-import com.example.stop_and_flight.Fragment.AddNewTask;
-import com.example.stop_and_flight.Fragment.TicketingBottomSheetDialog;
-import com.example.stop_and_flight.Fragment.TicketingFragment;
-import com.example.stop_and_flight.R;
+import com.example.stop_and_flight.fragments.AddNewTask;
+import com.example.stop_and_flight.fragments.TicketingBottomSheetDialog;
+import com.example.stop_and_flight.fragments.TicketingFragment;
 import com.example.stop_and_flight.model.Task;
->>>>>>> origin/develop:app/src/main/java/com/example/stop_and_flight/utils/TodoSelectAdapter.java
+import com.example.stop_and_flight.utils.TaskDatabaseHandler;
+import com.example.stop_and_flight.utils.TodoDatabaseHandler;
 
 import java.util.ArrayList;
 import java.util.List;
