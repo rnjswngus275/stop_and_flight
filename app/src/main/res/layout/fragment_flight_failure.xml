@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/color_1"
     android:id="@+id/fragment_flight_failure"
-    tools:context=".FlightFailureFragment">
+    tools:context=".kwon.FlightFailureFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

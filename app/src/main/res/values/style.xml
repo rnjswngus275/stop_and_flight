@@ -25,7 +25,13 @@
         <item name="android:fontFamily">@font/app_font_leel</item>
         <item name="android:includeFontPadding">false</item>
     </style>
-
+    <style name="Text.BasicStyle2" parent="android:TextAppearance">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">30dp</item>
+        <item name="android:textColor">@color/light_black</item>
+        <item name="android:fontFamily">@font/app_font_leel</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
     <style name="Text.TitleStyle" parent="android:TextAppearance">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">20dp</item>
@@ -41,4 +47,5 @@
         <item name="android:fontFamily">@font/app_font_gyeongichun</item>
         <item name="android:includeFontPadding">false</item>
     </style>
+
 </resources>
