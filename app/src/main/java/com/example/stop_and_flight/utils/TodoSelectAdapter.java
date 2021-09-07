@@ -1,3 +1,4 @@
+
 package com.example.stop_and_flight.utils;
 
 import android.content.Context;
@@ -13,12 +14,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.stop_and_flight.fragments.AddNewTask;
 import com.example.stop_and_flight.fragments.TicketingBottomSheetDialog;
 import com.example.stop_and_flight.fragments.TicketingFragment;
 import com.example.stop_and_flight.R;
-import com.example.stop_and_flight.models.Task;
+import com.example.stop_and_flight.model.Task;
+
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,5 @@
-package com.example.stop_and_flight.models;
+package com.example.stop_and_flight.model;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;

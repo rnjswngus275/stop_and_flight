@@ -1,4 +1,4 @@
-package com.example.stop_and_flight.models;
+package com.example.stop_and_flight.model;
 
 public class DateInfo {
     private String nickname;

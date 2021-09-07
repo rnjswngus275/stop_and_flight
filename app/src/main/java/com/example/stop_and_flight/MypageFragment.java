@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -33,13 +35,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.stop_and_flight.models.AppInfo;
+import com.example.stop_and_flight.model.AppInfo;
 import com.bumptech.glide.Glide;
-import com.example.stop_and_flight.models.UserInfo;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -63,7 +72,9 @@ public class MypageFragment extends Fragment {
     private GoogleSignInOptions gso;
     private static final int REQUEST_CODE = 0;
     private static final int RESULT_CANCELED = 1;
-    private FirebaseAuth firebaseAuth;
+    ImageView imageView;
+    private FirebaseAuth mAuth;
+    private GoogleApiClient mGoogleApiClient;
     private Button buttonDeleteID;
     private Button buttonAllowedApps;
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -71,11 +82,13 @@ public class MypageFragment extends Fragment {
     private DatabaseReference mDatabase;
     private HashMap<String, Object> UserMap;
 
-    ImageView imageView;
     String picturePath;
     Uri selectedImage;
     String nickname;
     int point;
+
+    private static final String TAG = MypageFragment.class.getSimpleName();
+    public ProgressDialog mProgressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,11 +103,10 @@ public class MypageFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_mypage, container, false);
-        firebaseAuth = FirebaseAuth.getInstance();
-        ImageView imageView=(ImageView)view.findViewById(R.id.imageView4);
+        imageView=(ImageView)view.findViewById(R.id.imageView4);
 
         String filename = UID + "_ProfileImage";
-//        getImage(filename);
+        getImage(filename);
 
         TextView Nickname=(TextView)view.findViewById(R.id.textView7);
         TextView Point=(TextView)view.findViewById(R.id.textView11);
@@ -145,17 +157,15 @@ public class MypageFragment extends Fragment {
 
                 String filename=UID+"_ProfileImage";
                 getImage(filename);
-
-
-
             }
         });
         Button Logout=(Button)view.findViewById(R.id.LOGOUT);
         Logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signOut();
-                Toast.makeText(getContext(), "로그아웃되었습니다.", Toast.LENGTH_SHORT).show();
+                accountLogout(getContext());
+                Toast.makeText(getContext(),"로그아웃되었습니다.", Toast.LENGTH_SHORT).show();
+
                 Intent intent = new Intent(getContext(), AppGuide.class);
                 startActivity(intent);
             }
@@ -165,10 +175,8 @@ public class MypageFragment extends Fragment {
         buttonDeleteID.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               firebaseAuth.getCurrentUser().delete();
-                Toast.makeText(getContext(), "회원탈퇴되었습니다.", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getContext(),AppGuide.class);
-                startActivity(intent);
+                accountResign(getContext());
+//                Toast.makeText(getContext(), "회원탈퇴되었습니다.", Toast.LENGTH_SHORT).show();
 
 //                user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
 //                    @Override
@@ -394,11 +402,100 @@ public class MypageFragment extends Fragment {
         });
     }
     public void signOut(){
-        // Firebase sign out
-        FirebaseAuth mAuth;
-        mAuth = FirebaseAuth.getInstance(); // 유저 계정 정보 가져오기
-        mAuth.signOut();
+        mGoogleApiClient.connect();
+        mGoogleApiClient.registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
 
+            @Override
+            public void onConnected(@Nullable Bundle bundle) {
+
+                mAuth.signOut();
+                if (mGoogleApiClient.isConnected()) {
+
+                    Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+
+
+                        @Override
+                        public void onResult(@NonNull Status status) {
+
+                            if (status.isSuccess()) {
+
+//                                DebugLog.logD(TAG, "User Logged out");
+//                                setResult(ResultCode.SIGN_OUT_SUCCESS);
+
+                            } else {
+
+//                                setResult(ResultCode.SIGN_OUT_FAIL);
+                            }
+
+                            hideProgressDialog();
+/*
+                            finish();
+*/
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onConnectionSuspended(int i) {
+
+//                DebugLog.logD(TAG, "Google API Client Connection Suspended");
+//
+//                setResult(ResultCode.SIGN_OUT_FAIL);
+                hideProgressDialog();
+
+//                finish();
+            }
+        });
+    }
+
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(getContext());
+//            mProgressDialog.setMessage(getString(R.string.loading));
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
+
+
+    public static void accountLogout(Context context){
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null){
+            FirebaseAuth.getInstance().signOut();
+            GoogleSignIn.getClient(context,GoogleSignInOptions.DEFAULT_SIGN_IN).signOut();
+        }
+    }
+    public void accountResign(final Context context){        //구글연동해제
+        if(user!=null){
+            //구글연동해제
+            try{
+                user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Intent intent = new Intent(context,AppGuide.class);
+                            startActivity(intent);
+
+                        }
+                        else{
+                            Toast.makeText(context, "회원탈퇴 실패", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });//firebase인증해제
+                GoogleSignIn.getClient(context,GoogleSignInOptions.DEFAULT_SIGN_IN).revokeAccess(); //Google 계정해제
+
+            }catch(Exception e){
+                Toast.makeText(context, "회원탈퇴 실패 catch", Toast.LENGTH_LONG).show();
+
+            }
+        }
     }
 
 }

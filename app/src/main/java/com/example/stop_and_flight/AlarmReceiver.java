@@ -9,6 +9,8 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.PowerManager;
 
+import com.google.firebase.database.DatabaseReference;
+
 import androidx.annotation.RequiresApi;
 
 import com.example.stop_and_flight.FilghtActivity;
@@ -19,6 +21,8 @@ public class AlarmReceiver extends BroadcastReceiver {
     private static PowerManager.WakeLock sCpuWakeLock;
     private static WifiManager.WifiLock sWifiLock;
     private static ConnectivityManager manager;
+    DatabaseReference mDatabase ;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -44,9 +48,11 @@ public class AlarmReceiver extends BroadcastReceiver {
         manager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         System.out.println("진입성공 확인");
+        int requestcode=intent.getIntExtra("requestcode",0);
+
         try {
             intent = new Intent(context, FilghtActivity.class);
-            PendingIntent pi = PendingIntent.getActivity(context, 0, intent,
+            PendingIntent pi = PendingIntent.getActivity(context, requestcode, intent,
                     PendingIntent.FLAG_ONE_SHOT);   //이 pending intent는 일회용이라는 플래그
 
 //                    context.startForegroundService(intent);//??

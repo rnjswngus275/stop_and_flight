@@ -1,6 +1,9 @@
 package com.example.stop_and_flight.utils;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +15,11 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.stop_and_flight.TicketAdapter;
 import com.example.stop_and_flight.fragments.TicketingBottomSheetDialog;
 import com.example.stop_and_flight.R;
-import com.example.stop_and_flight.models.CurTime;
-import com.example.stop_and_flight.models.Ticket;
+import com.example.stop_and_flight.model.CurTime;
+import com.example.stop_and_flight.model.Ticket;
 import com.github.vipulasri.timelineview.TimelineView;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.vipulasri.ticketview.TicketView;
@@ -31,6 +35,8 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
     private String  UID;
     private TicketingBottomSheetDialog ticketingBottomSheetDialog;
     private FragmentManager fragmentManager;
+    public static AlarmManager mAlarmMgr=null;
+    public static PendingIntent mAlarmIntent=null;
 
     public CalenderAdapter(TicketDatabaseHandler db, Context context, String UID, TicketingBottomSheetDialog ticketingBottomSheetDialog, FragmentManager fragmentManager) {
         this.db = db;
@@ -134,6 +140,8 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
     public void deleteItem(int position){
         Ticket item = TicketList.get(position);
         db.delete_ticketDB(UID, item.getDate(), item);
+        int requestcode=item.getRequestcode();
+        cancelAlarmManager(requestcode);
         TicketList.remove(position);
         notifyDataSetChanged();
     }
@@ -152,6 +160,18 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
         ticketingBottomSheetDialog.setArguments(bundle);
         ticketingBottomSheetDialog.show(fragmentManager, ticketingBottomSheetDialog.getTag());
     }
+
+
+    public void cancelAlarmManager(int requestcode){
+        if(mAlarmIntent != null) {
+            mAlarmMgr = (AlarmManager) getContext().getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(getContext().getApplicationContext(), TicketAdapter.class);
+            mAlarmIntent = PendingIntent.getBroadcast(getContext().getApplicationContext(),requestcode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+            mAlarmMgr.cancel(mAlarmIntent);
+            mAlarmIntent.cancel();
+            mAlarmMgr = null;
+            mAlarmIntent = null;
+        }}
 
     private FragmentActivity getActivity() {
         return (FragmentActivity) context;

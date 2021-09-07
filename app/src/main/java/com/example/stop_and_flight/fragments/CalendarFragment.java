@@ -19,8 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.stop_and_flight.R;
-import com.example.stop_and_flight.models.CurTime;
-import com.example.stop_and_flight.models.Ticket;
+import com.example.stop_and_flight.model.CurTime;
+import com.example.stop_and_flight.model.Ticket;
 import com.example.stop_and_flight.utils.CalenderAdapter;
 import com.example.stop_and_flight.utils.RecyclerItemTouchHelper;
 import com.example.stop_and_flight.utils.TicketDatabaseHandler;
@@ -36,9 +36,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.shrikanthravi.collapsiblecalendarview.data.Day;
 import com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar;
 
+
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 
 import static java.lang.String.valueOf;
 

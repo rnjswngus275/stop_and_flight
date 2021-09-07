@@ -7,14 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.stop_and_flight.R;
-import com.example.stop_and_flight.models.DateInfo;
-import com.example.stop_and_flight.models.Task;
-
-import java.util.Collections;
+import com.example.stop_and_flight.model.DateInfo;
 import java.util.List;
 
 public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.ViewHolder> {

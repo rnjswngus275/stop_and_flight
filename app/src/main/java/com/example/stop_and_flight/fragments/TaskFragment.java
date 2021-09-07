@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.stop_and_flight.R;
-import com.example.stop_and_flight.models.Task;
+import com.example.stop_and_flight.model.Task;
 import com.example.stop_and_flight.utils.DialogCloseListener;
 import com.example.stop_and_flight.utils.RecyclerItemTouchHelper;
 import com.example.stop_and_flight.utils.TaskAdapter;
@@ -51,7 +51,6 @@ public class TaskFragment extends Fragment implements DialogCloseListener {
     private TaskAdapter taskAdapter;
     private FloatingActionButton fab;
     public ArrayList<Task> taskList = new ArrayList<>();
-    ;
     private static String UID;
     private DatabaseReference mDatabase;
     private SwipeRefreshLayout swipeContainer;

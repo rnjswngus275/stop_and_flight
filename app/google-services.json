@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "229769436108",
+    "firebase_url": "https://stop-and-flight-default-rtdb.firebaseio.com",
     "project_id": "stop-and-flight",
     "storage_bucket": "stop-and-flight.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "229769436108-1ph2052elq3e6bsr453afomvllf8t8t4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.stop_and_flight",
+            "certificate_hash": "c6ee12443899153bbbca0c788d2218ec6ed53b06"
+          }
+        },
         {
           "client_id": "229769436108-5b8joasusmdmi4msfg72nv771kkdc2n8.apps.googleusercontent.com",
           "client_type": 3
@@ -27,7 +36,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "229769436108-5b8joasusmdmi4msfg72nv771kkdc2n8.apps.googleusercontent.com",
+              "client_id": "229769436108-1helkfh2jl6ljp8qft8qo0o2g73drkbj.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

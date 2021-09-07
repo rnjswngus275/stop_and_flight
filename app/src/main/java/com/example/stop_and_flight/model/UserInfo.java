@@ -1,10 +1,4 @@
-package com.example.stop_and_flight.models;
-
-import com.google.firebase.database.Exclude;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+package com.example.stop_and_flight.model;
 
 public class UserInfo {
     private String nickname;

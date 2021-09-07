@@ -24,10 +24,9 @@ import android.widget.Toast;
 
 import com.example.stop_and_flight.AlarmReceiver;
 import com.example.stop_and_flight.R;
-import com.example.stop_and_flight.models.CurTime;
-import com.example.stop_and_flight.models.Ticket;
+import com.example.stop_and_flight.model.CurTime;
+import com.example.stop_and_flight.model.Ticket;
 import com.example.stop_and_flight.utils.TicketDatabaseHandler;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -39,6 +38,7 @@ import com.webianks.library.scroll_choice.ScrollChoice;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,7 +51,8 @@ public class TicketingFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    Random random=new Random();
+    int requestcode =random.nextInt();
     // TODO: Rename and change types of parameters
     private static final int DEFAULT = -1;
     private int mParam1;
@@ -73,6 +74,7 @@ public class TicketingFragment extends Fragment {
     private String ticket_Date;
     private CurTime curTime;
     private HashMap<String, Object> TicketMap;
+    Context mContext;
 
     public TicketingFragment(Context context) {
         this.context = context;
@@ -117,6 +119,31 @@ public class TicketingFragment extends Fragment {
             updateId = getArguments().getInt("Id");
             System.out.println(Todo + updateId);
         }
+
+        Intent intent = new Intent(getContext(),AlarmReceiver.class);
+        intent.putExtra("requestcode",requestcode);
+
+//        /* 현재 시간과 날짜를 받아오는 부분 */
+//        long now = System.currentTimeMillis();
+//        Date date = new Date(now);
+//
+//        SimpleDateFormat CurYearFormat = new SimpleDateFormat("yyyy");
+//        SimpleDateFormat CurMonthFormat = new SimpleDateFormat("MM");
+//        SimpleDateFormat CurDayFormat = new SimpleDateFormat("dd");
+//        SimpleDateFormat CurHourFormat = new SimpleDateFormat("HH");
+//        SimpleDateFormat CurMinuteFormat = new SimpleDateFormat("mm");
+//
+//        strCurYear = CurYearFormat.format(date);
+//        strCurMonth = CurMonthFormat.format(date);
+//        strCurDay = CurDayFormat.format(date);
+//        strCurHour = CurHourFormat.format(date);
+//        strCurMinute = CurMinuteFormat.format(date);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext= context;
     }
 
     @Override
@@ -276,8 +303,12 @@ public class TicketingFragment extends Fragment {
     }
 
 
+
+
     private void time_Validity(int depart_hour , int depart_min, int arrive_hour, int arrive_min)
     {
+
+
         TicketDatabaseHandler db = new TicketDatabaseHandler(mDatabase);
         if (Todo == null)
         {
@@ -285,14 +316,14 @@ public class TicketingFragment extends Fragment {
         }
         String depart_time =  depart_hour + ":" + depart_min;
         String arrive_time =  arrive_hour + ":" + arrive_min;
-        Ticket ticket = new Ticket(depart_time, arrive_time, Todo, ++Id , 0);
+        Ticket ticket = new Ticket(depart_time, arrive_time, Todo, ++Id , 0, requestcode);
 
         if (depart_hour > 12 && arrive_hour < 12)
         {
             if (updateId != DEFAULT)
             {
                 System.out.println("check updated");
-                db.update_ticketDB(UID, ticket_Date, depart_time, arrive_time, Todo, updateId);
+                db.update_ticketDB(UID, ticket_Date, depart_time, arrive_time, Todo, updateId,requestcode);
             }
             else
             {
@@ -309,7 +340,7 @@ public class TicketingFragment extends Fragment {
                 if (updateId != DEFAULT)
                 {
                     System.out.println("check updated");
-                    db.update_ticketDB(UID, ticket_Date, depart_time, arrive_time, Todo, updateId);
+                    db.update_ticketDB(UID, ticket_Date, depart_time, arrive_time, Todo, updateId,requestcode);
                 }
                 else
                 {
@@ -359,9 +390,11 @@ public class TicketingFragment extends Fragment {
 //        cal.setTime(datetime);
         //Receiver로 보내기 위한 인텐트
         Intent intent_alarm = new Intent(context, AlarmReceiver.class);
+
         ServicePending = PendingIntent.getBroadcast(
-                context, 0, intent_alarm, PendingIntent.FLAG_ONE_SHOT);
-        long calc_time = cal.getTimeInMillis();
+                mContext, requestcode, intent_alarm, PendingIntent.FLAG_ONE_SHOT);
+
+        long calc_time=cal.getTimeInMillis();
         if (Build.VERSION.SDK_INT < 23) {
             // 19 이상
             if (Build.VERSION.SDK_INT >= 19) {

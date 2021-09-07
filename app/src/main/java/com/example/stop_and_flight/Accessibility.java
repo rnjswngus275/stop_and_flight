@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.Toast;
 
-import com.example.stop_and_flight.models.AppInfo;
+import com.example.stop_and_flight.model.AppInfo;
 
 import java.util.ArrayList;
 

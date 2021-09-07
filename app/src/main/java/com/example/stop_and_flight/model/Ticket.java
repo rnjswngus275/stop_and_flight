@@ -1,4 +1,4 @@
-package com.example.stop_and_flight.models;
+package com.example.stop_and_flight.model;
 
 import com.google.firebase.database.Exclude;
 
@@ -13,6 +13,7 @@ public class Ticket {
     private int success;
     private String review;
     private int id;
+    private int requestcode;
 
     public Ticket() {
         this.depart_time = null;
@@ -21,6 +22,7 @@ public class Ticket {
         this.todo = null;
         this.id = 0;
         this.success = 0;
+        this.requestcode = 0;
     }
 
     public String getReview() {
@@ -31,12 +33,13 @@ public class Ticket {
         this.review = review;
     }
 
-    public Ticket(String depart_time, String arrive_time, String todo, int id, int Success) {
+    public Ticket(String depart_time, String arrive_time, String todo, int id, int Success, int requestcode) {
         this.depart_time = depart_time;
         this.arrive_time = arrive_time;
         this.todo = todo;
         this.id = id;
         this.success = Success;
+        this.requestcode=0;
     }
 
     public String getDate() {
@@ -79,6 +82,12 @@ public class Ticket {
         this.success = success;
     }
 
+    public int getRequestcode()
+    {return requestcode;}
+
+    public void setRequestcode(int requestcode)
+    {this.requestcode=requestcode;}
+
     public String getDepart_time() {
         return depart_time;
     }
@@ -94,6 +103,7 @@ public class Ticket {
         result.put("arrive_time", arrive_time);
         result.put("id", id);
         result.put("success", success);
+        result.put("requestcode",requestcode);
         result.put("todo", todo);
         result.put("review", review);
 

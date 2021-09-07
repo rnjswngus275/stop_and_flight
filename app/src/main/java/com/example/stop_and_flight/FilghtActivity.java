@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.stop_and_flight.utils.AppGuideAdapter;
-import com.example.stop_and_flight.models.AppInfo;
+import com.example.stop_and_flight.model.AppInfo;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -21,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class FilghtActivity extends AppCompatActivity implements Fragment_flight1.OnTimePickListener{
+public class FilghtActivity extends AppCompatActivity implements Fragment_flight1.OnTimePickListener {
 
     String arrive_time;
     String depart_time;
@@ -72,7 +72,7 @@ public class FilghtActivity extends AppCompatActivity implements Fragment_flight
                     applist.add(appname);
                 }
                 //accessibility 서비스 시작
-                Intent sintent = new Intent(getApplicationContext(),Accessibility.class); // 이동할 컴포넌트
+                Intent sintent = new Intent(getApplicationContext(), Accessibility.class); // 이동할 컴포넌트
                 sintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 sintent.putExtra("flight","1");
                 sintent.putExtra("applist", applist);

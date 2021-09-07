@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.stop_and_flight.R;
-import com.example.stop_and_flight.utils.CalenderAdapter;
-import com.example.stop_and_flight.utils.TaskAdapter;
 
 public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
 
