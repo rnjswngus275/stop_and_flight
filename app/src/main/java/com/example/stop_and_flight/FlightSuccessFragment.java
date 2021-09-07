@@ -70,14 +70,14 @@ public class FlightSuccessFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        if (getArguments() != null) {
-//            today = getArguments().getString(ARG_PARAM1);
-//            arr_time = getArguments().getString(ARG_PARAM2);
-//            dpt_time = getArguments().getString(ARG_PARAM3);
-//            goal = getArguments().getString(ARG_PARAM4);
-//            id = getArguments().getString(ARG_PARAM5);
-//            System.out.println("확인파라매터 널이 아니면 나오는 글짜"+ arr_time);
-//        }
+        if (getArguments() != null) {
+            today = getArguments().getString(ARG_PARAM1);
+            arr_time = getArguments().getString(ARG_PARAM2);
+            dpt_time = getArguments().getString(ARG_PARAM3);
+            goal = getArguments().getString(ARG_PARAM4);
+            id = getArguments().getString(ARG_PARAM5);
+            System.out.println("확인파라매터 널이 아니면 나오는 글짜"+ arr_time);
+        }
 
         today = "2021-09-06";
         arr_time = "16:56";

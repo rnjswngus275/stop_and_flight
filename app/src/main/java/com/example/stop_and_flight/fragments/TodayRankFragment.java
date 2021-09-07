@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.stop_and_flight.R;
+import com.example.stop_and_flight.models.CurTime;
 import com.example.stop_and_flight.models.DateInfo;
 import com.example.stop_and_flight.utils.RankingAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -101,7 +102,10 @@ public class TodayRankFragment extends Fragment {
         mDatabase =  FirebaseDatabase.getInstance().getReference();
         todayRankRecyclerView = view.findViewById(R.id.todayRankRecyclerView);
 
-        getTodayRankingDB("20210907", view);
+        CurTime curTime = new CurTime();
+        int curIntTime = curTime.getIntYear() * 10000 + curTime.getIntMonth() * 100 + curTime.getIntDay() * 1;
+
+        getTodayRankingDB(String.valueOf(curIntTime), view);
 
         todayRankRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
 
