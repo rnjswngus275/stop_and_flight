@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
     private String ticket_Date;
     private TicketDatabaseHandler db;
     ImageView headerIcon;
+    TextView title_toolbar;
 
 
 
@@ -89,6 +90,9 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false); // 기존 title 지우기
         actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼 만들기
         actionBar.setHomeAsUpIndicator(R.drawable.menu_icon); //뒤로가기 버튼 이미지 지정
+
+
+        title_toolbar=(TextView)findViewById(R.id.toolbar_title);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -149,18 +153,24 @@ public class MainActivity extends AppCompatActivity {
                 String title = menuItem.getTitle().toString();
                 if (id == R.id.menu1) {       //여기에 메뉴 버튼 클릭했을때 옮길 페이지 연결하시면 됩니다.
                     fragmentTransaction.replace(R.id.container, mypage).addToBackStack(null).commitAllowingStateLoss();
+                    title_toolbar.setText("MY PAGE");
                 } else if (id == R.id.menu2) {
                     fragmentTransaction.replace(R.id.container, calendarFragment).addToBackStack(null).commitAllowingStateLoss();
+                    title_toolbar.setText("TICKETING");
                 }
                  else if (id == R.id.menu3) {
                     fragmentTransaction.replace(R.id.container, taskFragment).addToBackStack(null).commitAllowingStateLoss();
+                    title_toolbar.setText("TASK");
                 } else if (id == R.id.menu4) {
                     fragmentTransaction.replace(R.id.container, rankingFragment).addToBackStack(null).commitAllowingStateLoss();
+                    title_toolbar.setText("RANKING");
                 } else if (id == R.id.menu5) {
+                    title_toolbar.setText("FRIENDS");
                     Intent intent = new Intent(MainActivity.this, FilghtActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.menu6) {
                     fragmentTransaction.replace(R.id.container, statisticsFragment).addToBackStack(null).commitAllowingStateLoss();
+                    title_toolbar.setText("STATISTICS");
                 }
                 return true;
             }

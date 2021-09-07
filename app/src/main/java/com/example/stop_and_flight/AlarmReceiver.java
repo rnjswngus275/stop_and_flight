@@ -11,6 +11,8 @@ import android.os.PowerManager;
 
 import com.google.firebase.database.DatabaseReference;
 
+import java.util.Calendar;
+
 import androidx.annotation.RequiresApi;
 
 //알람을 받아서 filght activity를 실행
@@ -42,6 +44,11 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         //acquire 함수를 실행하여 앱을 깨운다. cpu 를 획득한다
         sCpuWakeLock.acquire();
+
+        Calendar cal=Calendar.getInstance();
+        boolean[] week=intent.getBooleanArrayExtra("weekday");
+        if(!week[cal.get(Calendar.DAY_OF_WEEK)])return;
+
 
         manager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 

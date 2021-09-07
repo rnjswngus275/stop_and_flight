@@ -17,6 +17,11 @@
 <!--        <item name="dsb_progressColor">@color/colorAccent</item>-->
 <!--        <item name="dsb_indicatorColor">@color/colorAccent</item>-->
     </style>
+    <style name="ToolbarStyle.blue" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">#8fb5ff</item> <!-- Toolbar의 배경색-->
+
+    </style>
+
 
     <style name="Text.BasicStyle" parent="android:TextAppearance">
         <item name="android:textStyle">bold</item>
@@ -47,5 +52,18 @@
         <item name="android:fontFamily">@font/app_font_gyeongichun</item>
         <item name="android:includeFontPadding">false</item>
     </style>
-
+    <style name="Text.uandpeople" parent="android:TextAppearance">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/light_black</item>
+        <item name="android:fontFamily">@font/app_font_uandpeople</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+    <style name="Text.Stripe60" parent="android:TextAppearance">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/light_black</item>
+        <item name="android:fontFamily">@font/app_font_stripe60</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
 </resources>
