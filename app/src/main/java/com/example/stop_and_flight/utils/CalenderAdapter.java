@@ -1,6 +1,9 @@
 package com.example.stop_and_flight.utils;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.stop_and_flight.fragments.TicketingBottomSheetDialog;
 import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.model.CurTime;
@@ -31,6 +33,8 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
     private String  UID;
     private TicketingBottomSheetDialog ticketingBottomSheetDialog;
     private FragmentManager fragmentManager;
+    public static AlarmManager mAlarmMgr=null;
+    public static PendingIntent mAlarmIntent=null;
 
     public CalenderAdapter(TicketDatabaseHandler db, Context context, String UID, TicketingBottomSheetDialog ticketingBottomSheetDialog, FragmentManager fragmentManager) {
         this.db = db;
@@ -44,12 +48,27 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View itemView = inflater.from(parent.getContext()).inflate(R.layout.ticket_layout, parent, false);
-        ViewHolder header = new ViewHolder(itemView, viewType);
-        curTime = new CurTime();
-
-        System.out.println("check >>> viewtype : " + viewType);
-        return header;
+        View itemView = null;
+        ViewHolder viewHolder = null;
+        switch (viewType)
+        {
+            case 1:
+                itemView = inflater.from(parent.getContext()).inflate(R.layout.ticket_layout, parent, false);
+                viewHolder = new ViewHolder(itemView, viewType);
+                return viewHolder;
+            case 2:
+                itemView = inflater.from(parent.getContext()).inflate(R.layout.ticket_layout, parent, false);
+                viewHolder = new ViewHolder(itemView, viewType);
+                return viewHolder;
+            case 3:
+                itemView = inflater.from(parent.getContext()).inflate(R.layout.ticket_layout, parent, false);
+                viewHolder = new ViewHolder(itemView, viewType);
+                return viewHolder;
+            default:
+                itemView = inflater.from(parent.getContext()).inflate(R.layout.ticket_layout, parent, false);
+                viewHolder = new ViewHolder(itemView, viewType);
+                return viewHolder;
+        }
     }
 
 
@@ -62,11 +81,11 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
         String[] depart_time =  item.getDepart_time().split(":");
 
         String[] setDay = item.getDate().split("-");
-
+        CurTime curTime = new CurTime();
         if (curTime.getIntYear() > Integer.parseInt(setDay[0]) || (curTime.getIntYear() == Integer.parseInt((setDay[0])) && curTime.getIntMonth() > Integer.parseInt(setDay[1])) ||
                 (curTime.getIntYear() == Integer.parseInt((setDay[0])) && curTime.getIntMonth() == Integer.parseInt(setDay[1]) && curTime.getIntDay() >= Integer.parseInt(setDay[2])))
         {
-            if (curTime.getIntHour() > Integer.parseInt(depart_time[0]) || (curTime.getIntHour() == Integer.parseInt(depart_time[0]) && curTime.getIntMinute() > Integer.parseInt(depart_time[1])))
+            if (item.getSuccess() == 1 || curTime.getIntHour() > Integer.parseInt(depart_time[0]) || (curTime.getIntHour() == Integer.parseInt(depart_time[0]) && curTime.getIntMinute() > Integer.parseInt(depart_time[1])))
             {
                 holder.mTimelineView.setMarker(context.getDrawable(R.drawable.ic_baseline_keyboard_arrow_down_24), context.getColor(R.color.color_4));
                 holder.mTimelineView.setEndLineColor(context.getColor(R.color.color_3), getItemViewType(position));
@@ -74,7 +93,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
                 holder.ticketView.setBackgroundBeforeDivider(context.getDrawable(R.color.brickred));
                 holder.ticketView.setBackgroundAfterDivider(context.getDrawable(R.color.brickred));
             }
-            if (item.getWait().equals("false"))
+            if (item.getSuccess() == 2)
             {
                 holder.stampImage.setImageResource(R.drawable.stamp);
                 holder.ticketView.setBackgroundBeforeDivider(context.getDrawable(R.color.color_2));
@@ -119,6 +138,8 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
     public void deleteItem(int position){
         Ticket item = TicketList.get(position);
         db.delete_ticketDB(UID, item.getDate(), item);
+        int requestcode=item.getRequestcode();
+        cancelAlarmManager(requestcode);
         TicketList.remove(position);
         notifyDataSetChanged();
     }
@@ -137,6 +158,18 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
         ticketingBottomSheetDialog.setArguments(bundle);
         ticketingBottomSheetDialog.show(fragmentManager, ticketingBottomSheetDialog.getTag());
     }
+
+
+    public void cancelAlarmManager(int requestcode){
+        if(mAlarmIntent != null) {
+            mAlarmMgr = (AlarmManager) getContext().getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(getContext().getApplicationContext(), CalenderAdapter.class);
+            mAlarmIntent = PendingIntent.getBroadcast(getContext().getApplicationContext(),requestcode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+            mAlarmMgr.cancel(mAlarmIntent);
+            mAlarmIntent.cancel();
+            mAlarmMgr = null;
+            mAlarmIntent = null;
+        }}
 
     private FragmentActivity getActivity() {
         return (FragmentActivity) context;

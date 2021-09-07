@@ -13,6 +13,8 @@ import com.google.firebase.database.DatabaseReference;
 
 import androidx.annotation.RequiresApi;
 
+import com.example.stop_and_flight.FilghtActivity;
+
 //알람을 받아서 filght activity를 실행
 public class AlarmReceiver extends BroadcastReceiver {
     //PowerManager.WakeLock 빈객체 선언한다.

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.WeekRankFragment">
+    tools:context=".fragments.WeekRankFragment">
 
     <LinearLayout
         android:id="@+id/rank"
@@ -29,6 +29,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:id="@+id/firstTitle"
                 android:text="1등 닉네임"
                 />
 
@@ -55,6 +56,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:id="@+id/secondTitle"
                 android:text="2등 닉네임"
                 />
 
@@ -81,6 +83,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:id="@+id/thirdTitle"
                 android:text="3등 닉네임"
                 />
 

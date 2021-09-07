@@ -61,15 +61,16 @@ public class CalendarFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
+        if(user != null){
+            UID  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
+        }
+
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_calender, container, false);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
-        if(user != null){
-            UID  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
-        }
 
         CollapsibleCalendar collapsibleCalendar = view.findViewById(R.id.calendarView);
         Context ct = container.getContext();

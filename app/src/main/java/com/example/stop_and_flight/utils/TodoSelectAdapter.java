@@ -14,15 +14,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.fragments.AddNewTask;
 import com.example.stop_and_flight.fragments.TicketingBottomSheetDialog;
 import com.example.stop_and_flight.fragments.TicketingFragment;
+import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.model.Task;
-import com.example.stop_and_flight.utils.TaskDatabaseHandler;
-import com.example.stop_and_flight.utils.TodoDatabaseHandler;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,19 +48,20 @@ public class TodoSelectAdapter extends RecyclerView.Adapter<TodoSelectAdapter.Vi
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = null;
         Context context = parent.getContext();
+        ViewHolder viewHolder = null;
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         switch (viewType) {
             case HEADER:
                 System.out.println("check : header");
                 itemView = inflater.from(parent.getContext()).inflate(R.layout.task_select_layout, parent, false);
-                ViewHolder header = new ViewHolder(itemView);
-                return header;
+                viewHolder = new ViewHolder(itemView);
+                return viewHolder;
             case CHILD:
                 System.out.println("check : child");
                 itemView = inflater.from(parent.getContext()).inflate(R.layout.todo_layout, parent, false);
-                ViewHolder Child_header = new ViewHolder(itemView);
-                return Child_header;
+                viewHolder = new ViewHolder(itemView);
+                return viewHolder;
         }
         return null;
     }
@@ -106,7 +103,13 @@ public class TodoSelectAdapter extends RecyclerView.Adapter<TodoSelectAdapter.Vi
                 holder.sub_title.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ((TicketingBottomSheetDialog) fragment).DialogReplaceFragment(TicketingFragment.newInstance(updateId, item.getTask(), context));
+                        TicketingFragment ticketingFragment = new TicketingFragment(context);
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("Id", updateId);
+                        bundle.putString("Todo", item.getTask());
+                        ticketingFragment.setArguments(bundle);
+
+                        ((TicketingBottomSheetDialog) fragment).DialogReplaceFragment(ticketingFragment);
                     }
                 });
                 break;

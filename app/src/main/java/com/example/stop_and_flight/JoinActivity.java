@@ -58,8 +58,6 @@ public class JoinActivity extends AppCompatActivity {
 // 이메일과 비밀번호가 공백이 아닌 경우 + 닉네임
                     createUser(editTextEmail.getText().toString(), editTextPassword.getText().toString(),editTextName.getText().toString());
                      Nickname =editTextName.getText().toString();
-
-
                 } else {
 // 이메일과 비밀번호가 공백인 경우
                     Toast.makeText(JoinActivity.this, "계정과 비밀번호를 입력하세요.", Toast.LENGTH_LONG).show();

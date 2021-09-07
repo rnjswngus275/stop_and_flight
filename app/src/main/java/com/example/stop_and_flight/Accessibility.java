@@ -20,23 +20,12 @@ public class Accessibility extends AccessibilityService {
     public int onStartCommand(Intent intent, int flags, int startId) {
         getString=intent.getStringExtra("flight");
         appname=(ArrayList<AppInfo>)intent.getSerializableExtra("applist");
-
-//        ArrayList<String> list = (ArrayList<String>) intent.getSerializableExtra("applist");
-//
-//        int size=list.size();
-//        for(int i=0;i<size;i++){
-//            System.out.println("확인 앱 리스트 "+list.get(i));
-//        }
-        System.out.println(appname+"appname 확인 안에서 ");
         return super.onStartCommand(intent, flags, startId);
     }
 
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-
-        boolean denyApp = false;
-
 
         String currentActivityName = getClass().getSimpleName().trim();
         if(getString!=null&&getString.equals("1")){
@@ -56,7 +45,6 @@ public class Accessibility extends AccessibilityService {
                         gotoflight();
                         System.out.println("확인 Catch Event Package Name :" + event.getPackageName());
                         System.out.println("확인 else문 안 ");
-
                     }
                     }
             }

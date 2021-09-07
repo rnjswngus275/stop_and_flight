@@ -1,21 +1,36 @@
 package com.example.stop_and_flight.fragments;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.stop_and_flight.R;
+import com.example.stop_and_flight.model.CurTime;
+import com.example.stop_and_flight.model.DateInfo;
 import com.example.stop_and_flight.utils.RankingAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,9 +49,12 @@ public class WeekRankFragment extends Fragment {
     private String mParam2;
     private String UID;
     private Context context;
+    private ArrayList<DateInfo> dateInfos = new ArrayList<DateInfo>();
+    private HashMap<String, Object> UserMap = new HashMap<>();
+    private HashMap<String, Object> DateMap = new HashMap<>();
     private DatabaseReference mDatabase;
     private RankingAdapter rankingAdapter;
-    private RecyclerView todayRankRecyclerView;
+    private RecyclerView WeekRankRecyclerView;
 
     public WeekRankFragment() {
         // Required empty public constructor
@@ -78,16 +96,79 @@ public class WeekRankFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_today_rank, container, false);
+        View view =  inflater.inflate(R.layout.fragment_week_rank, container, false);
 
         rankingAdapter = new RankingAdapter(context);
         mDatabase =  FirebaseDatabase.getInstance().getReference();
-        todayRankRecyclerView = view.findViewById(R.id.weekRankRecyclerView);
+        WeekRankRecyclerView = view.findViewById(R.id.weekRankRecyclerView);
 
-        return view;    }
+        CurTime curTime = new CurTime();
+        getWeekRankingDB(curTime.getCurMonday(), curTime.getCurSunday(), view, curTime);
 
-    private void getWeekRankingDB()
+        WeekRankRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+
+        rankingAdapter.setRank(dateInfos);
+        WeekRankRecyclerView.setAdapter(rankingAdapter);
+
+
+        return view;
+    }
+
+    // 필요한 DB 정보 - 닉네임 & 이용 시간별 (일간 / 주간)
+    private void getWeekRankingDB(String startdate, String enddate, View view, CurTime curTime)
     {
+        mDatabase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dateInfos.clear();
+                if (snapshot != null)
+                {
+                    for (DataSnapshot UserSnapshot : snapshot.getChildren())
+                    {
+                        UserMap = (HashMap<String, Object>) UserSnapshot.getValue();
+                        String Nickname = String.valueOf(UserMap.get("nickname"));
+                        int sum = 0;
+                        if (UserSnapshot.child("date").getValue() != null)
+                        {
+                            DateMap = (HashMap<String, Object>) UserSnapshot.child("date").getValue();
+                            for (String day : curTime.getCurWeek()){
+                                int Studytime = Integer.parseInt(String.valueOf(DateMap.getOrDefault(day, 0)));
+                                sum += Studytime;
+                            }
+                        }
+                        DateInfo dateInfo = new DateInfo(Nickname, sum);
+                        System.out.println(Nickname + " / " + sum);
+                        dateInfos.add(dateInfo);
+                    }
+                }
+                Collections.sort(dateInfos, new Comparator<DateInfo>() {
+                    @Override
+                    public int compare(DateInfo o1, DateInfo o2) {
+                        if (o1.getStudytime() > o2.getStudytime())
+                            return 1;
+                        else if (o1.getStudytime() == o2.getStudytime())
+                            return 0;
+                        else
+                            return -1;
+                    }
+                });
 
+
+                Collections.reverse(dateInfos);
+                TextView firsttitle = view.findViewById(R.id.firstTitle);
+                TextView secondTitle = view.findViewById(R.id.secondTitle);
+                TextView thirdTitle = view.findViewById(R.id.thirdTitle);
+
+                firsttitle.setText(dateInfos.get(0).getNickname());
+                secondTitle.setText(dateInfos.get(1).getNickname());
+                thirdTitle.setText(dateInfos.get(2).getNickname());
+
+                rankingAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
     }
 }
