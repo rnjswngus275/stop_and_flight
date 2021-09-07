@@ -1,4 +1,4 @@
-package com.example.stop_and_flight.Fragment;
+package com.example.stop_and_flight.fragments;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.stop_and_flight.R;
-import com.example.stop_and_flight.model.Task;
+import com.example.stop_and_flight.models.Task;
 import com.example.stop_and_flight.utils.DialogCloseListener;
 import com.example.stop_and_flight.utils.RecyclerItemTouchHelper;
 import com.example.stop_and_flight.utils.TaskAdapter;
@@ -129,7 +129,6 @@ public class TaskFragment extends Fragment implements DialogCloseListener {
                         for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
                             if (fileSnapshot != null) {
                                 TaskMap = (HashMap<String, Object>) fileSnapshot.getValue();
-                                System.out.println(TaskMap);
                                 int type = Integer.parseInt(String.valueOf(TaskMap.get("viewType")));
                                 int task_id = Integer.parseInt(String.valueOf(TaskMap.get("id")));
                                 int parent_id = Integer.parseInt(String.valueOf(TaskMap.get("parent_id")));

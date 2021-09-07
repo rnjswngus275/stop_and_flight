@@ -1,6 +1,4 @@
-package com.example.stop_and_flight.model;
-
-import androidx.core.app.NavUtils;
+package com.example.stop_and_flight.models;
 
 import com.google.firebase.database.Exclude;
 
@@ -12,10 +10,9 @@ public class Ticket {
     private String arrive_time;
     private String date;
     private String todo;
-    private String wait;
+    private int success;
     private String review;
     private int id;
-    private Map<String, Boolean> stars = new HashMap<>();
 
     public Ticket() {
         this.depart_time = null;
@@ -23,7 +20,7 @@ public class Ticket {
         this.date = null;
         this.todo = null;
         this.id = 0;
-        this.wait = "true";
+        this.success = 0;
     }
 
     public String getReview() {
@@ -34,12 +31,12 @@ public class Ticket {
         this.review = review;
     }
 
-    public Ticket(String depart_time, String arrive_time, String todo, int id, String wait) {
+    public Ticket(String depart_time, String arrive_time, String todo, int id, int Success) {
         this.depart_time = depart_time;
         this.arrive_time = arrive_time;
         this.todo = todo;
         this.id = id;
-        this.wait = wait;
+        this.success = Success;
     }
 
     public String getDate() {
@@ -74,20 +71,12 @@ public class Ticket {
         this.id = id;
     }
 
-    public String getWait() {
-        return wait;
+    public int getSuccess() {
+        return success;
     }
 
-    public void setWait(String wait) {
-        this.wait = wait;
-    }
-
-    public Map<String, Boolean> getStars() {
-        return stars;
-    }
-
-    public void setStars(Map<String, Boolean> stars) {
-        this.stars = stars;
+    public void setSuccess(int success) {
+        this.success = success;
     }
 
     public String getDepart_time() {
@@ -104,9 +93,8 @@ public class Ticket {
         result.put("depart_time", depart_time);
         result.put("arrive_time", arrive_time);
         result.put("id", id);
-        result.put("wait", wait);
+        result.put("success", success);
         result.put("todo", todo);
-        result.put("stars", stars);
         result.put("review", review);
 
         return result;

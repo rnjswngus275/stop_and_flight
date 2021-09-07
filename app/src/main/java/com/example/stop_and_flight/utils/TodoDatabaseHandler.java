@@ -1,6 +1,6 @@
 package com.example.stop_and_flight.utils;
 
-import com.example.stop_and_flight.model.Task;
+import com.example.stop_and_flight.models.Task;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.HashMap;

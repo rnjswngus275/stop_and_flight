@@ -1,4 +1,4 @@
-package com.example.stop_and_flight.Fragment;
+package com.example.stop_and_flight.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.stop_and_flight.R;
-import com.example.stop_and_flight.model.Task;
+import com.example.stop_and_flight.models.Task;
 import com.example.stop_and_flight.utils.TaskDatabaseHandler;
 import com.example.stop_and_flight.utils.TodoDatabaseHandler;
 import com.example.stop_and_flight.utils.TodoSelectAdapter;

@@ -1,21 +1,34 @@
-package com.example.stop_and_flight.Fragment;
+package com.example.stop_and_flight.fragments;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.stop_and_flight.R;
+import com.example.stop_and_flight.models.DateInfo;
 import com.example.stop_and_flight.utils.RankingAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +47,8 @@ public class TodayRankFragment extends Fragment {
     private String mParam2;
     private String UID;
     private Context context;
+    private ArrayList<DateInfo> dateInfos = new ArrayList<DateInfo>();
+    private HashMap<String, Object> UserMap;
     private DatabaseReference mDatabase;
     private RankingAdapter rankingAdapter;
     private RecyclerView todayRankRecyclerView;
@@ -86,12 +101,46 @@ public class TodayRankFragment extends Fragment {
         mDatabase =  FirebaseDatabase.getInstance().getReference();
         todayRankRecyclerView = view.findViewById(R.id.todayRankRecyclerView);
 
+        getTodayRankingDB("20210907", view);
+
+        todayRankRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+
+        rankingAdapter.setRank(dateInfos);
+        todayRankRecyclerView.setAdapter(rankingAdapter);
+
         return view;
     }
 
     // 필요한 DB 정보 - 닉네임 & 이용 시간별 (일간 / 주간)
-    private void getTodayRankingDB()
+    private void getTodayRankingDB(String date, View view)
     {
+        mDatabase.child("users").orderByChild("date/" + date).addListenerForSingleValueEvent(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dateInfos.clear();
+                for (DataSnapshot UserSanpshot : snapshot.getChildren()) {
+                    UserMap = (HashMap<String, Object>) UserSanpshot.getValue();
+                    String Nickname = String.valueOf(UserMap.get("nickname"));
+                    int Studytime = Integer.parseInt(String.valueOf(UserMap.getOrDefault("date/" + date, 0)));
+                    DateInfo dateInfo = new DateInfo(Nickname, Studytime);
+                    dateInfos.add(dateInfo);
+                }
 
+                Collections.reverse(dateInfos);
+                TextView firsttitle = view.findViewById(R.id.firstTitle);
+                TextView secondTitle = view.findViewById(R.id.secondTitle);
+                TextView thirdTitle = view.findViewById(R.id.thirdTitle);
+
+                firsttitle.setText(dateInfos.get(0).getNickname());
+                secondTitle.setText(dateInfos.get(1).getNickname());
+                thirdTitle.setText(dateInfos.get(2).getNickname());
+
+                rankingAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
     }
 }

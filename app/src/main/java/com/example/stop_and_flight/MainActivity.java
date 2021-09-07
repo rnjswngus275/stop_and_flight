@@ -17,9 +17,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.stop_and_flight.Fragment.CalendarFragment;
-import com.example.stop_and_flight.Fragment.RankingFragment;
-import com.example.stop_and_flight.Fragment.TaskFragment;
+import com.example.stop_and_flight.fragments.CalendarFragment;
+import com.example.stop_and_flight.fragments.RankingFragment;
+import com.example.stop_and_flight.fragments.TaskFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         TaskFragment taskFragment = new TaskFragment();
         MypageFragment mypage = new MypageFragment();
         RankingFragment rankingFragment = new RankingFragment();
+        FlightSuccessFragment flightSuccessFragment = new FlightSuccessFragment();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -75,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
                 } else if (id == R.id.menu8) {
                     fragmentTransaction.replace(R.id.container, rankingFragment).addToBackStack(null).commitAllowingStateLoss();
                 } else if (id == R.id.menu9) {
-                    Intent intent = new Intent(MainActivity.this, FilghtActivity.class);
-                    startActivity(intent);
+                    fragmentTransaction.replace(R.id.container, flightSuccessFragment).addToBackStack(null).commitAllowingStateLoss();
+
                 } else if (id == R.id.menu10) {
                     fragmentTransaction.replace(R.id.container, statisticsFragment).addToBackStack(null).commitAllowingStateLoss();
                 }

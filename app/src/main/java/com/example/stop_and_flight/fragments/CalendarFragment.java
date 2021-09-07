@@ -1,4 +1,4 @@
-package com.example.stop_and_flight.Fragment;
+package com.example.stop_and_flight.fragments;
 
 import android.content.Context;
 import android.os.Build;
@@ -19,8 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.stop_and_flight.R;
-import com.example.stop_and_flight.model.CurTime;
-import com.example.stop_and_flight.model.Ticket;
+import com.example.stop_and_flight.models.CurTime;
+import com.example.stop_and_flight.models.Ticket;
 import com.example.stop_and_flight.utils.CalenderAdapter;
 import com.example.stop_and_flight.utils.RecyclerItemTouchHelper;
 import com.example.stop_and_flight.utils.TicketDatabaseHandler;
@@ -38,6 +38,7 @@ import com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 import static java.lang.String.valueOf;
 
@@ -60,15 +61,16 @@ public class CalendarFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
+        if(user != null){
+            UID  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
+        }
+
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_calender, container, false);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
-        if(user != null){
-            UID  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
-        }
 
         CollapsibleCalendar collapsibleCalendar = view.findViewById(R.id.calendarView);
         Context ct = container.getContext();

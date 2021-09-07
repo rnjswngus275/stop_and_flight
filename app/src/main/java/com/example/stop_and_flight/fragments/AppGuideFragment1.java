@@ -1,26 +1,21 @@
-package com.example.stop_and_flight.Fragment;
+package com.example.stop_and_flight.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.stop_and_flight.R;
-import com.ogaclejapan.smarttablayout.SmartTabLayout;
-import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
-import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link RankingFragment#newInstance} factory method to
+ * Use the {@link AppGuideFragment1#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RankingFragment extends Fragment {
+public class AppGuideFragment1 extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,9 +25,8 @@ public class RankingFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private Context context;
 
-    public RankingFragment() {
+    public AppGuideFragment1() {
         // Required empty public constructor
     }
 
@@ -42,11 +36,11 @@ public class RankingFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment RankingFragment.
+     * @return A new instance of fragment AppGuideFragment1.
      */
     // TODO: Rename and change types and number of parameters
-    public static RankingFragment newInstance(String param1, String param2) {
-        RankingFragment fragment = new RankingFragment();
+    public static AppGuideFragment1 newInstance(String param1, String param2) {
+        AppGuideFragment1 fragment = new AppGuideFragment1();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -67,21 +61,6 @@ public class RankingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_ranking, container, false);
-
-        context = getContext();
-        FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
-                getChildFragmentManager(), FragmentPagerItems.with(context)
-                .add("일 간", TodayRankFragment.class)
-                .add("주 간", WeekRankFragment.class)
-                .create());
-
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        viewPager.setAdapter(adapter);
-
-        SmartTabLayout viewPagerTab = (SmartTabLayout) view.findViewById(R.id.viewpagertab);
-        viewPagerTab.setViewPager(viewPager);
-
-        return view;
+        return inflater.inflate(R.layout.fragment_app_guide1, container, false);
     }
 }

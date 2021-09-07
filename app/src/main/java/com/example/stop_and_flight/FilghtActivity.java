@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.stop_and_flight.utils.AppGuideAdapter;
-import com.example.stop_and_flight.model.AppInfo;
+import com.example.stop_and_flight.models.AppInfo;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

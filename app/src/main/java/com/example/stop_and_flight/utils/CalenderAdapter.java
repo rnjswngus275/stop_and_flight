@@ -12,10 +12,10 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.stop_and_flight.Fragment.TicketingBottomSheetDialog;
+import com.example.stop_and_flight.fragments.TicketingBottomSheetDialog;
 import com.example.stop_and_flight.R;
-import com.example.stop_and_flight.model.CurTime;
-import com.example.stop_and_flight.model.Ticket;
+import com.example.stop_and_flight.models.CurTime;
+import com.example.stop_and_flight.models.Ticket;
 import com.github.vipulasri.timelineview.TimelineView;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.vipulasri.ticketview.TicketView;
@@ -44,12 +44,27 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View itemView = inflater.from(parent.getContext()).inflate(R.layout.ticket_layout, parent, false);
-        ViewHolder header = new ViewHolder(itemView, viewType);
-        curTime = new CurTime();
-
-        System.out.println("check >>> viewtype : " + viewType);
-        return header;
+        View itemView = null;
+        ViewHolder viewHolder = null;
+        switch (viewType)
+        {
+            case 1:
+                itemView = inflater.from(parent.getContext()).inflate(R.layout.ticket_layout, parent, false);
+                viewHolder = new ViewHolder(itemView, viewType);
+                return viewHolder;
+            case 2:
+                itemView = inflater.from(parent.getContext()).inflate(R.layout.ticket_layout, parent, false);
+                viewHolder = new ViewHolder(itemView, viewType);
+                return viewHolder;
+            case 3:
+                itemView = inflater.from(parent.getContext()).inflate(R.layout.ticket_layout, parent, false);
+                viewHolder = new ViewHolder(itemView, viewType);
+                return viewHolder;
+            default:
+                itemView = inflater.from(parent.getContext()).inflate(R.layout.ticket_layout, parent, false);
+                viewHolder = new ViewHolder(itemView, viewType);
+                return viewHolder;
+        }
     }
 
 
@@ -62,11 +77,11 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
         String[] depart_time =  item.getDepart_time().split(":");
 
         String[] setDay = item.getDate().split("-");
-
+        CurTime curTime = new CurTime();
         if (curTime.getIntYear() > Integer.parseInt(setDay[0]) || (curTime.getIntYear() == Integer.parseInt((setDay[0])) && curTime.getIntMonth() > Integer.parseInt(setDay[1])) ||
                 (curTime.getIntYear() == Integer.parseInt((setDay[0])) && curTime.getIntMonth() == Integer.parseInt(setDay[1]) && curTime.getIntDay() >= Integer.parseInt(setDay[2])))
         {
-            if (curTime.getIntHour() > Integer.parseInt(depart_time[0]) || (curTime.getIntHour() == Integer.parseInt(depart_time[0]) && curTime.getIntMinute() > Integer.parseInt(depart_time[1])))
+            if (item.getSuccess() == 1 || curTime.getIntHour() > Integer.parseInt(depart_time[0]) || (curTime.getIntHour() == Integer.parseInt(depart_time[0]) && curTime.getIntMinute() > Integer.parseInt(depart_time[1])))
             {
                 holder.mTimelineView.setMarker(context.getDrawable(R.drawable.ic_baseline_keyboard_arrow_down_24), context.getColor(R.color.color_4));
                 holder.mTimelineView.setEndLineColor(context.getColor(R.color.color_3), getItemViewType(position));
@@ -74,7 +89,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
                 holder.ticketView.setBackgroundBeforeDivider(context.getDrawable(R.color.brickred));
                 holder.ticketView.setBackgroundAfterDivider(context.getDrawable(R.color.brickred));
             }
-            if (item.getWait().equals("false"))
+            if (item.getSuccess() == 2)
             {
                 holder.stampImage.setImageResource(R.drawable.stamp);
                 holder.ticketView.setBackgroundBeforeDivider(context.getDrawable(R.color.color_2));

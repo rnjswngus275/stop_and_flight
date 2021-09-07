@@ -63,14 +63,11 @@ public class JoinActivity extends AppCompatActivity {
                     String uid="";
                     if(user!=null){
                         uid  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
-
                     }
                     else{
                         Toast.makeText(JoinActivity.this,"uid오류!",Toast.LENGTH_SHORT).show();
                     }
                     String Nickname =editTextName.getText().toString();
-                    FirebaseAuth mAuth;
-                    mAuth = FirebaseAuth.getInstance(); // 유저 계정 정보 가져오기
                     mDatabase = FirebaseDatabase.getInstance().getReference(); // 파이어베이스 realtime database 에서 정보 가져오기
                     mDatabase.child("users").child(uid).child("nickname").setValue(Nickname);
                     mDatabase.child("users").child(uid).child("emergency_time").setValue(0);

@@ -33,8 +33,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.stop_and_flight.model.AppInfo;
+import com.example.stop_and_flight.models.AppInfo;
 import com.bumptech.glide.Glide;
+import com.example.stop_and_flight.models.UserInfo;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -52,6 +53,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -61,50 +63,50 @@ public class MypageFragment extends Fragment {
     private GoogleSignInOptions gso;
     private static final int REQUEST_CODE = 0;
     private static final int RESULT_CANCELED = 1;
-    ImageView imageView;
     private FirebaseAuth firebaseAuth;
     private Button buttonDeleteID;
     private Button buttonAllowedApps;
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    String UID=user.getUid();
-    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    private String UID;
+    private DatabaseReference mDatabase;
+    private HashMap<String, Object> UserMap;
+
+    ImageView imageView;
     String picturePath;
     Uri selectedImage;
+    String nickname;
     int point;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
+        if(user != null){
+            UID  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
+        }
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_mypage, container, false);
         firebaseAuth = FirebaseAuth.getInstance();
-        imageView=(ImageView)view.findViewById(R.id.imageView4);
+        ImageView imageView=(ImageView)view.findViewById(R.id.imageView4);
 
-        String filename=UID+"_ProfileImage";
-        getImage(filename);
+        String filename = UID + "_ProfileImage";
+//        getImage(filename);
 
         TextView Nickname=(TextView)view.findViewById(R.id.textView7);
         TextView Point=(TextView)view.findViewById(R.id.textView11);
 
-        final DatabaseReference ref = mDatabase.child("users").child(UID).child("nickname");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Nickname.setText(snapshot.getValue(String.class));
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-        final DatabaseReference ref2 = mDatabase.child("users").child(UID).child("point");
-        ref2.addValueEventListener(new ValueEventListener() {
+        mDatabase.child("users").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot != null)
                 {
-                    point= snapshot.getValue(int.class);
-                    Point.setText(Integer.toString(point)+"점");
+                    UserMap = (HashMap<String, Object>) snapshot.getValue();
+                    Point.setText(String.valueOf(UserMap.get("point")));
+                    Nickname.setText(String.valueOf(UserMap.get("nickname")));
                 }
             }
             @Override
@@ -134,13 +136,12 @@ public class MypageFragment extends Fragment {
             public void onClick(View v) {
                 Toast.makeText(getContext(),"클릭?",Toast.LENGTH_SHORT).show();
 
-
-                        ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},777);//세번째 파라매터 int requestcode 실행 후 전달 받을 코드 분기에 쓰이는것같음
-                        Toast.makeText(getContext(),"else문 안입니다.",Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent();
-                        intent.setType("image/*");
-                        intent.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(intent, REQUEST_CODE);
+                ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},777);//세번째 파라매터 int requestcode 실행 후 전달 받을 코드 분기에 쓰이는것같음
+                Toast.makeText(getContext(),"else문 안입니다.",Toast.LENGTH_LONG).show();
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent, REQUEST_CODE);
 
                 String filename=UID+"_ProfileImage";
                 getImage(filename);

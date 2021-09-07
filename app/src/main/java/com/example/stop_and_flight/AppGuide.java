@@ -15,8 +15,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.stop_and_flight.Fragment.AppGuideFragment1;
-import com.example.stop_and_flight.Fragment.AppGuideFragment2;
+import com.example.stop_and_flight.fragments.AppGuideFragment1;
+import com.example.stop_and_flight.fragments.AppGuideFragment2;
 import com.example.stop_and_flight.utils.AppGuideAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

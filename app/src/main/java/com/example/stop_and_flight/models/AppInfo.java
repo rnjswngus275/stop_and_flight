@@ -1,4 +1,4 @@
-package com.example.stop_and_flight.model;
+package com.example.stop_and_flight.models;
 
 import java.io.Serializable;
 

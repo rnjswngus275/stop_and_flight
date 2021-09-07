@@ -13,7 +13,7 @@
         android:padding="8dp">
 
         <TextView
-            android:id="@+id/Ranking_ten"
+            android:id="@+id/Ranking_winner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="1등이에요"
@@ -28,7 +28,7 @@
             android:id="@+id/btn_expand_toggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/Ranking_ten"
+            android:layout_alignRight="@+id/Ranking_winner"
             app:srcCompat="@drawable/ic_baseline_local_airport_24" />
     </RelativeLayout>
 
