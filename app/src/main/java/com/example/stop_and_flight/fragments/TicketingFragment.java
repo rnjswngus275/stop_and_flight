@@ -305,7 +305,7 @@ public class TicketingFragment extends Fragment {
                 }
                 if (flag == 0)
                 {
-                    time_Validity(depart_hour, depart_min, arrive_hour, arrive_min);
+                    time_Validity(depart_hour, depart_min, arrive_hour, arrive_min,repeat);
                 }
                 else
                 {
