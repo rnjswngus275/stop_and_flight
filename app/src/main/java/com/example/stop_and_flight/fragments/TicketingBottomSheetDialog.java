@@ -63,7 +63,6 @@ public class TicketingBottomSheetDialog extends BottomSheetDialogFragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
             Todo = getArguments().getString("Todo");
             updateId = getArguments().getInt("Id");
-            System.out.println(Todo + updateId);
         }
         setStyle(STYLE_NORMAL, R.style.AppBottomSheetDialogTheme);
     }
@@ -76,7 +75,8 @@ public class TicketingBottomSheetDialog extends BottomSheetDialogFragment {
         FragmentTransaction childFt = getChildFragmentManager().beginTransaction(); //fragment 매니저
         TicketingFragment ticketingFragment = new TicketingFragment(context);
 
-        if (Todo != null )
+        // update가 필요한 경우 calenderfragment에서 bundle를 통해 값을 전달하기 때문에 Todo라는 키값을 확인해서 값이 있으면 ticket으로 전달.
+        if (Todo != null)
         {
             Bundle bundle = new Bundle();
             bundle.putInt("Id", updateId);

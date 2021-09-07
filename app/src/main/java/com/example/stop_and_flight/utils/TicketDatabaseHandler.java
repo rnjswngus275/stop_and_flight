@@ -20,11 +20,11 @@ public class TicketDatabaseHandler {
         mDatabase.child("TICKET").child(uid).child(date).child(Integer.toString(ticket.getId())).setValue(ticket);
     }
 
-    public void update_ticketDB(String uid, String date, String depart_time, String arrive_time, String Todo, int id,int requestcode)
+    // Success : 0 = 예약된 상태, 1 = 실패한 일정, 2 = 성공한 일정
+    public void update_ticketDB(String uid, String date, String depart_time, String arrive_time, String Todo, int id, int requestcode)
     {
         String key = mDatabase.child("TICKET").child(uid).child(date).child(Integer.toString(id)).getKey();
-        Ticket ticket = new Ticket(depart_time, arrive_time, Todo, id, "true",requestcode);
-
+        Ticket ticket = new Ticket(depart_time, arrive_time, Todo, id, 0, requestcode);
         Map<String, Object> Values = ticket.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
 

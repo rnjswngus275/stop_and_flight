@@ -158,7 +158,7 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
         String min = String.format("%02d", minTime);
         String sec = String.format("%02d", secTime);
 
-        return  "잠금해제까지 " + hour + " 시간 " + min + " 분 " + sec + "초 남았습니다.";
+        return  "잠금해제까지 \n" + hour + " 시간 " + min + " 분 " + sec + "초 남았습니다.";
 
     }
       @Override

@@ -12,7 +12,6 @@ public class Task {
     private int id;
     private String task;
     public ArrayList<Task> todo;
-    private Map<String, Boolean> stars = new HashMap<>();
 
     public ArrayList<Task> getTodo() {
         return todo;
@@ -67,14 +66,6 @@ public class Task {
         this.task = task;
     }
 
-    public Map<String, Boolean> getStars() {
-        return stars;
-    }
-
-    public void setStars(Map<String, Boolean> stars) {
-        this.stars = stars;
-    }
-
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
@@ -82,7 +73,6 @@ public class Task {
         result.put("parent_id", parent_id);
         result.put("id", id);
         result.put("task", task);
-        result.put("stars", stars);
 
         return result;
     }

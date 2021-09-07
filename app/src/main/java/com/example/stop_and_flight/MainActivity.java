@@ -25,19 +25,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import com.example.stop_and_flight.model.Ticket;
 import com.example.stop_and_flight.utils.TicketDatabaseHandler;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
-
-
 import com.bumptech.glide.Glide;
 import com.example.stop_and_flight.fragments.CalendarFragment;
 import com.example.stop_and_flight.fragments.RankingFragment;
 import com.example.stop_and_flight.fragments.TaskFragment;
-import com.example.stop_and_flight.model.Ticket;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
@@ -114,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         TaskFragment taskFragment = new TaskFragment();
         MypageFragment mypage = new MypageFragment();
         RankingFragment rankingFragment = new RankingFragment();
+        FlightSuccessFragment flightSuccessFragment = new FlightSuccessFragment();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 

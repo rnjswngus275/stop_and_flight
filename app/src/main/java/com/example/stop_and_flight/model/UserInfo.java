@@ -1,31 +1,38 @@
 package com.example.stop_and_flight.model;
 
 public class UserInfo {
-    private String Nickname;
-    private int Weektime;
-    private int todaytime;
+    private String nickname;
+    private int todayTime;
+    private int weekTime;
+
+    public UserInfo(String nickname, int todayTime, int weekTime) {
+        this.nickname = nickname;
+        this.todayTime = todayTime;
+        this.weekTime = weekTime;
+    }
 
     public String getNickname() {
-        return Nickname;
+        return nickname;
     }
 
     public void setNickname(String nickname) {
-        Nickname = nickname;
+        this.nickname = nickname;
     }
 
-    public int getWeektime() {
-        return Weektime;
+    public int getTodayTime() {
+        return todayTime;
     }
 
-    public void setWeektime(int weektime) {
-        Weektime = weektime;
+    public void setTodayTime(int todayTime) {
+        this.todayTime = todayTime;
     }
 
-    public int getTodaytime() {
-        return todaytime;
+    public int getWeekTime() {
+        return weekTime;
     }
 
-    public void setTodaytime(int todaytime) {
-        this.todaytime = todaytime;
+    public void setWeekTime(int weekTime) {
+        this.weekTime = weekTime;
     }
+
 }

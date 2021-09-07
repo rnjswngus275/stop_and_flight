@@ -4,8 +4,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.stop_and_flight.fragments.TicketingFragment;
 import com.example.stop_and_flight.model.Ticket;
 import com.vipulasri.ticketview.TicketView;
 import com.example.stop_and_flight.utils.TicketDatabaseHandler;
@@ -52,11 +48,6 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         holder.CountryTitle.setText(item.getTodo());
         holder.DepartTitle.setText(item.getDepart_time());
         holder.ArriveTitle.setText(item.getArrive_time());
-        if (item.getWait().equals("false"))
-        {
-            holder.ticketView.setBackgroundBeforeDivider(Drawable.createFromPath("@color/shadow"));
-            holder.ticketView.setBackgroundAfterDivider(Drawable.createFromPath("@color/shadow"));
-        }
     }
 
     public  int getItemCount(){

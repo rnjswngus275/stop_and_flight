@@ -51,7 +51,6 @@ public class TaskFragment extends Fragment implements DialogCloseListener {
     private TaskAdapter taskAdapter;
     private FloatingActionButton fab;
     public ArrayList<Task> taskList = new ArrayList<>();
-    ;
     private static String UID;
     private DatabaseReference mDatabase;
     private SwipeRefreshLayout swipeContainer;
@@ -129,7 +128,6 @@ public class TaskFragment extends Fragment implements DialogCloseListener {
                         for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
                             if (fileSnapshot != null) {
                                 TaskMap = (HashMap<String, Object>) fileSnapshot.getValue();
-                                System.out.println(TaskMap);
                                 int type = Integer.parseInt(String.valueOf(TaskMap.get("viewType")));
                                 int task_id = Integer.parseInt(String.valueOf(TaskMap.get("id")));
                                 int parent_id = Integer.parseInt(String.valueOf(TaskMap.get("parent_id")));

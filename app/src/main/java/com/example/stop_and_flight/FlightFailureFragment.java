@@ -76,6 +76,11 @@ public class FlightFailureFragment extends Fragment {
         System.out.println("확인파라매터"+ dpt_time);
         System.out.println("확인파라매터"+ goal);
         System.out.println("확인파라매터"+ id);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
+        if(user!=null){
+            uid  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
+        }
     }
 
     @Override
@@ -96,11 +101,7 @@ public class FlightFailureFragment extends Fragment {
                 mAuth = FirebaseAuth.getInstance(); // 유저 계정 정보 가져오기
                 mDatabase = FirebaseDatabase.getInstance().getReference(); // 파이어베이스 realtime database 에서 정보 가져오기
 
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
-                if(user!=null){
-                    uid  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
-                }
-                mDatabase.child("TICKET").child(uid).child(today).child(id).child("wait").setValue("true");     //대기중인 예매 완료된 예매
+                mDatabase.child("TICKET").child(uid).child(today).child(id).child("success").setValue(1);     //대기중인 예매 완료된 예매
 
                 Intent intent = new Intent(getActivity(),MainActivity.class);
                 startActivity(intent);
