@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragment.RankingFragment">
+    tools:context=".fragments.RankingFragment">
 
     <com.ogaclejapan.smarttablayout.SmartTabLayout
         android:id="@+id/viewpagertab"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="40dp"
         app:stl_indicatorAlwaysInCenter="true"
         app:stl_indicatorWithoutPadding="false"
         app:stl_indicatorInFront="false"

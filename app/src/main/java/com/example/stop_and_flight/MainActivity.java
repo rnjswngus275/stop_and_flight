@@ -73,9 +73,6 @@ public class MainActivity extends AppCompatActivity {
     ImageView headerIcon;
     TextView title_toolbar;
 
-
-
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -207,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
         storageRef.child("ProfileImage/"+filename).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Glide.with(context).load(uri).into(headerIcon);
+                Glide.with(context).load(uri).circleCrop().into(headerIcon);
 
             }
         }).addOnFailureListener(new OnFailureListener() {

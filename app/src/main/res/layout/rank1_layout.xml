@@ -26,9 +26,9 @@
 
 
         <ImageView
-            android:id="@+id/btn_expand_toggle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/Ranking_image"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignRight="@+id/Ranking_winner"
             app:srcCompat="@drawable/ic_baseline_local_airport_24" />
     </RelativeLayout>
