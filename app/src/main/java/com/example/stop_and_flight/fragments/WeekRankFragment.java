@@ -138,7 +138,6 @@ public class WeekRankFragment extends Fragment {
                             }
                         }
                         DateInfo dateInfo = new DateInfo(Nickname, sum);
-                        System.out.println(Nickname + " / " + sum);
                         dateInfos.add(dateInfo);
                     }
                 }

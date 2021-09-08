@@ -42,6 +42,7 @@ public class FlightSuccessFragment extends Fragment {
     private String today;
     private int studytime;
     private HashMap<String, Object> UserMap;
+    private HashMap<String, Object> DateMap;
     private DatabaseReference mDatabase ;
     private String uid;
     public int point = 0;
@@ -76,9 +77,9 @@ public class FlightSuccessFragment extends Fragment {
             System.out.println("확인파라매터 널이 아니면 나오는 글짜"+ arr_time);
         }
 
-        today = "2021-09-06";
+        today = "2021-09-08";
         arr_time = "16:56";
-        dpt_time = "18:55";
+        dpt_time = "18:56";
         goal = "default";
         id = "1";
 
@@ -110,26 +111,29 @@ public class FlightSuccessFragment extends Fragment {
         //TODO: 시간 자르기 IF (출발시간<도착시간이면 24:00 - 출발시간 + 도착시간) 10분당 1pt 부여
         //TODO: userInfo db에서 불러오기
 
-
-        CurTime curTime = new CurTime();
-        int curIntTime = curTime.getIntYear() * 10000 + curTime.getIntMonth() * 100 + curTime.getIntDay() * 1;
-
         mDatabase.child("users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                CurTime curTime = new CurTime();
+                int curIntTime = curTime.getIntYear() * 10000 + curTime.getIntMonth() * 100 + curTime.getIntDay() * 1;
+
                 if (snapshot != null) {
                     UserMap = (HashMap<String, Object>) snapshot.getValue();
                     point = Integer.parseInt(String.valueOf(UserMap.get("point")));
-                    studytime =  Integer.parseInt(String.valueOf(UserMap.getOrDefault("date/" + curIntTime, 0)));
+                    if (snapshot.child("date") != null)
+                    {
+                        DateMap =  (HashMap<String, Object>) snapshot.child("date").getValue();
+                        studytime =  Integer.parseInt(String.valueOf(DateMap.getOrDefault(String.valueOf(curIntTime), 0)));
+                        System.out.println(studytime);
+                    }
                 }
                 point = calculateMinute(arr_time, dpt_time) / 10 + point;
-                studytime = studytime + calculateMinute(arr_time, dpt_time);
+                studytime = studytime +  calculateMinute(arr_time, dpt_time);
                 SuccessRate.setText(String.valueOf(point));
-
+                mDatabase.child("users").child(uid).child("date/"+curIntTime).setValue(studytime);
                 mDatabase.child("TICKET").child(uid).child(today).child(id).child("success").setValue(2);
                 mDatabase.child("users").child(uid).child("point").setValue(point);
-                mDatabase.child("users").child(uid).child("date").child(String.valueOf(curIntTime)).setValue(studytime);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

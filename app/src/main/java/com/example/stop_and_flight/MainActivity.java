@@ -72,9 +72,6 @@ public class MainActivity extends AppCompatActivity {
     private TicketDatabaseHandler db;
     ImageView headerIcon;
 
-
-
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
