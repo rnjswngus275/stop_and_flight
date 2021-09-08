@@ -77,11 +77,6 @@ public class FlightSuccessFragment extends Fragment {
             System.out.println("확인파라매터 널이 아니면 나오는 글짜"+ arr_time);
         }
 
-        today = "2021-09-08";
-        arr_time = "18:56";
-        dpt_time = "16:56";
-        goal = "default";
-        id = "1";
 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기

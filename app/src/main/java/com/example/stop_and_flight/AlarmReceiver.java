@@ -49,7 +49,9 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         Calendar cal=Calendar.getInstance();
         boolean[] week=intent.getBooleanArrayExtra("weekday");
-        if(!week[cal.get(Calendar.DAY_OF_WEEK)])return;
+
+        if(week!=null){
+        if(!week[cal.get(Calendar.DAY_OF_WEEK)])return;}
 
 
         manager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
