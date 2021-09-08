@@ -78,8 +78,8 @@ public class FlightSuccessFragment extends Fragment {
         }
 
         today = "2021-09-08";
-        arr_time = "16:56";
-        dpt_time = "18:56";
+        arr_time = "18:56";
+        dpt_time = "16:56";
         goal = "default";
         id = "1";
 
@@ -89,12 +89,6 @@ public class FlightSuccessFragment extends Fragment {
             uid  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
         }
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        System.out.println("확인파라매터"+ today);
-        System.out.println("확인파라매터"+ arr_time);
-        System.out.println("확인파라매터"+ dpt_time);
-        System.out.println("확인파라매터"+ goal);
-        System.out.println("확인파라매터"+ id);
     }
 
     @Override
@@ -183,10 +177,11 @@ public class FlightSuccessFragment extends Fragment {
         // 도착시간이 출발시간보다 큰 경우
         if((arr_h2 - dpt_h2) >= 0){
             result = (arr_h2 * 60 + arr_m2) - (dpt_h2 * 60 + dpt_m2);
-            //분단위로 변환하여 빼고 10분당 1pt
+            System.out.println("time check "+ result);
         }
         // 도착시간이 출발시간보다 작은 경우 ex) 출발시간에서 ~ 24:00까지
-        else{
+        else {
+
             int midnight = (24 - dpt_h2 - 1) * 60 + ( 60 - dpt_m2);
             //24:00부터 도착시간까지
             if(arr_h2 == 0){

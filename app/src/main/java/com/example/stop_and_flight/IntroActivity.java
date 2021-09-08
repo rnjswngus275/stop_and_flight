@@ -5,8 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import com.example.stop_and_flight.AppGuide;
-import com.example.stop_and_flight.R;
 
 public class IntroActivity extends AppCompatActivity {
 
@@ -18,7 +16,7 @@ public class IntroActivity extends AppCompatActivity {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable(){ @Override
         public void run() {
-            Intent intent = new Intent(getApplicationContext(), AppGuide.class);
+            Intent intent = new Intent(getApplicationContext(), AppGuideActivity.class);
             startActivity(intent); //introActivity 실행 후 AppGuide로
              finish();
         }

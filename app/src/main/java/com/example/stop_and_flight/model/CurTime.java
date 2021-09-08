@@ -90,6 +90,8 @@ public class CurTime {
         return Integer.parseInt(Year);
     }
 
+    public int getWeekset() {
+        return getIntYear() * 10000 + getIntMonth() * 100 + getIntDay() * 1; }
 
     public ArrayList<String> getCurWeek(){
         java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyyMMdd");
