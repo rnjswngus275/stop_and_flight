@@ -50,6 +50,7 @@ public class TodayRankFragment extends Fragment {
     private Context context;
     private ArrayList<DateInfo> dateInfos = new ArrayList<DateInfo>();
     private HashMap<String, Object> UserMap;
+    private HashMap<String, Object> DateMap;
     private DatabaseReference mDatabase;
     private RankingAdapter rankingAdapter;
     private RecyclerView todayRankRecyclerView;
@@ -126,7 +127,12 @@ public class TodayRankFragment extends Fragment {
                 for (DataSnapshot UserSanpshot : snapshot.getChildren()) {
                     UserMap = (HashMap<String, Object>) UserSanpshot.getValue();
                     String Nickname = String.valueOf(UserMap.get("nickname"));
-                    int Studytime = Integer.parseInt(String.valueOf(UserMap.getOrDefault("date/" + date, 0)));
+                    int Studytime = 0;
+                    if (UserSanpshot.child("date").getValue() != null)
+                    {
+                        DateMap =  (HashMap<String, Object>) UserSanpshot.child("date").getValue();
+                        Studytime =  Integer.parseInt(String.valueOf(DateMap.getOrDefault(date, 0)));
+                    }
                     DateInfo dateInfo = new DateInfo(Nickname, Studytime);
                     dateInfos.add(dateInfo);
                 }

@@ -25,7 +25,7 @@ import java.util.List;
 
 import me.relex.circleindicator.CircleIndicator;
 
-public class AppGuide extends AppCompatActivity {
+public class AppGuideActivity extends AppCompatActivity {
 
     private CircleIndicator mIndicator;
     private FirebaseAuth mAuth;
@@ -112,7 +112,7 @@ public class AppGuide extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
 
         if(user!=null && checkAccessibilityPermissions()){
-            startActivity(new Intent(AppGuide.this, MainActivity.class));
+            startActivity(new Intent(AppGuideActivity.this, MainActivity.class));
             finish();
         }
 

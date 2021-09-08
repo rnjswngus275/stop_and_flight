@@ -42,6 +42,7 @@ public class FlightSuccessFragment extends Fragment {
     private String today;
     private int studytime;
     private HashMap<String, Object> UserMap;
+    private HashMap<String, Object> DateMap;
     private DatabaseReference mDatabase ;
     private String uid;
     public int point = 0;
@@ -76,9 +77,9 @@ public class FlightSuccessFragment extends Fragment {
             System.out.println("확인파라매터 널이 아니면 나오는 글짜"+ arr_time);
         }
 
-        today = "2021-09-06";
-        arr_time = "16:56";
-        dpt_time = "18:55";
+        today = "2021-09-08";
+        arr_time = "18:56";
+        dpt_time = "16:56";
         goal = "default";
         id = "1";
 
@@ -88,12 +89,6 @@ public class FlightSuccessFragment extends Fragment {
             uid  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
         }
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        System.out.println("확인파라매터"+ today);
-        System.out.println("확인파라매터"+ arr_time);
-        System.out.println("확인파라매터"+ dpt_time);
-        System.out.println("확인파라매터"+ goal);
-        System.out.println("확인파라매터"+ id);
     }
 
     @Override
@@ -110,26 +105,29 @@ public class FlightSuccessFragment extends Fragment {
         //TODO: 시간 자르기 IF (출발시간<도착시간이면 24:00 - 출발시간 + 도착시간) 10분당 1pt 부여
         //TODO: userInfo db에서 불러오기
 
-
-        CurTime curTime = new CurTime();
-        int curIntTime = curTime.getIntYear() * 10000 + curTime.getIntMonth() * 100 + curTime.getIntDay() * 1;
-
         mDatabase.child("users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                CurTime curTime = new CurTime();
+                int curIntTime = curTime.getIntYear() * 10000 + curTime.getIntMonth() * 100 + curTime.getIntDay() * 1;
+
                 if (snapshot != null) {
                     UserMap = (HashMap<String, Object>) snapshot.getValue();
                     point = Integer.parseInt(String.valueOf(UserMap.get("point")));
-                    studytime =  Integer.parseInt(String.valueOf(UserMap.getOrDefault("date/" + curIntTime, 0)));
+                    if (snapshot.child("date") != null)
+                    {
+                        DateMap =  (HashMap<String, Object>) snapshot.child("date").getValue();
+                        studytime =  Integer.parseInt(String.valueOf(DateMap.getOrDefault(String.valueOf(curIntTime), 0)));
+                        System.out.println(studytime);
+                    }
                 }
                 point = calculateMinute(arr_time, dpt_time) / 10 + point;
-                studytime = studytime + calculateMinute(arr_time, dpt_time);
+                studytime = studytime +  calculateMinute(arr_time, dpt_time);
                 SuccessRate.setText(String.valueOf(point));
-
+                mDatabase.child("users").child(uid).child("date/"+curIntTime).setValue(studytime);
                 mDatabase.child("TICKET").child(uid).child(today).child(id).child("success").setValue(2);
                 mDatabase.child("users").child(uid).child("point").setValue(point);
-                mDatabase.child("users").child(uid).child("date").child(String.valueOf(curIntTime)).setValue(studytime);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -179,10 +177,11 @@ public class FlightSuccessFragment extends Fragment {
         // 도착시간이 출발시간보다 큰 경우
         if((arr_h2 - dpt_h2) >= 0){
             result = (arr_h2 * 60 + arr_m2) - (dpt_h2 * 60 + dpt_m2);
-            //분단위로 변환하여 빼고 10분당 1pt
+            System.out.println("time check "+ result);
         }
         // 도착시간이 출발시간보다 작은 경우 ex) 출발시간에서 ~ 24:00까지
-        else{
+        else {
+
             int midnight = (24 - dpt_h2 - 1) * 60 + ( 60 - dpt_m2);
             //24:00부터 도착시간까지
             if(arr_h2 == 0){
