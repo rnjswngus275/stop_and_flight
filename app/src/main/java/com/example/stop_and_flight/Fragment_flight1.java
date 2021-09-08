@@ -77,9 +77,12 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
     HashMap<String,Object> ticket_info2=new HashMap<String,Object>();
     String set_dpt_time = null;
     String set_arr_time= null;
-    String set_goal= null;
+    String set_requestcode= null;
     String set_id= null;
+    String set_todo=null;
+    String set_success=null;
     long emergency_time;
+
 
     String[] getTicket;
     int arr;
@@ -169,39 +172,39 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
         } catch (Exception e) {}
         countDownTimer=null;
     }
-    public String[] ticket_infomation (String arr,String dpt,String goal,String id,String wait){
+    public String[] ticket_infomation (String arr,String dpt,String id,String success,String todo){
 
             String[] ticket=new String[5];
             ticket[0]=arr;
             ticket[1]=dpt;
-            ticket[2]=goal;
-            ticket[3]=id;
-            ticket[4]=wait;
+            ticket[2]=id;
+            ticket[3]=success;
+            ticket[4]=todo;
             System.out.println("확인 티켓함수안"+Arrays.toString(ticket));
             return ticket;
     }
 
     public void countDownTimer(View v,String set_hour,String set_min,String set_h,String set_m){
 
-        Calendar baseCal = new GregorianCalendar(Calendar.YEAR,Calendar.MONTH,Calendar.DAY_OF_MONTH,Integer.parseInt(set_hour),Integer.parseInt(set_min));        //도착
-        Calendar baseCal2 = new GregorianCalendar(Calendar.YEAR,Calendar.MONTH,Calendar.DAY_OF_MONTH,Integer.parseInt(set_h),Integer.parseInt(set_m));        //출발
+        Calendar baseCal = new GregorianCalendar(Calendar.YEAR,Calendar.MONTH,Calendar.DAY_OF_MONTH,Integer.parseInt(set_hour),Integer.parseInt(set_min));        //출발
+        Calendar baseCal2 = new GregorianCalendar(Calendar.YEAR,Calendar.MONTH,Calendar.DAY_OF_MONTH,Integer.parseInt(set_h),Integer.parseInt(set_m));        //도착
 
         //지금은 현재날짜에서 +2일로 해놨는데 나중에 설정된 날짜 시간 받아와서 해야함
 
-        long diffSec = (baseCal.getTimeInMillis() - baseCal2.getTimeInMillis());        //비교대상 날짜-현재날짜를 1000분의 1초 단위로 하는게 gettimeinmills 그래서 1000으로 나눠줘야함
+        long diffSec = (baseCal2.getTimeInMillis() - baseCal.getTimeInMillis());        //비교대상 날짜-현재날짜를 1000분의 1초 단위로 하는게 gettimeinmills 그래서 1000으로 나눠줘야함
 //        long diffDays = diffSec / (24 * 60 * 60);
         System.out.println("확인 diffsec"+diffSec);
         countDownTimer = new CountDownTimer(diffSec,1000) {          //첫번째 인자 : 총시간(제한시간) 두번째 인수: 몇초마다 타이머 작동
             @Override
             public void onTick(long millisUntilFinished) {
                 count_txt=(TextView)v.findViewById(R.id.count_txt);
-                count_txt.setText(getTime(set_hour,set_min));
+                count_txt.setText(getTime(set_h,set_m));
             }
 
             @Override
             public void onFinish() {
                 System.out.println("확인 타이머가 끝났을때 뜨는겨");
-                replaceFragment(FlightSuccessFragment.newInstance(today,set_dpt_time, set_arr_time,set_goal,set_id));
+                replaceFragment(FlightSuccessFragment.newInstance(today,set_arr_time, set_dpt_time,set_todo,set_id));
                 onDestroy();
             }
         };
@@ -262,26 +265,33 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
                     System.out.println("확인해당날짜만"+ticket_info2);
                     String set_arr= (String.valueOf( ticket_info2.get("arrive_time")));
                     String set_dpt= (String.valueOf( ticket_info2.get("depart_time")));
-                    String set_goal=(String.valueOf(ticket_info2.get("goal")));
                     String set_id=(String.valueOf( ticket_info2.get("id")));
-                    String set_wait=(String.valueOf(ticket_info2.get("wait")));
+                    Long set_requestcode= (Long) ticket_info2.get("requestcode");
+                    String set_success= (String.valueOf(ticket_info2.get("success")));
+                    String set_todo=(String.valueOf(ticket_info2.get("todo")));
 
                     System.out.println("확인 저장은되나?"+set_arr);
-                    al.addAll(Arrays.asList(ticket_infomation(set_arr,set_dpt,set_goal,set_id,set_wait)));
+                    al.addAll(Arrays.asList(ticket_infomation(set_arr,set_dpt,set_id,set_success,set_todo)));
+
 
                 }
 
                 int size=al.size();
 
-                for(int i=4;i<size;i=i+5){
+                for(int i=3;i<size;i=i+5){
+                    System.out.println("확인 for i=1일때"+al.get(i-3));
+                    System.out.println("확인 for i=2일때"+al.get(i-2));
+                    System.out.println("확인 for i=3일때"+al.get(i-1));
                     System.out.println("확인for"+al.get(i));
 
-                    if(String.valueOf(al.get(i)).equals("true"))
+                    if(String.valueOf(al.get(i)).equals("0"))
                     {
-                        set_dpt_time = (String) al.get(i-4);
-                        set_arr_time= (String) al.get(i-3);
-                        set_goal = (String) al.get(i-2);
-                        set_id = (String) al.get(i-1);
+                        set_arr_time = (String) al.get(i-3);
+                        set_dpt_time = (String) al.get(i-2);
+                        set_id= (String) al.get(i-1);
+                        set_todo=(String)al.get(i+1);
+
+                        System.out.println("확인 출발"+set_arr_time+"도착"+set_dpt_time);
 
 
                         int idx=set_dpt_time.indexOf(":");
@@ -289,11 +299,13 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
                         String set_time2=set_dpt_time.substring(idx+1);
                         System.out.println("1확인 타임 출발"+set_time1);
                         System.out.println("2확인 타임 출발"+set_time2);
+
                         int idx2=set_arr_time.indexOf(":");
                         String set_time_arr1=set_arr_time.substring(0,idx2);
                         String set_time_arr2=set_arr_time.substring(idx2+1);
                         System.out.println("1확인 타임 도착"+set_time_arr1);
                         System.out.println("2확인 타임 도착"+set_time_arr2);
+
                         countDownTimer(v,set_time1,set_time2,set_time_arr1,set_time_arr2);
                         countDownTimer.start();
                         break;
@@ -426,7 +438,7 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
 
                 if(((time2-emergency_time)/1000.0)>86400||emergency_time==0){          //24시간 지나거나 디폴트 값이면 비상탈출 가능
                     mDatabase.child("users").child(uid).child("emergency_time").setValue(time2);        //지금 시간으로 갱신
-                    replaceFragment(FlightFailureFragment.newInstance(today,set_dpt_time, set_arr_time,set_goal,set_id));
+                    replaceFragment(FlightFailureFragment.newInstance(today,set_arr_time, set_dpt_time,set_todo,set_id));
                     onDestroy();
                 }
                 else{

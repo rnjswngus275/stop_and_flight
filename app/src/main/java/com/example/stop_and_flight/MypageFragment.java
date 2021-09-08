@@ -117,6 +117,14 @@ public class MypageFragment extends Fragment {
                 if (snapshot != null)
                 {
                     UserMap = (HashMap<String, Object>) snapshot.getValue();
+                    try{
+                        Point.setText(String.valueOf(UserMap.get("point")));
+
+                    }catch (NullPointerException e){
+                        mDatabase.child("users").child(UID).child("point").setValue(0);
+                        Point.setText(String.valueOf(UserMap.get("point")));
+
+                    }
                     Point.setText(String.valueOf(UserMap.get("point")));
                     Nickname.setText(String.valueOf(UserMap.get("nickname")));
                 }

@@ -3,6 +3,7 @@ package com.example.stop_and_flight.fragments;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -305,7 +306,7 @@ public class TicketingFragment extends Fragment {
                 }
                 if (flag == 0)
                 {
-                    time_Validity(depart_hour, depart_min, arrive_hour, arrive_min);
+                    time_Validity(depart_hour, depart_min, arrive_hour, arrive_min,repeat);
                 }
                 else
                 {
@@ -444,6 +445,7 @@ public class TicketingFragment extends Fragment {
         System.out.println("확인 알람설정 ok");
     }
     public void regist(boolean a,boolean b, boolean c, boolean d, boolean e, boolean f, boolean g) {
+        AM = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
 
         boolean[] week = { false, a,b,c,d,e,f,g  }; // sun을 1번부터 사용하기 위해 배열 0번은 false로 고정
 
@@ -454,7 +456,8 @@ public class TicketingFragment extends Fragment {
 
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.putExtra("weekday", week);
-        PendingIntent pIntent = PendingIntent.getBroadcast(context, requestcode,intent, 0); //PendingIntent.FLAG_UPDATE_CURRENT
+        ServicePending = PendingIntent.getBroadcast(
+                mContext, requestcode, intent, 0);
 
         Calendar calendar2 = Calendar.getInstance();
         calendar2.set(YEAR, MONTH - 1, DAY, dptH, dptM);
@@ -464,6 +467,7 @@ public class TicketingFragment extends Fragment {
 
         long selectTime=calendar2.getTimeInMillis();
         long currenTime=System.currentTimeMillis();
+        System.out.println(selectTime + "확인 selecttime");
 
         //만약 설정한 시간이, 현재 시간보다 작다면 알람이 부정확하게 울리기 때문에 다음날 울리게 설정
         if(currenTime>selectTime){
@@ -471,7 +475,7 @@ public class TicketingFragment extends Fragment {
         }
 
          //지정한 시간에 매일 알림
-        AM.setRepeating(AlarmManager.RTC_WAKEUP, selectTime,  intervalDay, pIntent);
+        AM.setRepeating(AlarmManager.RTC_WAKEUP, selectTime,  intervalDay, ServicePending);
 
     }
 }

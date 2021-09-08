@@ -205,12 +205,13 @@ public class MainFragment extends Fragment {
             viewPager=v.findViewById(R.id.viewPager);
             viewPager.setAdapter(adpater2);
             viewPager.setPadding(130, 30, 130, 0);
+
         }
         else {
             adapter = new main_adapter(models, getContext());
             viewPager = v.findViewById(R.id.viewPager);
             viewPager.setAdapter(adapter);
-                    viewPager.setPadding(130, 30, 130, 0);
+                 viewPager.setPadding(130, 30, 130, 0);
         }
 
         return v;
