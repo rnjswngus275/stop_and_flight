@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AppGuideFragment2">
+    tools:context=".fragments.AppGuideFragment2">
 
     <!-- TODO: Update blank fragment layout -->
 
     <LinearLayout
+        android:id="@+id/linearLayout7"
         android:layout_width="match_parent"
         android:layout_height="222dp"
-        android:orientation="horizontal" >
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/imageView2"
@@ -27,19 +32,23 @@
         android:id="@+id/textView6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="다양한 여행을 \n경험 할 수 있는 기능"
-        android:textSize="25dp" />
+        android:textSize="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout7" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="296dp"
         android:layout_height="101dp"
         android:layout_gravity="center"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:text="또한 사용자에게 다양한 여행의 경험을 제공을 통해 다양한 목표에 대한 보상을 받을 수 있도록 최선의 노력을 하고 있습니다." />
+        android:layout_marginTop="16dp"
+        android:text="또한 사용자에게 다양한 여행의 경험을 제공을 통해 다양한 목표에 대한 보상을 받을 수 있도록 최선의 노력을 하고 있습니다."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

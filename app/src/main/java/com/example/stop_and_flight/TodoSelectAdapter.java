@@ -5,15 +5,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.stop_and_flight.fragments.AddNewTask;
+import com.example.stop_and_flight.fragments.TicketingFragment;
+import com.example.stop_and_flight.model.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,18 +24,19 @@ public class TodoSelectAdapter extends RecyclerView.Adapter<TodoSelectAdapter.Vi
 
     public static final int HEADER = 0;
     public static final int CHILD = 1;
-
     private List<Task> taskList;
     private Context context;
     private TaskDatabaseHandler db;
     private TodoDatabaseHandler tododb;
+    private Bundle bundle;
     private String  UID;
 
-    public TodoSelectAdapter(TaskDatabaseHandler db, TodoDatabaseHandler tododb, Context context, String UID) {
+    public TodoSelectAdapter(TaskDatabaseHandler db, TodoDatabaseHandler tododb, Context context, String UID, Bundle bundle) {
         this.db = db;
         this.tododb = tododb;
         this.context = context;
         this.UID = UID;
+        this.bundle = bundle;
     }
 
     @NonNull
@@ -95,8 +98,17 @@ public class TodoSelectAdapter extends RecyclerView.Adapter<TodoSelectAdapter.Vi
                 holder.sub_title.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Bundle bundle = new Bundle();
-                        ((MainActivity) getActivity()).replaceFragment(Ticketing_Fragment.newInstance(item.getTask(), UID));
+                        if (bundle != null)
+                        {
+                            bundle.putString("Todo", item.getTask());
+                            ((MainActivity) getActivity()).replaceFragment(TicketingFragment.newInstance("update", null, bundle));
+                        }
+                        else
+                        {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("Todo", item.getTask());
+                            ((MainActivity) getActivity()).replaceFragment(TicketingFragment.newInstance(null, null, bundle));
+                        }
                     }
                 });
                 break;

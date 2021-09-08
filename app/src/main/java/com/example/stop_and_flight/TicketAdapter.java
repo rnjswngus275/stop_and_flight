@@ -10,11 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.stop_and_flight.fragment.SelectTodoFragment;
-import com.example.stop_and_flight.fragment.TicketingFragment;
+import com.example.stop_and_flight.fragments.TicketingFragment;
 import com.example.stop_and_flight.model.Ticket;
 import com.vipulasri.ticketview.TicketView;
 

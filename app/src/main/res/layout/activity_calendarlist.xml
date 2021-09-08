@@ -9,7 +9,7 @@
         android:id="@+id/linearLayout3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#8DA8E3FF"
+        android:background="@color/color_2"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,6 +41,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -73,7 +74,7 @@
             android:background="@drawable/rectangle"
             android:backgroundTint="#FFEE80"
             android:gravity="center"
-            android:hint="@string/no_todo"
+            android:hint="TODO: 캡스톤 디자인 발표"
             android:textColor="#871818"
             android:textSize="18sp" />
 
@@ -87,7 +88,7 @@
             android:background="@drawable/rectangle"
             android:backgroundTint="#FFEE80"
             android:gravity="center"
-            android:hint="@string/no_time"
+            android:hint="비행시간 : 3:30~3:31"
             android:textSize="18sp" />
 
         <TextView
@@ -99,7 +100,7 @@
             android:background="@drawable/rectangle"
             android:backgroundTint="#FFEE80"
             android:gravity="center"
-            android:hint="@string/no_star"
+            android:hint="별점 : 4점"
             android:textSize="18sp" />
 
         <TextView
@@ -111,7 +112,7 @@
             android:background="@drawable/rectangle"
             android:backgroundTint="#FFEE80"
             android:gravity="center"
-            android:hint="@string/no_note"
+            android:hint="메모 : 잘 집중해서 빨리 했습니다!"
             android:textSize="18sp" />
 
         <TextView

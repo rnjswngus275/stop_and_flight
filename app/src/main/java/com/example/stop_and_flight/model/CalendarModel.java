@@ -12,20 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.String.valueOf;
-import android.util.Log;
+
 import android.widget.DatePicker;
 
-import com.example.stop_and_flight.singleton.CalendarSingle;
-import com.example.stop_and_flight.singleton.Schedule;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import com.example.stop_and_flight.fragments.CalendarSingle;
 
 import static java.lang.String.valueOf;
 

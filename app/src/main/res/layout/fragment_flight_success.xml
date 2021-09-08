@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="성공률이" />
+        android:text="비행 점수가" />
 
     <TextView
         android:id="@+id/TextSuccessRate"
@@ -108,7 +108,7 @@
         android:layout_gravity="center"
         android:ems="14"
         android:inputType="textPersonName"
-        android:text="비행의 반성/칭찬을 메모로 남겨보세요"
+        android:hint="비행의 반성/칭찬을 메모로 남겨보세요"
         android:layout_marginBottom="20dp"/>
 
     <androidx.appcompat.widget.AppCompatButton
