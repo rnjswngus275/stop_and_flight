@@ -1,4 +1,4 @@
-package com.example.stop_and_flight;
+package com.example.stop_and_flight.utils;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.fragments.StatisticsFragment;
 
 public class StatisticsViewPagerAdapter extends PagerAdapter {

@@ -11,10 +11,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
-
-import android.animation.ArgbEvaluator;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -25,11 +21,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.example.stop_and_flight.model.Ticket;
-import com.example.stop_and_flight.utils.TicketDatabaseHandler;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+
+import com.example.stop_and_flight.fragments.StatisticsFragment;
+//import com.google.android.gms.ads.MobileAds;
+//import com.google.android.gms.ads.initialization.InitializationStatus;
+//import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import com.bumptech.glide.Glide;
 import com.example.stop_and_flight.fragments.CalendarFragment;
@@ -58,18 +54,8 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private DrawerLayout mDrawerLayout;
     private Context context = this;
-    ViewPager viewPager;
-    main_adapter adapter;
-    List<Ticket> models=new ArrayList<>();;
-    Integer[] colors = null;
-    ArgbEvaluator argbEvaluator = new ArgbEvaluator();
     private DatabaseReference mDatabase;
-    private RecyclerView ticketRecyclerView;
-    private TicketAdapter ticketAdapter;
-    private Ticket getTicket;
     private String UID;
-    private String ticket_Date;
-    private TicketDatabaseHandler db;
     ImageView headerIcon;
     TextView title_toolbar;
 
@@ -87,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         title_toolbar=(TextView)findViewById(R.id.toolbar_title);
-
+        title_toolbar.setText("MAIN");
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -109,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         MypageFragment mypage = new MypageFragment();
         RankingFragment rankingFragment = new RankingFragment();
         FlightSuccessFragment flightSuccessFragment = new FlightSuccessFragment();
-
+        StatisticsFragment statisticsFragment1=new StatisticsFragment();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -130,11 +116,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
-        });
+//        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+//            @Override
+//            public void onInitializationComplete(InitializationStatus initializationStatus) {
+//            }
+//        });
 
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -164,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, FilghtActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.menu6) {
-                    fragmentTransaction.replace(R.id.container, statisticsFragment).addToBackStack(null).commitAllowingStateLoss();
+                    fragmentTransaction.replace(R.id.container, statisticsFragment1).addToBackStack(null).commitAllowingStateLoss();
                     title_toolbar.setText("STATISTICS");
                 }
                 return true;
