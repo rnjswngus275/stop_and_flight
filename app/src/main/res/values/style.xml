@@ -59,5 +59,4 @@
         <item name="android:fontFamily">@font/app_font_uandpeople</item>
         <item name="android:includeFontPadding">false</item>
     </style>
-
 </resources>

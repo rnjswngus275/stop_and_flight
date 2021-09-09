@@ -41,10 +41,10 @@ import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Fragment2#newInstance} factory method to
+ * Use the {@link BarChartfragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Fragment2 extends Fragment {
+public class BarChartfragment extends Fragment {
     BarChart barChart;
     private com.github.mikephil.charting.charts.BarChart showbarchart;
     private ArrayList<DateInfo> dateInfos = new ArrayList<DateInfo>();
@@ -61,7 +61,7 @@ public class Fragment2 extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Fragment2() {
+    public BarChartfragment() {
         // Required empty public constructor
     }
 
@@ -74,8 +74,8 @@ public class Fragment2 extends Fragment {
      * @return A new instance of fragment Fragment2.
      */
     // TODO: Rename and change types and number of parameters
-    public static Fragment2 newInstance(String param1, String param2) {
-        Fragment2 fragment = new Fragment2();
+    public static BarChartfragment newInstance(String param1, String param2) {
+        BarChartfragment fragment = new BarChartfragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

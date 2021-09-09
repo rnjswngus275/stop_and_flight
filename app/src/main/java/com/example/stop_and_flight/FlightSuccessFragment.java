@@ -145,7 +145,6 @@ public class FlightSuccessFragment extends Fragment {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 //메모 데이터베이스에 저장
                 String Memo_txt = Memo.getText().toString();
                 mDatabase.child("TICKET").child(uid).child(today).child(id).child("memo").setValue(Memo_txt);

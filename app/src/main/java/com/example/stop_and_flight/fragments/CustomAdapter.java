@@ -46,15 +46,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder viewholder, int position) {
-
-//        viewholder.Todo.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-//        viewholder.Time.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-//
-//        viewholder.Todo.setGravity(Gravity.LEFT);
-//        viewholder.Time.setGravity(Gravity.LEFT);
-
         viewholder.Todo.setText(mList.get(position).getTodo());
-        viewholder.Time.setText(mList.get(position).getTime());
+        viewholder.Time.setText(String.valueOf(mList.get(position).getTime()));
 
 
     }

@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.Fragment2">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.BarChartfragment">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -14,33 +15,36 @@
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/barchart"
             android:layout_width="match_parent"
-            android:layout_height="320dp" >
+            android:layout_height="350dp" >
 
         </com.github.mikephil.charting.charts.BarChart>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="23dp">
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="387dp"
-            android:background="#408CCCFF"
+            android:gravity="center"
+            android:layout_height="200dp"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="205dp"
-                android:layout_height="match_parent"
+            <androidx.cardview.widget.CardView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:cardCornerRadius="15dp"
+                android:elevation="10dp"
+                android:layout_marginRight="30dp"
                 android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="32dp"
-                    android:background="#7CC5FF"
                     android:gravity="center"
-                    android:text="✈일간 총 비행시간✈"
+                    android:text="일간 총 비행시간"
                     android:textColor="#000000"
                     android:textSize="18sp" />
 
@@ -48,25 +52,32 @@
                     android:id="@+id/textView28"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="#577CC5FF"
                     android:gravity="center"
                     android:text="0분"
                     android:textColor="#000000"
                     android:textSize="24sp" />
-            </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <androidx.cardview.widget.CardView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:cardCornerRadius="15dp"
+                android:elevation="10dp"
                 android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
                 <TextView
                     android:id="@+id/textView29"
                     android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:background="#7CC5FF"
+                    android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="✈주간 총 비행시간✈"
+                    android:text="주간 총 비행시간"
                     android:textColor="#000000"
                     android:textSize="18sp" />
 
@@ -74,12 +85,13 @@
                     android:id="@+id/textView30"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="#577CC5FF"
                     android:gravity="center"
                     android:text="0분"
                     android:textColor="#000000"
                     android:textSize="24sp" />
-            </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
         </LinearLayout>
 
     </LinearLayout>
