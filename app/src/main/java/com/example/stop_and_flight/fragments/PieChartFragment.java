@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,10 +37,10 @@ import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link PieChartfragment#newInstance} factory method to
+ * Use the {@link PieChartFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PieChartfragment extends Fragment {
+public class PieChartFragment extends Fragment {
     private String UID;
     private Ticket ticket;
     private DatabaseReference databaseReference;
@@ -58,7 +57,7 @@ public class PieChartfragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public PieChartfragment() { }
+    public PieChartFragment() { }
 
 
     /**
@@ -70,8 +69,8 @@ public class PieChartfragment extends Fragment {
      * @return A new instance of fragment Fragment1.
      */
     // TODO: Rename and change types and number of parameters
-    public static PieChartfragment newInstance(String param1, String param2) {
-        PieChartfragment fragment = new PieChartfragment();
+    public static PieChartFragment newInstance(String param1, String param2) {
+        PieChartFragment fragment = new PieChartFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

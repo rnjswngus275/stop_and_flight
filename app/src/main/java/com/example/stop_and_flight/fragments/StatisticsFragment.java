@@ -38,9 +38,9 @@ public class StatisticsFragment extends Fragment {
         pager.setOffscreenPageLimit(2);
         //어뎁터 객체생성
         MyPagerAdapter adapter = new MyPagerAdapter(getFragmentManager());
-        PieChartfragment pieChartfragment = new PieChartfragment();
+        PieChartFragment pieChartfragment = new PieChartFragment();
         adapter.addItem(pieChartfragment);
-        BarChartfragment barChartfragment = new BarChartfragment();
+        BarChartFragment barChartfragment = new BarChartFragment();
         adapter.addItem(barChartfragment);
         pager.setAdapter(adapter);
         return view1;
