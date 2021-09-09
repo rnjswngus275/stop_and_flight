@@ -488,7 +488,8 @@ public class MypageFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            Intent intent = new Intent(context, AppGuideActivity.class);
+                            Intent intent = new Intent(context,AppGuideActivity.class);
+
                             startActivity(intent);
 
                         }

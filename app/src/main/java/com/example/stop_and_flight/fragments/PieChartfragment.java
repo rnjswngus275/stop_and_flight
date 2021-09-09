@@ -141,7 +141,9 @@ public class PieChartfragment extends Fragment {
                             if (ticket.getSuccess() == 2)
                             {
                                 int arr_times = calculateMinute(ticket.getArrive_time(), ticket.getDepart_time());
+
                                 Dictionary data = new Dictionary(ticket.getTodo(), arr_times);
+
                                 mArrayList.add(data);
                                 yValues.add(new PieEntry(arr_times, ticket.getTodo())); // getTodo 읽어와서 파이차트 엔트리에 추가하는 곳
                             }
@@ -254,4 +256,6 @@ public class PieChartfragment extends Fragment {
         return result;
     }
 
+
 }
+

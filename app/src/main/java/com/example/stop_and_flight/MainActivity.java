@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                     fragmentTransaction.replace(R.id.container, calendarFragment).addToBackStack(null).commitAllowingStateLoss();
                     title_toolbar.setText("TICKETING");
                 }
-                 else if (id == R.id.menu3) {
+                else if (id == R.id.menu3) {
                     fragmentTransaction.replace(R.id.container, taskFragment).addToBackStack(null).commitAllowingStateLoss();
                     title_toolbar.setText("TASK");
                 } else if (id == R.id.menu4) {

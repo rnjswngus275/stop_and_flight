@@ -201,7 +201,7 @@ public class MainFragment extends Fragment {
         String str3 =str+count+str2;
         if(count==0){
             models2.add(new main_model("오늘은 여행일정이 없습니다","예매하기로 일정을 등록해보세요!"));
-             adpater2=new main_adapter2(models2,getContext());
+            adpater2=new main_adapter2(models2,getContext());
             viewPager=v.findViewById(R.id.viewPager);
             viewPager.setAdapter(adpater2);
             viewPager.setPadding(130, 30, 130, 0);
@@ -211,7 +211,7 @@ public class MainFragment extends Fragment {
             adapter = new main_adapter(models, getContext());
             viewPager = v.findViewById(R.id.viewPager);
             viewPager.setAdapter(adapter);
-                 viewPager.setPadding(130, 30, 130, 0);
+            viewPager.setPadding(130, 30, 130, 0);
         }
 
         return v;
