@@ -21,6 +21,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="비 행 성 공"
+        style="@style/Text.TitleStyle"
         android:textSize="30dp"
         android:textColor="@color/color_4"
         android:layout_marginTop="40dp"
@@ -43,6 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
+        style="@style/Text.uandpeople"
         android:text="비행 점수가" />
 
     <TextView
@@ -50,6 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        style="@style/Text.uandpeople"
         android:textSize="50dp"
         />
 
@@ -59,6 +62,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginBottom="30dp"
+        style="@style/Text.uandpeople"
         android:text="올랐습니다" />
 
     <TextView
@@ -69,6 +73,7 @@
         android:textSize="20dp"
         android:layout_margin="5dp"
         android:textColor="@color/color_4"
+        style="@style/Text.uandpeople"
         android:text="비행 평가" />
     <TextView
         android:id="@+id/textView13"
@@ -76,6 +81,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginBottom="20dp"
+        style="@style/Text.uandpeople"
         android:text="잠금시간동안의 집중도를 평가해보세요!" />
     <TextView
         android:id="@+id/textView14"
@@ -84,6 +90,7 @@
         android:gravity="center"
         android:layout_marginTop="10dp"
         android:textColor="@color/color_3"
+        style="@style/Text.uandpeople"
         android:text="별점평가" />
     <RatingBar
         android:id="@+id/ratingBar"
@@ -99,6 +106,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="@color/color_3"
+        style="@style/Text.uandpeople"
         android:text="메모" />
 
     <EditText
@@ -109,6 +117,7 @@
         android:ems="14"
         android:inputType="textPersonName"
         android:hint="비행의 반성/칭찬을 메모로 남겨보세요"
+        style="@style/Text.uandpeople"
         android:layout_marginBottom="20dp"/>
 
     <androidx.appcompat.widget.AppCompatButton
@@ -118,6 +127,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#769FCD"
+        style="@style/Text.uandpeople"
         android:text="확인" />
 
 </LinearLayout>

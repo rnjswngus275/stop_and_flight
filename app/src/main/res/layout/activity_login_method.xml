@@ -24,7 +24,7 @@
         android:layout_gravity="center"
         android:layout_marginBottom="93dp"
         android:fontFamily="sans-serif-black"
-        android:text="STOP AND FLIGHT"
+        android:text="STOP  AND  FLIGHT"
         android:textColor="@color/color_3"
         android:textSize="24sp" />
 
@@ -35,6 +35,7 @@
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
         android:text="로그인 방법 선택"
+        style="@style/Text.BasicStyle"
         android:textColor="@color/color_4"
         android:textSize="20sp" />
 
@@ -45,6 +46,7 @@
         android:layout_gravity="center"
         android:text="이메일로 로그인"
         android:background="@drawable/radius"
+        style="@style/Text.BasicStyle"
         android:layout_marginBottom="20dp"
         android:textColor="#769FCD"
         />

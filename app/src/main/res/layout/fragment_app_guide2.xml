@@ -13,7 +13,7 @@
         android:id="@+id/linearLayout7"
         android:layout_width="match_parent"
         android:layout_height="222dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,23 +30,27 @@
 
     <TextView
         android:id="@+id/textView6"
+        style="@style/Text.TitleStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="45dp"
         android:gravity="center"
+        android:textColor="@color/light_black"
         android:text="다양한 여행을 \n경험 할 수 있는 기능"
-        android:textSize="25dp"
+        android:textSize="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout7" />
 
     <TextView
         android:id="@+id/textView5"
+        style="@style/Text.BasicStyle"
         android:layout_width="296dp"
         android:layout_height="101dp"
         android:layout_gravity="center"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:text="또한 사용자에게 다양한 여행의 경험을 제공을 통해 다양한 목표에 대한 보상을 받을 수 있도록 최선의 노력을 하고 있습니다."
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />

@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/btn1"
         android:background="@android:color/transparent"
+        android:layout_marginTop="15dp"
         android:paddingLeft="40dp"
         android:paddingRight="40dp"
         android:paddingBottom="0dp"
@@ -30,25 +31,44 @@
         android:layout_below="@id/btn1"
         android:background="@android:color/transparent"
         android:paddingLeft="40dp"
-        android:paddingTop="10dp"
+        android:paddingTop="15dp"
         android:paddingRight="40dp"
         android:scaleType="fitXY"
         android:src="@drawable/my_rank" />
 
+    <ImageView
+        android:id="@+id/line2"
+        android:src="@drawable/line"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_margin="20dp"
+        android:layout_below="@id/btn2"
+        />
+
     <com.example.stop_and_flight.MeasuredViewPager
         android:id="@+id/viewPager"
-        android:layout_below="@id/btn2"
+        android:layout_below="@id/line2"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:overScrollMode="never">
 
     </com.example.stop_and_flight.MeasuredViewPager>
 
+    <ImageView
+        android:id="@+id/line1"
+        android:src="@drawable/line"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_margin="20dp"
+        android:layout_below="@id/viewPager"
+        />
+
+
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
-        android:layout_below="@id/viewPager"
+        android:layout_below="@id/line1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
