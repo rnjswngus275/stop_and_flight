@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.stop_and_flight.R;
+
 import java.util.ArrayList;
 
 
@@ -40,6 +42,7 @@ public class StatisticsFragment extends Fragment {
         adapter.addItem(pieChartFragment);
         BarChartfragment barChartFragment = new BarChartfragment();
         adapter.addItem(barChartFragment);
+
         pager.setAdapter(adapter);
         return view1;
     }
@@ -70,15 +73,17 @@ public class StatisticsFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Todo별 공부량 ▶︎";
+
+                    return "Todo별 공부량";
                 case 1:
-                    return "◀︎ 일간/주간 공부량";
+                    return "일간/주간 공부량";
                 default:
                     return null;
             }
         }
 
     }
+
 }
 
 

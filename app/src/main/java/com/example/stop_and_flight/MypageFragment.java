@@ -399,7 +399,7 @@ public class MypageFragment extends Fragment {
         storageRef.child("ProfileImage/"+filename).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Glide.with(getContext()).load(uri).into(imageView);
+                Glide.with(getContext()).load(uri).circleCrop().into(imageView);
 
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -489,6 +489,7 @@ public class MypageFragment extends Fragment {
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
                             Intent intent = new Intent(context,AppGuideActivity.class);
+
                             startActivity(intent);
 
                         }

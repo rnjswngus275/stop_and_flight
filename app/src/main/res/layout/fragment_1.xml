@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.Fragment1">
+    tools:context=".fragments.PieChartfragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -28,7 +28,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="32dp"
-            android:background="#7CC5FF"
             android:orientation="horizontal">
 
             <TextView
@@ -53,8 +52,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_main_list"
             android:layout_width="match_parent"
-            android:layout_height="269dp"
-            android:background="#408CCCFF" />
+            android:layout_height="match_parent" />
     </LinearLayout>
 
 
