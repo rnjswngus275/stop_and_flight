@@ -2,7 +2,7 @@ package com.example.stop_and_flight.fragments;
 
 public class Dictionary {
     private String Todo;
-    private String Time;
+    private int Time;
 
     public String getTodo() {
         return Todo;
@@ -12,15 +12,15 @@ public class Dictionary {
         Todo = todo;
     }
 
-    public String getTime() {
+    public int getTime() {
         return Time;
     }
 
-    public void setTime(String time) {
+    public void setTime(int time) {
         Time = time;
     }
 
-    public Dictionary(String todo, String time) {
+    public Dictionary(String todo, int time) {
 
         Todo = todo;
         Time = time;

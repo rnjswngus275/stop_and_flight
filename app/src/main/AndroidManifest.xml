@@ -11,7 +11,7 @@
         android:theme="@style/Theme.Stop_and_flight"
         android:usesCleartextTraffic="true"
         >
-        <activity android:name=".AppGuide" />
+        <activity android:name=".AppGuideActivity"/>
         <activity android:name=".LoginMethodActivity" />
         <activity android:name=".JoinSNSNickname" />
         <activity android:name=".IntroActivity">

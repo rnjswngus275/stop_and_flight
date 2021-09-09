@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.stop_and_flight.R;
-import com.example.stop_and_flight.fragments.StatisticsFragment1;
+import com.example.stop_and_flight.fragments.StatisticsFragment;
 
 public class StatisticsViewPagerAdapter extends PagerAdapter {
     // LayoutInflater 서비스 사용을 위한 Context 참조 저장.
@@ -25,7 +25,7 @@ public class StatisticsViewPagerAdapter extends PagerAdapter {
         mContext = context ;
     }
 
-    public StatisticsViewPagerAdapter(StatisticsFragment1 statisticsFragment) {
+    public StatisticsViewPagerAdapter(StatisticsFragment statisticsFragment) {
     }
 
     @Override
