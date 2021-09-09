@@ -131,6 +131,9 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+
     }
 
     private String getTime(String set_hour,String set_min) {
@@ -161,7 +164,7 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
         String min = String.format("%02d", minTime);
         String sec = String.format("%02d", secTime);
 
-        return  "잠금해제까지 \n" + hour + " 시간 " + min + " 분 " + sec + "초 남았습니다.";
+        return  hour + " 시간 " + min + " 분 " + sec + "초 남았습니다.";
 
     }
       @Override
@@ -348,6 +351,9 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
         emergencybutton.setOnClickListener(this);
         appaccessbutton.setOnClickListener(this);
         // Inflate the layout for this fragment
+
+        TextView todo =v.findViewById(R.id.todo_txt);
+        todo.setText(set_todo);
         return v;
     }
 

@@ -29,10 +29,12 @@
             android:text="비 행 실 패"
             android:layout_marginBottom="20dp"
             android:textAlignment="center"
+            style="@style/Text.TitleStyle"
             android:textSize="36sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnOk"
+            style="@style/Text.uandpeople"
             android:layout_gravity="center"
             android:background="@drawable/radius"
             android:layout_width="wrap_content"

@@ -25,6 +25,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.stop_and_flight.fragments.StatisticsFragment1;
 import com.example.stop_and_flight.model.Ticket;
 import com.example.stop_and_flight.utils.TicketDatabaseHandler;
 import com.google.android.gms.ads.MobileAds;
@@ -87,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         title_toolbar=(TextView)findViewById(R.id.toolbar_title);
-
+        title_toolbar.setText("MAIN");
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -109,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         MypageFragment mypage = new MypageFragment();
         RankingFragment rankingFragment = new RankingFragment();
         FlightSuccessFragment flightSuccessFragment = new FlightSuccessFragment();
-
+        StatisticsFragment1 statisticsFragment1=new StatisticsFragment1();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -164,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, FilghtActivity.class);
                     startActivity(intent);
                 } else if (id == R.id.menu6) {
-                    fragmentTransaction.replace(R.id.container, statisticsFragment).addToBackStack(null).commitAllowingStateLoss();
+                    fragmentTransaction.replace(R.id.container, statisticsFragment1).addToBackStack(null).commitAllowingStateLoss();
                     title_toolbar.setText("STATISTICS");
                 }
                 return true;

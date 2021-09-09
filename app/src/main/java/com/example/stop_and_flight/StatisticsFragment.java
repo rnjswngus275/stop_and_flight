@@ -39,7 +39,7 @@ public class StatisticsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-}
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,19 +47,6 @@ public class StatisticsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_statistics1, container, false);
         pieChart = (PieChart) view.findViewById(R.id.piechart);
         pieChart();
-        sw=(Switch)view.findViewById(R.id.sw);
-        sw.setOnClickListener(new View.OnClickListener() {
-                                  @Override
-                                  public void onClick(View v) {
-                                      if(sw.isChecked()){
-                                          //파이차트
-                                      }
-                                      else{
-                                          //바차트
-                                      }
-                                  }
-                              }
-        );
         return view;
     }
 
