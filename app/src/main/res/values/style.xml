@@ -59,11 +59,4 @@
         <item name="android:fontFamily">@font/app_font_uandpeople</item>
         <item name="android:includeFontPadding">false</item>
     </style>
-    <style name="Text.Stripe60" parent="android:TextAppearance">
-        <item name="android:textStyle">normal</item>
-        <item name="android:textSize">14dp</item>
-        <item name="android:textColor">@color/light_black</item>
-        <item name="android:fontFamily">@font/app_font_stripe60</item>
-        <item name="android:includeFontPadding">false</item>
-    </style>
 </resources>
