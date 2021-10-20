@@ -24,9 +24,19 @@
             android:backgroundTint="@android:color/background_light"
             />
 
+        <TextView
+            android:id="@+id/RankingTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="25dp"
+            android:layout_toStartOf="@+id/Ranking_image"
+            android:text="분"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/Ranking_image"
+
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_alignRight="@+id/Ranking_winner"

@@ -13,7 +13,7 @@ public class MyEventDay extends EventDay implements Parcelable {
     private int day;
     private String mNote;
 
-    
+
     public MyEventDay(Calendar dayc, int imageResource, String note) {
         super(dayc, imageResource);
         year = dayc.get(Calendar.YEAR);

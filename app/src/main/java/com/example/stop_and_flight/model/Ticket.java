@@ -11,7 +11,8 @@ public class Ticket {
     private String date;
     private String todo;
     private int success;
-    private String review;
+    private String memo;
+    private float rating;
     private int id;
     private int requestcode;
 
@@ -25,12 +26,20 @@ public class Ticket {
         this.requestcode = 0;
     }
 
-    public String getReview() {
-        return review;
+    public float getRating() {
+        return rating * 2;
     }
 
-    public void setReview(String review) {
-        this.review = review;
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
     }
 
     public Ticket(String depart_time, String arrive_time, String todo, int id, int Success, int requestcode) {
@@ -104,7 +113,8 @@ public class Ticket {
         result.put("success", success);
         result.put("requestcode",requestcode);
         result.put("todo", todo);
-        result.put("review", review);
+        result.put("memo", memo);
+        result.put("rating", rating);
 
         return result;
     }

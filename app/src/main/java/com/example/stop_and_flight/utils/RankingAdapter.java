@@ -52,6 +52,7 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.ViewHold
     public  void onBindViewHolder(ViewHolder holder, int position){
         final DateInfo item = DateInfo.get(position);
         holder.NicknameTitle.setText(item.getNickname());
+        holder.timeTitle.setText(item.getStudytime() + " 분");
         switch (position)
         {
             case WINNER:
@@ -92,10 +93,12 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView NicknameTitle;
+        public TextView timeTitle;
         public ImageView WinnerImage;
         ViewHolder(View view){
             super(view);
             NicknameTitle = view.findViewById(R.id.Ranking_winner);
+            timeTitle = view.findViewById(R.id.RankingTime);
             WinnerImage = view.findViewById(R.id.Ranking_image);
         }
 

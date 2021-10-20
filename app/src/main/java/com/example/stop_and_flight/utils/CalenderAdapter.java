@@ -4,6 +4,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,25 +52,9 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView = null;
         ViewHolder viewHolder = null;
-        switch (viewType)
-        {
-            case 1:
-                itemView = inflater.from(parent.getContext()).inflate(R.layout.ticket_layout, parent, false);
-                viewHolder = new ViewHolder(itemView, viewType);
-                return viewHolder;
-            case 2:
-                itemView = inflater.from(parent.getContext()).inflate(R.layout.ticket_layout, parent, false);
-                viewHolder = new ViewHolder(itemView, viewType);
-                return viewHolder;
-            case 3:
-                itemView = inflater.from(parent.getContext()).inflate(R.layout.ticket_layout, parent, false);
-                viewHolder = new ViewHolder(itemView, viewType);
-                return viewHolder;
-            default:
-                itemView = inflater.from(parent.getContext()).inflate(R.layout.ticket_layout, parent, false);
-                viewHolder = new ViewHolder(itemView, viewType);
-                return viewHolder;
-        }
+        itemView = inflater.from(parent.getContext()).inflate(R.layout.ticket_layout, parent, false);
+        viewHolder = new ViewHolder(itemView, viewType);
+        return viewHolder;
     }
 
 
@@ -98,9 +84,64 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
                 holder.stampImage.setImageResource(R.drawable.stamp);
                 holder.ticketView.setBackgroundBeforeDivider(context.getDrawable(R.color.color_2));
                 holder.ticketView.setBackgroundAfterDivider(context.getDrawable(R.color.color_2));
-                holder.review.setText(item.getReview());
+                setStarPoint(holder, item);
+                holder.review.setText(item.getMemo());
             }
         }
+    }
+
+    private void setStarPoint(ViewHolder holder, Ticket item) {
+        float deviceWidth = context.getResources().getDisplayMetrics().widthPixels;
+        float deviceHeight = context.getResources().getDisplayMetrics().heightPixels;
+        Bitmap ori_img = BitmapFactory.decodeResource(context.getResources(), R.drawable.starpoint2);
+
+        float bitmapWidth = ori_img.getWidth();
+        float bitmapHeight = ori_img.getHeight();
+
+        float scaleHeight = deviceWidth * bitmapHeight  / bitmapWidth;
+        float scaleWidth = deviceHeight * bitmapWidth  / bitmapHeight;
+
+        Bitmap resizeBp = Bitmap.createScaledBitmap(ori_img, (int)deviceWidth, (int)scaleHeight, true);
+
+        Bitmap bm1 = null;
+//        bm1 = Bitmap.createBitmap(resizeBp, 0, 0, ori_img.getWidth(), ori_img.getHeight());
+        switch ((int)item.getRating())
+        {
+            case 0:
+                bm1 = Bitmap.createBitmap(resizeBp, 0, 0, resizeBp.getWidth(), resizeBp.getHeight()/11);
+                break;
+            case 1:
+                bm1 = Bitmap.createBitmap(resizeBp, 0, (resizeBp.getHeight())/11, resizeBp.getWidth(), resizeBp.getHeight()/11);
+                break;
+            case 2:
+                bm1 = Bitmap.createBitmap(resizeBp, 0, (resizeBp.getHeight())*2/11, resizeBp.getWidth(), resizeBp.getHeight()/11);
+                break;
+            case 3:
+                bm1 = Bitmap.createBitmap(resizeBp, 0, (resizeBp.getHeight())*3/11, resizeBp.getWidth(), resizeBp.getHeight()/11);
+                break;
+            case 4:
+                bm1 = Bitmap.createBitmap(resizeBp, 0, (resizeBp.getHeight())*4/11, resizeBp.getWidth(), resizeBp.getHeight()/11);
+                break;
+            case 5:
+                bm1 = Bitmap.createBitmap(resizeBp, 0, (resizeBp.getHeight())*5/11, resizeBp.getWidth(), resizeBp.getHeight()/11);
+                break;
+            case 6:
+                bm1 = Bitmap.createBitmap(resizeBp, 0, (resizeBp.getHeight())*6/11, resizeBp.getWidth(), resizeBp.getHeight()/11);
+                break;
+            case 7:
+                bm1 = Bitmap.createBitmap(resizeBp, 0, (resizeBp.getHeight())*7/11, resizeBp.getWidth(), resizeBp.getHeight()/11);
+                break;
+            case 8:
+                bm1 = Bitmap.createBitmap(resizeBp, 0, (resizeBp.getHeight())*8/11, resizeBp.getWidth(), resizeBp.getHeight()/11);
+                break;
+            case 9:
+                bm1 = Bitmap.createBitmap(resizeBp, 0, (resizeBp.getHeight())*9/11, resizeBp.getWidth(), resizeBp.getHeight()/11);
+                break;
+            case 10:
+                bm1 = Bitmap.createBitmap(resizeBp, 0, resizeBp.getHeight()*10/11, resizeBp.getWidth(), resizeBp.getHeight()/11);
+                break;
+        }
+        holder.starImage.setImageBitmap(bm1);
     }
 
     public String formatAmPm(String date)
@@ -181,6 +222,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
         public TextView ArriveTitle;
         public TicketView ticketView;
         public ImageView stampImage;
+        public ImageView starImage;
         public Ticket refferalItem;
         public TimelineView mTimelineView;
         public TextView review;
@@ -194,6 +236,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
             ArriveTitle = view.findViewById(R.id.ArriveTitle);
             review = view.findViewById(R.id.review);
             stampImage = view.findViewById(R.id.stampImage);
+            starImage = view.findViewById(R.id.starImage);
             mTimelineView = (TimelineView) itemView.findViewById(R.id.timeline);
             mTimelineView.initLine(viewType);
         }

@@ -20,6 +20,7 @@
         tools:ignore="MissingConstraints" />
 
     <com.vipulasri.ticketview.TicketView
+        android:id="@+id/ticketView3"
         android:layout_width="350dp"
         android:layout_height="130dp"
         android:layout_marginLeft="40dp"
@@ -33,13 +34,13 @@
         app:ticketBackgroundAfterDivider="@color/shadow"
         app:ticketBackgroundBeforeDivider="@color/shadow"
         app:ticketBorderWidth="1dp"
+        app:ticketCornerRadius="20dp"
         app:ticketCornerType="normal"
         app:ticketDividerPadding="0dp"
         app:ticketDividerType="dash"
         app:ticketOrientation="vertical"
         app:ticketScallopPositionPercent="70"
         app:ticketScallopRadius="10dp"
-        app:ticketCornerRadius="20dp"
         app:ticketShowBorder="false"
         app:ticketShowDivider="true" />
 
@@ -67,6 +68,7 @@
         app:ticketShowBorder="false"
         app:ticketShowDivider="true" />
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -77,11 +79,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/starImage"
+                android:layout_width="120dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_alignBottom="@+id/stampImage"/>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="1dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -144,20 +153,19 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="30dp"
             android:orientation="vertical"
-            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="@+id/ticketView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/stampImage"
-                android:layout_width="100dp"
-                android:layout_height="100dp" />
+                android:layout_width="120dp"
+                android:layout_height="120dp" />
 
-        </LinearLayout>
+        </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

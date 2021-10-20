@@ -124,6 +124,7 @@ public class TodayRankFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 dateInfos.clear();
+                String mynickname = new String();
                 for (DataSnapshot UserSanpshot : snapshot.getChildren()) {
                     UserMap = (HashMap<String, Object>) UserSanpshot.getValue();
                     String Nickname = String.valueOf(UserMap.get("nickname"));
@@ -133,24 +134,52 @@ public class TodayRankFragment extends Fragment {
                         DateMap =  (HashMap<String, Object>) UserSanpshot.child("date").getValue();
                         Studytime =  Integer.parseInt(String.valueOf(DateMap.getOrDefault(date, 0)));
                     }
+                    if (UserSanpshot.getKey().equals(UID))
+                    {
+                        System.out.println(UserSanpshot);
+                        TextView todaynickname = view.findViewById(R.id.todayRanknickName);
+                        TextView todayRankTime = view.findViewById(R.id.todayRankTime);
+                        mynickname = String.valueOf(UserMap.get("nickname"));
+                        todaynickname.setText(mynickname);
+                        todayRankTime.setText(String.valueOf(Studytime));
+                    }
                     DateInfo dateInfo = new DateInfo(Nickname, Studytime);
                     dateInfos.add(dateInfo);
                 }
-
                 Collections.reverse(dateInfos);
                 TextView firsttitle = view.findViewById(R.id.firstTitle);
                 TextView secondTitle = view.findViewById(R.id.secondTitle);
                 TextView thirdTitle = view.findViewById(R.id.thirdTitle);
+                TextView todayRankgrade = view.findViewById(R.id.todayRankgrade);
+                TextView Totalsize = view.findViewById(R.id.totalsize);
+
+
+                TextView rankingPercent = view.findViewById(R.id.rankingPercent);
+
 
                 firsttitle.setText(dateInfos.get(0).getNickname());
                 secondTitle.setText(dateInfos.get(1).getNickname());
                 thirdTitle.setText(dateInfos.get(2).getNickname());
+                Totalsize.setText(String.valueOf(dateInfos.size()));
 
+                todayRankgrade.setText(String.valueOf(getArraylistIndex(dateInfos, mynickname)));
+                float percent = (getArraylistIndex(dateInfos, mynickname) / (float) dateInfos.size()) * 100;
+                rankingPercent.setText(percent + "%");
                 rankingAdapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+    }
+
+    private int getArraylistIndex(ArrayList<DateInfo> arrayList, String nickname)
+    {
+        for (int i = 0; i < arrayList.size(); i++)
+        {
+            if(arrayList.get(i).getNickname() == nickname)
+                return i + 1;
+        }
+        return -1;
     }
 }

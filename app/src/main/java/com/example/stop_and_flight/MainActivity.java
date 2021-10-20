@@ -89,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager(); //fragment 매니저
         //fragment 객체 생성
 
-        StatisticsFragment statisticsFragment = new StatisticsFragment();
         CalendarFragment calendarFragment = new CalendarFragment();
         TaskFragment taskFragment = new TaskFragment();
         MypageFragment mypage = new MypageFragment();
@@ -139,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                     fragmentTransaction.replace(R.id.container, calendarFragment).addToBackStack(null).commitAllowingStateLoss();
                     title_toolbar.setText("TICKETING");
                 }
-                 else if (id == R.id.menu3) {
+                else if (id == R.id.menu3) {
                     fragmentTransaction.replace(R.id.container, taskFragment).addToBackStack(null).commitAllowingStateLoss();
                     title_toolbar.setText("TASK");
                 } else if (id == R.id.menu4) {

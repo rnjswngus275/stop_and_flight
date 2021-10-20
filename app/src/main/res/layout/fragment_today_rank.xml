@@ -106,4 +106,121 @@
         android:id="@+id/todayRankRecyclerView"
         android:layout_below="@+id/rank" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="vertical"
+        android:background="@drawable/bottomsheetdialog_radius"
+        android:elevation="10dp"
+        android:layout_alignBottom="@+id/todayRankRecyclerView"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/todayRanknickName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="15dp"
+                android:text="nickname" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="15dp"
+                android:text=" 승객님" />
+
+            <TextView
+                android:id="@+id/totalsize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:text="100" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:text="등 중" />
+
+            <TextView
+                android:id="@+id/todayRankgrade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="15dp"
+                android:textColor="@color/gold"
+                android:textStyle="bold"
+                android:text="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:text="등" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:text="상위" />
+
+            <TextView
+                android:id="@+id/rankingPercent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:textColor="@color/gold"
+                android:text="10%" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:text="이내 입니다." />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/todayRankTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:textColor="@color/color_4"
+                android:textStyle="bold"
+                android:text="100" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:text=" 분 학습 하였습니다." />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
 </RelativeLayout>

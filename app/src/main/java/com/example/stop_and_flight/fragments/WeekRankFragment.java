@@ -122,6 +122,8 @@ public class WeekRankFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 dateInfos.clear();
+                String mynickname = new String();
+
                 if (snapshot != null)
                 {
                     for (DataSnapshot UserSnapshot : snapshot.getChildren())
@@ -136,6 +138,15 @@ public class WeekRankFragment extends Fragment {
                                 int Studytime = Integer.parseInt(String.valueOf(DateMap.getOrDefault(day, 0)));
                                 sum += Studytime;
                             }
+                        }
+                        if (UserSnapshot.getKey().equals(UID))
+                        {
+                            System.out.println(UserSnapshot);
+                            TextView weeknickname = view.findViewById(R.id.weekRanknickName);
+                            TextView weekRankTime = view.findViewById(R.id.weekRankTime);
+                            mynickname = String.valueOf(UserMap.get("nickname"));
+                            weeknickname.setText(mynickname);
+                            weekRankTime.setText(String.valueOf(sum));
                         }
                         DateInfo dateInfo = new DateInfo(Nickname, sum);
                         dateInfos.add(dateInfo);
@@ -158,16 +169,34 @@ public class WeekRankFragment extends Fragment {
                 TextView firsttitle = view.findViewById(R.id.firstTitle);
                 TextView secondTitle = view.findViewById(R.id.secondTitle);
                 TextView thirdTitle = view.findViewById(R.id.thirdTitle);
+                TextView weekRankgrade = view.findViewById(R.id.weekRankgrade);
+                TextView Totalsize = view.findViewById(R.id.totalsize);
+
+                TextView rankingPercent = view.findViewById(R.id.rankingPercent);
+
 
                 firsttitle.setText(dateInfos.get(0).getNickname());
                 secondTitle.setText(dateInfos.get(1).getNickname());
                 thirdTitle.setText(dateInfos.get(2).getNickname());
+                Totalsize.setText(String.valueOf(dateInfos.size()));
+                float percent = (getArraylistIndex(dateInfos, mynickname) / (float) dateInfos.size()) * 100;
+                rankingPercent.setText(percent + "%");
 
+                weekRankgrade.setText(String.valueOf(getArraylistIndex(dateInfos, mynickname)));
                 rankingAdapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+    }
+    private int getArraylistIndex(ArrayList<DateInfo> arrayList, String nickname)
+    {
+        for (int i = 0; i < arrayList.size(); i++)
+        {
+            if(arrayList.get(i).getNickname() == nickname)
+                return i + 1;
+        }
+        return -1;
     }
 }

@@ -18,9 +18,9 @@ public class IntroActivity extends AppCompatActivity {
         public void run() {
             Intent intent = new Intent(getApplicationContext(), AppGuideActivity.class);
             startActivity(intent); //introActivity 실행 후 AppGuide로
-             finish();
+            finish();
         }
-             },2000); //2초 후 인트로 실행
+        },2000); //2초 후 인트로 실행
 
 
     }

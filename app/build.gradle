@@ -3,13 +3,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
     buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId "com.example.stop_and_flight"
         minSdkVersion 23
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -76,6 +76,5 @@ dependencies {
     implementation 'com.ogaclejapan.smarttablayout:library:1.7.0@aar'
     implementation 'com.ogaclejapan.smarttablayout:utils-v4:1.7.0@aar'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-
+    implementation 'com.airbnb.android:lottie:4.1.0'
 }
-
