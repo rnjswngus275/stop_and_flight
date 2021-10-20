@@ -48,7 +48,7 @@ public class TodayRankFragment extends Fragment {
     private String mParam2;
     private String UID;
     private Context context;
-    private ArrayList<DateInfo> dateInfos = new ArrayList<DateInfo>();
+    private final ArrayList<DateInfo> dateInfos = new ArrayList<DateInfo>();
     private HashMap<String, Object> UserMap;
     private HashMap<String, Object> DateMap;
     private DatabaseReference mDatabase;
@@ -124,7 +124,7 @@ public class TodayRankFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 dateInfos.clear();
-                String mynickname = new String();
+                String mynickname = "";
                 for (DataSnapshot UserSanpshot : snapshot.getChildren()) {
                     UserMap = (HashMap<String, Object>) UserSanpshot.getValue();
                     String Nickname = String.valueOf(UserMap.get("nickname"));
@@ -143,6 +143,7 @@ public class TodayRankFragment extends Fragment {
                         todaynickname.setText(mynickname);
                         todayRankTime.setText(String.valueOf(Studytime));
                     }
+
                     DateInfo dateInfo = new DateInfo(Nickname, Studytime);
                     dateInfos.add(dateInfo);
                 }

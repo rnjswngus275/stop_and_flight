@@ -47,7 +47,7 @@ import java.util.HashMap;
 public class BarChartFragment extends Fragment {
     BarChart barChart;
     private com.github.mikephil.charting.charts.BarChart showbarchart;
-    private ArrayList<DateInfo> dateInfos = new ArrayList<DateInfo>();
+    private final ArrayList<DateInfo> dateInfos = new ArrayList<DateInfo>();
     private HashMap<String, Object> UserMap;
     private String UID;
     private Ticket ticket;
@@ -97,8 +97,8 @@ public class BarChartFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_2, container, false);
         CurTime curTime = new CurTime();
-        showbarchart = (BarChart) view.findViewById(R.id.barchart);
-        barChart = (BarChart) view.findViewById(R.id.barchart);
+        showbarchart = view.findViewById(R.id.barchart);
+        barChart = view.findViewById(R.id.barchart);
         showbarchart.setVisibility(PieChart.VISIBLE);
         int curIntTime = curTime.getIntYear() * 10000 + curTime.getIntMonth() * 100 + curTime.getIntDay() * 1;
 
@@ -109,8 +109,8 @@ public class BarChartFragment extends Fragment {
 
         ArrayList<BarEntry> barEntry = new ArrayList<>();
         ArrayList<String> week = new ArrayList<>();
-        TextView week_total_time= (TextView)view.findViewById(R.id.textView30);
-        TextView today_total_time=(TextView)view.findViewById(R.id.textView28);
+        TextView week_total_time= view.findViewById(R.id.textView30);
+        TextView today_total_time= view.findViewById(R.id.textView28);
         databaseReference =  FirebaseDatabase.getInstance().getReference();
         databaseReference.child("users").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)

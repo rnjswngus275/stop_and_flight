@@ -45,7 +45,7 @@ public class FlightSuccessFragment extends Fragment {
     private HashMap<String, Object> DateMap;
     private DatabaseReference mDatabase ;
     private String uid;
-    public int point = 0;
+//    public int point = 0;
     public FlightSuccessFragment() {
         // Required empty public constructor
     }
@@ -92,10 +92,10 @@ public class FlightSuccessFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_flight_success, container, false);
 
-        TextView SuccessRate=(TextView)view.findViewById(R.id.TextSuccessRate);
-        RatingBar RatingBar =(RatingBar)view.findViewById(R.id.ratingBar);
-        EditText Memo=(EditText)view.findViewById(R.id.editTextMemo);
-        Button btnOk=(Button)view.findViewById(R.id.btnOk);
+//        TextView SuccessRate= view.findViewById(R.id.TextSuccessRate);
+        RatingBar RatingBar = view.findViewById(R.id.ratingBar);
+        EditText Memo= view.findViewById(R.id.editTextMemo);
+        Button btnOk= view.findViewById(R.id.btnOk);
 
         //TODO: 시간 자르기 IF (출발시간<도착시간이면 24:00 - 출발시간 + 도착시간) 10분당 1pt 부여
         //TODO: userInfo db에서 불러오기
@@ -109,7 +109,7 @@ public class FlightSuccessFragment extends Fragment {
 
                 if (snapshot != null) {
                     UserMap = (HashMap<String, Object>) snapshot.getValue();
-                    point = Integer.parseInt(String.valueOf(UserMap.get("point")));
+//                    point = Integer.parseInt(String.valueOf(UserMap.get("point")));
                     if (snapshot.child("date") != null)
                     {
                         DateMap =  (HashMap<String, Object>) snapshot.child("date").getValue();
@@ -117,17 +117,18 @@ public class FlightSuccessFragment extends Fragment {
                         System.out.println(studytime);
                     }
                 }
-                point = calculateMinute(arr_time, dpt_time) / 10 + point;
+//                point = calculateMinute(arr_time, dpt_time) / 10 + point;
                 studytime = studytime +  calculateMinute(arr_time, dpt_time);
-                SuccessRate.setText(String.valueOf(point));
+//                SuccessRate.setText(String.valueOf(point));
                 mDatabase.child("users").child(uid).child("date/"+curIntTime).setValue(studytime);
                 mDatabase.child("TICKET").child(uid).child(today).child(id).child("success").setValue(2);
-                mDatabase.child("users").child(uid).child("point").setValue(point);
+//                mDatabase.child("users").child(uid).child("point").setValue(point);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
 
         //TODO: textview 에 set text해서 point 얼마 얻었는지 알려주기
 

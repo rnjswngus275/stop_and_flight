@@ -22,7 +22,7 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.ViewHold
     public static final int FIVE = 4;
     public static final int SIX = 1;
     public List<DateInfo> DateInfo;
-    private Context context;
+    private final Context context;
 
     public RankingAdapter(Context context) {
         this.context = context;
@@ -35,13 +35,14 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.ViewHold
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         switch (viewType / 5) {
             case WINNER:
-                itemView = inflater.from(parent.getContext()).inflate(R.layout.rank1_layout, parent, false);
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.rank1_layout, parent, false);
                 break;
             case SIX:
-                itemView = inflater.from(parent.getContext()).inflate(R.layout.rank2_layout, parent, false);
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.rank2_layout, parent, false);
                 break;
             default:
-                itemView = inflater.from(parent.getContext()).inflate(R.layout.rank3_layout, parent, false);
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.rank3_layout, parent, false);
+
                 break;
         }
         ViewHolder header = new ViewHolder(itemView);
@@ -53,6 +54,7 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.ViewHold
         final DateInfo item = DateInfo.get(position);
         holder.NicknameTitle.setText(item.getNickname());
         holder.timeTitle.setText(item.getStudytime() + " 분");
+
         switch (position)
         {
             case WINNER:

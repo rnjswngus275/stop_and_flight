@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="horizontal"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_width="100dp"
+        android:layout_height="90dp"
+        app:srcCompat="@mipmap/ic_launcher_round"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/imageView"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:paddingRight="90dp"
+        >
+    <TextView
+        android:id="@+id/nickname"
+        android:layout_marginLeft="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Text.BasicStyle"
+        android:textSize="26dp"
+        android:text="닉네임"/>
+
+     <TextView
+         android:id="@+id/message"
+         android:layout_marginLeft="5dp"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         style="@style/Text.BasicStyle"
+         android:textSize="26dp"
+         android:text="상태 메세지"/>
+
+
+    </LinearLayout>
+
+
+    <ImageButton
+        android:id="@+id/accept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/accept"
+        android:layout_gravity="center_vertical"
+        android:background="@android:color/transparent"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        />
+
+    <ImageButton
+        android:id="@+id/deny"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/deny"
+        android:layout_gravity="center_vertical"
+        android:background="@android:color/transparent"
+        />
+</LinearLayout>

@@ -11,7 +11,8 @@ public class MyEventDay extends EventDay implements Parcelable {
     private int year;
     private int mon;
     private int day;
-    private String mNote;
+    private final String mNote;
+
 
 
     public MyEventDay(Calendar dayc, int imageResource, String note) {

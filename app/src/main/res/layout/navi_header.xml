@@ -19,7 +19,7 @@
 
     <TextView
         android:id="@+id/navi_nickname"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Text.TitleStyle"
@@ -29,11 +29,11 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="20dp"
         android:layout_height="wrap_content"
-        android:id="@+id/navi_chingho"
+        android:id="@+id/navi_message"
         style="@style/Text.BasicStyle"
-        android:text="칭호 또는 상태메시지를 넣을 칸입니다"
+        android:text="마이페이지에서 상태메시지를 설정해주세요"
         android:layout_marginBottom="10dp"
         />
 

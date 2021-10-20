@@ -15,15 +15,18 @@ import com.example.stop_and_flight.R;
 import java.util.ArrayList;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
-    private ArrayList<Dictionary> mList;
+
+    private final ArrayList<Dictionary> mList;
 
     public class CustomViewHolder extends RecyclerView.ViewHolder{
         protected TextView Todo;
         protected TextView Time;
         public CustomViewHolder(View view) {
             super(view);
+
             this.Todo = (TextView) view.findViewById(R.id.Todo_listitem);
             this.Time = (TextView) view.findViewById(R.id.Time_listitem);
+
         }
 
 

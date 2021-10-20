@@ -24,9 +24,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="17dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="15dp"
                 android:layout_marginLeft="16dp"
-                style="@style/Text.TitleStyle"
+                style="@style/Text.BasicStyle"
                 android:textSize="25dp"
                 android:text="여행 일정"
             />
@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                style="@style/Text.BasicStyle2"
+                style="@style/Text.Inkliquid"
                 android:textColor="@color/color_4"
                 android:text="출발 시간은 "
                 >
@@ -61,7 +61,7 @@
                 android:layout_below="@+id/txt1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Text.BasicStyle2"
+                style="@style/Text.Inkliquid"
                 android:layout_marginBottom="8dp"
                 android:textColor="@color/color_4"
                 android:text="도착 시간은 "
@@ -91,7 +91,7 @@
                 android:text="해야할 일은"
                 android:textColor="@color/color_4"
                 android:layout_marginBottom="5dp"
-                style="@style/Text.BasicStyle2"
+                style="@style/Text.Inkliquid"
                 android:layout_below="@+id/txt2"
                 />
 

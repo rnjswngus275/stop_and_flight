@@ -93,7 +93,7 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
 
     // Flight Activity로 출발시간 도착시간 데이터 보내기
     public interface OnTimePickListener{
-        public void onTimeSelected(String arr,String dpt);
+        void onTimeSelected(String arr, String dpt);
     }
     public Fragment_flight1() {
     }
@@ -201,6 +201,7 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
             @Override
             public void onTick(long millisUntilFinished) {
                 count_txt=(TextView)v.findViewById(R.id.count_txt);
+
                 count_txt.setText(getTime(set_h,set_m));
             }
 
@@ -317,7 +318,7 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
 
                 onTimePickListener.onTimeSelected(set_arr_time,set_dpt_time);
 
-                read_time=(TextView)v.findViewById(R.id.read_time);
+                read_time= v.findViewById(R.id.read_time);
                 read_time.setText(time);
 
 //                btn_suc.setOnClickListener(new View.OnClickListener() {
@@ -437,7 +438,7 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
 
 
         embuilder.setPositiveButton("살고싶어요..", new DialogInterface.OnClickListener() {
-            long time2=System.currentTimeMillis();
+            final long time2=System.currentTimeMillis();
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 System.out.println("확인 time2과 db emergency time"+time2+"and"+emergency_time+"and"+(time2-emergency_time));

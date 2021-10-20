@@ -36,7 +36,7 @@ public class StatisticsViewPagerAdapter extends PagerAdapter {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.fragment_statistics1, container, false);
 
-            TextView textView = (TextView) view.findViewById(R.id.title) ;
+            TextView textView = view.findViewById(R.id.title);
             textView.setText("TEXT " + position) ;
         }
 
@@ -60,6 +60,6 @@ public class StatisticsViewPagerAdapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-        return (view == (View)object);
+        return (view == object);
     }
 }

@@ -9,6 +9,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.stop_and_flight.R;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
@@ -54,6 +55,9 @@ public class RankingFragment extends Fragment {
         return fragment;
     }
 
+    public static RankingFragment newInstance(){
+        return new RankingFragment();
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +72,8 @@ public class RankingFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ranking, container, false);
+        TextView title_toolbar= (TextView)getActivity().findViewById(R.id.toolbar_title);
+        title_toolbar.setText("RANKING");
 
         context = getContext();
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(

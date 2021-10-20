@@ -13,9 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 public class main_adapter2 extends PagerAdapter {
-    private List<main_model> models;
+    private final List<main_model> models;
     private LayoutInflater layoutInflater;
-    private Context context;
+    private final Context context;
 
 
     public main_adapter2(List<main_model> models, Context context) {

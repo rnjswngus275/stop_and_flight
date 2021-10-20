@@ -5,6 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.TextView;
+
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -33,6 +36,9 @@ public class StatisticsFragment extends Fragment {
 
         View view1 = inflater.inflate(R.layout.fragment_statistics1, container, false);
 
+
+        TextView title_toolbar= (TextView)getActivity().findViewById(R.id.toolbar_title);
+        title_toolbar.setText("STATISTICS");
         pager = view1.findViewById(R.id.pager);
         //페이지 갯수지정
         pager.setOffscreenPageLimit(2);
@@ -42,6 +48,7 @@ public class StatisticsFragment extends Fragment {
         adapter.addItem(pieChartfragment);
         BarChartFragment barChartfragment = new BarChartFragment();
         adapter.addItem(barChartfragment);
+
 
         pager.setAdapter(adapter);
         return view1;

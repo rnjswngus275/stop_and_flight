@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,7 @@ public class PieChartFragment extends Fragment {
     private DatabaseReference databaseReference;
     private ArrayList<Dictionary> mArrayList;
     private CustomAdapter mAdapter;
-    private int count = -1;
+    private final int count = -1;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -98,7 +99,7 @@ public class PieChartFragment extends Fragment {
 
         View view =inflater.inflate(R.layout.fragment_1, container, false);
         Context ct = container.getContext();
-        RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_main_list);
+        RecyclerView mRecyclerView = view.findViewById(R.id.recyclerview_main_list);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(ct,LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mArrayList = new ArrayList<>();
@@ -109,25 +110,27 @@ public class PieChartFragment extends Fragment {
                 mLinearLayoutManager.getOrientation());
         mRecyclerView.addItemDecoration(dividerItemDecoration); //기본 구분선 추가
 
+        PieChart pieChart = view.findViewById(R.id.piechart);
+        pieChart.setUsePercentValues(true);
+        pieChart.getDescription().setEnabled(false);
+        pieChart.setExtraOffsets(5,10,5,5);
+        pieChart.setDragDecelerationFrictionCoef(0.95f);
+        pieChart.setDrawHoleEnabled(false);
+        pieChart.setHoleColor(Color.BLACK);
+        pieChart.setTransparentCircleRadius(55f);
+        Description description = new Description();
+        description.setText(""); //라벨
+        description.setTextSize(15);
+        pieChart.setDescription(description);
+        pieChart.animateY(1000, Easing.EaseInOutCubic); //애니메이션 효과
+
+
         //-------여기부터 페이지 하단의 Todo,총비행시간 ArrayList출력하는 부분------//
         databaseReference =  FirebaseDatabase.getInstance().getReference();
         databaseReference.child("TICKET").child(UID).addValueEventListener(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                PieChart pieChart = (PieChart) view.findViewById(R.id.piechart);
-                pieChart.setUsePercentValues(true);
-                pieChart.getDescription().setEnabled(false);
-                pieChart.setExtraOffsets(5,10,5,5);
-                pieChart.setDragDecelerationFrictionCoef(0.95f);
-                pieChart.setDrawHoleEnabled(false);
-                pieChart.setHoleColor(Color.BLACK);
-                pieChart.setTransparentCircleRadius(55f);
-                Description description = new Description();
-                description.setText(""); //라벨
-                description.setTextSize(15);
-                pieChart.setDescription(description);
-                pieChart.animateY(1000, Easing.EaseInOutCubic); //애니메이션 효과
                 ArrayList<PieEntry> yValues = new ArrayList<>();
                 for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
                     for(DataSnapshot fileSnapshot2 : fileSnapshot.getChildren()){
@@ -143,19 +146,19 @@ public class PieChartFragment extends Fragment {
 
                                 mArrayList.add(data);
                                 yValues.add(new PieEntry(arr_times, ticket.getTodo())); // getTodo 읽어와서 파이차트 엔트리에 추가하는 곳
-                                PieDataSet dataSet = new PieDataSet(yValues,"<Todo List>");
-                                dataSet.setSliceSpace(3f);
-                                dataSet.setSelectionShift(5f);
-                                dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
-
-                                PieData piedata = new PieData((dataSet));
-                                piedata.setValueTextSize(10f);
-                                piedata.setValueTextColor(Color.DKGRAY);
-
-                                pieChart.setEntryLabelColor(Color.BLACK); //Todo 글씨 색깔
-                                pieChart.setEntryLabelTextSize(10f); //Todo 글씨 사이즈
-                                pieChart.setData(piedata);
                             }
+                            PieDataSet dataSet = new PieDataSet(yValues,"<Todo List>");
+                            dataSet.setSliceSpace(3f);
+                            dataSet.setSelectionShift(5f);
+                            dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+
+                            PieData data = new PieData((dataSet));
+                            data.setValueTextSize(10f);
+                            data.setValueTextColor(Color.DKGRAY);
+
+                            pieChart.setEntryLabelColor(Color.BLACK); //Todo 글씨 색깔
+                            pieChart.setEntryLabelTextSize(10f); //Todo 글씨 사이즈
+                            pieChart.setData(data);
                         }
                     }
                 }
@@ -164,8 +167,7 @@ public class PieChartFragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
-        });
-        return view;
+        });return view;
     }
 
 //    private void pieChart(LayoutInflater inflater, ViewGroup container,
