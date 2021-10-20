@@ -25,7 +25,7 @@ import java.util.List;
 
 import me.relex.circleindicator.CircleIndicator;
 
-public class AppGuide extends AppCompatActivity {
+public class AppGuideActivity extends AppCompatActivity {
 
     private CircleIndicator mIndicator;
     private FirebaseAuth mAuth;
@@ -38,10 +38,10 @@ public class AppGuide extends AppCompatActivity {
         setContentView(R.layout.activity_app_guide);
         ViewPager viewPager = findViewById(R.id.pager);
         setupViewPager(viewPager);
-        mIndicator=(CircleIndicator)findViewById(R.id.indicator);
+        mIndicator= findViewById(R.id.indicator);
         mIndicator.setViewPager(viewPager);
 
-        Button signup_button=(Button)findViewById(R.id.button2);
+        Button signup_button= findViewById(R.id.button2);
 
         signup_button.setOnClickListener(new Button.OnClickListener(){
             @Override
@@ -51,7 +51,7 @@ public class AppGuide extends AppCompatActivity {
             }
         });
 
-        Button go_login_button=(Button)findViewById(R.id.go_login);
+        Button go_login_button= findViewById(R.id.go_login);
         go_login_button.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -84,7 +84,7 @@ public class AppGuide extends AppCompatActivity {
 
         Log.d("service_test", "size : " + list.size());
         for(int i = 0; i < list.size(); i++){
-            AccessibilityServiceInfo info = (AccessibilityServiceInfo) list.get(i);
+            AccessibilityServiceInfo info = list.get(i);
             //
             if(info.getResolveInfo().serviceInfo.packageName.equals(getApplication().getPackageName())){
                 return true;
@@ -112,7 +112,7 @@ public class AppGuide extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
 
         if(user!=null && checkAccessibilityPermissions()){
-            startActivity(new Intent(AppGuide.this, MainActivity.class));
+            startActivity(new Intent(AppGuideActivity.this, MainActivity.class));
             finish();
         }
 

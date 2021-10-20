@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.model.Task;
@@ -114,6 +115,9 @@ public class TaskFragment extends Fragment implements DialogCloseListener {
         tododb = new TodoDatabaseHandler(mDatabase);
         taskRecyclerView = v.findViewById(R.id.taskRecyclerView);
         taskAdapter = new TaskAdapter(db, tododb, ct, UID);
+
+        TextView title_toolbar= (TextView)getActivity().findViewById(R.id.toolbar_title);
+        title_toolbar.setText("TASK");
 
         swipeContainer = (SwipeRefreshLayout) v.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading

@@ -17,7 +17,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
+import com.example.stop_and_flight.fragments.CalendarFragment;
+import com.example.stop_and_flight.fragments.RankingFragment;
 import com.example.stop_and_flight.utils.TicketDatabaseHandler;
 import com.example.stop_and_flight.model.Ticket;
 import com.google.android.gms.ads.AdRequest;
@@ -46,6 +50,7 @@ public class MainFragment extends Fragment {
     main_adapter adapter;
     main_adapter2 adpater2;
     List<Ticket> models=new ArrayList<>();
+
     List<main_model> models2=new ArrayList<>();
     Integer[] colors = null;
     ArgbEvaluator argbEvaluator = new ArgbEvaluator();
@@ -67,6 +72,7 @@ public class MainFragment extends Fragment {
     private int DAY;
     private Context context;
     public int count=0;
+    public int toggle=0;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -108,6 +114,28 @@ public class MainFragment extends Fragment {
 //        LayoutInflater inflater2=(LayoutInflater)context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
 //        inflater2.inflate(R.layout.main_item,container,true);
 
+        TextView title_toolbar= (TextView)getActivity().findViewById(R.id.toolbar_title);
+        title_toolbar.setText("MAIN");
+
+        CalendarFragment calendarFragment = new CalendarFragment();
+        RankingFragment rankingFragment = new RankingFragment();
+
+        ImageButton btn1= v.findViewById(R.id.btn1);
+        ImageButton btn2 =v.findViewById(R.id.btn2);
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).replaceFragment(CalendarFragment.newInstance());
+
+            }
+        });
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).replaceFragment(RankingFragment.newInstance());
+
+            }
+        });
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -153,7 +181,7 @@ public class MainFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                models.clear();
+               models.clear();
                 for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
                     if (fileSnapshot != null) {
                         getTicket = new Ticket();
@@ -161,6 +189,7 @@ public class MainFragment extends Fragment {
                         getTicket.setDate(ticket_Date);
                         models.add(getTicket);
                         count++;
+                        System.out.println("확인 데이터 읽어오기"+count);
                     }
                 }
                 models.sort(new Comparator<Ticket>() {
@@ -179,8 +208,27 @@ public class MainFragment extends Fragment {
                             return -1;
                         return 0;
                     }
-                });
+                }
 
+                );
+                if(models.isEmpty()){
+                    models2.clear();
+                    models2.add(new main_model("오늘은 여행일정이 없습니다","예매하기로 일정을 등록해보세요!"));
+                    adpater2=new main_adapter2(models2,getContext());
+                    viewPager=v.findViewById(R.id.viewPager);
+                    viewPager.setAdapter(adpater2);
+                    viewPager.setPadding(130, 30, 130, 0);
+                    toggle=1;
+                    System.out.println("확인 empty");
+
+                }
+                else {
+                    System.out.println("확인 else문 진입");
+                    adapter = new main_adapter(models, getContext());
+                    viewPager = v.findViewById(R.id.viewPager);
+                    viewPager.setAdapter(adapter);
+                    viewPager.setPadding(130, 30, 130, 0);
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -196,22 +244,13 @@ public class MainFragment extends Fragment {
 //        models.add(new main_model("타이틀2","설명2"));
 //        models.add(new main_model("타이틀2","설명2"));
 
+        System.out.println("확인"+count);
+
         String str="총";
         String str2="개의 일정이 있습니다.";
         String str3 =str+count+str2;
-        if(count==0){
-            models2.add(new main_model("오늘은 여행일정이 없습니다","예매하기로 일정을 등록해보세요!"));
-             adpater2=new main_adapter2(models2,getContext());
-            viewPager=v.findViewById(R.id.viewPager);
-            viewPager.setAdapter(adpater2);
-            viewPager.setPadding(130, 30, 130, 0);
-        }
-        else {
-            adapter = new main_adapter(models, getContext());
-            viewPager = v.findViewById(R.id.viewPager);
-            viewPager.setAdapter(adapter);
-                    viewPager.setPadding(130, 30, 130, 0);
-        }
+
+
 
         return v;
 

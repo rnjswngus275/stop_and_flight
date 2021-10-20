@@ -49,7 +49,7 @@ public class WeekRankFragment extends Fragment {
     private String mParam2;
     private String UID;
     private Context context;
-    private ArrayList<DateInfo> dateInfos = new ArrayList<DateInfo>();
+    private final ArrayList<DateInfo> dateInfos = new ArrayList<DateInfo>();
     private HashMap<String, Object> UserMap = new HashMap<>();
     private HashMap<String, Object> DateMap = new HashMap<>();
     private DatabaseReference mDatabase;
@@ -103,7 +103,7 @@ public class WeekRankFragment extends Fragment {
         WeekRankRecyclerView = view.findViewById(R.id.weekRankRecyclerView);
 
         CurTime curTime = new CurTime();
-        getWeekRankingDB(curTime.getCurMonday(), curTime.getCurSunday(), view, curTime);
+        getWeekRankingDB(CurTime.getCurMonday(), CurTime.getCurSunday(), view, curTime);
 
         WeekRankRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
 
@@ -138,7 +138,6 @@ public class WeekRankFragment extends Fragment {
                             }
                         }
                         DateInfo dateInfo = new DateInfo(Nickname, sum);
-                        System.out.println(Nickname + " / " + sum);
                         dateInfos.add(dateInfo);
                     }
                 }

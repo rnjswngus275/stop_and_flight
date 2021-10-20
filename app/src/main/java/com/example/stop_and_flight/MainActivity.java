@@ -11,25 +11,25 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
-
-import android.animation.ArgbEvaluator;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.example.stop_and_flight.model.Ticket;
-import com.example.stop_and_flight.utils.TicketDatabaseHandler;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+
+import com.example.stop_and_flight.fragments.StatisticsFragment;
+//import com.google.android.gms.ads.MobileAds;
+//import com.google.android.gms.ads.initialization.InitializationStatus;
+//import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import com.bumptech.glide.Glide;
 import com.example.stop_and_flight.fragments.CalendarFragment;
@@ -57,31 +57,19 @@ public class MainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private DrawerLayout mDrawerLayout;
-    private Context context = this;
-    ViewPager viewPager;
-    main_adapter adapter;
-    List<Ticket> models=new ArrayList<>();;
-    Integer[] colors = null;
-    ArgbEvaluator argbEvaluator = new ArgbEvaluator();
+    private final Context context = this;
     private DatabaseReference mDatabase;
-    private RecyclerView ticketRecyclerView;
-    private TicketAdapter ticketAdapter;
-    private Ticket getTicket;
     private String UID;
-    private String ticket_Date;
-    private TicketDatabaseHandler db;
     ImageView headerIcon;
     TextView title_toolbar;
 
-
-
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false); // 기존 title 지우기
@@ -89,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setHomeAsUpIndicator(R.drawable.menu_icon); //뒤로가기 버튼 이미지 지정
 
 
-        title_toolbar=(TextView)findViewById(R.id.toolbar_title);
-
+        title_toolbar= findViewById(R.id.toolbar_title);
+        title_toolbar.setText("MAIN");
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -111,16 +99,19 @@ public class MainActivity extends AppCompatActivity {
         TaskFragment taskFragment = new TaskFragment();
         MypageFragment mypage = new MypageFragment();
         RankingFragment rankingFragment = new RankingFragment();
+        FriendFragment friend=new FriendFragment();
         FlightSuccessFragment flightSuccessFragment = new FlightSuccessFragment();
+        mDrawerLayout = findViewById(R.id.drawer_layout);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction(); //fragment 트랜색션
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView=navigationView.getHeaderView(0);
         navigationView.setItemIconTintList(null);
         headerIcon=headerView.findViewById(R.id.imageView);
         TextView nickname=headerView.findViewById(R.id.navi_nickname);
-        TextView chingho=headerView.findViewById(R.id.navi_chingho);
+        TextView message=headerView.findViewById(R.id.navi_message);
 
         final DatabaseReference ref = mDatabase.child("users").child(UID).child("nickname");
         ref.addValueEventListener(new ValueEventListener() {
@@ -133,11 +124,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+        final DatabaseReference ref2 = mDatabase.child("users").child(UID).child("message");
+        ref2.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                message.setText(snapshot.getValue(String.class));
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
+//        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+//            @Override
+//            public void onInitializationComplete(InitializationStatus initializationStatus) {
+//            }
+//        });
 
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -145,43 +147,58 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction(); //fragment 트랜색션
+
                 menuItem.setChecked(true);
                 mDrawerLayout.closeDrawers();
                 int id = menuItem.getItemId();
                 String title = menuItem.getTitle().toString();
                 if (id == R.id.menu1) {       //여기에 메뉴 버튼 클릭했을때 옮길 페이지 연결하시면 됩니다.
-                    fragmentTransaction.replace(R.id.container, mypage).addToBackStack(null).commitAllowingStateLoss();
-                    title_toolbar.setText("MY PAGE");
+                    fragmentTransaction.replace(R.id.container, mypage);
                 } else if (id == R.id.menu2) {
-                    fragmentTransaction.replace(R.id.container, calendarFragment).addToBackStack(null).commitAllowingStateLoss();
-                    title_toolbar.setText("TICKETING");
+                    fragmentTransaction.replace(R.id.container, calendarFragment);
                 }
-                 else if (id == R.id.menu3) {
-                    fragmentTransaction.replace(R.id.container, taskFragment).addToBackStack(null).commitAllowingStateLoss();
-                    title_toolbar.setText("TASK");
+                else if (id == R.id.menu3) {
+                    fragmentTransaction.replace(R.id.container, taskFragment);
+
                 } else if (id == R.id.menu4) {
-                    fragmentTransaction.replace(R.id.container, rankingFragment).addToBackStack(null).commitAllowingStateLoss();
-                    title_toolbar.setText("RANKING");
+                    fragmentTransaction.replace(R.id.container, rankingFragment);
                 } else if (id == R.id.menu5) {
-                    title_toolbar.setText("FRIENDS");
-                    Intent intent = new Intent(MainActivity.this, FilghtActivity.class);
-                    startActivity(intent);
+                    fragmentTransaction.replace(R.id.container,friend);
                 } else if (id == R.id.menu6) {
-                    fragmentTransaction.replace(R.id.container, statisticsFragment).addToBackStack(null).commitAllowingStateLoss();
-                    title_toolbar.setText("STATISTICS");
+                    fragmentTransaction.replace(R.id.container, statisticsFragment);
                 }
+
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
                 return true;
+
             }
         });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.toolbar, menu);
+
+        return true;
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: { // 왼쪽 상단 버튼 눌렀을 때
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
+            }
+            case R.id.toolbar_next_button:{
+                Intent main = new Intent(this, MainActivity.class);
+                main.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                main.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(main);
+                finish();
+
             }
         }
         return super.onOptionsItemSelected(item);
@@ -207,13 +224,13 @@ public class MainActivity extends AppCompatActivity {
         storageRef.child("ProfileImage/"+filename).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Glide.with(context).load(uri).into(headerIcon);
+                Glide.with(context).load(uri).circleCrop().into(headerIcon);
 
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
+                headerIcon.setImageResource(R.drawable.profile);
             }
         });
     }

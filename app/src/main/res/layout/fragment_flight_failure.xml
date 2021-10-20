@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_1"
@@ -15,11 +17,12 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp">
 
-        <ImageView
-            android:layout_width="450dp"
-            android:layout_height="260dp"
-            android:paddingBottom="16dp"
-            android:src="@drawable/globe" />
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/img1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:lottie_fileName="21384-plane-loop-03-almost-crashing.json"
+            />
 
 
         <TextView
@@ -29,10 +32,12 @@
             android:text="비 행 실 패"
             android:layout_marginBottom="20dp"
             android:textAlignment="center"
+            style="@style/Text.TitleStyle"
             android:textSize="36sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnOk"
+            style="@style/Text.uandpeople"
             android:layout_gravity="center"
             android:background="@drawable/radius"
             android:layout_width="wrap_content"

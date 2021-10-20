@@ -13,9 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 public class main_adapter2 extends PagerAdapter {
-    private List<main_model> models;
+    private final List<main_model> models;
     private LayoutInflater layoutInflater;
-    private Context context;
+    private final Context context;
 
 
     public main_adapter2(List<main_model> models, Context context) {
@@ -40,15 +40,21 @@ public class main_adapter2 extends PagerAdapter {
         layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.main_item, container, false);
 
-        TextView dpt_time,arr_time,todo;
+        TextView dpt_time,arr_time,todo, txt1,txt2,txt3;
 
         dpt_time = view.findViewById(R.id.dpt_time);
         arr_time=view.findViewById(R.id.arr_time);
+        txt1=view.findViewById(R.id.txt1);
+        txt2=view.findViewById(R.id.txt2);
+        txt3=view.findViewById(R.id.txt3);
         todo=view.findViewById(R.id.todo);
 
 
-        dpt_time.setText(models.get(position).getDepart_time());
-        arr_time.setText(models.get(position).getArrive_time());
+        txt1.setText(models.get(position).getDepart_time());
+        txt2.setText(models.get(position).getArrive_time());
+        dpt_time.setText("");
+        arr_time.setText("");
+        txt3.setText("");
 //        todo.setText(models.get(position).getTodo());
 
 

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.stop_and_flight.R;
 
 /**
@@ -61,6 +62,11 @@ public class AppGuideFragment2 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_app_guide2, container, false);
+        View view =  inflater.inflate(R.layout.fragment_app_guide2, container, false);
+
+        LottieAnimationView lottie = (LottieAnimationView) view.findViewById(R.id.img2);
+        lottie.playAnimation();
+        lottie.loop(true);
+        return view;
     }
 }

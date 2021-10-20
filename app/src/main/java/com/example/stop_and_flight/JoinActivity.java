@@ -83,7 +83,8 @@ public class JoinActivity extends AppCompatActivity {
                             mDatabase = FirebaseDatabase.getInstance().getReference(); // 파이어베이스 realtime database 에서 정보 가져오기
                             mDatabase.child("users").child(uid).child("nickname").setValue(Nickname);
                             mDatabase.child("users").child(uid).child("emergency_time").setValue(0);
-                            mDatabase.child("users").child(uid).child("point").setValue(0);
+//                            mDatabase.child("users").child(uid).child("point").setValue(0);
+                            mDatabase.child("users").child(uid).child("message").setValue("상태메시지");
 
                             Toast.makeText(JoinActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
                             finish();

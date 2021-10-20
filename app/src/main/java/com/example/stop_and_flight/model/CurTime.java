@@ -90,6 +90,8 @@ public class CurTime {
         return Integer.parseInt(Year);
     }
 
+    public int getWeekset() {
+        return getIntYear() * 10000 + getIntMonth() * 100 + getIntDay() * 1; }
 
     public ArrayList<String> getCurWeek(){
         java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyyMMdd");
@@ -103,7 +105,7 @@ public class CurTime {
         }
 
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        c.add(c.DATE,7);
+        c.add(Calendar.DATE,7);
         week.add(formatter.format(c.getTime()));
 
         return week;
@@ -122,7 +124,7 @@ public class CurTime {
         java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyyMMdd");
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-        c.add(c.DATE,7);
+        c.add(Calendar.DATE,7);
 
         return formatter.format(c.getTime());
     }
@@ -165,7 +167,7 @@ public class CurTime {
         c.set(Calendar.MONTH, m);
         c.set(Calendar.WEEK_OF_MONTH, w);
         c.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-        c.add(c.DATE,7);
+        c.add(Calendar.DATE,7);
         return formatter.format(c.getTime());
     }
 

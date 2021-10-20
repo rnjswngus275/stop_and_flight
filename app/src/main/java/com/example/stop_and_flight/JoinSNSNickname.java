@@ -42,7 +42,8 @@ public class JoinSNSNickname extends AppCompatActivity {
 
                 //비상탈출 시간, point 초기화
                 mDatabase.child("users").child(uid).child("emergency_time").setValue(0);
-                mDatabase.child("users").child(uid).child("point").setValue(0);
+//                mDatabase.child("users").child(uid).child("point").setValue(0);
+                mDatabase.child("users").child(uid).child("message").setValue("상태메시지");
                 Intent intent = new Intent(JoinSNSNickname.this, MainActivity.class);
                 startActivity(intent);
                 finish();

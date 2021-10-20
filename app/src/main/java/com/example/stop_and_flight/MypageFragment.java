@@ -2,6 +2,7 @@ package com.example.stop_and_flight;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
@@ -9,6 +10,7 @@ import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -77,7 +79,7 @@ public class MypageFragment extends Fragment {
     private GoogleApiClient mGoogleApiClient;
     private Button buttonDeleteID;
     private Button buttonAllowedApps;
-    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private String UID;
     private DatabaseReference mDatabase;
     private HashMap<String, Object> UserMap;
@@ -103,38 +105,98 @@ public class MypageFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_mypage, container, false);
-        imageView=(ImageView)view.findViewById(R.id.imageView4);
+        imageView= view.findViewById(R.id.imageView4);
+
+        TextView title_toolbar= (TextView)getActivity().findViewById(R.id.toolbar_title);
+        title_toolbar.setText("MY PAGE");
 
         String filename = UID + "_ProfileImage";
         getImage(filename);
 
-        TextView Nickname=(TextView)view.findViewById(R.id.textView7);
-        TextView Point=(TextView)view.findViewById(R.id.textView11);
+        TextView Nickname= view.findViewById(R.id.textView7);
 
-        mDatabase.child("users").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot != null)
-                {
-                    UserMap = (HashMap<String, Object>) snapshot.getValue();
-                    Point.setText(String.valueOf(UserMap.get("point")));
-                    Nickname.setText(String.valueOf(UserMap.get("nickname")));
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
 
-        ImageButton Nickname_modify=(ImageButton)view.findViewById(R.id.imageButton);
+        ImageButton Nickname_modify= view.findViewById(R.id.imageButton);
         Nickname_modify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).replaceFragment(FragmentNicknameModify.newInstance(null, null));
+                final EditText et2 = new EditText(getContext());
+
+                final AlertDialog.Builder alt_bld = new AlertDialog.Builder(getContext(),R.style.MyAlertDialogStyle);
+
+                alt_bld.setTitle("닉네임 변경")
+
+                        .setMessage("변경할 닉네임을 입력하세요")
+
+                        .setIcon(R.drawable.pencil)
+
+                        .setCancelable(false)
+
+                        .setView(et2)
+
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                String value = et2.getText().toString();
+
+                                FirebaseAuth mAuth;
+                                mAuth = FirebaseAuth.getInstance(); // 유저 계정 정보 가져오기
+                                mDatabase = FirebaseDatabase.getInstance().getReference(); // 파이어베이스 realtime database 에서 정보 가져오기
+                                mDatabase.child("users").child(UID).child("nickname").setValue(value);
+
+                            }
+
+                        });
+
+                AlertDialog alert = alt_bld.create();
+
+                alert.show();
             }
         });
 
-        Button license=(Button)view.findViewById(R.id.license);
+        ImageButton message=view.findViewById(R.id.imageButton2);
+        message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final EditText et = new EditText(getContext());
+
+                final AlertDialog.Builder alt_bld = new AlertDialog.Builder(getContext(),R.style.MyAlertDialogStyle);
+
+                alt_bld.setTitle("상태메시지 변경")
+
+                        .setMessage("변경할 상태메시지를 입력하세요")
+
+                        .setIcon(R.drawable.pencil)
+
+                        .setCancelable(false)
+
+                        .setView(et)
+
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                String value = et.getText().toString();
+
+                                FirebaseAuth mAuth;
+                                mAuth = FirebaseAuth.getInstance(); // 유저 계정 정보 가져오기
+                                mDatabase = FirebaseDatabase.getInstance().getReference(); // 파이어베이스 realtime database 에서 정보 가져오기
+                                mDatabase.child("users").child(UID).child("message").setValue(value);
+
+                            }
+
+                        });
+
+                AlertDialog alert = alt_bld.create();
+
+                alert.show();
+
+            }
+        });
+
+        Button license= view.findViewById(R.id.license);
         license.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,7 +204,7 @@ public class MypageFragment extends Fragment {
             }
         });
 
-        Button picture=(Button)view.findViewById(R.id.button3);
+        Button picture= view.findViewById(R.id.button3);
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,19 +221,19 @@ public class MypageFragment extends Fragment {
                 getImage(filename);
             }
         });
-        Button Logout=(Button)view.findViewById(R.id.LOGOUT);
+        Button Logout= view.findViewById(R.id.LOGOUT);
         Logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 accountLogout(getContext());
                 Toast.makeText(getContext(),"로그아웃되었습니다.", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(getContext(), AppGuide.class);
+                Intent intent = new Intent(getContext(), AppGuideActivity.class);
                 startActivity(intent);
             }
         });
 
-        buttonDeleteID = (Button) view.findViewById(R.id.DeleteID);
+        buttonDeleteID = view.findViewById(R.id.DeleteID);
         buttonDeleteID.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,7 +254,7 @@ public class MypageFragment extends Fragment {
             }
         });
 
-        buttonAllowedApps = (Button) view.findViewById(R.id.button8);
+        buttonAllowedApps = view.findViewById(R.id.button8);
         buttonAllowedApps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -273,7 +335,7 @@ public class MypageFragment extends Fragment {
             }
         });
 
-        Button ask=(Button)view.findViewById(R.id.ASK);
+        Button ask= view.findViewById(R.id.ASK);
         ask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -292,7 +354,7 @@ public class MypageFragment extends Fragment {
     }
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+                                           String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case 777: {
                 // If request is cancelled, the result arrays are empty.
@@ -391,12 +453,13 @@ public class MypageFragment extends Fragment {
         storageRef.child("ProfileImage/"+filename).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Glide.with(getContext()).load(uri).into(imageView);
+                Glide.with(getContext()).load(uri).circleCrop().into(imageView);
 
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                imageView.setImageResource(R.drawable.profile);
 
             }
         });
@@ -480,7 +543,8 @@ public class MypageFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            Intent intent = new Intent(context,AppGuide.class);
+                            Intent intent = new Intent(context,AppGuideActivity.class);
+
                             startActivity(intent);
 
                         }

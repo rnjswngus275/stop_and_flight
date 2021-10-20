@@ -39,7 +39,15 @@ limitations under the License." />
         android:paddingTop="20dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="연필,비행기,지구본,star icon : Flaticon.com"
+        android:text="연필,비행기,지구본,star icon,copy, bin : Flaticon.com"
+        android:textStyle="bold" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="기본 profile Becris from Flaticon.com"
         android:textStyle="bold" />
     <TextView
         android:layout_width="match_parent"
@@ -160,14 +168,14 @@ that this copyright notice remain intact." />
         android:paddingTop="20dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="폰트 : 무료폰트 아산 이순신 돋움체 B, 아산 이순신 돋움체 L, 경기 천년 제목체 L"
+        android:text="폰트 : 무료폰트 아산 이순신 돋움체 B, 아산 이순신 돋움체 L, 경기 천년 제목체 L,더페이스샵 잉크립퀴드체"
         android:textStyle="bold" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingRight="10dp"
-        android:text="무료폰트 아산 이순신 돋움체 L (KOGL 1유형), 아산 이순신 돋움체 B (KOGL 1유형), 경기천년제목체 L(KOGL 1유형)을 사용하여 제작ㅎㅏ였습니다." />
+        android:text="무료폰트 아산 이순신 돋움체 L (KOGL 1유형), 아산 이순신 돋움체 B (KOGL 1유형), 경기천년제목체 L(KOGL 1유형),더페이스샵 잉크리퀴드체을 사용하여 제작했습니다." />
 
     <TextView
         android:layout_width="match_parent"
@@ -195,6 +203,7 @@ See the License for the specific language governing permissions and
 limitations under the License."
         android:paddingLeft="20dp"
         android:paddingRight="10dp"/>
+
 
 
 </LinearLayout>

@@ -7,7 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="color_1">#f7fbfc</color>        <!--컬러팔레트 첫번째 색갈부터 순서대로 1234 지정해놓았어요!-->
+    <color name="color_1">#E7F7FB</color>        <!--컬러팔레트 첫번째 색갈부터 순서대로 1234 지정해놓았어요!-->
     <color name="color_2">#d6e6f2</color>
     <color name="color_3">#b9d7ea</color>
     <color name="color_4">#769fcd</color>
@@ -16,7 +16,7 @@
     <color name="silver">#BDC3C7</color>
     <color name="red">#FF0000</color>
     <color name="brickred">#f9ccca</color>
-    <color name="gold">#D4AF37</color>
-    <color name="silver2">#C0C0C0</color>
+    <color name="gold">#FDDD74</color>
+    <color name="silver2">#E1E1E1</color>
     <color name="bronze">#9F7A34</color>
 </resources>

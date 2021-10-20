@@ -3,6 +3,7 @@ package com.example.stop_and_flight.fragments;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -63,7 +64,7 @@ public class TicketingFragment extends Fragment {
     private String UID;
     private AlarmManager AM;
     private PendingIntent ServicePending;
-    private Context context;
+    private final Context context;
     int dptH;
     int dptM;
     private DatabaseReference mDatabase;
@@ -156,19 +157,19 @@ public class TicketingFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ticketing, container, false);
         curTime = new CurTime();
 
-        Button select_data_button = (Button)view.findViewById(R.id.select_data_button);
-        Button select_todo_button = (Button) view.findViewById(R.id.select_todo_button);
-        TimePicker depart_time = (TimePicker)view.findViewById(R.id.depart_time);
-        TimePicker arrive_time = (TimePicker)view.findViewById(R.id.arrive_time);
-        Button ticketing_button = (Button) view.findViewById(R.id.ticketing_button);
+        Button select_data_button = view.findViewById(R.id.select_data_button);
+        Button select_todo_button = view.findViewById(R.id.select_todo_button);
+        TimePicker depart_time = view.findViewById(R.id.depart_time);
+        TimePicker arrive_time = view.findViewById(R.id.arrive_time);
+        Button ticketing_button = view.findViewById(R.id.ticketing_button);
 
-        CheckBox monday=(CheckBox)view.findViewById(R.id.Mon_button);
-        CheckBox tuesday=(CheckBox)view.findViewById(R.id.Tues_button);
-        CheckBox wedday=(CheckBox)view.findViewById(R.id.Wed_button);
-        CheckBox thursday=(CheckBox)view.findViewById(R.id.Thurs_button);
-        CheckBox friday=(CheckBox)view.findViewById(R.id.Fri_button);
-        CheckBox satday=(CheckBox)view.findViewById(R.id.Set_button);
-        CheckBox sunday=(CheckBox)view.findViewById(R.id.Sun_button);
+        CheckBox monday= view.findViewById(R.id.Mon_button);
+        CheckBox tuesday= view.findViewById(R.id.Tues_button);
+        CheckBox wedday= view.findViewById(R.id.Wed_button);
+        CheckBox thursday= view.findViewById(R.id.Thurs_button);
+        CheckBox friday= view.findViewById(R.id.Fri_button);
+        CheckBox satday= view.findViewById(R.id.Set_button);
+        CheckBox sunday= view.findViewById(R.id.Sun_button);
 
 
 
@@ -233,9 +234,7 @@ public class TicketingFragment extends Fragment {
                 fri=friday.isChecked();
                 sat=satday.isChecked();
                 sun=sunday.isChecked();
-                if((mon||tue||wed||thu||fri||sat||sun)!=true){
-                    repeat=false;
-                }else repeat =true;
+                repeat= (mon || tue || wed || thu || fri || sat || sun) == true;
                 int depart_hour = curTime.getIntHour();
                 int depart_min = curTime.getIntMinute();
                 int arrive_hour = curTime.getIntHour();
@@ -305,7 +304,7 @@ public class TicketingFragment extends Fragment {
                 }
                 if (flag == 0)
                 {
-                    time_Validity(depart_hour, depart_min, arrive_hour, arrive_min);
+                    time_Validity(depart_hour, depart_min, arrive_hour, arrive_min,repeat);
                 }
                 else
                 {
@@ -350,7 +349,8 @@ public class TicketingFragment extends Fragment {
                     regist(sun,mon,tue,wed,thu,fri,sat);
                 }
                 else{
-                SetAlarmManager();}
+                SetAlarmManager();
+                }
             }
             Toast.makeText(getContext(),  "예약 되었습니다.", Toast.LENGTH_SHORT).show();
         }
@@ -382,7 +382,7 @@ public class TicketingFragment extends Fragment {
     }
 
     public void SetAlarmManager() {
-        AM = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
+        AM = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
 //        String date_time= YEAR+"-"+(MONTH+1)+"-"+DAY+" "+ ticket_dpt+":"+00;
 //        SimpleDateFormat dateFormat =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -444,6 +444,7 @@ public class TicketingFragment extends Fragment {
         System.out.println("확인 알람설정 ok");
     }
     public void regist(boolean a,boolean b, boolean c, boolean d, boolean e, boolean f, boolean g) {
+        AM = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         boolean[] week = { false, a,b,c,d,e,f,g  }; // sun을 1번부터 사용하기 위해 배열 0번은 false로 고정
 
@@ -454,7 +455,8 @@ public class TicketingFragment extends Fragment {
 
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.putExtra("weekday", week);
-        PendingIntent pIntent = PendingIntent.getBroadcast(context, requestcode,intent, 0); //PendingIntent.FLAG_UPDATE_CURRENT
+        ServicePending = PendingIntent.getBroadcast(
+                mContext, requestcode, intent, 0);
 
         Calendar calendar2 = Calendar.getInstance();
         calendar2.set(YEAR, MONTH - 1, DAY, dptH, dptM);
@@ -464,6 +466,7 @@ public class TicketingFragment extends Fragment {
 
         long selectTime=calendar2.getTimeInMillis();
         long currenTime=System.currentTimeMillis();
+        System.out.println(selectTime + "확인 selecttime");
 
         //만약 설정한 시간이, 현재 시간보다 작다면 알람이 부정확하게 울리기 때문에 다음날 울리게 설정
         if(currenTime>selectTime){
@@ -471,7 +474,7 @@ public class TicketingFragment extends Fragment {
         }
 
          //지정한 시간에 매일 알림
-        AM.setRepeating(AlarmManager.RTC_WAKEUP, selectTime,  intervalDay, pIntent);
+        AM.setRepeating(AlarmManager.RTC_WAKEUP, selectTime,  intervalDay, ServicePending);
 
     }
 }

@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.model.CurTime;
@@ -57,6 +58,9 @@ public class CalendarFragment extends Fragment {
     private int MONTH;
     private int DAY;
 
+    public static CalendarFragment newInstance(){
+        return new CalendarFragment();
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +76,8 @@ public class CalendarFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_calender, container, false);
 
+        TextView title_toolbar= (TextView)getActivity().findViewById(R.id.toolbar_title);
+        title_toolbar.setText("TICKETING");
         CollapsibleCalendar collapsibleCalendar = view.findViewById(R.id.calendarView);
         Context ct = container.getContext();
         BottomSheetDialogFragment ticketingBottomSheetDialog = new TicketingBottomSheetDialog(ct);
