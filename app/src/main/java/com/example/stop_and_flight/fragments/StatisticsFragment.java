@@ -42,6 +42,7 @@ public class StatisticsFragment extends Fragment {
         adapter.addItem(pieChartfragment);
         BarChartFragment barChartfragment = new BarChartFragment();
         adapter.addItem(barChartfragment);
+
         pager.setAdapter(adapter);
         return view1;
     }
