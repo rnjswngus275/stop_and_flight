@@ -1,4 +1,4 @@
-package com.example.stop_and_flight.fragments;
+package com.example.stop_and_flight.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

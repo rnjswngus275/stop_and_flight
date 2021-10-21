@@ -1,16 +1,15 @@
-package com.example.stop_and_flight.fragments;
+package com.example.stop_and_flight.utils;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.stop_and_flight.R;
+import com.example.stop_and_flight.model.Dictionary;
 
 import java.util.ArrayList;
 

@@ -98,8 +98,6 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onDaySelect() {
                 Day day = collapsibleCalendar.getSelectedDay();
-                Log.i(getClass().getName(), "Selected Day: "
-                        + day.getYear() + "/" + (day.getMonth() + 1) + "/" + day.getDay());
                 ticket_Date = day.getYear() + "-" + (day.getMonth() + 1) + "-" + day.getDay();
                 getTicketDate(ticket_Date);
             }

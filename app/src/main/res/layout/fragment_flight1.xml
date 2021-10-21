@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Fragment_flight1">
+    tools:context=".fragments.Fragment_flight1">
 
     <!-- TODO: Update blank fragment layout -->
 

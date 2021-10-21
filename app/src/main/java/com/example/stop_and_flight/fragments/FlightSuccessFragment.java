@@ -1,4 +1,4 @@
-package com.example.stop_and_flight;
+package com.example.stop_and_flight.fragments;
 
 import android.content.Intent;
 import android.os.Build;
@@ -14,8 +14,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
-import android.widget.TextView;
 
+import com.example.stop_and_flight.MainActivity;
+import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.model.CurTime;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -149,7 +150,7 @@ public class FlightSuccessFragment extends Fragment {
                 //메모 데이터베이스에 저장
                 String Memo_txt = Memo.getText().toString();
                 mDatabase.child("TICKET").child(uid).child(today).child(id).child("memo").setValue(Memo_txt);
-                Intent intent = new Intent(getActivity(),MainActivity.class);
+                Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }
         });

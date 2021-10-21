@@ -122,27 +122,10 @@ public class TicketingFragment extends Fragment {
             // update인 경우 - ticketbottomSheetDialog에서 데이터를 가져옴
             Todo = getArguments().getString("Todo");
             updateId = getArguments().getInt("Id");
-            System.out.println(Todo + updateId);
         }
 
         Intent intent = new Intent(getContext(),AlarmReceiver.class);
         intent.putExtra("requestcode",requestcode);
-
-//        /* 현재 시간과 날짜를 받아오는 부분 */
-//        long now = System.currentTimeMillis();
-//        Date date = new Date(now);
-//
-//        SimpleDateFormat CurYearFormat = new SimpleDateFormat("yyyy");
-//        SimpleDateFormat CurMonthFormat = new SimpleDateFormat("MM");
-//        SimpleDateFormat CurDayFormat = new SimpleDateFormat("dd");
-//        SimpleDateFormat CurHourFormat = new SimpleDateFormat("HH");
-//        SimpleDateFormat CurMinuteFormat = new SimpleDateFormat("mm");
-//
-//        strCurYear = CurYearFormat.format(date);
-//        strCurMonth = CurMonthFormat.format(date);
-//        strCurDay = CurDayFormat.format(date);
-//        strCurHour = CurHourFormat.format(date);
-//        strCurMinute = CurMinuteFormat.format(date);
     }
 
     @Override
@@ -170,9 +153,6 @@ public class TicketingFragment extends Fragment {
         CheckBox friday= view.findViewById(R.id.Fri_button);
         CheckBox satday= view.findViewById(R.id.Set_button);
         CheckBox sunday= view.findViewById(R.id.Sun_button);
-
-
-
 
         // context 전달 필요 = Adapter까지 전달!!
         select_todo_button.setOnClickListener(new View.OnClickListener() {
@@ -338,12 +318,10 @@ public class TicketingFragment extends Fragment {
         {
             if (updateId != DEFAULT)
             {
-                System.out.println("check updated");
                 db.update_ticketDB(UID, ticket_Date, depart_time, arrive_time, Todo, updateId,requestcode);
             }
             else
             {
-                System.out.println("check inserted");
                 db.insert_ticketDB(UID, ticket_Date, ticket);
                 if(repeat==true){
                     regist(sun,mon,tue,wed,thu,fri,sat);
@@ -360,12 +338,10 @@ public class TicketingFragment extends Fragment {
             {
                 if (updateId != DEFAULT)
                 {
-                    System.out.println("check updated");
                     db.update_ticketDB(UID, ticket_Date, depart_time, arrive_time, Todo, updateId,requestcode);
                 }
                 else
                 {
-                    System.out.println("check inserted");
                     db.insert_ticketDB(UID, ticket_Date, ticket);
                     if(repeat==true){
                         regist(sun,mon,tue,wed,thu,fri,sat);
@@ -394,12 +370,10 @@ public class TicketingFragment extends Fragment {
 //        } catch (ParseException e) {
 //            e.printStackTrace();
 //        }
-//        System.out.println(datetime+"확인datetime");
         int dpth=dptH;
         int dptm=dptM;
         Calendar cal = Calendar.getInstance();
         cal.clear();
-//        System.out.println(dptH+"확인 ticketdpt");
 //        cal.set(Calendar.YEAR,YEAR);
 //        cal.set(Calendar.MONTH,MONTH+1);
 //        cal.set(Calendar.DAY_OF_MONTH,DAY);
@@ -410,8 +384,6 @@ public class TicketingFragment extends Fragment {
 //        cal.set(Calendar.SECOND, 0);
 
         cal.set(YEAR, MONTH - 1, DAY, dpth, dptm);
-        System.out.println(cal.getTime() + "확인 cal에 셋된시간");
-
 //        cal.setTime(datetime);
         //Receiver로 보내기 위한 인텐트
         Intent intent_alarm = new Intent(context, AlarmReceiver.class);
@@ -425,23 +397,17 @@ public class TicketingFragment extends Fragment {
             // 19 이상
             if (Build.VERSION.SDK_INT >= 19) {
                 AM.setExact(AlarmManager.RTC_WAKEUP, calc_time , ServicePending);
-                System.out.println("확인 19이상");
-
             }
             // 19 미만
             else {
                 // pass
                 // 알람셋팅
                 AM.set(AlarmManager.RTC_WAKEUP, calc_time, ServicePending);
-                System.out.println("확인 19미만");
-
             }
             // 23 이상
         } else {
             AM.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calc_time, ServicePending);
-            System.out.println("확인 23이상");
         }
-        System.out.println("확인 알람설정 ok");
     }
     public void regist(boolean a,boolean b, boolean c, boolean d, boolean e, boolean f, boolean g) {
         AM = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -466,7 +432,6 @@ public class TicketingFragment extends Fragment {
 
         long selectTime=calendar2.getTimeInMillis();
         long currenTime=System.currentTimeMillis();
-        System.out.println(selectTime + "확인 selecttime");
 
         //만약 설정한 시간이, 현재 시간보다 작다면 알람이 부정확하게 울리기 때문에 다음날 울리게 설정
         if(currenTime>selectTime){

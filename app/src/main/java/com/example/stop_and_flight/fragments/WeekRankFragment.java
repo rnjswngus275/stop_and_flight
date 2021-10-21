@@ -141,7 +141,6 @@ public class WeekRankFragment extends Fragment {
                         }
                         if (UserSnapshot.getKey().equals(UID))
                         {
-                            System.out.println(UserSnapshot);
                             TextView weeknickname = view.findViewById(R.id.weekRanknickName);
                             TextView weekRankTime = view.findViewById(R.id.weekRankTime);
                             mynickname = String.valueOf(UserMap.get("nickname"));
@@ -180,7 +179,9 @@ public class WeekRankFragment extends Fragment {
                 thirdTitle.setText(dateInfos.get(2).getNickname());
                 Totalsize.setText(String.valueOf(dateInfos.size()));
                 float percent = (getArraylistIndex(dateInfos, mynickname) / (float) dateInfos.size()) * 100;
-                rankingPercent.setText(percent + "%");
+                String percentage = String.format("0.2f", percent) + "%";
+
+                rankingPercent.setText(percentage);
 
                 weekRankgrade.setText(String.valueOf(getArraylistIndex(dateInfos, mynickname)));
                 rankingAdapter.notifyDataSetChanged();

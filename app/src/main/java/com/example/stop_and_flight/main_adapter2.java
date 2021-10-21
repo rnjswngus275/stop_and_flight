@@ -12,6 +12,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.example.stop_and_flight.model.main_model;
+
 public class main_adapter2 extends PagerAdapter {
     private final List<main_model> models;
     private LayoutInflater layoutInflater;

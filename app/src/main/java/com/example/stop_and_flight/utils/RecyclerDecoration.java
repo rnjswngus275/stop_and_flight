@@ -1,4 +1,4 @@
-package com.example.stop_and_flight.fragments;
+package com.example.stop_and_flight.utils;
 
 import android.graphics.Rect;
 import android.view.View;

@@ -42,7 +42,7 @@ import static android.content.Context.CLIPBOARD_SERVICE;
  * Use the {@link Fragment_friend1#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Fragment_friend1 extends Fragment implements OnItemClick{
+public class Fragment_friend1 extends Fragment{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -283,7 +283,7 @@ public class Fragment_friend1 extends Fragment implements OnItemClick{
             });
 
 
-//LIST2 데이터 ADD
+        //LIST2 데이터 ADD
         //1.친구 uid 읽어오기
         mDatabase.child("users").child(UID).child("friend").child("accept").addValueEventListener(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -351,11 +351,6 @@ public class Fragment_friend1 extends Fragment implements OnItemClick{
         });
 
         return view;
-    }
-
-    @Override
-    public void onClick(String value) {
-
     }
 
     public void list_add(String Nickname,String Message,String Friend_Uid,int count){

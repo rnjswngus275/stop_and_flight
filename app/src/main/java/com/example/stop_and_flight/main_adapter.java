@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 
 import com.example.stop_and_flight.model.Ticket;
+import com.example.stop_and_flight.model.main_model;
 
 import java.util.List;
 
@@ -53,7 +54,6 @@ public class main_adapter extends PagerAdapter {
         dpt_time.setText(models.get(position).getDepart_time());
         arr_time.setText(models.get(position).getArrive_time());
         todo.setText(models.get(position).getTodo());
-
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

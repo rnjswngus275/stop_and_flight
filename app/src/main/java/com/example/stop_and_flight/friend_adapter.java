@@ -40,7 +40,6 @@ public class friend_adapter extends BaseAdapter implements View.OnClickListener 
     ArrayList<friend_model> friend;
     String picturePath;
     Uri selectedImage;
-    private OnItemClick mCallback;
     Fragment_friend1 friend1;
     private DatabaseReference mDatabase;
     private String UID;

@@ -136,7 +136,6 @@ public class TodayRankFragment extends Fragment {
                     }
                     if (UserSanpshot.getKey().equals(UID))
                     {
-                        System.out.println(UserSanpshot);
                         TextView todaynickname = view.findViewById(R.id.todayRanknickName);
                         TextView todayRankTime = view.findViewById(R.id.todayRankTime);
                         mynickname = String.valueOf(UserMap.get("nickname"));
@@ -165,7 +164,8 @@ public class TodayRankFragment extends Fragment {
 
                 todayRankgrade.setText(String.valueOf(getArraylistIndex(dateInfos, mynickname)));
                 float percent = (getArraylistIndex(dateInfos, mynickname) / (float) dateInfos.size()) * 100;
-                rankingPercent.setText(percent + "%");
+                String percentage = String.format("0.2f", percent) + "%";
+                rankingPercent.setText(percentage);
                 rankingAdapter.notifyDataSetChanged();
             }
             @Override

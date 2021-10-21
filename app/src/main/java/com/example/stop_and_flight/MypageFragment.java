@@ -105,7 +105,7 @@ public class MypageFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_mypage, container, false);
-        imageView= view.findViewById(R.id.imageView4);
+        imageView = view.findViewById(R.id.imageView4);
 
         TextView title_toolbar= (TextView)getActivity().findViewById(R.id.toolbar_title);
         title_toolbar.setText("MY PAGE");
@@ -121,15 +121,6 @@ public class MypageFragment extends Fragment {
                 if (snapshot != null)
                 {
                     UserMap = (HashMap<String, Object>) snapshot.getValue();
-                    try{
-//                        Point.setText(String.valueOf(UserMap.get("point")));
-
-                    }catch (NullPointerException e){
-                        mDatabase.child("users").child(UID).child("point").setValue(0);
-//                        Point.setText(String.valueOf(UserMap.get("point")));
-
-                    }
-//                    Point.setText(String.valueOf(UserMap.get("point")));
                     Nickname.setText(String.valueOf(UserMap.get("nickname")));
                 }
             }
@@ -148,32 +139,19 @@ public class MypageFragment extends Fragment {
                 final AlertDialog.Builder alt_bld = new AlertDialog.Builder(getContext(),R.style.MyAlertDialogStyle);
 
                 alt_bld.setTitle("닉네임 변경")
-
                         .setMessage("변경할 닉네임을 입력하세요")
-
                         .setIcon(R.drawable.pencil)
-
                         .setCancelable(false)
-
                         .setView(et2)
-
                         .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-
                             public void onClick(DialogInterface dialog, int id) {
-
                                 String value = et2.getText().toString();
-
-                                FirebaseAuth mAuth;
-                                mAuth = FirebaseAuth.getInstance(); // 유저 계정 정보 가져오기
                                 mDatabase = FirebaseDatabase.getInstance().getReference(); // 파이어베이스 realtime database 에서 정보 가져오기
                                 mDatabase.child("users").child(UID).child("nickname").setValue(value);
-
                             }
 
                         });
-
                 AlertDialog alert = alt_bld.create();
-
                 alert.show();
             }
         });
@@ -182,40 +160,22 @@ public class MypageFragment extends Fragment {
         message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 final EditText et = new EditText(getContext());
-
                 final AlertDialog.Builder alt_bld = new AlertDialog.Builder(getContext(),R.style.MyAlertDialogStyle);
-
                 alt_bld.setTitle("상태메시지 변경")
-
                         .setMessage("변경할 상태메시지를 입력하세요")
-
                         .setIcon(R.drawable.pencil)
-
                         .setCancelable(false)
-
                         .setView(et)
-
                         .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-
                             public void onClick(DialogInterface dialog, int id) {
-
                                 String value = et.getText().toString();
-
-                                FirebaseAuth mAuth;
-                                mAuth = FirebaseAuth.getInstance(); // 유저 계정 정보 가져오기
                                 mDatabase = FirebaseDatabase.getInstance().getReference(); // 파이어베이스 realtime database 에서 정보 가져오기
                                 mDatabase.child("users").child(UID).child("message").setValue(value);
-
                             }
-
                         });
-
                 AlertDialog alert = alt_bld.create();
-
                 alert.show();
-
             }
         });
 
@@ -231,10 +191,7 @@ public class MypageFragment extends Fragment {
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"클릭?",Toast.LENGTH_SHORT).show();
-
                 ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},777);//세번째 파라매터 int requestcode 실행 후 전달 받을 코드 분기에 쓰이는것같음
-                Toast.makeText(getContext(),"else문 안입니다.",Toast.LENGTH_LONG).show();
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -250,12 +207,10 @@ public class MypageFragment extends Fragment {
             public void onClick(View v) {
                 accountLogout(getContext());
                 Toast.makeText(getContext(),"로그아웃되었습니다.", Toast.LENGTH_SHORT).show();
-
                 Intent intent = new Intent(getContext(), AppGuideActivity.class);
                 startActivity(intent);
             }
         });
-
         buttonDeleteID = view.findViewById(R.id.DeleteID);
         buttonDeleteID.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -282,9 +237,7 @@ public class MypageFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ArrayList<AppInfo> applist = new ArrayList<>();
-
                 installedApplist(applist);
-
                 Dialog dialog = new Dialog(getContext());
                 dialog.setContentView(R.layout.app_dialog_select_sipinner);
                 dialog.getWindow().setLayout(1000, 1200);
@@ -324,7 +277,6 @@ public class MypageFragment extends Fragment {
                         for(int i = count - 1; i >= 0; i--){
                             if (checkeditems.get(i))
                             {
-                                System.out.println(applist.get(i).getName());
                                 insertAppDB(user.getUid(), i, applist.get(i).getName());
                             }
                         }
@@ -357,7 +309,6 @@ public class MypageFragment extends Fragment {
                 }
             }
         });
-
         Button ask= view.findViewById(R.id.ASK);
         ask.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -381,11 +332,8 @@ public class MypageFragment extends Fragment {
         switch (requestCode) {
             case 777: {
                 // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(getContext(),"승인이 허가되어 있습니다.",Toast.LENGTH_LONG).show();
-
                 } else {
                     Toast.makeText(getContext(),"아직 승인받지 않았습니다.",Toast.LENGTH_LONG).show();
                 }
@@ -401,7 +349,6 @@ public class MypageFragment extends Fragment {
                 if (data != null && resultCode == RESULT_OK) {
                     selectedImage = data.getData();
                     String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
                     ImageCD();
                     Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
                     if (cursor == null || cursor.getCount() < 1) {
@@ -493,26 +440,17 @@ public class MypageFragment extends Fragment {
 
             @Override
             public void onConnected(@Nullable Bundle bundle) {
-
                 mAuth.signOut();
                 if (mGoogleApiClient.isConnected()) {
-
                     Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
-
-
                         @Override
                         public void onResult(@NonNull Status status) {
-
                             if (status.isSuccess()) {
-
 //                                DebugLog.logD(TAG, "User Logged out");
 //                                setResult(ResultCode.SIGN_OUT_SUCCESS);
-
                             } else {
-
 //                                setResult(ResultCode.SIGN_OUT_FAIL);
                             }
-
                             hideProgressDialog();
 /*
                             finish();
@@ -521,15 +459,10 @@ public class MypageFragment extends Fragment {
                     });
                 }
             }
-
             @Override
             public void onConnectionSuspended(int i) {
-
-//                DebugLog.logD(TAG, "Google API Client Connection Suspended");
-//
 //                setResult(ResultCode.SIGN_OUT_FAIL);
                 hideProgressDialog();
-
 //                finish();
             }
         });
@@ -541,7 +474,6 @@ public class MypageFragment extends Fragment {
 //            mProgressDialog.setMessage(getString(R.string.loading));
             mProgressDialog.setIndeterminate(true);
         }
-
         mProgressDialog.show();
     }
 
@@ -567,19 +499,17 @@ public class MypageFragment extends Fragment {
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
                             Intent intent = new Intent(context,AppGuideActivity.class);
-
                             startActivity(intent);
-
                         }
                         else{
-                            Toast.makeText(context, "회원탈퇴 실패", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "회원탈퇴 실패하였습니다.", Toast.LENGTH_LONG).show();
                         }
                     }
                 });//firebase인증해제
                 GoogleSignIn.getClient(context,GoogleSignInOptions.DEFAULT_SIGN_IN).revokeAccess(); //Google 계정해제
 
             }catch(Exception e){
-                Toast.makeText(context, "회원탈퇴 실패 catch", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "회원탈퇴 실패하였습니다.", Toast.LENGTH_LONG).show();
 
             }
         }

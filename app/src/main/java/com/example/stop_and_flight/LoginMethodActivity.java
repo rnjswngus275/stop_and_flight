@@ -46,7 +46,6 @@ public class LoginMethodActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-
         email_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,12 +57,10 @@ public class LoginMethodActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (mAuth.getCurrentUser()!= null) {
-                    Toast.makeText(LoginMethodActivity.this,"구글 로그인 성공",Toast.LENGTH_SHORT).show();     //이토스트 메세지들은 출시할때 지워야됨 까먹지마랑~
                     Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
-
                 else signIn();
 
             }
@@ -101,7 +98,6 @@ public class LoginMethodActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
-
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());

@@ -55,8 +55,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 
         manager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        System.out.println("진입성공 확인");
         int requestcode=intent.getIntExtra("requestcode",0);
 
         try {

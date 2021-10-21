@@ -22,10 +22,9 @@ import android.widget.TextView;
 
 import com.example.stop_and_flight.fragments.CalendarFragment;
 import com.example.stop_and_flight.fragments.RankingFragment;
+import com.example.stop_and_flight.model.main_model;
 import com.example.stop_and_flight.utils.TicketDatabaseHandler;
 import com.example.stop_and_flight.model.Ticket;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -120,8 +119,8 @@ public class MainFragment extends Fragment {
         CalendarFragment calendarFragment = new CalendarFragment();
         RankingFragment rankingFragment = new RankingFragment();
 
-        ImageButton btn1= v.findViewById(R.id.btn1);
-        ImageButton btn2 =v.findViewById(R.id.btn2);
+        ImageButton btn1 = v.findViewById(R.id.btn1);
+        ImageButton btn2 = v.findViewById(R.id.btn2);
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,9 +141,6 @@ public class MainFragment extends Fragment {
         if(user != null){
             UID  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
         }
-
-        System.out.println("uid확인"+UID);
-
 
         viewPager=v.findViewById(R.id.viewPager);
         viewPager.setAdapter(adapter);
@@ -189,7 +185,6 @@ public class MainFragment extends Fragment {
                         getTicket.setDate(ticket_Date);
                         models.add(getTicket);
                         count++;
-                        System.out.println("확인 데이터 읽어오기"+count);
                     }
                 }
                 models.sort(new Comparator<Ticket>() {
@@ -219,11 +214,9 @@ public class MainFragment extends Fragment {
                     viewPager.setAdapter(adpater2);
                     viewPager.setPadding(130, 30, 130, 0);
                     toggle=1;
-                    System.out.println("확인 empty");
 
                 }
                 else {
-                    System.out.println("확인 else문 진입");
                     adapter = new main_adapter(models, getContext());
                     viewPager = v.findViewById(R.id.viewPager);
                     viewPager.setAdapter(adapter);
@@ -244,19 +237,10 @@ public class MainFragment extends Fragment {
 //        models.add(new main_model("타이틀2","설명2"));
 //        models.add(new main_model("타이틀2","설명2"));
 
-        System.out.println("확인"+count);
-
         String str="총";
         String str2="개의 일정이 있습니다.";
         String str3 =str+count+str2;
 
         return v;
-
-
-    }
-    public void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container, fragment).addToBackStack(null).commitAllowingStateLoss();
     }
 }
