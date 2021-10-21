@@ -216,7 +216,7 @@
             android:textSize="15dp"
             android:gravity="center"
             android:textStyle="bold"
-            android:text=" 분 학습 하였습니다." />
+            android:text=" 분 비행 하였습니다." />
 
     </LinearLayout>
 
