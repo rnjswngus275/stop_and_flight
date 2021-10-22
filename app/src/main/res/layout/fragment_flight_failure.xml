@@ -21,8 +21,7 @@
             android:id="@+id/img1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:lottie_fileName="21384-plane-loop-03-almost-crashing.json"
-            />
+            app:lottie_fileName="21384-plane-loop-03-almost-crashing.json" />
 
 
         <TextView

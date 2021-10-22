@@ -164,7 +164,7 @@ public class TodayRankFragment extends Fragment {
 
                 todayRankgrade.setText(String.valueOf(getArraylistIndex(dateInfos, mynickname)));
                 float percent = (getArraylistIndex(dateInfos, mynickname) / (float) dateInfos.size()) * 100;
-                String percentage = String.format("0.2f", percent) + "%";
+                String percentage = String.format("%.2f", percent) + "%";
                 rankingPercent.setText(percentage);
                 rankingAdapter.notifyDataSetChanged();
             }

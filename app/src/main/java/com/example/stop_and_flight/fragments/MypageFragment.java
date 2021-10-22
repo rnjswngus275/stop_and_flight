@@ -1,4 +1,4 @@
-package com.example.stop_and_flight;
+package com.example.stop_and_flight.fragments;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,6 +37,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.stop_and_flight.AppGuideActivity;
+import com.example.stop_and_flight.FragmentLicense;
+import com.example.stop_and_flight.MainActivity;
+import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.model.AppInfo;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
@@ -74,7 +78,6 @@ public class MypageFragment extends Fragment {
     private GoogleSignInOptions gso;
     private static final int REQUEST_CODE = 0;
     private static final int RESULT_CANCELED = 1;
-    ImageView imageView;
     private FirebaseAuth mAuth;
     private GoogleApiClient mGoogleApiClient;
     private Button buttonDeleteID;
@@ -86,8 +89,7 @@ public class MypageFragment extends Fragment {
 
     String picturePath;
     Uri selectedImage;
-    String nickname;
-//    int point;
+    ImageView imageView;
 
     private static final String TAG = MypageFragment.class.getSimpleName();
     public ProgressDialog mProgressDialog;
@@ -97,7 +99,6 @@ public class MypageFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
         if(user != null){
             UID  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
         }
@@ -113,8 +114,7 @@ public class MypageFragment extends Fragment {
         String filename = UID + "_ProfileImage";
         getImage(filename);
 
-        TextView Nickname= view.findViewById(R.id.textView7);
-
+        TextView Nickname = view.findViewById(R.id.textView7);
         mDatabase.child("users").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -135,9 +135,7 @@ public class MypageFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 final EditText et2 = new EditText(getContext());
-
                 final AlertDialog.Builder alt_bld = new AlertDialog.Builder(getContext(),R.style.MyAlertDialogStyle);
-
                 alt_bld.setTitle("닉네임 변경")
                         .setMessage("변경할 닉네임을 입력하세요")
                         .setIcon(R.drawable.pencil)
@@ -156,7 +154,7 @@ public class MypageFragment extends Fragment {
             }
         });
 
-        ImageButton message=view.findViewById(R.id.imageButton2);
+        ImageButton message = view.findViewById(R.id.imageButton2);
         message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,7 +177,7 @@ public class MypageFragment extends Fragment {
             }
         });
 
-        Button license= view.findViewById(R.id.license);
+        Button license = view.findViewById(R.id.license);
         license.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,7 +185,7 @@ public class MypageFragment extends Fragment {
             }
         });
 
-        Button picture= view.findViewById(R.id.button3);
+        Button picture = view.findViewById(R.id.button3);
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -196,7 +194,6 @@ public class MypageFragment extends Fragment {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(intent, REQUEST_CODE);
-
                 String filename=UID+"_ProfileImage";
                 getImage(filename);
             }
@@ -252,17 +249,13 @@ public class MypageFragment extends Fragment {
                 editText.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
                     }
-
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         adapter.getFilter().filter(s);
                     }
-
                     @Override
                     public void afterTextChanged(Editable s) {
-
                     }
                 });
 
@@ -270,14 +263,14 @@ public class MypageFragment extends Fragment {
                 savebutton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        deleteAppDB(user.getUid());
+                        deleteAppDB(UID);
                         SparseBooleanArray checkeditems = listView.getCheckedItemPositions();
                         int count = adapter.getCount();
 
                         for(int i = count - 1; i >= 0; i--){
                             if (checkeditems.get(i))
                             {
-                                insertAppDB(user.getUid(), i, applist.get(i).getName());
+                                insertAppDB(UID, i, applist.get(i).getName());
                             }
                         }
                         dialog.dismiss();
@@ -309,7 +302,7 @@ public class MypageFragment extends Fragment {
                 }
             }
         });
-        Button ask= view.findViewById(R.id.ASK);
+        Button ask = view.findViewById(R.id.ASK);
         ask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -327,8 +320,7 @@ public class MypageFragment extends Fragment {
 
     }
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case 777: {
                 // If request is cancelled, the result arrays are empty.
@@ -369,21 +361,17 @@ public class MypageFragment extends Fragment {
         }
     }
 
-
-
-
     public void ImageCD(){
         //파일저장
         FirebaseStorage storage=FirebaseStorage.getInstance();
         StorageReference ref=storage.getReference();
 
-        String filename=UID+"_ProfileImage";     //파일명
-        Uri file =selectedImage;
+        String filename = UID+"_ProfileImage";     //파일명
+        Uri file = selectedImage;
         StorageReference ref2=ref.child("ProfileImage/"+filename);
         UploadTask uploadTask =ref2.putFile(file);
 
         //기존 파일 삭제
-
         StorageReference ref3=ref.child("ProfileImage/"+filename); //삭제할 파일명
         ref3.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -418,8 +406,8 @@ public class MypageFragment extends Fragment {
     }
     //이미지 다운로드해서 이미지 뷰에 보여주기
     public void downloadImg(String filename){
-        FirebaseStorage storage =FirebaseStorage.getInstance();
-        StorageReference storageRef=storage.getReference();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
         storageRef.child("ProfileImage/"+filename).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -430,14 +418,12 @@ public class MypageFragment extends Fragment {
             @Override
             public void onFailure(@NonNull Exception e) {
                 imageView.setImageResource(R.drawable.profile);
-
             }
         });
     }
     public void signOut(){
         mGoogleApiClient.connect();
         mGoogleApiClient.registerConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
-
             @Override
             public void onConnected(@Nullable Bundle bundle) {
                 mAuth.signOut();
@@ -490,7 +476,7 @@ public class MypageFragment extends Fragment {
             GoogleSignIn.getClient(context,GoogleSignInOptions.DEFAULT_SIGN_IN).signOut();
         }
     }
-    public void accountResign(final Context context){        //구글연동해제
+    public void accountResign(final Context context){
         if(user!=null){
             //구글연동해제
             try{

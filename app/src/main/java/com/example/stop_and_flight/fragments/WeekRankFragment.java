@@ -179,7 +179,7 @@ public class WeekRankFragment extends Fragment {
                 thirdTitle.setText(dateInfos.get(2).getNickname());
                 Totalsize.setText(String.valueOf(dateInfos.size()));
                 float percent = (getArraylistIndex(dateInfos, mynickname) / (float) dateInfos.size()) * 100;
-                String percentage = String.format("0.2f", percent) + "%";
+                String percentage = String.format("%.2f", percent) + "%";
 
                 rankingPercent.setText(percentage);
 

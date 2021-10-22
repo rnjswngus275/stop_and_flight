@@ -24,7 +24,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.stop_and_flight.fragments.FlightSuccessFragment;
+import com.example.stop_and_flight.fragments.MypageFragment;
 import com.example.stop_and_flight.fragments.StatisticsFragment;
 //import com.google.android.gms.ads.MobileAds;
 //import com.google.android.gms.ads.initialization.InitializationStatus;

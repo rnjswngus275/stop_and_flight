@@ -7,8 +7,6 @@
     android:orientation="vertical"
     tools:context=".fragments.AppGuideFragment1">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <LinearLayout
         android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
@@ -23,8 +21,7 @@
          android:id="@+id/img1"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         app:lottie_fileName="72908-business-growth-animation.json"
-         />
+         app:lottie_fileName="72908-business-growth-animation.json" />
     </LinearLayout>
 
     <TextView

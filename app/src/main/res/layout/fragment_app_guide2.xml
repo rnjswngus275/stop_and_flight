@@ -7,8 +7,6 @@
     android:orientation="vertical"
     tools:context=".fragments.AppGuideFragment2">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <LinearLayout
         android:id="@+id/linearLayout7"
         android:layout_width="match_parent"
@@ -23,8 +21,7 @@
             android:id="@+id/img2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:lottie_fileName="37179-travel-tickets.json"
-            />
+            app:lottie_fileName="37179-travel-tickets.json" />
     </LinearLayout>
 
     <TextView

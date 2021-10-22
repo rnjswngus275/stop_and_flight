@@ -121,7 +121,7 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
 
         mDatabase = FirebaseDatabase.getInstance().getReference(); // 파이어베이스 realtime database 에서 정보 가져오기
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
-        if(user!=null){
+        if(user != null){
             uid  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
         }
         if (getArguments() != null) {
@@ -212,15 +212,6 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FirebaseAuth mAuth;
-        mAuth = FirebaseAuth.getInstance(); // 유저 계정 정보 가져오기
-        mDatabase = FirebaseDatabase.getInstance().getReference(); // 파이어베이스 realtime database 에서 정보 가져오기
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
-        if(user!=null){
-            uid  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
-        }
-
         View v = inflater.inflate(R.layout.fragment_flight1, container, false);
 
         Button emergencybutton = v.findViewById(R.id.button_emergency);
@@ -232,15 +223,10 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int c_hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int c_min = calendar.get(Calendar.MINUTE);
-        int c_sec = calendar.get(Calendar.SECOND);
-
-        String str_year=Integer.toString(year);
-        String str_month=Integer.toString(month+1);
-        String str_day=Integer.toString(day);
 
         ArrayList al =new ArrayList();
+
+        today=year + "-" + (month + 1) + "-"+ day;
 
         //데이터 베이스 읽어오기(시간) 조건 : 오늘날짜에 맞음, 시간
        final DatabaseReference ref = mDatabase.child("TICKET").child(uid).child(today);
