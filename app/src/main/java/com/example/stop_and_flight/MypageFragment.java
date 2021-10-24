@@ -180,40 +180,10 @@ public class MypageFragment extends Fragment {
 
                 }
             }
-            @Override
-            public void onClick(View v) {
-                final EditText et2 = new EditText(getContext());
+            
+           @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-                final AlertDialog.Builder alt_bld = new AlertDialog.Builder(getContext(),R.style.MyAlertDialogStyle);
-
-                alt_bld.setTitle("닉네임 변경")
-
-                        .setMessage("변경할 닉네임을 입력하세요")
-
-                        .setIcon(R.drawable.pencil)
-
-                        .setCancelable(false)
-
-                        .setView(et2)
-
-                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int id) {
-
-                                String value = et2.getText().toString();
-
-                                FirebaseAuth mAuth;
-                                mAuth = FirebaseAuth.getInstance(); // 유저 계정 정보 가져오기
-                                mDatabase = FirebaseDatabase.getInstance().getReference(); // 파이어베이스 realtime database 에서 정보 가져오기
-                                mDatabase.child("users").child(UID).child("nickname").setValue(value);
-
-                            }
-
-                        });
-
-                AlertDialog alert = alt_bld.create();
-
-                alert.show();
             }
         });
 
