@@ -13,11 +13,8 @@ import android.widget.Toast;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInApi;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -145,6 +142,7 @@ public class select_signup_method extends AppCompatActivity {
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(select_signup_method.this, "아이디 생성이 실패하였습니다.", Toast.LENGTH_SHORT).show();
                             updateUI(null);
+                            finish();
                         }
                     }
                 });
@@ -154,6 +152,10 @@ public class select_signup_method extends AppCompatActivity {
             Intent intent2 = new Intent(getApplicationContext(), JoinSNSNickname.class);
             startActivity(intent2);
             finish();
+        }
+        else{
+            Toast.makeText(select_signup_method.this, "updateui 실패", Toast.LENGTH_SHORT).show();
+
         }
     }
 }

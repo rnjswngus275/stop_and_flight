@@ -2,16 +2,31 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     >
 
+    <com.github.vipulasri.timelineview.TimelineView
+        android:id="@+id/timeline"
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:paddingLeft="20dp"
+        app:marker="@drawable/ic_baseline_chevron_right_24"
+        app:markerSize="20dp"
+        app:lineWidth="3dp"
+        app:startLineColor="@color/shadow"
+        app:endLineColor="@color/shadow"
+        app:lineStyle="dash"
+        tools:ignore="MissingConstraints" />
+
     <com.vipulasri.ticketview.TicketView
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:id="@+id/ticketView3"
+        android:layout_width="350dp"
+        android:layout_height="130dp"
+        android:layout_marginLeft="40dp"
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
-        android:paddingRight="2dp"
+        android:paddingRight="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,30 +34,31 @@
         app:ticketBackgroundAfterDivider="@color/shadow"
         app:ticketBackgroundBeforeDivider="@color/shadow"
         app:ticketBorderWidth="1dp"
-        app:ticketCornerType="rounded"
+        app:ticketCornerRadius="20dp"
+        app:ticketCornerType="normal"
         app:ticketDividerPadding="0dp"
         app:ticketDividerType="dash"
         app:ticketOrientation="vertical"
         app:ticketScallopPositionPercent="70"
         app:ticketScallopRadius="10dp"
-        app:ticketCornerRadius="20dp"
         app:ticketShowBorder="false"
         app:ticketShowDivider="true" />
 
     <com.vipulasri.ticketview.TicketView
         android:id="@+id/ticketView"
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_width="350dp"
+        android:layout_height="135dp"
+        android:layout_marginLeft="40dp"
         android:background="@drawable/shadow"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:ticketBackgroundAfterDivider="@color/color_3"
-        app:ticketBackgroundBeforeDivider="@color/color_2"
+        app:ticketBackgroundAfterDivider="@color/white"
+        app:ticketBackgroundBeforeDivider="@color/white"
         app:ticketBorderWidth="1dp"
-        app:ticketCornerType="rounded"
+        app:ticketCornerType="normal"
         app:ticketDividerPadding="0dp"
         app:ticketDividerType="dash"
         app:ticketOrientation="vertical"
@@ -52,150 +68,104 @@
         app:ticketShowBorder="false"
         app:ticketShowDivider="true" />
 
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="30dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="50dp"
             android:orientation="vertical"
             android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="@+id/ticketView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/starImage"
+                android:layout_width="120dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_alignBottom="@+id/stampImage"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:src="@drawable/ic_baseline_flight_takeoff_24" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/DepartTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:text="6:55"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black" />
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:src="@drawable/ic_baseline_flight_land_24" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/ArriveTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="8:55"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black"
+                    android:textSize="12dp" />
+
+            </LinearLayout>
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/CountryTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:paddingLeft="15dp"
                 android:textStyle="bold"
                 android:text="Korea -> London"
                 android:textSize="20dp"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="@color/black" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="1dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_airline_seat_recline_normal_24" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/GateSeat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:textStyle="bold"
-                    android:textSize="15dp"
-                    android:text="SEAT : NO1,  GATE : 6"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/black" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="1dp"
-
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_flight_takeoff_24" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:textStyle="bold"
-                    android:textSize="15dp"
-                    android:text="DEPARTURE : "
-                    android:textColor="@color/black" />
-
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/DepartTitle"
+                android:id="@+id/review"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
                 android:textStyle="bold"
+                android:text=""
                 android:textSize="15dp"
-                android:text="6:55"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                android:textColor="@color/black" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="1dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_flight_land_24" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:textStyle="bold"
-                    android:textSize="15dp"
-                    android:text="  A R R I V E  : "
-                    android:textColor="@color/black" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/ArriveTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:textSize="15dp"
-                    android:text="8:55"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/black" />
-
-            </LinearLayout>
+                android:textColor="#A6A6A6" />
 
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="23dp"
+            android:layout_marginRight="30dp"
             android:orientation="vertical"
-            android:layout_gravity="center"
             app:layout_constraintBottom_toBottomOf="@+id/ticketView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/user_image"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                app:srcCompat="@drawable/ic_baseline_local_airport_24" />
+                android:id="@+id/stampImage"
+                android:layout_width="120dp"
+                android:layout_height="120dp" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/user_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:textStyle="bold"
-                android:text="탑승자명 권주현"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                android:textColor="@color/black" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/user_class"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:textStyle="bold"
-                android:text="이코노미 클래스"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                android:textColor="@color/black" />
-        </LinearLayout>
+        </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

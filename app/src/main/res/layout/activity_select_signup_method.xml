@@ -8,23 +8,23 @@
     android:background="#F7FBFC">
 
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="101dp"
-        android:layout_marginBottom="30dp"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/img1"
+        android:layout_width="341dp"
+        android:layout_height="301dp"
         android:layout_gravity="center"
-        android:src="@drawable/icons8_airplane_take_off_96" />
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_fileName="51312-transportation.json" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="93dp"
+        android:layout_marginBottom="50dp"
         android:fontFamily="sans-serif-black"
-        android:text="STOP AND FLIGHT"
+        android:text="STOP  AND  FLIGHT"
         android:textColor="@color/color_3"
         android:textSize="24sp" />
 
@@ -35,6 +35,8 @@
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
         android:text="가입 방법 선택"
+        style="@style/Text.BasicStyle"
+
         android:textColor="@color/color_4"
         android:textSize="20sp" />
 
@@ -44,6 +46,7 @@
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:text="이메일로 회원가입"
+        style="@style/Text.BasicStyle"
         android:background="@drawable/radius"
         android:layout_marginBottom="20dp"
         android:textColor="#769FCD"
@@ -58,6 +61,7 @@
         android:layout_gravity="center"
         android:background="@drawable/radius"
         android:text="GOOGLE로 가입하기"
+        style="@style/Text.BasicStyle"
         android:textColor="#769FCD" />
 
 

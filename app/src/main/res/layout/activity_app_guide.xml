@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AppGuide">
+    tools:context=".AppGuideActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,7 +33,7 @@
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="299dp"
+        android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_marginBottom="8dp"
         android:text="가입하기"
@@ -65,7 +65,7 @@
         <Button
             android:id="@+id/go_login"
             android:layout_width="171dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:text="로그인하러 가기"
             app:backgroundTint="#4A82C1"
             app:cornerRadius="20dp" />

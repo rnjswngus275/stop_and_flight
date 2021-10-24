@@ -8,7 +8,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Stop_and_flight">
+        android:theme="@style/Theme.Stop_and_flight"
+        android:usesCleartextTraffic="true"
+        >
+        <activity android:name=".AppGuideActivity"/>
 
         <activity android:name=".LoginMethodActivity" />
         <activity android:name=".JoinSNSNickname" />
@@ -19,15 +22,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AppGuide" />
+
         <activity android:name=".MainActivity" />
         <activity android:name=".select_signup_method" />
         <activity android:name=".JoinActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".CalendarActivity" />
-        <activity android:name=".CalendarlistActivity" />
         <activity android:name=".InfoActivity"/>
         <activity android:name=".FilghtActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.FLIGHTACTIVITY" />
 
@@ -51,6 +53,10 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility_service_config" />
         </service>
+    <meta-data
+        android:name="com.google.android.gms.ads.APPLICATION_ID"
+        android:value="ca-app-pub-1142742075217394~1537550283"
+        />
 
     </application>
 
