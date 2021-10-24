@@ -73,11 +73,6 @@ public class FlightFailureFragment extends Fragment {
             goal =getArguments().getString(ARG_PARAM4);
             id =getArguments().getString(ARG_PARAM5);
         }
-        System.out.println("확인파라매터"+ today);
-        System.out.println("확인파라매터"+ arr_time);
-        System.out.println("확인파라매터"+ dpt_time);
-        System.out.println("확인파라매터"+ goal);
-        System.out.println("확인파라매터"+ id);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
         if(user!=null){

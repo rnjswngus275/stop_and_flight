@@ -192,7 +192,6 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
             @Override
             public void onTick(long millisUntilFinished) {
                 count_txt=(TextView)v.findViewById(R.id.count_txt);
-
                 count_txt.setText(getTime(set_h,set_m));
             }
 

@@ -55,34 +55,6 @@ public class main_adapter extends PagerAdapter {
         arr_time.setText(models.get(position).getArrive_time());
         todo.setText(models.get(position).getTodo());
 
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                if(position==0) {
-//                    Intent intent = new Intent(context, TargetActivity.class);
-//                    //intent.putExtra("param", models.get(position).getTitle());
-//                    context.startActivity(intent);
-//
-//                }
-//                else if(position==1){
-//                    Intent intent = new Intent(context, HomeActivity.class);
-//                    //intent.putExtra("param", models.get(position).getTitle());
-//                    context.startActivity(intent);
-//                }
-//                else if(position==2){
-//                    Intent intent = new Intent(context, MartActivity.class);
-//                    //intent.putExtra("param", models.get(position).getTitle());
-//                    context.startActivity(intent);
-//                }
-//                else if(position==3){
-//                    Intent intent = new Intent(context, CarActivity.class);
-//                    //intent.putExtra("param", models.get(position).getTitle());
-//                    context.startActivity(intent);
-//                }
-            }
-
-        });
-
         container.addView(view, 0);
         return view;
     }
