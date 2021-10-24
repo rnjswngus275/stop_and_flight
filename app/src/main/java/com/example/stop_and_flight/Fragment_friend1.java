@@ -162,11 +162,12 @@ public class Fragment_friend1 extends Fragment implements OnItemClick{
             public void onClick(View v) {
                 final EditText et2 = new EditText(getContext());
 
-                final AlertDialog.Builder alt_bld = new AlertDialog.Builder(getContext(),R.style.MyAlertDialogStyle);
+
+                final AlertDialog.Builder alt_bld = new AlertDialog.Builder(getContext());
 
                 alt_bld.setTitle("추가 할 친구의 코드를 입력하세요")
                         .setMessage("친구코드 입력")
-                        .setIcon(R.drawable.pencil)
+
                         .setCancelable(false)
                         .setView(et2)
                         .setPositiveButton("확인",

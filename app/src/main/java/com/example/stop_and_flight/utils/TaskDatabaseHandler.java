@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TaskDatabaseHandler {
-    private DatabaseReference mDatabase;
+    private final DatabaseReference mDatabase;
 
     public TaskDatabaseHandler(DatabaseReference mdatabase){
         mDatabase = mdatabase;

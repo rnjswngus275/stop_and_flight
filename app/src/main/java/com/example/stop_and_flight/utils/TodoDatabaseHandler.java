@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TodoDatabaseHandler {
-    private DatabaseReference mDatabase;
+    private final DatabaseReference mDatabase;
 
     public TodoDatabaseHandler(DatabaseReference mdatabase){
         mDatabase = mdatabase;

@@ -111,7 +111,7 @@ public class FriendFragment extends Fragment {
         tabLayout=view.findViewById(R.id.layout_tab);
         tabNames.stream().forEach(name->tabLayout.addTab(tabLayout.newTab().setText(name)));
 
-        FriendViewpagerAdapter adapter =new FriendViewpagerAdapter(getActivity().getSupportFragmentManager(),2);
+        FriendViewpagerAdapter adapter =new FriendViewpagerAdapter(getChildFragmentManager(),2);
         viewpager=view.findViewById(R.id.layout_viewPager);
         viewpager.setAdapter(adapter);
         viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -119,11 +119,9 @@ public class FriendFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab){
                 viewpager.setCurrentItem(tab.getPosition());
-                tab.getIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
             }
             @Override
             public void onTabUnselected(TabLayout.Tab tab){
-                tab.getIcon().setColorFilter(Color.parseColor("#0070C0"),PorterDuff.Mode.SRC_IN);
             }
             @Override
             public void onTabReselected(TabLayout.Tab tab){

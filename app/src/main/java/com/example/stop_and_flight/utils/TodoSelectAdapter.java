@@ -54,12 +54,12 @@ public class TodoSelectAdapter extends RecyclerView.Adapter<TodoSelectAdapter.Vi
         switch (viewType) {
             case HEADER:
                 System.out.println("check : header");
-                itemView = inflater.from(parent.getContext()).inflate(R.layout.task_select_layout, parent, false);
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.task_select_layout, parent, false);
                 viewHolder = new ViewHolder(itemView);
                 return viewHolder;
             case CHILD:
                 System.out.println("check : child");
-                itemView = inflater.from(parent.getContext()).inflate(R.layout.todo_layout, parent, false);
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.todo_layout, parent, false);
                 viewHolder = new ViewHolder(itemView);
                 return viewHolder;
         }

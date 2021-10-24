@@ -33,7 +33,7 @@
         <TextView
             android:id="@+id/code"
             style="@style/Text.BasicStyle"
-            android:layout_width="253dp"
+            android:layout_width="225dp"
             android:layout_height="wrap_content"
             android:text=""
             android:textColor="@color/color_4" />

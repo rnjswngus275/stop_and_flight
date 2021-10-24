@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TicketDatabaseHandler {
-    private DatabaseReference mDatabase;
+    private final DatabaseReference mDatabase;
 
     public TicketDatabaseHandler(DatabaseReference mDatabase)
     {

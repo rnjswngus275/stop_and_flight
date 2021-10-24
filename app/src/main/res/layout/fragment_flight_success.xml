@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/color_1"
     tools:context=".FlightSuccessFragment"
     android:id="@+id/fragment_flight_success"
     android:weightSum="10">
@@ -27,11 +26,15 @@
         android:layout_marginTop="40dp"
        />
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/globe" />
+      <com.airbnb.lottie.LottieAnimationView
+         android:id="@+id/img1"
+          app:lottie_autoPlay="true"
+          app:lottie_loop="true"
+          android:layout_gravity="center"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         app:lottie_fileName="17740-seat-bookedconfirmed.json"
+         />
 </LinearLayout>
 <LinearLayout
     android:layout_width="match_parent"

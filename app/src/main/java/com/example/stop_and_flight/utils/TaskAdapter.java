@@ -25,10 +25,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     public static final int HEADER = 0;
     public static final int CHILD = 1;
     private List<Task> taskList;
-    private Context context;
-    private TaskDatabaseHandler db;
-    private TodoDatabaseHandler tododb;
-    private String  UID;
+    private final Context context;
+    private final TaskDatabaseHandler db;
+    private final TodoDatabaseHandler tododb;
+    private final String  UID;
 
     public TaskAdapter(TaskDatabaseHandler db, TodoDatabaseHandler tododb, Context context, String UID) {
         this.db = db;
@@ -44,11 +44,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         switch (viewType) {
             case HEADER:
-                itemView = inflater.from(parent.getContext()).inflate(R.layout.task_layout, parent, false);
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.task_layout, parent, false);
                 ViewHolder header = new ViewHolder(itemView);
                 return header;
             case CHILD:
-                itemView = inflater.from(parent.getContext()).inflate(R.layout.todo_layout, parent, false);
+                itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.todo_layout, parent, false);
                 ViewHolder Child_header = new ViewHolder(itemView);
                 return Child_header;
         }

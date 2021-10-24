@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.Manifest;
 import android.app.Dialog;
@@ -83,7 +84,7 @@ public class MypageFragment extends Fragment {
     private String UID;
     private DatabaseReference mDatabase;
     private HashMap<String, Object> UserMap;
-
+    private SwipeRefreshLayout swipeRefreshLayout;
     String picturePath;
     Uri selectedImage;
     String nickname;
@@ -114,6 +115,45 @@ public class MypageFragment extends Fragment {
         getImage(filename);
 
         TextView Nickname= view.findViewById(R.id.textView7);
+        TextView message2=view.findViewById(R.id.textView9);
+
+        swipeRefreshLayout=view.findViewById(R.id.mypage);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mDatabase.child("users").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot != null)
+                        {
+                            UserMap = (HashMap<String, Object>) snapshot.getValue();
+
+                            Nickname.setText(String.valueOf(UserMap.get("nickname")));
+
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+                mDatabase.child("users").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot != null)
+                        {
+                            UserMap = (HashMap<String, Object>) snapshot.getValue();
+                            message2.setText(String.valueOf(UserMap.get("message")));
+
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         mDatabase.child("users").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -121,26 +161,25 @@ public class MypageFragment extends Fragment {
                 if (snapshot != null)
                 {
                     UserMap = (HashMap<String, Object>) snapshot.getValue();
-                    try{
-//                        Point.setText(String.valueOf(UserMap.get("point")));
 
-                    }catch (NullPointerException e){
-                        mDatabase.child("users").child(UID).child("point").setValue(0);
-//                        Point.setText(String.valueOf(UserMap.get("point")));
-
-                    }
-//                    Point.setText(String.valueOf(UserMap.get("point")));
                     Nickname.setText(String.valueOf(UserMap.get("nickname")));
+
                 }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+        mDatabase.child("users").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot != null)
+                {
+                    UserMap = (HashMap<String, Object>) snapshot.getValue();
+                    message2.setText(String.valueOf(UserMap.get("message")));
 
-
-        ImageButton Nickname_modify= view.findViewById(R.id.imageButton);
-        Nickname_modify.setOnClickListener(new View.OnClickListener() {
+                }
+            }
             @Override
             public void onClick(View v) {
                 final EditText et2 = new EditText(getContext());
@@ -178,20 +217,52 @@ public class MypageFragment extends Fragment {
             }
         });
 
+        ImageButton Nickname_modify= view.findViewById(R.id.imageButton);
+        Nickname_modify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final EditText et2 = new EditText(getContext());
+
+                final AlertDialog.Builder alt_bld = new AlertDialog.Builder(getContext());
+
+                alt_bld.setTitle("닉네임 변경")
+                        .setMessage("변경할 닉네임을 입력하세요")
+                        .setCancelable(false)
+                        .setView(et2)
+
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                String value = et2.getText().toString();
+                                FirebaseAuth mAuth;
+                                mAuth = FirebaseAuth.getInstance(); // 유저 계정 정보 가져오기
+                                mDatabase = FirebaseDatabase.getInstance().getReference(); // 파이어베이스 realtime database 에서 정보 가져오기
+                                mDatabase.child("users").child(UID).child("nickname").setValue(value);
+
+                            }
+
+                        });
+
+                AlertDialog alert = alt_bld.create();
+
+                alert.show();
+            }
+        });
+
         ImageButton message=view.findViewById(R.id.imageButton2);
+
         message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 final EditText et = new EditText(getContext());
 
-                final AlertDialog.Builder alt_bld = new AlertDialog.Builder(getContext(),R.style.MyAlertDialogStyle);
+                final AlertDialog.Builder alt_bld = new AlertDialog.Builder(getContext());
 
                 alt_bld.setTitle("상태메시지 변경")
 
                         .setMessage("변경할 상태메시지를 입력하세요")
-
-                        .setIcon(R.drawable.pencil)
 
                         .setCancelable(false)
 
@@ -234,7 +305,6 @@ public class MypageFragment extends Fragment {
                 Toast.makeText(getContext(),"클릭?",Toast.LENGTH_SHORT).show();
 
                 ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},777);//세번째 파라매터 int requestcode 실행 후 전달 받을 코드 분기에 쓰이는것같음
-                Toast.makeText(getContext(),"else문 안입니다.",Toast.LENGTH_LONG).show();
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);

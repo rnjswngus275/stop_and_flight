@@ -5,7 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_1"
     android:id="@+id/fragment_flight_failure"
     tools:context=".FlightFailureFragment">
 
@@ -19,9 +18,12 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/img1"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:lottie_fileName="21384-plane-loop-03-almost-crashing.json"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_fileName="17515-seat-booking-cancelleddeclined.json"
             />
 
 

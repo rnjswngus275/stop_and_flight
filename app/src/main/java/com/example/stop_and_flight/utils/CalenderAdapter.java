@@ -52,7 +52,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView = null;
         ViewHolder viewHolder = null;
-        itemView = inflater.from(parent.getContext()).inflate(R.layout.ticket_layout, parent, false);
+        itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.ticket_layout, parent, false);
         viewHolder = new ViewHolder(itemView, viewType);
         return viewHolder;
     }

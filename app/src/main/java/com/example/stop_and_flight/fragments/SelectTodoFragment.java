@@ -47,7 +47,7 @@ public class SelectTodoFragment extends Fragment {
     private String mParam2;
     private RecyclerView selectTaskRecyclerView;
     private TodoSelectAdapter todoSelectAdapter;
-    public ArrayList<Task> taskList = new ArrayList<>();;
+    public ArrayList<Task> taskList = new ArrayList<>();
     private static String UID;
     private DatabaseReference mDatabase;
     private Context context;

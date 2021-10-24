@@ -163,13 +163,6 @@ public class TicketingFragment extends Fragment {
         TimePicker arrive_time = view.findViewById(R.id.arrive_time);
         Button ticketing_button = view.findViewById(R.id.ticketing_button);
 
-        CheckBox monday= view.findViewById(R.id.Mon_button);
-        CheckBox tuesday= view.findViewById(R.id.Tues_button);
-        CheckBox wedday= view.findViewById(R.id.Wed_button);
-        CheckBox thursday= view.findViewById(R.id.Thurs_button);
-        CheckBox friday= view.findViewById(R.id.Fri_button);
-        CheckBox satday= view.findViewById(R.id.Set_button);
-        CheckBox sunday= view.findViewById(R.id.Sun_button);
 
 
 
@@ -227,14 +220,6 @@ public class TicketingFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                mon=monday.isChecked();
-                tue=tuesday.isChecked();
-                wed=wedday.isChecked();
-                thu=thursday.isChecked();
-                fri=friday.isChecked();
-                sat=satday.isChecked();
-                sun=sunday.isChecked();
-                repeat= (mon || tue || wed || thu || fri || sat || sun) == true;
                 int depart_hour = curTime.getIntHour();
                 int depart_min = curTime.getIntMinute();
                 int arrive_hour = curTime.getIntHour();
@@ -252,11 +237,12 @@ public class TicketingFragment extends Fragment {
                 if (YEAR > curTime.getIntYear() || (YEAR == curTime.getIntYear() && MONTH >= curTime.getIntMonth()))
                 {
                     if (DAY > curTime.getIntDay())
-                        check_Schedule(ticket_Date, depart_hour,depart_min, arrive_hour, arrive_min,repeat);
+                        check_Schedule(ticket_Date, depart_hour,depart_min, arrive_hour, arrive_min);
                     else if (DAY == curTime.getIntDay())
                     {
                         if(curTime.getIntHour() < depart_hour || (curTime.getIntHour() == depart_hour && curTime.getIntMinute() <= depart_min))
-                            check_Schedule(ticket_Date, depart_hour,depart_min, arrive_hour, arrive_min,repeat);
+                            check_Schedule(ticket_Date, depart_hour,depart_min, arrive_hour, arrive_min);
+
                         else
                             Toast.makeText(getContext(), "현재 보다 이전 시간을 설정할 수 없습니다.", Toast.LENGTH_SHORT).show();
                     }
@@ -304,7 +290,7 @@ public class TicketingFragment extends Fragment {
                 }
                 if (flag == 0)
                 {
-                    time_Validity(depart_hour, depart_min, arrive_hour, arrive_min,repeat);
+                    time_Validity(depart_hour, depart_min, arrive_hour, arrive_min);
                 }
                 else
                 {
@@ -321,7 +307,7 @@ public class TicketingFragment extends Fragment {
 
 
 
-    private void time_Validity(int depart_hour , int depart_min, int arrive_hour, int arrive_min,boolean repeat)
+    private void time_Validity(int depart_hour , int depart_min, int arrive_hour, int arrive_min)
     {
 
 
@@ -345,12 +331,9 @@ public class TicketingFragment extends Fragment {
             {
                 System.out.println("check inserted");
                 db.insert_ticketDB(UID, ticket_Date, ticket);
-                if(repeat==true){
-                    regist(sun,mon,tue,wed,thu,fri,sat);
-                }
-                else{
+
                 SetAlarmManager();
-                }
+
             }
             Toast.makeText(getContext(),  "예약 되었습니다.", Toast.LENGTH_SHORT).show();
         }
@@ -367,11 +350,7 @@ public class TicketingFragment extends Fragment {
                 {
                     System.out.println("check inserted");
                     db.insert_ticketDB(UID, ticket_Date, ticket);
-                    if(repeat==true){
-                        regist(sun,mon,tue,wed,thu,fri,sat);
-                    }
-                    else{
-                        SetAlarmManager();}
+                        SetAlarmManager();
                 }
                 Toast.makeText(getContext(),  "예약 되었습니다.", Toast.LENGTH_SHORT).show();
             }
@@ -443,38 +422,5 @@ public class TicketingFragment extends Fragment {
         }
         System.out.println("확인 알람설정 ok");
     }
-    public void regist(boolean a,boolean b, boolean c, boolean d, boolean e, boolean f, boolean g) {
-        AM = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-        boolean[] week = { false, a,b,c,d,e,f,g  }; // sun을 1번부터 사용하기 위해 배열 0번은 false로 고정
-
-
-//            hour=timePicker.getHour();
-//            minute=timePicker.getMinute();
-
-
-        Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.putExtra("weekday", week);
-        ServicePending = PendingIntent.getBroadcast(
-                mContext, requestcode, intent, 0);
-
-        Calendar calendar2 = Calendar.getInstance();
-        calendar2.set(YEAR, MONTH - 1, DAY, dptH, dptM);
-
-        Date today = new Date();
-        long intervalDay = 24 * 60 * 60 * 1000;// 24시간
-
-        long selectTime=calendar2.getTimeInMillis();
-        long currenTime=System.currentTimeMillis();
-        System.out.println(selectTime + "확인 selecttime");
-
-        //만약 설정한 시간이, 현재 시간보다 작다면 알람이 부정확하게 울리기 때문에 다음날 울리게 설정
-        if(currenTime>selectTime){
-            selectTime += intervalDay;
-        }
-
-         //지정한 시간에 매일 알림
-        AM.setRepeating(AlarmManager.RTC_WAKEUP, selectTime,  intervalDay, ServicePending);
-
-    }
 }
