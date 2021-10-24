@@ -28,13 +28,13 @@ import java.util.List;
 
 public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHolder> {
 
-    private final Context context;
+    private Context context;
     private List<Ticket> TicketList;
     private CurTime curTime;
-    private final TicketDatabaseHandler db;
-    private final String  UID;
-    private final TicketingBottomSheetDialog ticketingBottomSheetDialog;
-    private final FragmentManager fragmentManager;
+    private TicketDatabaseHandler db;
+    private String  UID;
+    private TicketingBottomSheetDialog ticketingBottomSheetDialog;
+    private FragmentManager fragmentManager;
     public static AlarmManager mAlarmMgr=null;
     public static PendingIntent mAlarmIntent=null;
 

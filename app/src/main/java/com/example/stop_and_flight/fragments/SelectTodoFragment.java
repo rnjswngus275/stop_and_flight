@@ -50,7 +50,7 @@ public class SelectTodoFragment extends Fragment {
     public ArrayList<Task> taskList = new ArrayList<>();
     private static String UID;
     private DatabaseReference mDatabase;
-    private final Context context;
+    private Context context;
     private Task getTask;
     private Task getTodo;
     private TaskDatabaseHandler db;

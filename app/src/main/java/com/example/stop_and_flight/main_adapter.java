@@ -15,10 +15,10 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 public class main_adapter extends PagerAdapter {
-    private final List<Ticket> models;
+    private List<Ticket> models;
     private List<main_model>models2;
     private LayoutInflater layoutInflater;
-    private final Context context;
+    private Context context;
 
 
     public main_adapter(List<Ticket> models, Context context) {

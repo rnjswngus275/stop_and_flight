@@ -60,7 +60,6 @@
         android:layout_marginBottom="20dp"
         android:textColor="#769FCD"
         />
-
     <TextView
         android:id="@+id/textView5"
         style="@style/Text.BasicStyle"

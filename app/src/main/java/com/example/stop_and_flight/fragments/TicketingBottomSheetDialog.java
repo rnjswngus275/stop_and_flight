@@ -28,7 +28,7 @@ public class TicketingBottomSheetDialog extends BottomSheetDialogFragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private final Context context;
+    private Context context;
     private String Todo = null;
     private int updateId;
 

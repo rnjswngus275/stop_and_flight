@@ -5,5 +5,5 @@ import android.content.DialogInterface;
 
 public interface DialogCloseListener {
 
-    void handleDialogClose(DialogInterface dialog);
+    public void handleDialogClose(DialogInterface dialog);
 }

@@ -254,7 +254,7 @@ public class TicketingFragment extends Fragment {
         return view;
     }
 
-    private void check_Schedule(String Date, int depart_hour , int depart_min, int arrive_hour, int arrive_min)
+    private void check_Schedule(String Date, int depart_hour , int depart_min, int arrive_hour, int arrive_min,boolean repeat)
     {
         mDatabase.child("TICKET").child(UID).child(Date).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

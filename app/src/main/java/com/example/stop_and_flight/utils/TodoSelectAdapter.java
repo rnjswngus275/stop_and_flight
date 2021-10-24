@@ -27,12 +27,12 @@ public class TodoSelectAdapter extends RecyclerView.Adapter<TodoSelectAdapter.Vi
     public static final int HEADER = 0;
     public static final int CHILD = 1;
     private List<Task> taskList;
-    private final Context context;
-    private final Fragment fragment;
-    private final TaskDatabaseHandler db;
-    private final TodoDatabaseHandler tododb;
-    private final int updateId;
-    private final String  UID;
+    private Context context;
+    private Fragment fragment;
+    private TaskDatabaseHandler db;
+    private TodoDatabaseHandler tododb;
+    private int updateId;
+    private String  UID;
 
     public TodoSelectAdapter(TaskDatabaseHandler db, TodoDatabaseHandler tododb, Context context, String UID, int updateId, Fragment fragment) {
         this.db = db;
