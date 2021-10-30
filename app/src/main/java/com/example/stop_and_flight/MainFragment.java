@@ -35,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -177,7 +178,7 @@ public class MainFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-               models.clear();
+                models.clear();
                 for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
                     if (fileSnapshot != null) {
                         getTicket = new Ticket();
@@ -187,25 +188,25 @@ public class MainFragment extends Fragment {
                         count++;
                     }
                 }
-                models.sort(new Comparator<Ticket>() {
-                    @Override
-                    public int compare(Ticket o1, Ticket o2) {
-                        String[] departTime1 = o1.getDepart_time().split(":");
-                        String[] departTime2 = o2.getDepart_time().split(":");
-                        if (Integer.parseInt(departTime1[0]) == Integer.parseInt(departTime2[0])
-                                && Integer.parseInt(departTime1[1]) == Integer.parseInt(departTime2[1]))
+                if (!models.isEmpty()) {
+                    Collections.sort(models, new Comparator<Ticket>() {
+                        @Override
+                        public int compare(Ticket o1, Ticket o2) {
+                            String[] departTime1 = o1.getDepart_time().split(":");
+                            String[] departTime2 = o2.getDepart_time().split(":");
+                            if (Integer.parseInt(departTime1[0]) == Integer.parseInt(departTime2[0])
+                                    && Integer.parseInt(departTime1[1]) == Integer.parseInt(departTime2[1]))
+                                return 0;
+                            if (Integer.parseInt(departTime1[0]) >= Integer.parseInt(departTime2[0])
+                                    && Integer.parseInt(departTime1[1]) >= Integer.parseInt(departTime2[1]))
+                                return 1;
+                            if (Integer.parseInt(departTime1[0]) <= Integer.parseInt(departTime2[0])
+                                    && Integer.parseInt(departTime1[1]) <= Integer.parseInt(departTime2[1]))
+                                return -1;
                             return 0;
-                        if (Integer.parseInt(departTime1[0]) >= Integer.parseInt(departTime2[0])
-                                && Integer.parseInt(departTime1[1]) >= Integer.parseInt(departTime2[1]))
-                            return 1;
-                        if (Integer.parseInt(departTime1[0]) <= Integer.parseInt(departTime2[0])
-                                && Integer.parseInt(departTime1[1]) <= Integer.parseInt(departTime2[1]))
-                            return -1;
-                        return 0;
-                    }
+                        }
+                    });
                 }
-
-                );
                 if(models.isEmpty()){
                     models2.clear();
                     models2.add(new main_model("오늘은 여행일정이 없습니다","예매하기로 일정을 등록해보세요!"));

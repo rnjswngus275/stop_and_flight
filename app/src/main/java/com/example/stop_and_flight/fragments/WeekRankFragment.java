@@ -103,7 +103,7 @@ public class WeekRankFragment extends Fragment {
         WeekRankRecyclerView = view.findViewById(R.id.weekRankRecyclerView);
 
         CurTime curTime = new CurTime();
-        getWeekRankingDB(CurTime.getCurMonday(), CurTime.getCurSunday(), view, curTime);
+        getWeekRankingDB(view, curTime);
 
         WeekRankRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
 
@@ -115,7 +115,7 @@ public class WeekRankFragment extends Fragment {
     }
 
     // 필요한 DB 정보 - 닉네임 & 이용 시간별 (일간 / 주간)
-    private void getWeekRankingDB(String startdate, String enddate, View view, CurTime curTime)
+    private void getWeekRankingDB(View view, CurTime curTime)
     {
         mDatabase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -123,7 +123,6 @@ public class WeekRankFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 dateInfos.clear();
                 String mynickname = "";
-
                 if (snapshot != null)
                 {
                     for (DataSnapshot UserSnapshot : snapshot.getChildren())
@@ -135,7 +134,12 @@ public class WeekRankFragment extends Fragment {
                         {
                             DateMap = (HashMap<String, Object>) UserSnapshot.child("date").getValue();
                             for (String day : curTime.getCurWeek()){
-                                int Studytime = Integer.parseInt(String.valueOf(DateMap.getOrDefault(day, 0)));
+
+                                //ask your app running more modern API as level 24 (Build.VERSION_CODES.N(ougat))
+                                int Studytime = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) ?
+                                        Integer.parseInt(String.valueOf(DateMap.getOrDefault(day, 0))) :
+                                    // if not, then need to solve with similar code of original code in next below
+                                    ((DateMap.get(day) != null) ? Integer.parseInt(String.valueOf(DateMap.get(day))) : 0);
                                 sum += Studytime;
                             }
                         }

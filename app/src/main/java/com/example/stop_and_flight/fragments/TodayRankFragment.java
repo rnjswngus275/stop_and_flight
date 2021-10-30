@@ -104,9 +104,8 @@ public class TodayRankFragment extends Fragment {
         todayRankRecyclerView = view.findViewById(R.id.todayRankRecyclerView);
 
         CurTime curTime = new CurTime();
-        int curIntTime = curTime.getIntYear() * 10000 + curTime.getIntMonth() * 100 + curTime.getIntDay() * 1;
 
-        getTodayRankingDB(String.valueOf(curIntTime), view);
+        getTodayRankingDB(curTime.getDateset(), view);
 
         todayRankRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
 
@@ -132,7 +131,12 @@ public class TodayRankFragment extends Fragment {
                     if (UserSanpshot.child("date").getValue() != null)
                     {
                         DateMap =  (HashMap<String, Object>) UserSanpshot.child("date").getValue();
-                        Studytime =  Integer.parseInt(String.valueOf(DateMap.getOrDefault(date, 0)));
+
+                        //ask your app running more modern API as level 24 (Build.VERSION_CODES.N(ougat))
+                        Studytime = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) ?
+                                Integer.parseInt(String.valueOf(DateMap.getOrDefault(date, 0))) :
+                                // if not, then need to solve with similar code of original code in next below
+                                ((DateMap.get(date) != null) ? Integer.parseInt(String.valueOf(DateMap.get(date))) : 0);
                     }
                     if (UserSanpshot.getKey().equals(UID))
                     {

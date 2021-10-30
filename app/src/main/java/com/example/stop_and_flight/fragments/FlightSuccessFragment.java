@@ -105,21 +105,24 @@ public class FlightSuccessFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 CurTime curTime = new CurTime();
-                int curIntTime = curTime.getIntYear() * 10000 + curTime.getIntMonth() * 100 + curTime.getIntDay() * 1;
-
                 if (snapshot != null) {
                     UserMap = (HashMap<String, Object>) snapshot.getValue();
 //                    point = Integer.parseInt(String.valueOf(UserMap.get("point")));
                     if (snapshot.child("date").getValue() != null)
                     {
                         DateMap =  (HashMap<String, Object>) snapshot.child("date").getValue();
-                        studytime =  Integer.parseInt(String.valueOf(DateMap.getOrDefault(String.valueOf(curIntTime), 0)));
+
+                        //ask your app running more modern API as level 24 (Build.VERSION_CODES.N(ougat))
+                        studytime = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) ?
+                                Integer.parseInt(String.valueOf(DateMap.getOrDefault(curTime.getDateset(), 0))) :
+                                // if not, then need to solve with similar code of original code in next below
+                                ((DateMap.get(curTime.getDateset()) != null) ? Integer.parseInt(String.valueOf(DateMap.get(curTime.getDateset()))) : 0);
                     }
                 }
 //                point = calculateMinute(arr_time, dpt_time) / 10 + point;
                 studytime = studytime + calculateMinute(arr_time, dpt_time);
 //                SuccessRate.setText(String.valueOf(point));
-                mDatabase.child("users").child(uid).child("date/"+curIntTime).setValue(studytime);
+                mDatabase.child("users").child(uid).child("date/"+curTime.getDateset()).setValue(studytime);
                 mDatabase.child("TICKET").child(uid).child(today).child(id).child("success").setValue(2);
 //                mDatabase.child("users").child(uid).child("point").setValue(point);
             }

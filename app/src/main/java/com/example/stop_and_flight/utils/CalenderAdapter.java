@@ -50,10 +50,8 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View itemView = null;
-        ViewHolder viewHolder = null;
-        itemView = inflater.from(parent.getContext()).inflate(R.layout.ticket_layout, parent, false);
-        viewHolder = new ViewHolder(itemView, viewType);
+        View itemView = inflater.from(parent.getContext()).inflate(R.layout.ticket_layout, parent, false);
+        ViewHolder viewHolder = new ViewHolder(itemView, viewType);
         return viewHolder;
     }
 
@@ -179,7 +177,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
     public void deleteItem(int position){
         Ticket item = TicketList.get(position);
         db.delete_ticketDB(UID, item.getDate(), item);
-        int requestcode=item.getRequestcode();
+        int requestcode = item.getRequestcode();
         cancelAlarmManager(requestcode);
         TicketList.remove(position);
         notifyDataSetChanged();
@@ -195,6 +193,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.ViewHo
         Bundle bundle = new Bundle();
         bundle.putInt("Id", item.getId());
         bundle.putString("Todo", item.getTodo());
+        bundle.putString("Date", item.getDate());
         BottomSheetDialogFragment ticketingBottomSheetDialog = new TicketingBottomSheetDialog(context);
         ticketingBottomSheetDialog.setArguments(bundle);
         ticketingBottomSheetDialog.show(fragmentManager, ticketingBottomSheetDialog.getTag());
