@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragments.AppGuideFragment1">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:id="@+id/linearLayout6"
+        android:layout_width="match_parent"
+        android:layout_height="222dp"
+        android:layout_marginTop="45dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+     <com.airbnb.lottie.LottieAnimationView
+         android:id="@+id/img1"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         app:lottie_fileName="72908-business-growth-animation.json"
+         />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="사용자가 원하는 목표를\n설정 할 수 있는 기능"
+        android:textSize="30dp"
+        style="@style/Text.TitleStyle"
+        android:textColor="@color/light_black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6" />
+
+    <TextView
+        android:id="@+id/textView5"
+        style="@style/Text.BasicStyle"
+        android:layout_width="301dp"
+        android:layout_height="171dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="24dp"
+        android:text="안녕하세요 저희 스탑 앤 플라이트는 사용자에게 설정한 시간에 휴대전화을 이용하지 못하도록 하여 효과적인 학업목표을 달성할 수 있도록 학습보조자의 역할을 수행하고자 합니다."
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

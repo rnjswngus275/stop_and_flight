@@ -1,0 +1,45 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:backgroundTint="@color/silver2"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="8dp"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/Ranking_winner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1등이에요"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:paddingStart="8dp"
+            android:backgroundTint="@android:color/background_light"
+            />
+
+        <TextView
+            android:id="@+id/RankingTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="23dp"
+            android:layout_toStartOf="@+id/Ranking_image"
+            android:text="분"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/Ranking_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/Ranking_winner"
+            app:srcCompat="@drawable/ic_baseline_local_airport_24" />
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

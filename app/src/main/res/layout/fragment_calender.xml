@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:primaryColor="@color/color_3"
+            app:textColor="@android:color/white"
+            app:selectedItem_textColor="@color/color_3"
+            app:todayItem_textColor="@android:color/white"
+            app:todayItem_background="@drawable/circle_white_stroke_background"
+            app:selectedItem_background="@drawable/circle_white_solid_background"
+            app:buttonLeft_drawableTintColor="@android:color/white"
+            app:buttonRight_drawableTintColor="@android:color/white"
+            app:expandIconColor="@android:color/white">
+        </com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar>
+
+<!--        <com.applandeo.materialcalendarview.CalendarView-->
+<!--            android:id="@+id/calendarView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="300dp"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            app:headerColor="#769FCD" />-->
+
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swipeTicketContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/calendarView">
+
+                <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reviewRecyclerView"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                    android:layout_below="@+id/calendarView"
+                android:nestedScrollingEnabled="true" >
+                </androidx.recyclerview.widget.RecyclerView>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/ticketFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="32dp"
+            app:backgroundTint="@color/color_4"
+            android:src="@drawable/add_image" />
+</RelativeLayout>

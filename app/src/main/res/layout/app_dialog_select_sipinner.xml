@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/bottomsheetdialog_radius">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/AppSelectTitle"
+        android:text="select App"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/AppSelectTitle"
+        android:id="@+id/app_select_edit_text"
+        android:hint="Search..."
+        android:padding="12dp"
+        android:singleLine="true"
+        android:background="@android:drawable/editbox_background"
+        />
+
+    <ListView
+        android:id="@+id/app_select_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="800px"
+        android:layout_below="@+id/app_select_edit_text"
+        android:choiceMode="multipleChoice" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/app_select_list_view"
+        android:layout_weight="1"
+        android:id="@+id/save_button"
+        android:text="저장"
+        app:backgroundTint="#588EC7" />
+</RelativeLayout>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.stop_and_flight">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Stop_and_flight"
+        android:usesCleartextTraffic="true"
+        >
+        <activity android:name=".AppGuideActivity"/>
+
+        <activity android:name=".LoginMethodActivity" />
+        <activity android:name=".JoinSNSNickname" />
+        <activity android:name=".IntroActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".MainActivity" />
+        <activity android:name=".select_signup_method" />
+        <activity android:name=".JoinActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".InfoActivity"/>
+        <activity android:name=".FilghtActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.FLIGHTACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <receiver android:name=".AlarmReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.sec" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".Accessibility"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
+    <meta-data
+        android:name="com.google.android.gms.ads.APPLICATION_ID"
+        android:value="ca-app-pub-1142742075217394~1537550283"
+        />
+
+    </application>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+</manifest>

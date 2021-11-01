@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F7FBFC">
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="101dp"
+        android:layout_marginBottom="30dp"
+        android:layout_gravity="center"
+        android:src="@drawable/icons8_airplane_take_off_96" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="93dp"
+        android:fontFamily="sans-serif-black"
+        android:text="STOP  AND  FLIGHT"
+        android:textColor="@color/color_3"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:text="가입 방법 선택"
+        style="@style/Text.BasicStyle"
+
+        android:textColor="@color/color_4"
+        android:textSize="20sp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_email"
+        android:layout_width="299dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:text="이메일로 회원가입"
+        style="@style/Text.BasicStyle"
+        android:background="@drawable/radius"
+        android:layout_marginBottom="20dp"
+        android:textColor="#769FCD"
+        />
+
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_GOOGLE"
+        android:layout_width="299dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:background="@drawable/radius"
+        android:text="GOOGLE로 가입하기"
+        style="@style/Text.BasicStyle"
+        android:textColor="#769FCD" />
+
+
+</LinearLayout>

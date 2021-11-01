@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="0.7"
+    android:background="@drawable/bottomsheetdialog_radius"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".fragments.TicketingFragment">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/Todo_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="목  표"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/select_todo_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_weight="1"
+        android:text="목표 선택하기"
+        android:textColor="#000000"
+        app:backgroundTint="#FFFFFF"
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Todo_title" />
+
+    <TextView
+        android:id="@+id/data_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="날  짜"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/select_todo_button" />
+
+    <Button
+        android:id="@+id/select_data_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="날짜 선택 >"
+        android:textColor="#C0C0C0"
+        app:backgroundTint="#FFFFFF"
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/data_title" />
+<!--  -->
+    <TextView
+        android:id="@+id/departing_time_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="출발 시간"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/select_data_button" />
+
+    <TimePicker
+        android:id="@+id/depart_time"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:timePickerMode="spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/departing_time_title" />
+
+    <TextView
+        android:id="@+id/arriving_time_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="도착 시간"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/depart_time" />
+
+    <TimePicker
+        android:id="@+id/arrive_time"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:timePickerMode="spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/arriving_time_title" />
+
+    <TextView
+        android:id="@+id/friend_title"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="함께 비행할 친구"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/arrive_time" />
+
+    <Button
+        android:id="@+id/select_friend_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:text="친구 선택하기"
+        android:padding="5dp"
+        android:textColor="#000000"
+        app:backgroundTint="#FFFFFF"
+        app:cornerRadius="20dp"
+        android:layout_marginHorizontal="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/ticketing_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/friend_title"
+
+
+>
+    </Button>
+
+    <Button
+        android:id="@+id/ticketing_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:layout_marginBottom="16dp"
+        android:layout_weight="1"
+        android:text="예 약 하 기"
+        app:backgroundTint="@color/color_4"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
