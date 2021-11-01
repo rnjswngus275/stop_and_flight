@@ -180,8 +180,9 @@ public class MypageFragment extends Fragment {
 
                 }
             }
-            
-           @Override
+
+            @Override
+
             public void onCancelled(@NonNull DatabaseError error) {
 
             }

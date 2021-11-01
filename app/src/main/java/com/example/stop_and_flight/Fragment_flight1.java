@@ -235,6 +235,7 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
 
         Button emergencybutton = v.findViewById(R.id.button_emergency);
         Button appaccessbutton = v.findViewById(R.id.button_app);
+        TextView todo =v.findViewById(R.id.todo_txt);
 
         Date date = new Date();
         Calendar calendar = new GregorianCalendar();
@@ -320,7 +321,7 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
 
                 read_time= v.findViewById(R.id.read_time);
                 read_time.setText(time);
-
+                todo.setText(set_todo);
 //                btn_suc.setOnClickListener(new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View v) {
@@ -353,8 +354,7 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
         appaccessbutton.setOnClickListener(this);
         // Inflate the layout for this fragment
 
-        TextView todo =v.findViewById(R.id.todo_txt);
-        todo.setText(set_todo);
+
         return v;
     }
 
