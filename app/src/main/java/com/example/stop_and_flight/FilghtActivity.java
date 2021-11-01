@@ -27,12 +27,12 @@ import java.util.ArrayList;
 
 public class FilghtActivity extends AppCompatActivity implements Fragment_flight1.OnTimePickListener {
 
-    String arrive_time;
-    String depart_time;
-    String uid;
-    ArrayList<AppInfo> applist = new ArrayList<>();
+    private String arrive_time;
+    private String depart_time;
+    private String uid;
     private CircleIndicator mIndicator;
-    DatabaseReference mDatabase ;
+    private ArrayList<AppInfo> applist = new ArrayList<>();
+    private DatabaseReference mDatabase;
 
     AppGuideAdapter adapter = new AppGuideAdapter(getSupportFragmentManager());
 

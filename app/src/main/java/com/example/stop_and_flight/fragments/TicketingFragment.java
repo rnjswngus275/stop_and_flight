@@ -83,7 +83,6 @@ public class TicketingFragment extends Fragment {
     private List<String> select_Date = new ArrayList<>();
     private CurTime curTime;
     private HashMap<String, Object> TicketMap;
-
     public int YEAR;
     public int MONTH;
     public int DAY;
@@ -94,9 +93,6 @@ public class TicketingFragment extends Fragment {
         this.context = context;
         // Required empty public constructor
     }
-
-    private TextView textView;
-    private ScrollChoice scrollChoice;
 
     /**
      * Use this factory method to create a new instance of
@@ -154,14 +150,6 @@ public class TicketingFragment extends Fragment {
         TimePicker depart_time = view.findViewById(R.id.depart_time);
         TimePicker arrive_time = view.findViewById(R.id.arrive_time);
         Button ticketing_button = view.findViewById(R.id.ticketing_button);
-
-        CheckBox monday= view.findViewById(R.id.Mon_button);
-        CheckBox tuesday= view.findViewById(R.id.Tues_button);
-        CheckBox wedday= view.findViewById(R.id.Wed_button);
-        CheckBox thursday= view.findViewById(R.id.Thurs_button);
-        CheckBox friday= view.findViewById(R.id.Fri_button);
-        CheckBox satday= view.findViewById(R.id.Set_button);
-        CheckBox sunday= view.findViewById(R.id.Sun_button);
 
         // context 전달 필요 = Adapter까지 전달!!
         select_todo_button.setOnClickListener(new View.OnClickListener() {

@@ -10,7 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.stop_and_flight.R;
-import com.example.stop_and_flight.model.DateInfo;
+import com.example.stop_and_flight.model.UserInfo;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.ViewHolder> {
@@ -21,7 +23,7 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.ViewHold
     public static final int FOUR = 3;
     public static final int FIVE = 4;
     public static final int SIX = 1;
-    public List<DateInfo> DateInfo;
+    public List<UserInfo> userInfo;
     private final Context context;
 
     public RankingAdapter(Context context) {
@@ -51,7 +53,7 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.ViewHold
 
 
     public  void onBindViewHolder(ViewHolder holder, int position){
-        final DateInfo item = DateInfo.get(position);
+        final UserInfo item = userInfo.get(position);
         holder.NicknameTitle.setText(item.getNickname());
         holder.timeTitle.setText(item.getStudytime() + " 분");
 
@@ -81,11 +83,11 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.ViewHold
     }
 
     public  int getItemCount(){
-        return  DateInfo.size();
+        return  userInfo.size();
     }
 
-    public void setRank(List<DateInfo> DateInfo){
-        this.DateInfo = DateInfo;
+    public void setRank(ArrayList<UserInfo> userInfo){
+        this.userInfo = userInfo;
         notifyDataSetChanged();
     }
 

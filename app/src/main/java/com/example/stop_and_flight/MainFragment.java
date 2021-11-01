@@ -229,18 +229,6 @@ public class MainFragment extends Fragment {
                 Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
             }
         });
-//      if(count==0){
-//          TextView dpt_time = container.findViewById(R.id.dpt_time);
-//          dpt_time.setText("없습니다.");
-//      }
-//        models.add(new main_model("타이틀1","설명1"));
-//        models.add(new main_model("타이틀2","설명2"));
-//        models.add(new main_model("타이틀2","설명2"));
-//        models.add(new main_model("타이틀2","설명2"));
-
-        String str="총";
-        String str2="개의 일정이 있습니다.";
-        String str3 =str+count+str2;
 
         return v;
     }

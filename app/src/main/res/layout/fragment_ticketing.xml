@@ -119,75 +119,10 @@
         android:layout_height="20dp"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="반 복"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/arrive_time" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:padding="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/ticketing_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/repeat_title">
-
-        <CheckBox
-            android:id="@+id/Mon_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="월" />
-
-        <CheckBox
-            android:id="@+id/Tues_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="화" />
-
-        <CheckBox
-            android:id="@+id/Wed_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="수" />
-
-        <CheckBox
-            android:id="@+id/Thurs_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="목" />
-
-        <CheckBox
-            android:id="@+id/Fri_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="금" />
-
-        <CheckBox
-            android:id="@+id/Set_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="토" />
-
-        <CheckBox
-            android:id="@+id/Sun_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="일" />
-    </LinearLayout>
 
     <Button
         android:id="@+id/ticketing_button"

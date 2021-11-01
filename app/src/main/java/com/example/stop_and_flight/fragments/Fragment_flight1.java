@@ -185,7 +185,6 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
         ticket[2]=id;
         ticket[3]=success;
         ticket[4]=todo;
-        System.out.println("확인 티켓함수안"+Arrays.toString(ticket));
         return ticket;
     }
 
@@ -198,7 +197,6 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
 
         long diffSec = (baseCal2.getTimeInMillis() - baseCal.getTimeInMillis());        //비교대상 날짜-현재날짜를 1000분의 1초 단위로 하는게 gettimeinmills 그래서 1000으로 나눠줘야함
 //        long diffDays = diffSec / (24 * 60 * 60);
-        System.out.println("확인 diffsec"+diffSec);
         countDownTimer = new CountDownTimer(diffSec,1000) {          //첫번째 인자 : 총시간(제한시간) 두번째 인수: 몇초마다 타이머 작동
             @Override
             public void onTick(long millisUntilFinished) {
@@ -209,7 +207,6 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFinish() {
-                System.out.println("확인 타이머가 끝났을때 뜨는겨");
                 replaceFragment(FlightSuccessFragment.newInstance(today,set_arr_time, set_dpt_time,set_todo,set_id));
                 onDestroy();
             }
@@ -252,7 +249,6 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
         String str_month=Integer.toString(month+1);
         String str_day=Integer.toString(day);
 
-        System.out.println("확인"+str_year+str_month+str_day);
         today=str_year+"-"+str_month+"-"+str_day;
 
         ArrayList al =new ArrayList();
@@ -268,7 +264,6 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
                     //for (변수선언:배열 또는 배열을 리턴하는 함수(받을 데이터))
 
                     ticket_info2=(HashMap<String, Object>)messageData.getValue();
-                    System.out.println("확인해당날짜만"+ticket_info2);
                     String set_arr= (String.valueOf( ticket_info2.get("arrive_time")));
                     String set_dpt= (String.valueOf( ticket_info2.get("depart_time")));
                     String set_id=(String.valueOf( ticket_info2.get("id")));
@@ -276,7 +271,6 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
                     String set_success= (String.valueOf(ticket_info2.get("success")));
                     String set_todo=(String.valueOf(ticket_info2.get("todo")));
 
-                    System.out.println("확인 저장은되나?"+set_arr);
                     al.addAll(Arrays.asList(ticket_infomation(set_arr,set_dpt,set_id,set_success,set_todo)));
 
 

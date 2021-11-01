@@ -237,7 +237,6 @@ public class MypageFragment extends Fragment {
                 installedApplist(applist);
                 Dialog dialog = new Dialog(getContext());
                 dialog.setContentView(R.layout.app_dialog_select_sipinner);
-                dialog.getWindow().setLayout(1000, 1200);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
                 EditText editText = dialog.findViewById(R.id.app_select_edit_text);
@@ -258,6 +257,7 @@ public class MypageFragment extends Fragment {
                     public void afterTextChanged(Editable s) {
                     }
                 });
+
 
                 Button savebutton = dialog.findViewById(R.id.save_button);
                 savebutton.setOnClickListener(new View.OnClickListener() {
@@ -290,7 +290,7 @@ public class MypageFragment extends Fragment {
             private void installedApplist(List<AppInfo> applist) {
                 List<PackageInfo> packList = getContext().getPackageManager().getInstalledPackages(0);
                 PackageInfo packInfo = null;
-                for (int i=0; i < packList.size(); i++)
+                for (int i = 0; i < packList.size(); i++)
                 {
                     packInfo = packList.get(i);
                     if ((packInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)

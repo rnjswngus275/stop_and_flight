@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.model.CurTime;
-import com.example.stop_and_flight.model.DateInfo;
 import com.example.stop_and_flight.model.Ticket;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
@@ -47,7 +46,6 @@ import java.util.HashMap;
 public class BarChartFragment extends Fragment {
     BarChart barChart;
     private com.github.mikephil.charting.charts.BarChart showbarchart;
-    private final ArrayList<DateInfo> dateInfos = new ArrayList<DateInfo>();
     private HashMap<String, Object> UserMap;
     private String UID;
     private Ticket ticket;

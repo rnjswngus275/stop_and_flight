@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.model.CurTime;
-import com.example.stop_and_flight.model.DateInfo;
+import com.example.stop_and_flight.model.UserInfo;
 import com.example.stop_and_flight.utils.RankingAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -48,7 +48,7 @@ public class TodayRankFragment extends Fragment {
     private String mParam2;
     private String UID;
     private Context context;
-    private final ArrayList<DateInfo> dateInfos = new ArrayList<DateInfo>();
+    private final ArrayList<UserInfo> UserInfos = new ArrayList<UserInfo>();
     private HashMap<String, Object> UserMap;
     private HashMap<String, Object> DateMap;
     private DatabaseReference mDatabase;
@@ -109,7 +109,7 @@ public class TodayRankFragment extends Fragment {
 
         todayRankRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
 
-        rankingAdapter.setRank(dateInfos);
+        rankingAdapter.setRank(UserInfos);
         todayRankRecyclerView.setAdapter(rankingAdapter);
 
         return view;
@@ -122,7 +122,7 @@ public class TodayRankFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                dateInfos.clear();
+                UserInfos.clear();
                 String mynickname = "";
                 for (DataSnapshot UserSanpshot : snapshot.getChildren()) {
                     UserMap = (HashMap<String, Object>) UserSanpshot.getValue();
@@ -147,10 +147,10 @@ public class TodayRankFragment extends Fragment {
                         todayRankTime.setText(String.valueOf(Studytime));
                     }
 
-                    DateInfo dateInfo = new DateInfo(Nickname, Studytime);
-                    dateInfos.add(dateInfo);
+                    UserInfo userInfo = new UserInfo(Nickname, Studytime);
+                    UserInfos.add(userInfo);
                 }
-                Collections.reverse(dateInfos);
+                Collections.reverse(UserInfos);
                 TextView firsttitle = view.findViewById(R.id.firstTitle);
                 TextView secondTitle = view.findViewById(R.id.secondTitle);
                 TextView thirdTitle = view.findViewById(R.id.thirdTitle);
@@ -161,13 +161,13 @@ public class TodayRankFragment extends Fragment {
                 TextView rankingPercent = view.findViewById(R.id.rankingPercent);
 
 
-                firsttitle.setText(dateInfos.get(0).getNickname());
-                secondTitle.setText(dateInfos.get(1).getNickname());
-                thirdTitle.setText(dateInfos.get(2).getNickname());
-                Totalsize.setText(String.valueOf(dateInfos.size()));
+                firsttitle.setText(UserInfos.get(0).getNickname());
+                secondTitle.setText(UserInfos.get(1).getNickname());
+                thirdTitle.setText(UserInfos.get(2).getNickname());
+                Totalsize.setText(String.valueOf(UserInfos.size()));
 
-                todayRankgrade.setText(String.valueOf(getArraylistIndex(dateInfos, mynickname)));
-                float percent = (getArraylistIndex(dateInfos, mynickname) / (float) dateInfos.size()) * 100;
+                todayRankgrade.setText(String.valueOf(getArraylistIndex(UserInfos, mynickname)));
+                float percent = (getArraylistIndex(UserInfos, mynickname) / (float) UserInfos.size()) * 100;
                 String percentage = String.format("%.2f", percent) + "%";
                 rankingPercent.setText(percentage);
                 rankingAdapter.notifyDataSetChanged();
@@ -178,7 +178,7 @@ public class TodayRankFragment extends Fragment {
         });
     }
 
-    private int getArraylistIndex(ArrayList<DateInfo> arrayList, String nickname)
+    private int getArraylistIndex(ArrayList<UserInfo> arrayList, String nickname)
     {
         for (int i = 0; i < arrayList.size(); i++)
         {
