@@ -70,4 +70,6 @@ public class AppGuideFragment1 extends Fragment {
         lottie.loop(true);
         return view;
     }
+
+
 }
