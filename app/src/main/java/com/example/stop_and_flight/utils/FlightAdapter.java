@@ -1,4 +1,4 @@
-package com.example.stop_and_flight;
+package com.example.stop_and_flight.utils;
 
 import java.util.ArrayList;
 import java.util.List;

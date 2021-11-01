@@ -4,8 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 public class CurTime {
+    private Date date;
     private String Year;
     private String Month;
     private String Day;
@@ -15,7 +18,7 @@ public class CurTime {
     public CurTime()
     {
         long now = System.currentTimeMillis();
-        Date date = new Date(now);
+        date = new Date(now);
 
         SimpleDateFormat CurYearFormat = new SimpleDateFormat("yyyy");
         SimpleDateFormat CurMonthFormat = new SimpleDateFormat("MM");
@@ -90,8 +93,15 @@ public class CurTime {
         return Integer.parseInt(Year);
     }
 
-    public int getWeekset() {
-        return getIntYear() * 10000 + getIntMonth() * 100 + getIntDay() * 1; }
+    public String getWeekset() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        return formatter.format(date);
+    }
+
+    public String getDateset() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+        return formatter.format(date);
+    }
 
     public ArrayList<String> getCurWeek(){
         java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyyMMdd");
@@ -170,5 +180,35 @@ public class CurTime {
         c.add(Calendar.DATE,7);
         return formatter.format(c.getTime());
     }
+
+
+    public static List getDatesBetweenUsingJava7(Date startDate, Date endDate) {
+        List datesInRange = new ArrayList<>();
+        Calendar calendar = getCalendarWithoutTime(startDate);
+        Calendar endCalendar = getCalendarWithoutTime(endDate);
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+
+        while (calendar.before(endCalendar)) {
+            Date result = calendar.getTime();
+            datesInRange.add(dateformat.format(result));
+            calendar.add(Calendar.DATE, 1);
+        }
+        Date result = calendar.getTime();
+        datesInRange.add(dateformat.format(result));
+
+        return datesInRange;
+    }
+
+    private static Calendar getCalendarWithoutTime(Date date) {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar;
+    }
+
 
 }

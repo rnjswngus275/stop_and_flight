@@ -1,4 +1,4 @@
-package com.example.stop_and_flight;
+package com.example.stop_and_flight.model;
 
 public class main_model {
     private String depart_time;

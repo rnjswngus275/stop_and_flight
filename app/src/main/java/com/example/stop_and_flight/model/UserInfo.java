@@ -2,13 +2,11 @@ package com.example.stop_and_flight.model;
 
 public class UserInfo {
     private String nickname;
-    private int todayTime;
-    private int weekTime;
+    private int studytime;;
 
-    public UserInfo(String nickname, int todayTime, int weekTime) {
+    public UserInfo(String nickname, int studytime) {
         this.nickname = nickname;
-        this.todayTime = todayTime;
-        this.weekTime = weekTime;
+        this.studytime = studytime;
     }
 
     public String getNickname() {
@@ -19,20 +17,12 @@ public class UserInfo {
         this.nickname = nickname;
     }
 
-    public int getTodayTime() {
-        return todayTime;
+    public int getStudytime() {
+        return studytime;
     }
 
-    public void setTodayTime(int todayTime) {
-        this.todayTime = todayTime;
-    }
-
-    public int getWeekTime() {
-        return weekTime;
-    }
-
-    public void setWeekTime(int weekTime) {
-        this.weekTime = weekTime;
+    public void setStudytime(int studytime) {
+        this.studytime = studytime;
     }
 
 }

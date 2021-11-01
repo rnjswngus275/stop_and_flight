@@ -22,10 +22,8 @@
             android:layout_height="48dp"
             app:ci_drawable_unselected="@drawable/gray_indicator"
             app:ci_drawable="@drawable/black_indicator"
-            android:layout_gravity="bottom"
-           >
+            android:layout_gravity="bottom" />
 
-    </me.relex.circleindicator.CircleIndicator>
     </FrameLayout>
 
 

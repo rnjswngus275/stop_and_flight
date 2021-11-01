@@ -40,6 +40,7 @@ import com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 import static java.lang.String.valueOf;
 
@@ -57,6 +58,7 @@ public class CalendarFragment extends Fragment {
     private int YEAR;
     private int MONTH;
     private int DAY;
+    private BottomSheetDialogFragment ticketingBottomSheetDialog;
 
     public static CalendarFragment newInstance(){
         return new CalendarFragment();
@@ -80,7 +82,7 @@ public class CalendarFragment extends Fragment {
         title_toolbar.setText("TICKETING");
         CollapsibleCalendar collapsibleCalendar = view.findViewById(R.id.calendarView);
         Context ct = container.getContext();
-        BottomSheetDialogFragment ticketingBottomSheetDialog = new TicketingBottomSheetDialog(ct);
+        ticketingBottomSheetDialog = new TicketingBottomSheetDialog(ct);
 
         reviewRecyclerView = view.findViewById(R.id.reviewRecyclerView);
         mDatabase =  FirebaseDatabase.getInstance().getReference();
@@ -88,19 +90,20 @@ public class CalendarFragment extends Fragment {
         calenderAdapter = new CalenderAdapter(db, ct, UID, (TicketingBottomSheetDialog) ticketingBottomSheetDialog, getFragmentManager());
         curTime = new CurTime();
 
-        YEAR =  curTime.getIntYear();
-        MONTH =  curTime.getIntMonth();
-        DAY =  curTime.getIntDay();
-
-        ticket_Date = YEAR + "-" + MONTH + "-" + DAY;
+        ticket_Date = curTime.getWeekset();
 
         collapsibleCalendar.setCalendarListener(new CollapsibleCalendar.CalendarListener() {
             @Override
             public void onDaySelect() {
                 Day day = collapsibleCalendar.getSelectedDay();
-                Log.i(getClass().getName(), "Selected Day: "
-                        + day.getYear() + "/" + (day.getMonth() + 1) + "/" + day.getDay());
-                ticket_Date = day.getYear() + "-" + (day.getMonth() + 1) + "-" + day.getDay();
+                if (day.getMonth() < 9)
+                    ticket_Date = day.getYear() + "-0" + (day.getMonth() + 1);
+                else
+                    ticket_Date = day.getYear() + "-" + (day.getMonth() + 1);
+                if (day.getDay() < 10)
+                    ticket_Date = ticket_Date + "-0" + day.getDay();
+                else
+                    ticket_Date = ticket_Date + "-" + day.getDay();
                 getTicketDate(ticket_Date);
             }
 
@@ -172,20 +175,26 @@ public class CalendarFragment extends Fragment {
                         TicketList.add(getTicket);
                     }
                 }
-                TicketList.sort((o1, o2) -> {
-                    String[] departTime1 = o1.getDepart_time().split(":");
-                    String[] departTime2 = o2.getDepart_time().split(":");
-                    if (Integer.parseInt(departTime1[0]) == Integer.parseInt(departTime2[0])
-                            && Integer.parseInt(departTime1[1]) == Integer.parseInt(departTime2[1]))
-                        return 0;
-                    if (Integer.parseInt(departTime1[0]) >= Integer.parseInt(departTime2[0])
-                            && Integer.parseInt(departTime1[1]) >= Integer.parseInt(departTime2[1]))
-                        return 1;
-                    if (Integer.parseInt(departTime1[0]) <= Integer.parseInt(departTime2[0])
-                            && Integer.parseInt(departTime1[1]) <= Integer.parseInt(departTime2[1]))
-                        return -1;
-                    return 0;
-                });
+                if (!TicketList.isEmpty())
+                {
+                    Collections.sort(TicketList, new Comparator<Ticket>() {
+                        @Override
+                        public int compare(Ticket o1, Ticket o2) {
+                            String[] departTime1 = o1.getDepart_time().split(":");
+                            String[] departTime2 = o2.getDepart_time().split(":");
+                            if (Integer.parseInt(departTime1[0]) == Integer.parseInt(departTime2[0])
+                                    && Integer.parseInt(departTime1[1]) == Integer.parseInt(departTime2[1]))
+                                return 0;
+                            if (Integer.parseInt(departTime1[0]) >= Integer.parseInt(departTime2[0])
+                                    && Integer.parseInt(departTime1[1]) >= Integer.parseInt(departTime2[1]))
+                                return 1;
+                            if (Integer.parseInt(departTime1[0]) <= Integer.parseInt(departTime2[0])
+                                    && Integer.parseInt(departTime1[1]) <= Integer.parseInt(departTime2[1]))
+                                return -1;
+                            return 0;
+                        }
+                    });
+                }
                 calenderAdapter.notifyDataSetChanged();
             }
             @Override
@@ -193,5 +202,10 @@ public class CalendarFragment extends Fragment {
                 Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
             }
         });
+    }
+
+    public void DialogClose()
+    {
+        ticketingBottomSheetDialog.dismiss();
     }
 }

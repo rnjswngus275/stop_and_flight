@@ -10,7 +10,7 @@
         android:id="@+id/timeline"
         android:layout_width="wrap_content"
         android:layout_height="120dp"
-        android:paddingLeft="20dp"
+        android:paddingLeft="10dp"
         app:marker="@drawable/ic_baseline_chevron_right_24"
         app:markerSize="20dp"
         app:lineWidth="3dp"
@@ -21,7 +21,7 @@
 
     <com.vipulasri.ticketview.TicketView
         android:id="@+id/ticketView3"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="130dp"
         android:layout_marginLeft="40dp"
         android:paddingLeft="10dp"
@@ -46,7 +46,7 @@
 
     <com.vipulasri.ticketview.TicketView
         android:id="@+id/ticketView"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="135dp"
         android:layout_marginLeft="40dp"
         android:background="@drawable/shadow"
@@ -156,7 +156,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
+            android:layout_marginRight="20dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="@+id/ticketView"
             app:layout_constraintEnd_toEndOf="parent"

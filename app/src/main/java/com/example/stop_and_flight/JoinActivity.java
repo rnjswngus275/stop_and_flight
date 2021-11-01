@@ -24,8 +24,8 @@ public class JoinActivity extends AppCompatActivity {
     private EditText editTextPassword;
     private EditText editTextName;
     private Button buttonJoin;
-    DatabaseReference mDatabase ;
-    String Nickname;
+    private DatabaseReference mDatabase ;
+    private String Nickname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +39,11 @@ public class JoinActivity extends AppCompatActivity {
         editTextName = (EditText) findViewById(R.id.editText_name);
 
         buttonJoin = (Button) findViewById(R.id.btn_join);
-        CheckBox checkBox=(CheckBox)findViewById(R.id.checkBox);
+        CheckBox checkBox = (CheckBox)findViewById(R.id.checkBox);
 
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("log");
-
                 Intent intent = new Intent(JoinActivity.this, InfoActivity.class);
                 startActivity(intent);
             }
@@ -55,11 +53,11 @@ public class JoinActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!editTextEmail.getText().toString().equals("") && !editTextPassword.getText().toString().equals("")&&!editTextName.getText().toString().equals("")) {
-// 이메일과 비밀번호가 공백이 아닌 경우 + 닉네임
+                    // 이메일과 비밀번호가 공백이 아닌 경우 + 닉네임
                     createUser(editTextEmail.getText().toString(), editTextPassword.getText().toString(),editTextName.getText().toString());
-                     Nickname =editTextName.getText().toString();
+                    Nickname =editTextName.getText().toString();
                 } else {
-// 이메일과 비밀번호가 공백인 경우
+                    // 이메일과 비밀번호가 공백인 경우
                     Toast.makeText(JoinActivity.this, "계정과 비밀번호를 입력하세요.", Toast.LENGTH_LONG).show();
                 }
             }

@@ -92,7 +92,6 @@ public class SelectTodoFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getInt(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-            System.out.println(mParam1 + mParam2);
         }
     }
 
@@ -115,7 +114,6 @@ public class SelectTodoFragment extends Fragment {
                 for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
                     if (fileSnapshot != null) {
                         TaskMap = (HashMap<String, Object>) fileSnapshot.getValue();
-                        System.out.println(TaskMap);
                         int type = Integer.parseInt(String.valueOf(TaskMap.get("viewType")));
                         int task_id = Integer.parseInt(String.valueOf(TaskMap.get("id")));
                         int parent_id = Integer.parseInt(String.valueOf(TaskMap.get("parent_id")));

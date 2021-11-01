@@ -1,4 +1,4 @@
-package com.example.stop_and_flight;
+package com.example.stop_and_flight.fragments;
 
 import android.content.Intent;
 import android.os.Build;
@@ -14,8 +14,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
-import android.widget.TextView;
 
+import com.example.stop_and_flight.MainActivity;
+import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.model.CurTime;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,7 +41,7 @@ public class FlightSuccessFragment extends Fragment {
     private String goal;
     private String id;
     private String today;
-    private int studytime;
+    private int studytime = 0;
     private HashMap<String, Object> UserMap;
     private HashMap<String, Object> DateMap;
     private DatabaseReference mDatabase ;
@@ -74,7 +75,6 @@ public class FlightSuccessFragment extends Fragment {
             dpt_time = getArguments().getString(ARG_PARAM3);
             goal = getArguments().getString(ARG_PARAM4);
             id = getArguments().getString(ARG_PARAM5);
-            System.out.println("확인파라매터 널이 아니면 나오는 글짜"+ arr_time);
         }
 
 
@@ -105,22 +105,24 @@ public class FlightSuccessFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 CurTime curTime = new CurTime();
-                int curIntTime = curTime.getIntYear() * 10000 + curTime.getIntMonth() * 100 + curTime.getIntDay() * 1;
-
                 if (snapshot != null) {
                     UserMap = (HashMap<String, Object>) snapshot.getValue();
 //                    point = Integer.parseInt(String.valueOf(UserMap.get("point")));
-                    if (snapshot.child("date") != null)
+                    if (snapshot.child("date").getValue() != null)
                     {
                         DateMap =  (HashMap<String, Object>) snapshot.child("date").getValue();
-                        studytime =  Integer.parseInt(String.valueOf(DateMap.getOrDefault(String.valueOf(curIntTime), 0)));
-                        System.out.println(studytime);
+
+                        //ask your app running more modern API as level 24 (Build.VERSION_CODES.N(ougat))
+                        studytime = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) ?
+                                Integer.parseInt(String.valueOf(DateMap.getOrDefault(curTime.getDateset(), 0))) :
+                                // if not, then need to solve with similar code of original code in next below
+                                ((DateMap.get(curTime.getDateset()) != null) ? Integer.parseInt(String.valueOf(DateMap.get(curTime.getDateset()))) : 0);
                     }
                 }
 //                point = calculateMinute(arr_time, dpt_time) / 10 + point;
-                studytime = studytime +  calculateMinute(arr_time, dpt_time);
+                studytime = studytime + calculateMinute(arr_time, dpt_time);
 //                SuccessRate.setText(String.valueOf(point));
-                mDatabase.child("users").child(uid).child("date/"+curIntTime).setValue(studytime);
+                mDatabase.child("users").child(uid).child("date/"+curTime.getDateset()).setValue(studytime);
                 mDatabase.child("TICKET").child(uid).child(today).child(id).child("success").setValue(2);
 //                mDatabase.child("users").child(uid).child("point").setValue(point);
             }
@@ -149,7 +151,7 @@ public class FlightSuccessFragment extends Fragment {
                 //메모 데이터베이스에 저장
                 String Memo_txt = Memo.getText().toString();
                 mDatabase.child("TICKET").child(uid).child(today).child(id).child("memo").setValue(Memo_txt);
-                Intent intent = new Intent(getActivity(),MainActivity.class);
+                Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }
         });
@@ -172,7 +174,6 @@ public class FlightSuccessFragment extends Fragment {
         // 도착시간이 출발시간보다 큰 경우
         if((arr_h2 - dpt_h2) >= 0){
             result = (arr_h2 * 60 + arr_m2) - (dpt_h2 * 60 + dpt_m2);
-            System.out.println("time check "+ result);
         }
         // 도착시간이 출발시간보다 작은 경우 ex) 출발시간에서 ~ 24:00까지
         else {

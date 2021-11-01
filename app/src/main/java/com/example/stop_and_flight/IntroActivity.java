@@ -14,15 +14,14 @@ public class IntroActivity extends AppCompatActivity {
         setContentView(R.layout.activity_intro);
 
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable(){ @Override
-        public void run() {
-            Intent intent = new Intent(getApplicationContext(), AppGuideActivity.class);
-            startActivity(intent); //introActivity 실행 후 AppGuide로
-            finish();
-        }
+        handler.postDelayed(new Runnable(){
+            @Override
+            public void run() {
+                Intent intent = new Intent(getApplicationContext(), AppGuideActivity.class);
+                startActivity(intent); //introActivity 실행 후 AppGuide로
+                finish();
+            }
         },2000); //2초 후 인트로 실행
-
-
     }
     @Override protected void onPause(){
         super.onPause();
