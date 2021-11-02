@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -36,6 +37,8 @@
         android:textColor="@color/color_4"
         android:textSize="30dp"/>
 
+
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,28 +46,16 @@
         android:id="@+id/read_time"
         android:textSize="3dp"/>
 
-    <ImageView
-        android:layout_width="267dp"
-        android:layout_height="314dp"
-        android:src="@drawable/sky"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="20dp">
-    </ImageView>
-    <TextView
-        android:id="@+id/txt3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:gravity="center"
-        style="@style/Text.TitleStyle"
-        android:textSize="30dp"
-        android:text=""/>
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie"
+        android:layout_width="278dp"
+        android:layout_height="418dp"
+        android:layout_gravity="center_horizontal" />
 
     <TextView
         android:id="@+id/todo_txt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:gravity="center"
         style="@style/Text.BasicStyle"
         android:textSize="30dp"
