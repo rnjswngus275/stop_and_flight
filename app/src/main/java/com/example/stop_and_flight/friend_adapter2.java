@@ -39,7 +39,6 @@ public class friend_adapter2 extends BaseAdapter {
     ArrayList<friend_model2> friend;
     String picturePath;
     Uri selectedImage;
-    private OnItemClick mCallback;
     Fragment_friend1 friend1;
     private DatabaseReference mDatabase;
     private String UID;

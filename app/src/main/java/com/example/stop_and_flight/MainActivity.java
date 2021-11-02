@@ -21,8 +21,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -49,8 +47,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -77,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼 만들기
         actionBar.setHomeAsUpIndicator(R.drawable.menu_icon); //뒤로가기 버튼 이미지 지정
 
-
         title_toolbar=(TextView)findViewById(R.id.toolbar_title);
         title_toolbar.setText("MAIN");
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -86,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         if(user != null){
             UID  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
         }
-        String filename=UID+"_ProfileImage";
+        String filename = UID+"_ProfileImage";
         getImage(filename);
 
         MainFragment mainfragment=MainFragment.newInstance();
@@ -97,20 +92,18 @@ public class MainActivity extends AppCompatActivity {
 
         CalendarFragment calendarFragment = new CalendarFragment();
         TaskFragment taskFragment = new TaskFragment();
-        MypageFragment mypage = new MypageFragment();
+        com.example.stop_and_flight.MypageFragment mypage = new com.example.stop_and_flight.MypageFragment();
         RankingFragment rankingFragment = new RankingFragment();
         FriendFragment friend=new FriendFragment();
-        FlightSuccessFragment flightSuccessFragment = new FlightSuccessFragment();
-        StatisticsFragment statisticsFragment=new StatisticsFragment();
+        StatisticsFragment statisticsFragment = new StatisticsFragment();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-
         NavigationView navigationView = findViewById(R.id.nav_view);
-        View headerView=navigationView.getHeaderView(0);
+        View headerView = navigationView.getHeaderView(0);
         navigationView.setItemIconTintList(null);
-        headerIcon=headerView.findViewById(R.id.imageView);
-        TextView nickname=headerView.findViewById(R.id.navi_nickname);
-        TextView message=headerView.findViewById(R.id.navi_message);
+        headerIcon = headerView.findViewById(R.id.imageView);
+        TextView nickname = headerView.findViewById(R.id.navi_nickname);
+        TextView message = headerView.findViewById(R.id.navi_message);
 
         final DatabaseReference ref = mDatabase.child("users").child(UID).child("nickname");
         ref.addValueEventListener(new ValueEventListener() {
@@ -151,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
                 menuItem.setChecked(true);
                 mDrawerLayout.closeDrawers();
                 int id = menuItem.getItemId();
-                String title = menuItem.getTitle().toString();
                 if (id == R.id.menu1) {       //여기에 메뉴 버튼 클릭했을때 옮길 페이지 연결하시면 됩니다.
                     fragmentTransaction.replace(R.id.container, mypage);
                 } else if (id == R.id.menu2) {
@@ -166,7 +158,6 @@ public class MainActivity extends AppCompatActivity {
                 } else if (id == R.id.menu6) {
                     fragmentTransaction.replace(R.id.container, statisticsFragment);
                 }
-
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
                 return true;
@@ -210,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
     }
     // 프로필 이미지 가져오기
     public void getImage(String filename){
-        File file=context.getExternalFilesDir(Environment.DIRECTORY_PICTURES+"/ProfileImage");
+        File file = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES+"/ProfileImage");
         if(!file.isDirectory()){
             file.mkdir();
         }

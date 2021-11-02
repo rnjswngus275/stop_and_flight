@@ -9,16 +9,16 @@
             android:title="마이페이지"
             />
         <item
-            android:id="@+id/menu2"
-            android:icon="@drawable/cloud"
-            style="@style/Text.gyeongiStyle"
-            android:title="여행일정"
-            />
-        <item
             android:id="@+id/menu3"
             android:icon="@drawable/cloud"
             style="@style/Text.gyeongiStyle"
-            android:title="목표설정"
+            android:title="목표"
+            />
+        <item
+            android:id="@+id/menu2"
+            android:icon="@drawable/cloud"
+            style="@style/Text.gyeongiStyle"
+            android:title="여행"
             />
         <item
             android:id="@+id/menu4"
@@ -30,7 +30,7 @@
             android:id="@+id/menu5"
             android:icon="@drawable/cloud"
             style="@style/Text.gyeongiStyle"
-            android:title="친구관리"
+            android:title="친구"
             />
         <item
             android:id="@+id/menu6"

@@ -30,6 +30,7 @@ public class TicketingBottomSheetDialog extends BottomSheetDialogFragment {
     private String mParam2;
     private Context context;
     private String Todo = null;
+    private String Date = null;
     private int updateId;
 
     public TicketingBottomSheetDialog(Context context) {
@@ -63,6 +64,7 @@ public class TicketingBottomSheetDialog extends BottomSheetDialogFragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
             Todo = getArguments().getString("Todo");
             updateId = getArguments().getInt("Id");
+            Date = getArguments().getString("Date");
         }
         setStyle(STYLE_NORMAL, R.style.AppBottomSheetDialogTheme);
     }
@@ -81,6 +83,7 @@ public class TicketingBottomSheetDialog extends BottomSheetDialogFragment {
             Bundle bundle = new Bundle();
             bundle.putInt("Id", updateId);
             bundle.putString("Todo", Todo);
+            bundle.putString("Date", Date);
             ticketingFragment.setArguments(bundle);
         }
         childFt.replace(R.id.dialog_container, ticketingFragment);

@@ -1,4 +1,4 @@
-package com.example.stop_and_flight.fragments;
+package com.example.stop_and_flight.model;
 
 public class Dictionary {
     private String Todo;

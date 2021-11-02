@@ -114,6 +114,16 @@
         app:layout_constraintTop_toBottomOf="@+id/arriving_time_title"
         android:layout_marginBottom="30dp"/>
 
+    <TextView
+        android:id="@+id/repeat_title"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/arrive_time" />
 
     <Button
         android:id="@+id/ticketing_button"

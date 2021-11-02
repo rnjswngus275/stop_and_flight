@@ -10,6 +10,8 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -28,6 +30,10 @@ import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.model.Ticket;
 import com.example.stop_and_flight.model.CurTime;
 import com.example.stop_and_flight.utils.TicketDatabaseHandler;
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.DateValidatorPointForward;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -37,10 +43,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.webianks.library.scroll_choice.ScrollChoice;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Random;
 
 /**
@@ -54,8 +66,6 @@ public class TicketingFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    Random random=new Random();
-    int requestcode =random.nextInt();
     // TODO: Rename and change types of parameters
     private static final int DEFAULT = -1;
     private int mParam1;
@@ -65,29 +75,24 @@ public class TicketingFragment extends Fragment {
     private AlarmManager AM;
     private PendingIntent ServicePending;
     private final Context context;
-    int dptH;
-    int dptM;
     private DatabaseReference mDatabase;
-    private int YEAR;
-    private int MONTH;
-    private int DAY;
     private int flag = 0;
     private int Id;
     private int updateId = -1;
     private String ticket_Date;
+    private List<String> select_Date = new ArrayList<>();
     private CurTime curTime;
     private HashMap<String, Object> TicketMap;
+    public int YEAR;
+    public int MONTH;
+    public int DAY;
     Context mContext;
-    Boolean repeat;
-    boolean mon; boolean tue;  boolean wed; boolean thu; boolean fri; boolean sat; boolean sun;
+
 
     public TicketingFragment(Context context) {
         this.context = context;
         // Required empty public constructor
     }
-
-    private TextView textView;
-    private ScrollChoice scrollChoice;
 
     /**
      * Use this factory method to create a new instance of
@@ -122,27 +127,10 @@ public class TicketingFragment extends Fragment {
             // update인 경우 - ticketbottomSheetDialog에서 데이터를 가져옴
             Todo = getArguments().getString("Todo");
             updateId = getArguments().getInt("Id");
-            System.out.println(Todo + updateId);
+            ticket_Date = getArguments().getString("Date");
         }
 
-        Intent intent = new Intent(getContext(),AlarmReceiver.class);
-        intent.putExtra("requestcode",requestcode);
 
-//        /* 현재 시간과 날짜를 받아오는 부분 */
-//        long now = System.currentTimeMillis();
-//        Date date = new Date(now);
-//
-//        SimpleDateFormat CurYearFormat = new SimpleDateFormat("yyyy");
-//        SimpleDateFormat CurMonthFormat = new SimpleDateFormat("MM");
-//        SimpleDateFormat CurDayFormat = new SimpleDateFormat("dd");
-//        SimpleDateFormat CurHourFormat = new SimpleDateFormat("HH");
-//        SimpleDateFormat CurMinuteFormat = new SimpleDateFormat("mm");
-//
-//        strCurYear = CurYearFormat.format(date);
-//        strCurMonth = CurMonthFormat.format(date);
-//        strCurDay = CurDayFormat.format(date);
-//        strCurHour = CurHourFormat.format(date);
-//        strCurMinute = CurMinuteFormat.format(date);
     }
 
     @Override
@@ -162,11 +150,6 @@ public class TicketingFragment extends Fragment {
         TimePicker depart_time = view.findViewById(R.id.depart_time);
         TimePicker arrive_time = view.findViewById(R.id.arrive_time);
         Button ticketing_button = view.findViewById(R.id.ticketing_button);
-
-
-
-
-
         // context 전달 필요 = Adapter까지 전달!!
         select_todo_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,39 +170,81 @@ public class TicketingFragment extends Fragment {
         {
             select_todo_button.setText(Todo);
         }
+        if (ticket_Date == null)
+        {
+            YEAR =  curTime.getIntYear();
+            MONTH =  curTime.getIntMonth();
+            DAY =  curTime.getIntDay();
+            ticket_Date = YEAR + "-" + MONTH + "-" + DAY;
+        }
+        else {
+            String[] date_time = ticket_Date.split("-");
+            YEAR = Integer.parseInt(date_time[0]);
+            MONTH = Integer.parseInt(date_time[1]);
+            DAY = Integer.parseInt(date_time[2]);
+        }
+        select_data_button.setText(ticket_Date);
 
-        YEAR =  curTime.getIntYear();
-        MONTH =  curTime.getIntMonth();
-        DAY =  curTime.getIntDay();
-        ticket_Date = YEAR + "-" + MONTH + "-" + DAY;
-        select_data_button.setText(YEAR + " 년 " + MONTH + " 월 " + DAY + " 일");
+//        select_data_button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                final Calendar c=Calendar.getInstance();
+//                int mYear=c.get(Calendar.YEAR);
+//                int mMonth=c.get(Calendar.MONTH);
+//                int mDay=c.get(Calendar.DAY_OF_MONTH);
+//                DatePickerDialog datePickerDialog =new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+//                    @Override
+//                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+//                        select_data_button.setText(year+ "년 "+ (monthOfYear + 1) + " 월 " + dayOfMonth + " 일");
+//                        YEAR = year;
+//                        MONTH = monthOfYear + 1;
+//                        DAY = dayOfMonth;
+//                        ticket_Date = YEAR  + "-" + MONTH  + "-" + DAY;
+//                    }
+//                },mYear,mMonth,mDay);
+//                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+//                datePickerDialog.show();
+//            }
+//        });
+
+        CalendarConstraints.Builder calendarConstraintbuilder = new CalendarConstraints.Builder();
+        calendarConstraintbuilder.setValidator(DateValidatorPointForward.now());
+        MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
+        builder.setCalendarConstraints(calendarConstraintbuilder.build());
+        MaterialDatePicker picker = builder.build();
 
         select_data_button.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                final Calendar c=Calendar.getInstance();
-                int mYear=c.get(Calendar.YEAR);
-                int mMonth=c.get(Calendar.MONTH);
-                int mDay=c.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog =new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        select_data_button.setText(year+ "년 "+ (monthOfYear + 1) + " 월 " + dayOfMonth + " 일");
-                        YEAR = year;
-                        MONTH = monthOfYear + 1;
-                        DAY = dayOfMonth;
-                        ticket_Date = YEAR  + "-" + MONTH  + "-" + DAY;
-                    }
-                },mYear,mMonth,mDay);
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
-                datePickerDialog.show();
+                picker.show(getFragmentManager(), picker.toString());
             }
         });
+
+        picker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
+            @Override
+            public void onPositiveButtonClick(Object selection) {
+                Pair<Long, Long> getdate = (Pair<Long, Long>) selection;
+                SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+
+                Date start = new Date(getdate.first);
+                Date end = new Date(getdate.second);
+                CurTime curTime = new CurTime();
+
+                select_Date = curTime.getDatesBetweenUsingJava7(start, end);
+                System.out.println(select_Date);
+                select_data_button.setText(dateformat.format(start) +" ~ " +dateformat.format(end));
+            }
+        });
+
 
         ticketing_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (Todo == null)
+                {
+                    Todo = "뭐든 잘할 수 있어!!";
+                }
                 int depart_hour = curTime.getIntHour();
                 int depart_min = curTime.getIntMinute();
                 int arrive_hour = curTime.getIntHour();
@@ -230,25 +255,46 @@ public class TicketingFragment extends Fragment {
                     depart_min = depart_time.getMinute();
                     arrive_hour = arrive_time.getHour();
                     arrive_min = arrive_time.getMinute();
-                    dptH = depart_hour;
-                    dptM = depart_min;
+
                 }
-
-                if (YEAR > curTime.getIntYear() || (YEAR == curTime.getIntYear() && MONTH >= curTime.getIntMonth()))
+                if (select_Date.size() > 0)
                 {
-                    if (DAY > curTime.getIntDay())
-                        check_Schedule(ticket_Date, depart_hour,depart_min, arrive_hour, arrive_min);
-                    else if (DAY == curTime.getIntDay())
+                    for (String date : select_Date)
                     {
-                        if(curTime.getIntHour() < depart_hour || (curTime.getIntHour() == depart_hour && curTime.getIntMinute() <= depart_min))
-                            check_Schedule(ticket_Date, depart_hour,depart_min, arrive_hour, arrive_min);
+                        String[] date_time = date.split("-");
+                        int Day = Integer.parseInt(date_time[2]);
 
-                        else
-                            Toast.makeText(getContext(), "현재 보다 이전 시간을 설정할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                        if (Day == curTime.getIntDay())
+                        {
+                            if(curTime.getIntHour() < depart_hour || (curTime.getIntHour() == depart_hour && curTime.getIntMinute() <= depart_min)) {
+                                check_Schedule(date, depart_hour, depart_min, arrive_hour, arrive_min);
+                            }
+                            else {
+                                Toast.makeText(getContext(), "현재 보다 이전 시간을 설정할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else {
+                            check_Schedule(date, depart_hour,depart_min, arrive_hour, arrive_min);
+                        }
                     }
                 }
-                else
-                    Toast.makeText(getContext(), "현재 보다 이전 시간을 설정할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                else {
+
+                    if (DAY == curTime.getIntDay())
+                    {
+                        if(curTime.getIntHour() < depart_hour || (curTime.getIntHour() == depart_hour && curTime.getIntMinute() <= depart_min))
+                        {
+                            check_Schedule(ticket_Date, depart_hour, depart_min, arrive_hour, arrive_min);
+                        }
+                        else
+                        {
+                            Toast.makeText(getContext(), "현재 보다 이전 시간을 설정할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else {
+                        check_Schedule(ticket_Date, depart_hour,depart_min, arrive_hour, arrive_min);
+                    }
+                }
             }
         });
         return view;
@@ -256,11 +302,11 @@ public class TicketingFragment extends Fragment {
 
     private void check_Schedule(String Date, int depart_hour , int depart_min, int arrive_hour, int arrive_min)
     {
+        flag = 0;
         mDatabase.child("TICKET").child(UID).child(Date).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
-                    flag = 0;
                     if (fileSnapshot != null) {
                         TicketMap = (HashMap<String, Object>) fileSnapshot.getValue();
                         String depart = String.valueOf(TicketMap.get("depart_time"));
@@ -290,7 +336,7 @@ public class TicketingFragment extends Fragment {
                 }
                 if (flag == 0)
                 {
-                    time_Validity(depart_hour, depart_min, arrive_hour, arrive_min);
+                    time_Validity(Date, depart_hour, depart_min, arrive_hour, arrive_min);
                 }
                 else
                 {
@@ -304,18 +350,16 @@ public class TicketingFragment extends Fragment {
         });
     }
 
-
-
-
-    private void time_Validity(int depart_hour , int depart_min, int arrive_hour, int arrive_min)
+    private void time_Validity(String ticket_Date, int depart_hour , int depart_min, int arrive_hour, int arrive_min)
     {
-
-
         TicketDatabaseHandler db = new TicketDatabaseHandler(mDatabase);
-        if (Todo == null)
-        {
-            Todo = "default";
-        }
+
+        Random random = new Random();
+        int requestcode = random.nextInt();
+
+        Intent intent = new Intent(getContext(), AlarmReceiver.class);
+        intent.putExtra("requestcode",requestcode);
+
         String depart_time =  depart_hour + ":" + depart_min;
         String arrive_time =  arrive_hour + ":" + arrive_min;
         Ticket ticket = new Ticket(depart_time, arrive_time, Todo, ++Id , 0, requestcode);
@@ -324,16 +368,12 @@ public class TicketingFragment extends Fragment {
         {
             if (updateId != DEFAULT)
             {
-                System.out.println("check updated");
                 db.update_ticketDB(UID, ticket_Date, depart_time, arrive_time, Todo, updateId,requestcode);
             }
             else
             {
-                System.out.println("check inserted");
                 db.insert_ticketDB(UID, ticket_Date, ticket);
-
-                SetAlarmManager();
-
+                SetAlarmManager(ticket_Date, depart_hour, depart_min, requestcode);
             }
             Toast.makeText(getContext(),  "예약 되었습니다.", Toast.LENGTH_SHORT).show();
         }
@@ -343,14 +383,12 @@ public class TicketingFragment extends Fragment {
             {
                 if (updateId != DEFAULT)
                 {
-                    System.out.println("check updated");
                     db.update_ticketDB(UID, ticket_Date, depart_time, arrive_time, Todo, updateId,requestcode);
                 }
                 else
                 {
-                    System.out.println("check inserted");
                     db.insert_ticketDB(UID, ticket_Date, ticket);
-                        SetAlarmManager();
+                    SetAlarmManager(ticket_Date, depart_hour, depart_min, requestcode);
                 }
                 Toast.makeText(getContext(),  "예약 되었습니다.", Toast.LENGTH_SHORT).show();
             }
@@ -360,7 +398,7 @@ public class TicketingFragment extends Fragment {
         }
     }
 
-    public void SetAlarmManager() {
+    public void SetAlarmManager(String ticket_Date, int dpth, int dptm, int requestcode) {
         AM = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
 //        String date_time= YEAR+"-"+(MONTH+1)+"-"+DAY+" "+ ticket_dpt+":"+00;
@@ -373,54 +411,38 @@ public class TicketingFragment extends Fragment {
 //        } catch (ParseException e) {
 //            e.printStackTrace();
 //        }
-//        System.out.println(datetime+"확인datetime");
-        int dpth=dptH;
-        int dptm=dptM;
         Calendar cal = Calendar.getInstance();
         cal.clear();
-//        System.out.println(dptH+"확인 ticketdpt");
-//        cal.set(Calendar.YEAR,YEAR);
-//        cal.set(Calendar.MONTH,MONTH+1);
-//        cal.set(Calendar.DAY_OF_MONTH,DAY);
-//
-//
-//        cal.set(Calendar.HOUR_OF_DAY, dpth);
-//        cal.set(Calendar.MINUTE, dptm);
-//        cal.set(Calendar.SECOND, 0);
 
-        cal.set(YEAR, MONTH - 1, DAY, dpth, dptm);
-        System.out.println(cal.getTime() + "확인 cal에 셋된시간");
+        String[] date_time = ticket_Date.split("-");
+        int Year = Integer.parseInt(date_time[0]);
+        int Month = Integer.parseInt(date_time[1]);
+        int Day = Integer.parseInt(date_time[2]);
 
+
+        cal.set(Year, Month - 1, Day, dpth, dptm);
 //        cal.setTime(datetime);
         //Receiver로 보내기 위한 인텐트
         Intent intent_alarm = new Intent(context, AlarmReceiver.class);
 
-      ServicePending = PendingIntent.getBroadcast(
-                mContext, requestcode, intent_alarm, PendingIntent.FLAG_ONE_SHOT);
+      ServicePending = PendingIntent.getBroadcast(mContext, requestcode, intent_alarm, PendingIntent.FLAG_ONE_SHOT);
 
-        long calc_time=cal.getTimeInMillis();
+        long calc_time = cal.getTimeInMillis();
 
         if (Build.VERSION.SDK_INT < 23) {
             // 19 이상
             if (Build.VERSION.SDK_INT >= 19) {
                 AM.setExact(AlarmManager.RTC_WAKEUP, calc_time , ServicePending);
-                System.out.println("확인 19이상");
-
             }
             // 19 미만
             else {
                 // pass
                 // 알람셋팅
                 AM.set(AlarmManager.RTC_WAKEUP, calc_time, ServicePending);
-                System.out.println("확인 19미만");
-
             }
             // 23 이상
         } else {
             AM.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calc_time, ServicePending);
-            System.out.println("확인 23이상");
         }
-        System.out.println("확인 알람설정 ok");
     }
-
 }

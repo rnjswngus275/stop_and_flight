@@ -70,43 +70,25 @@ public class FragmentNicknameModify extends Fragment {
         View view= inflater.inflate(R.layout.fragment_nickname_modify, container, false);
 
         EditText nickname=(EditText)view.findViewById(R.id.Nickname);
-
         Button button= (Button)view.findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference mDatabase ;
-                String uid="";
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
+                String uid = "";
                 if(user!=null){
                     uid  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
-
                 }
-                String Nickname =nickname.getText().toString();
-                System.out.println("확인"+Nickname);
-                FirebaseAuth mAuth;
-                mAuth = FirebaseAuth.getInstance(); // 유저 계정 정보 가져오기
-                mDatabase = FirebaseDatabase.getInstance().getReference(); // 파이어베이스 realtime database 에서 정보 가져오기
+                String Nickname = nickname.getText().toString();
+                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(); // 파이어베이스 realtime database 에서 정보 가져오기
                 mDatabase.child("users").child(uid).child("nickname").setValue(Nickname);
-// Create new fragment and transaction
-                Fragment newFragment = new MypageFragment();
+                Fragment newFragment = new com.example.stop_and_flight.MypageFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-// Replace whatever is in the fragment_container view with this fragment,
-// and add the transaction to the back stack
                 transaction.replace(R.id.container, newFragment);
                 transaction.addToBackStack(null);
-
-// Commit the transaction
                 transaction.commit();
-
-
-
             }
         });
-
-
-
         return view;
     }
 }

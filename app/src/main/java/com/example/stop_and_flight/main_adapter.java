@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 
 import com.example.stop_and_flight.model.Ticket;
+import com.example.stop_and_flight.model.main_model;
 
 import java.util.List;
 
@@ -50,38 +51,9 @@ public class main_adapter extends PagerAdapter {
         todo=view.findViewById(R.id.todo);
 
 
-        dpt_time.setText(models.get(position).getDepart_time());
-        arr_time.setText(models.get(position).getArrive_time());
+        dpt_time.setText(formatAmPm(models.get(position).getDepart_time()));
+        arr_time.setText(formatAmPm(models.get(position).getArrive_time()));
         todo.setText(models.get(position).getTodo());
-
-
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                if(position==0) {
-//                    Intent intent = new Intent(context, TargetActivity.class);
-//                    //intent.putExtra("param", models.get(position).getTitle());
-//                    context.startActivity(intent);
-//
-//                }
-//                else if(position==1){
-//                    Intent intent = new Intent(context, HomeActivity.class);
-//                    //intent.putExtra("param", models.get(position).getTitle());
-//                    context.startActivity(intent);
-//                }
-//                else if(position==2){
-//                    Intent intent = new Intent(context, MartActivity.class);
-//                    //intent.putExtra("param", models.get(position).getTitle());
-//                    context.startActivity(intent);
-//                }
-//                else if(position==3){
-//                    Intent intent = new Intent(context, CarActivity.class);
-//                    //intent.putExtra("param", models.get(position).getTitle());
-//                    context.startActivity(intent);
-//                }
-            }
-
-        });
 
         container.addView(view, 0);
         return view;
@@ -91,4 +63,24 @@ public class main_adapter extends PagerAdapter {
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View)object);
     }
+
+    public String formatAmPm(String date)
+    {
+        String[] date_arr = date.split(":");
+        String date_set;
+        if (Integer.parseInt(date_arr[0]) < 10)
+            date_set = "AM 0" + date_arr[0];
+        else if (Integer.parseInt(date_arr[0]) < 12)
+            date_set = "AM " + date_arr[0];
+        else if(Integer.parseInt(date_arr[0]) % 12 < 10)
+            date_set = "PM 0" + Integer.parseInt(date_arr[0]) % 12;
+        else
+            date_set = "PM " + Integer.parseInt(date_arr[0]) % 12;
+        if (Integer.parseInt(date_arr[1]) < 10)
+            date_set = date_set + ":0" + date_arr[1];
+        else
+            date_set = date_set +":" + date_arr[1];
+        return date_set;
+    }
+
 }

@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.model.CurTime;
-import com.example.stop_and_flight.model.DateInfo;
+import com.example.stop_and_flight.model.UserInfo;
 import com.example.stop_and_flight.utils.RankingAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -49,7 +49,7 @@ public class WeekRankFragment extends Fragment {
     private String mParam2;
     private String UID;
     private Context context;
-    private final ArrayList<DateInfo> dateInfos = new ArrayList<DateInfo>();
+    private final ArrayList<UserInfo> UserInfos = new ArrayList<UserInfo>();
     private HashMap<String, Object> UserMap = new HashMap<>();
     private HashMap<String, Object> DateMap = new HashMap<>();
     private DatabaseReference mDatabase;
@@ -103,11 +103,11 @@ public class WeekRankFragment extends Fragment {
         WeekRankRecyclerView = view.findViewById(R.id.weekRankRecyclerView);
 
         CurTime curTime = new CurTime();
-        getWeekRankingDB(CurTime.getCurMonday(), CurTime.getCurSunday(), view, curTime);
+        getWeekRankingDB(view, curTime);
 
         WeekRankRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
 
-        rankingAdapter.setRank(dateInfos);
+        rankingAdapter.setRank(UserInfos);
         WeekRankRecyclerView.setAdapter(rankingAdapter);
 
 
@@ -115,15 +115,14 @@ public class WeekRankFragment extends Fragment {
     }
 
     // 필요한 DB 정보 - 닉네임 & 이용 시간별 (일간 / 주간)
-    private void getWeekRankingDB(String startdate, String enddate, View view, CurTime curTime)
+    private void getWeekRankingDB(View view, CurTime curTime)
     {
         mDatabase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                dateInfos.clear();
+                UserInfos.clear();
                 String mynickname = "";
-
                 if (snapshot != null)
                 {
                     for (DataSnapshot UserSnapshot : snapshot.getChildren())
@@ -135,26 +134,30 @@ public class WeekRankFragment extends Fragment {
                         {
                             DateMap = (HashMap<String, Object>) UserSnapshot.child("date").getValue();
                             for (String day : curTime.getCurWeek()){
-                                int Studytime = Integer.parseInt(String.valueOf(DateMap.getOrDefault(day, 0)));
+
+                                //ask your app running more modern API as level 24 (Build.VERSION_CODES.N(ougat))
+                                int Studytime = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) ?
+                                        Integer.parseInt(String.valueOf(DateMap.getOrDefault(day, 0))) :
+                                    // if not, then need to solve with similar code of original code in next below
+                                    ((DateMap.get(day) != null) ? Integer.parseInt(String.valueOf(DateMap.get(day))) : 0);
                                 sum += Studytime;
                             }
                         }
                         if (UserSnapshot.getKey().equals(UID))
                         {
-                            System.out.println(UserSnapshot);
                             TextView weeknickname = view.findViewById(R.id.weekRanknickName);
                             TextView weekRankTime = view.findViewById(R.id.weekRankTime);
                             mynickname = String.valueOf(UserMap.get("nickname"));
                             weeknickname.setText(mynickname);
                             weekRankTime.setText(String.valueOf(sum));
                         }
-                        DateInfo dateInfo = new DateInfo(Nickname, sum);
-                        dateInfos.add(dateInfo);
+                        UserInfo userInfo = new UserInfo(Nickname, sum);
+                        UserInfos.add(userInfo);
                     }
                 }
-                Collections.sort(dateInfos, new Comparator<DateInfo>() {
+                Collections.sort(UserInfos, new Comparator<UserInfo>() {
                     @Override
-                    public int compare(DateInfo o1, DateInfo o2) {
+                    public int compare(UserInfo o1, UserInfo o2) {
                         if (o1.getStudytime() > o2.getStudytime())
                             return 1;
                         else if (o1.getStudytime() == o2.getStudytime())
@@ -165,7 +168,7 @@ public class WeekRankFragment extends Fragment {
                 });
 
 
-                Collections.reverse(dateInfos);
+                Collections.reverse(UserInfos);
                 TextView firsttitle = view.findViewById(R.id.firstTitle);
                 TextView secondTitle = view.findViewById(R.id.secondTitle);
                 TextView thirdTitle = view.findViewById(R.id.thirdTitle);
@@ -175,14 +178,16 @@ public class WeekRankFragment extends Fragment {
                 TextView rankingPercent = view.findViewById(R.id.rankingPercent);
 
 
-                firsttitle.setText(dateInfos.get(0).getNickname());
-                secondTitle.setText(dateInfos.get(1).getNickname());
-                thirdTitle.setText(dateInfos.get(2).getNickname());
-                Totalsize.setText(String.valueOf(dateInfos.size()));
-                float percent = (getArraylistIndex(dateInfos, mynickname) / (float) dateInfos.size()) * 100;
-                rankingPercent.setText(percent + "%");
+                firsttitle.setText(UserInfos.get(0).getNickname());
+                secondTitle.setText(UserInfos.get(1).getNickname());
+                thirdTitle.setText(UserInfos.get(2).getNickname());
+                Totalsize.setText(String.valueOf(UserInfos.size()));
+                float percent = (getArraylistIndex(UserInfos, mynickname) / (float) UserInfos.size()) * 100;
+                String percentage = String.format("%.2f", percent) + "%";
 
-                weekRankgrade.setText(String.valueOf(getArraylistIndex(dateInfos, mynickname)));
+                rankingPercent.setText(percentage);
+
+                weekRankgrade.setText(String.valueOf(getArraylistIndex(UserInfos, mynickname)));
                 rankingAdapter.notifyDataSetChanged();
             }
             @Override
@@ -190,7 +195,7 @@ public class WeekRankFragment extends Fragment {
             }
         });
     }
-    private int getArraylistIndex(ArrayList<DateInfo> arrayList, String nickname)
+    private int getArraylistIndex(ArrayList<UserInfo> arrayList, String nickname)
     {
         for (int i = 0; i < arrayList.size(); i++)
         {

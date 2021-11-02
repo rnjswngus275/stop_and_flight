@@ -1,38 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment_flight2"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.Fragment_flight2"
+    android:background="@color/white"
     android:orientation="vertical"
     android:gravity="center_horizontal">
-    <ImageButton
-        android:layout_marginTop="30dp"
-        android:id="@+id/user_profile_first"
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/img1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/user"
+        android:layout_height="400dp"
+        app:lottie_fileName="54972-world-map-tallinn.json"
         />
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:gravity="center_horizontal"
-    android:layout_margin="30dp">
 
-    <ImageButton
-        android:id="@+id/user_profile_sub1"
-        android:layout_width="wrap_content"
+
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/user" />
-    <ImageButton
-        android:id="@+id/user_profile_sub2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/user" />
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:text="같이 비행하는 친구"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/flightPageRecyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>
-</LinearLayout>
-
-    <!--<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>-->

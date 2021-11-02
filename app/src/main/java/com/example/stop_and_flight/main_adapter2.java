@@ -12,6 +12,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.example.stop_and_flight.model.main_model;
+
 public class main_adapter2 extends PagerAdapter {
     private final List<main_model> models;
     private LayoutInflater layoutInflater;
@@ -55,36 +57,7 @@ public class main_adapter2 extends PagerAdapter {
         dpt_time.setText("");
         arr_time.setText("");
         txt3.setText("");
-//        todo.setText(models.get(position).getTodo());
 
-
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                if(position==0) {
-//                    Intent intent = new Intent(context, TargetActivity.class);
-//                    //intent.putExtra("param", models.get(position).getTitle());
-//                    context.startActivity(intent);
-//
-//                }
-//                else if(position==1){
-//                    Intent intent = new Intent(context, HomeActivity.class);
-//                    //intent.putExtra("param", models.get(position).getTitle());
-//                    context.startActivity(intent);
-//                }
-//                else if(position==2){
-//                    Intent intent = new Intent(context, MartActivity.class);
-//                    //intent.putExtra("param", models.get(position).getTitle());
-//                    context.startActivity(intent);
-//                }
-//                else if(position==3){
-//                    Intent intent = new Intent(context, CarActivity.class);
-//                    //intent.putExtra("param", models.get(position).getTitle());
-//                    context.startActivity(intent);
-//                }
-            }
-
-        });
 
         container.addView(view, 0);
         return view;
