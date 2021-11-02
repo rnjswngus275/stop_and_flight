@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.stop_and_flight.R;
+import com.example.stop_and_flight.model.CurTime;
 import com.example.stop_and_flight.utils.Accessibility;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
@@ -267,21 +268,22 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
         }
 
 
-        Date date = new Date();
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTime(date);
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int c_hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int c_min = calendar.get(Calendar.MINUTE);
-        int c_sec = calendar.get(Calendar.SECOND);
+//        Date date = new Date();
+//        Calendar calendar = new GregorianCalendar();
+//        calendar.setTime(date);
+//        int year = calendar.get(Calendar.YEAR);
+//        int month = calendar.get(Calendar.MONTH);
+//        int day = calendar.get(Calendar.DAY_OF_MONTH);
+//        int c_hour = calendar.get(Calendar.HOUR_OF_DAY);
+//        int c_min = calendar.get(Calendar.MINUTE);
+//        int c_sec = calendar.get(Calendar.SECOND);
+//
+//        String str_year=Integer.toString(year);
+//        String str_month=Integer.toString(month+1);
+//        String str_day=Integer.toString(day);
 
-        String str_year=Integer.toString(year);
-        String str_month=Integer.toString(month+1);
-        String str_day=Integer.toString(day);
-
-        today=str_year+"-"+str_month+"-"+str_day;
+        CurTime curtime =new CurTime();
+        today=curtime.getWeekset();
 
         ArrayList al =new ArrayList();
 

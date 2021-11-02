@@ -3,14 +3,12 @@ package com.example.stop_and_flight;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
-import me.relex.circleindicator.CircleIndicator;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.example.stop_and_flight.fragments.Fragment_flight1;
-import com.example.stop_and_flight.fragments.Fragment_flight2;
 import com.example.stop_and_flight.utils.Accessibility;
 import com.example.stop_and_flight.utils.AppGuideAdapter;
 import com.example.stop_and_flight.model.AppInfo;
@@ -30,7 +28,7 @@ public class FilghtActivity extends AppCompatActivity implements Fragment_flight
     private String arrive_time;
     private String depart_time;
     private String uid;
-    private CircleIndicator mIndicator;
+
     private ArrayList<AppInfo> applist = new ArrayList<>();
     private DatabaseReference mDatabase;
 
@@ -52,8 +50,6 @@ public class FilghtActivity extends AppCompatActivity implements Fragment_flight
         setContentView(R.layout.activity_filght);
         ViewPager viewPager = findViewById(R.id.pager_filght);
         setupViewPager(viewPager);
-        mIndicator=(CircleIndicator)findViewById(R.id.indicator_flight);
-        mIndicator.setViewPager(viewPager);
     }
 
     @Override
@@ -92,7 +88,6 @@ public class FilghtActivity extends AppCompatActivity implements Fragment_flight
 
     public void setupViewPager(ViewPager viewPager) {
         adapter.addFragment(new Fragment_flight1(), "1");
-        adapter.addFragment(new Fragment_flight2(), "2");
         viewPager.setAdapter(adapter);
     }
 

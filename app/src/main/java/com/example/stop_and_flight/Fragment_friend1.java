@@ -61,6 +61,8 @@ public class Fragment_friend1 extends Fragment{
     private String Nickname2;
     private String Message2;
     private String friend_uid2;
+    String Id_idle;
+    String Id_myidle;
 
     int num_idle=0;
     int num_myidle=0;
@@ -138,13 +140,14 @@ public class Fragment_friend1 extends Fragment{
             }
         });
 //count 세기위해서
-        mDatabase.child("users").child(UID).child("friend").child("idle").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("users").child(UID).child("friend").child("myidle").addValueEventListener(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
                     if (fileSnapshot != null) {
-                        count++;
+                        Id_myidle = snapshot.getKey();
+
                     }
                 }
 
@@ -182,7 +185,7 @@ public class Fragment_friend1 extends Fragment{
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
                                             if (fileSnapshot != null) {
-                                                count3++;
+                                                Id_idle = snapshot.getKey();
                                             }
                                         }
 
@@ -193,8 +196,8 @@ public class Fragment_friend1 extends Fragment{
                                         Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
                                     }
                                 });
-                                mDatabase.child("users").child(UID).child("friend").child("myidle").child(String.valueOf(count)).setValue(friend_UID);          //내 db에 update
-                                mDatabase.child("users").child(friend_UID).child("friend").child("idle").child(String.valueOf(count3)).setValue(UID);//친구 db에 update
+                                mDatabase.child("users").child(UID).child("friend").child("myidle").child(Id_myidle).setValue(friend_UID);          //내 db에 update
+                                mDatabase.child("users").child(friend_UID).child("friend").child("idle").child(Id_idle).setValue(UID);//친구 db에 update
                                 Toast.makeText(getActivity(),"친구신청을 보냈습니다"+friend_UID,Toast.LENGTH_LONG).show();
                             }
                         });
@@ -253,9 +256,8 @@ public class Fragment_friend1 extends Fragment{
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot2) {
                                         Message = snapshot2.getValue(String.class);
-                                        System.out.println("확인 진입3"+Nickname+Message+friend_uid+"/"+count+"/"+count2);
 
-                                        list_add(Nickname,Message,friend_uid,count-1);
+                                        list_add(Nickname,Message,friend_uid,Id_myidle);
                                         adapter.notifyDataSetChanged();
                                     }
                                     @Override
@@ -354,7 +356,7 @@ public class Fragment_friend1 extends Fragment{
         return view;
     }
 
-    public void list_add(String Nickname,String Message,String Friend_Uid,int count){
+    public void list_add(String Nickname, String Message, String Friend_Uid, String count){
         //count 세기위해서
         mDatabase.child("users").child(Friend_Uid).child("friend").child("idle").addValueEventListener(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -362,8 +364,7 @@ public class Fragment_friend1 extends Fragment{
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
                     if (fileSnapshot != null) {
-                        count2++;
-                        System.out.println("확인 진입 count2"+count2);
+                        Id_idle = snapshot.getKey();
                     }
                 }
             }
@@ -374,7 +375,7 @@ public class Fragment_friend1 extends Fragment{
             }
         });
 
-        friend_list.add(new friend_model(Nickname,Message,Friend_Uid,String.valueOf(count),String.valueOf(count2)));
+        friend_list.add(new friend_model(Nickname,Message,Friend_Uid,String.valueOf(count),Id_idle));
         System.out.println(friend_list.size());
         System.out.println("확인 함수안"+"/"+count+"/"+count2);
 
