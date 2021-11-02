@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import android.os.CountDownTimer;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,6 +34,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -236,6 +238,35 @@ public class Fragment_flight1 extends Fragment implements View.OnClickListener {
         Button emergencybutton = v.findViewById(R.id.button_emergency);
         Button appaccessbutton = v.findViewById(R.id.button_app);
         TextView todo =v.findViewById(R.id.todo_txt);
+        LottieAnimationView animation =v.findViewById(R.id.lottie);
+
+        Calendar c = Calendar.getInstance();
+        int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
+
+        if(timeOfDay >= 5 && timeOfDay < 11){
+            animation.setAnimation("51900-good-morning.json");
+            animation.loop(true);
+            animation.playAnimation();
+        }else if(timeOfDay >= 11 && timeOfDay < 17){
+            animation.setAnimation("51901-good-afternoon.json");
+            animation.loop(true);
+            animation.playAnimation();
+        }else if(timeOfDay >= 17 && timeOfDay < 21){
+            animation.setAnimation("51902-good-evening.json");
+            animation.loop(true);
+            animation.playAnimation();
+
+        }else if(timeOfDay >= 21 && timeOfDay < 24){
+            animation.setAnimation("51903-good-night.json");
+            animation.loop(true);
+            animation.playAnimation();
+        }
+        else if(timeOfDay >= 0 && timeOfDay <5){
+            animation.setAnimation("51903-good-night.json");
+            animation.loop(true);
+            animation.playAnimation();
+        }
+
 
         Date date = new Date();
         Calendar calendar = new GregorianCalendar();
