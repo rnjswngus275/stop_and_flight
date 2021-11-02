@@ -83,10 +83,6 @@ public class TicketingFragment extends Fragment {
     private List<String> select_Date = new ArrayList<>();
     private CurTime curTime;
     private HashMap<String, Object> TicketMap;
-    public int YEAR;
-    public int MONTH;
-    public int DAY;
-    Context mContext;
 
 
     public TicketingFragment(Context context) {
@@ -134,12 +130,6 @@ public class TicketingFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext= context;
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ticketing, container, false);
@@ -172,40 +162,9 @@ public class TicketingFragment extends Fragment {
         }
         if (ticket_Date == null)
         {
-            YEAR =  curTime.getIntYear();
-            MONTH =  curTime.getIntMonth();
-            DAY =  curTime.getIntDay();
-            ticket_Date = YEAR + "-" + MONTH + "-" + DAY;
-        }
-        else {
-            String[] date_time = ticket_Date.split("-");
-            YEAR = Integer.parseInt(date_time[0]);
-            MONTH = Integer.parseInt(date_time[1]);
-            DAY = Integer.parseInt(date_time[2]);
+            ticket_Date = curTime.getWeekset();
         }
         select_data_button.setText(ticket_Date);
-
-//        select_data_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                final Calendar c=Calendar.getInstance();
-//                int mYear=c.get(Calendar.YEAR);
-//                int mMonth=c.get(Calendar.MONTH);
-//                int mDay=c.get(Calendar.DAY_OF_MONTH);
-//                DatePickerDialog datePickerDialog =new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-//                    @Override
-//                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-//                        select_data_button.setText(year+ "년 "+ (monthOfYear + 1) + " 월 " + dayOfMonth + " 일");
-//                        YEAR = year;
-//                        MONTH = monthOfYear + 1;
-//                        DAY = dayOfMonth;
-//                        ticket_Date = YEAR  + "-" + MONTH  + "-" + DAY;
-//                    }
-//                },mYear,mMonth,mDay);
-//                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
-//                datePickerDialog.show();
-//            }
-//        });
 
         CalendarConstraints.Builder calendarConstraintbuilder = new CalendarConstraints.Builder();
         calendarConstraintbuilder.setValidator(DateValidatorPointForward.now());
@@ -279,8 +238,9 @@ public class TicketingFragment extends Fragment {
                     }
                 }
                 else {
-
-                    if (DAY == curTime.getIntDay())
+                    String[] date_time = ticket_Date.split("-");
+                    int Day = Integer.parseInt(date_time[2]);
+                    if (Day == curTime.getIntDay())
                     {
                         if(curTime.getIntHour() < depart_hour || (curTime.getIntHour() == depart_hour && curTime.getIntMinute() <= depart_min))
                         {
@@ -425,7 +385,7 @@ public class TicketingFragment extends Fragment {
         //Receiver로 보내기 위한 인텐트
         Intent intent_alarm = new Intent(context, AlarmReceiver.class);
 
-      ServicePending = PendingIntent.getBroadcast(mContext, requestcode, intent_alarm, PendingIntent.FLAG_ONE_SHOT);
+        ServicePending = PendingIntent.getBroadcast(context, requestcode, intent_alarm, PendingIntent.FLAG_ONE_SHOT);
 
         long calc_time = cal.getTimeInMillis();
 
