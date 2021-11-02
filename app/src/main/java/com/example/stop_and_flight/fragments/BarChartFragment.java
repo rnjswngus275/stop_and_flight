@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,17 +16,14 @@ import android.widget.TextView;
 
 import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.model.CurTime;
+import com.example.stop_and_flight.model.DateInfo;
 import com.example.stop_and_flight.model.Ticket;
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -45,7 +43,9 @@ import java.util.HashMap;
  */
 public class BarChartFragment extends Fragment {
     BarChart barChart;
+    public ArrayList<Integer> time_list = new ArrayList<Integer>();
     private com.github.mikephil.charting.charts.BarChart showbarchart;
+    private ArrayList<DateInfo> dateInfos = new ArrayList<DateInfo>();
     private HashMap<String, Object> UserMap;
     private String UID;
     private Ticket ticket;
@@ -95,132 +95,98 @@ public class BarChartFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_2, container, false);
         CurTime curTime = new CurTime();
-        showbarchart = view.findViewById(R.id.barchart);
-        barChart = view.findViewById(R.id.barchart);
-        showbarchart.setVisibility(PieChart.VISIBLE);
+        barChart = (BarChart) view.findViewById(R.id.barchart);
+
+        ArrayList<BarEntry> barEntry = new ArrayList<>();
+        ArrayList<String> week = new ArrayList<>();
+        TextView week_total_time= (TextView)view.findViewById(R.id.textView30);
+        TextView today_total_time=(TextView)view.findViewById(R.id.textView28);
+
         int curIntTime = curTime.getIntYear() * 10000 + curTime.getIntMonth() * 100 + curTime.getIntDay() * 1;
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
         if(user != null){
             UID  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
         }
-
-        ArrayList<BarEntry> barEntry = new ArrayList<>();
-        ArrayList<String> week = new ArrayList<>();
-        TextView week_total_time= view.findViewById(R.id.textView30);
-        TextView today_total_time= view.findViewById(R.id.textView28);
         databaseReference =  FirebaseDatabase.getInstance().getReference();
-        databaseReference.child("users").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("TICKET").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
+
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                int sum = 0;
-                String weektotalTime = null;
-                String todaytotalTime=null;
-                if (snapshot!=null) {
-                    if (snapshot.child("date").getValue() != null) {
+                time_list.clear();
+                int arr_time = 0;
+                for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
+                    if (fileSnapshot != null) {
 
-                        UserMap = (HashMap<String, Object>) snapshot.child("date").getValue();
-                        for (String day : curTime.getCurWeek()) {
-                            float i = 0f;
-                            int Studytime = Integer.parseInt(String.valueOf(UserMap.getOrDefault(day, 1)));
-                            System.out.println(Studytime);
-                            sum = sum + Studytime;
-                            weektotalTime= sum +"분";
-                            todaytotalTime=Studytime+"분";
+                        for (DataSnapshot fileSnapshot2 : fileSnapshot.getChildren()) {
 
-                            barEntry.add(new BarEntry(i++, Studytime));
-                            /*week.add(day);*/
+                            int[] Arr_times = new int[7];
+                            ticket = new Ticket();
+                            ticket = fileSnapshot2.getValue(Ticket.class);
+
+                            //비율계산//
+                            String[] arr1 = ticket.getDepart_time().split(":"); //출발시간
+                            String[] arr2 = ticket.getArrive_time().split(":"); //도착시간
+                            int depart_hour = Integer.parseInt(arr1[0]);//출발시간 시
+                            int depart_minute = Integer.parseInt(arr1[1]);//출발시간 분
+                            int arrive_hour = Integer.parseInt(arr2[0]); //도착시간 시
+                            int arrive_minute = Integer.parseInt(arr2[1]); //도착시간 분
+
+                            int term_hour = arrive_hour - depart_hour;
+                            int term_minute = arrive_minute - depart_minute;
+
+                            //------//
+
+                            arr_time = term_hour * 60 + term_minute; //시간을 분으로 계산 (예를들어 1시간 30분-> 90분으로 계산)
+                            String arr_times = arr_time + "분";
+
+
+                            time_list.add(arr_time);
+                            System.out.println("비행시간은" + arr_time);
+                            int i = 1;
+                            barEntry.add(new BarEntry(i, arr_time));
+                            System.out.println("---로그시작---");
+                            System.out.println("i=" + i);
+                            System.out.println("값=" + arr_time);
+                            System.out.println("---로그끝---");
+
+                            final String[] weekdays = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"}; // Your List / array with String Values For X-axis Labels
+
+// Set the value formatter
+                            XAxis xAxis = barChart.getXAxis();
+                            xAxis.setValueFormatter(new IndexAxisValueFormatter(weekdays));
+                            week_total_time.setText(arr_times);
+                            today_total_time.setText(arr_times);
                         }
-
                     }
+/*                    for(int i=1;i<=7;i++){
 
-                    BarDataSet dataSet = new BarDataSet(barEntry,"주별 비행시간");
-                    dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
-                    BarData data = new BarData(dataSet);
 
-                    data.setValueTextSize(10f);
-                    data.setValueTextColor(Color.BLACK);
-                    data.setBarWidth(0.15f);//너비
-                    Description description = new Description();
-                    description.setText(""); //라벨
-                    description.setTextSize(15);
-                    description.setEnabled(false);
 
-                    barChart.animateY(1000, Easing.EaseInOutCubic); //애니메이션
-                    barChart.setData(data);
-                    barChart.setDrawGridBackground(false);
-                    barChart.setTouchEnabled(false);
+                    }*/
 
-                    final ArrayList<String> xAxisLabel = new ArrayList<>();
-                    xAxisLabel.add("Mon");
-                    xAxisLabel.add("Tue");
-                    xAxisLabel.add("Wed");
-                    xAxisLabel.add("Thu");
-                    xAxisLabel.add("Fri");
-                    xAxisLabel.add("Sat");
-                    xAxisLabel.add("Sun");
-                    XAxis xAxis = barChart.getXAxis();
-                    xAxis.setValueFormatter(new ValueFormatter() {
-                        @Override
-                        public String getFormattedValue(float value, AxisBase axis) {
-                            return xAxisLabel.get((int) value);
 
-                        }
-                    });
-
-                    week_total_time.setText(weektotalTime);
-                    today_total_time.setText(todaytotalTime);
                 }
-//                barChart.notifyDataSetChanged();
-//                barChart.invalidate();
+                BarDataSet barDataSet = new BarDataSet(barEntry, "주별 비행시간");
+                barDataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+                barDataSet.setValueTextColor(Color.BLACK);
+                barDataSet.setValueTextSize(16f);
+                BarData barData = new BarData(barDataSet);
+                barChart.setFitBars(true);
+                barChart.setData(barData);
+                barChart.animateY(2000);
+                barChart.setDrawGridBackground(false);
+                barChart.setTouchEnabled(false);
+
 
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
             }
         });
         return view;
     }
-//    private void barChart(LayoutInflater inflater, ViewGroup container,
-//                          Bundle savedInstanceState)
-//    {
-//
-//
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
-//        if(user != null){
-//            UID  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
-//        }
-//
-//        databaseReference =  FirebaseDatabase.getInstance().getReference();
-//        databaseReference.child("users").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @RequiresApi(api = Build.VERSION_CODES.N)
-//            @Override
-//
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                // 여기서 ticket이 다음 날 넘어가요!!
-//                ArrayList<DateInfo> dateinfo =new ArrayList<>();
-//                if (snapshot!=null) {
-//                    if (snapshot.child("date").getValue() != null)
-//                    {
-//                        UserMap = (HashMap<String, Object>) snapshot.child("date").getValue();
-//                        for (String day : curTime.getCurWeek()){
-//                            int Studytime = Integer.parseInt(String.valueOf(UserMap.getOrDefault(day, 0)));
-//
-//                            //여기부터 데이터 그래프그리는 부분//
-//                            barEntry.add(new BarEntry(Float.parseFloat(day),Studytime));
-//                            /*xLabels.add(day); //x축*/
-//                        }
-//                    }
-//                    barChart.notifyDataSetChanged();
-//                    barChart.invalidate();
-//                }
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//
-//    }
+
 }
