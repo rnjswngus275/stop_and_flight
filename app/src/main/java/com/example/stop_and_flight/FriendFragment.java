@@ -101,15 +101,11 @@ public class FriendFragment extends Fragment {
             UID  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
         }
 
-        loadTabName();
-
-
-
-
 
 
         tabLayout=view.findViewById(R.id.layout_tab);
-        tabNames.stream().forEach(name->tabLayout.addTab(tabLayout.newTab().setText(name)));
+        tabLayout.addTab(tabLayout.newTab().setText("친구목록"));
+        tabLayout.addTab(tabLayout.newTab().setText("호스팅 목록"));
 
         FriendViewpagerAdapter adapter =new FriendViewpagerAdapter(getChildFragmentManager(),2);
         viewpager=view.findViewById(R.id.layout_viewPager);
@@ -131,11 +127,7 @@ public class FriendFragment extends Fragment {
 
         return view;
     }
-    private void loadTabName(){
-        tabNames.clear();
-        tabNames.add("친구 목록");
-        tabNames.add("호스팅 목록");
-    }
+
 }
 
 
