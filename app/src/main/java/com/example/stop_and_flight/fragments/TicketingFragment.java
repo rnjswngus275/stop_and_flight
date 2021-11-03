@@ -74,7 +74,6 @@ public class TicketingFragment extends Fragment {
     private String Todo = null;
     private String Friend = null;
     private String UID;
-    private String Friend = null;
     private AlarmManager AM;
     private PendingIntent ServicePending;
     private final Context context;

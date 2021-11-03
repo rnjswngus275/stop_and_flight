@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
         CalendarFragment calendarFragment = new CalendarFragment();
         TaskFragment taskFragment = new TaskFragment();
-        com.example.stop_and_flight.MypageFragment mypage = new com.example.stop_and_flight.MypageFragment();
+        com.example.stop_and_flight.fragments.MypageFragment mypage = new com.example.stop_and_flight.fragments.MypageFragment();
         RankingFragment rankingFragment = new RankingFragment();
         FriendFragment friend=new FriendFragment();
         StatisticsFragment statisticsFragment = new StatisticsFragment();

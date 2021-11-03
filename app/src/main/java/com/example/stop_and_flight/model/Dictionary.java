@@ -2,7 +2,7 @@ package com.example.stop_and_flight.model;
 
 public class Dictionary {
     private String Todo;
-    private int Time;
+    private String Time;
 
     public String getTodo() {
         return Todo;
@@ -12,15 +12,15 @@ public class Dictionary {
         Todo = todo;
     }
 
-    public int getTime() {
+    public String getTime() {
         return Time;
     }
 
-    public void setTime(int time) {
+    public void setTime(String time) {
         Time = time;
     }
 
-    public Dictionary(String todo, int time) {
+    public Dictionary(String todo, String time) {
 
         Todo = todo;
         Time = time;

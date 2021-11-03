@@ -18,7 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.stop_and_flight.R;
+import com.example.stop_and_flight.model.Dictionary;
 import com.example.stop_and_flight.model.Ticket;
+import com.example.stop_and_flight.utils.CustomAdapter;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
