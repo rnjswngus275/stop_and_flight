@@ -7,20 +7,41 @@
     android:orientation="vertical"
     tools:context=".fragments.StatisticsFragment">
 
+        <com.ogaclejapan.smarttablayout.SmartTabLayout
+            android:id="@+id/viewpagertab_statistic"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:stl_indicatorAlwaysInCenter="true"
+            app:stl_indicatorWithoutPadding="false"
+            app:stl_indicatorInFront="false"
+            app:stl_indicatorInterpolation="smart"
+            app:stl_indicatorGravity="bottom"
+            app:stl_indicatorColor="@color/color_2"
+            app:stl_indicatorThickness="4dp"
+            app:stl_indicatorWidth="auto"
+            app:stl_indicatorCornerRadius="2dp"
+            app:stl_overlineColor="#4D000000"
+            app:stl_overlineThickness="0dp"
+            app:stl_underlineThickness="0dp"
+            app:stl_dividerThickness="0dp"
+            app:stl_defaultTabBackground="?attr/selectableItemBackground"
+            app:stl_defaultTabTextAllCaps="true"
+            app:stl_defaultTabTextColor="#FC000000"
+            app:stl_defaultTabTextSize="12sp"
+            app:stl_defaultTabTextHorizontalPadding="16dp"
+            app:stl_defaultTabTextMinWidth="0dp"
+            app:stl_distributeEvenly="false"
+            app:stl_clickable="true"
+            app:stl_titleOffset="24dp"
+            app:stl_drawDecorationAfterTab="false"
+            />
 
         <androidx.viewpager.widget.ViewPager
-            android:id="@+id/pager"
+            android:id="@+id/viewpager_statistic"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-                <androidx.viewpager.widget.PagerTitleStrip
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:textColor="@color/color_3" />
-        </androidx.viewpager.widget.ViewPager>
+            android:layout_height="match_parent"
+            android:layout_below="@id/viewpagertab"
+            />
 
 </LinearLayout>
 
