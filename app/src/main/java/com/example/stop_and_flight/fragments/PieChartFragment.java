@@ -12,14 +12,13 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.stop_and_flight.R;
-import com.example.stop_and_flight.model.Dictionary;
 import com.example.stop_and_flight.model.Ticket;
-import com.example.stop_and_flight.utils.CustomAdapter;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
@@ -43,12 +42,14 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class PieChartFragment extends Fragment {
+    PieChart pieChart;
+    private com.github.mikephil.charting.charts.PieChart showpiechart;
     private String UID;
     private Ticket ticket;
     private DatabaseReference databaseReference;
     private ArrayList<Dictionary> mArrayList;
     private CustomAdapter mAdapter;
-    private final int count = -1;
+    private int count = -1;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -87,10 +88,6 @@ public class PieChartFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
-        if(user != null){
-            UID  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
-        }
     }
 
     @Override
@@ -100,163 +97,168 @@ public class PieChartFragment extends Fragment {
 
         View view =inflater.inflate(R.layout.fragment_1, container, false);
         Context ct = container.getContext();
-        RecyclerView mRecyclerView = view.findViewById(R.id.recyclerview_main_list);
+        RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_main_list);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(ct,LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
+
         mArrayList = new ArrayList<>();
-        mAdapter = new CustomAdapter(mArrayList);
+
+        mAdapter = new CustomAdapter( mArrayList);
+
         mRecyclerView.setAdapter(mAdapter);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
                 mLinearLayoutManager.getOrientation());
         mRecyclerView.addItemDecoration(dividerItemDecoration); //기본 구분선 추가
 
-        PieChart pieChart = view.findViewById(R.id.piechart);
-        pieChart.setUsePercentValues(true);
-        pieChart.getDescription().setEnabled(false);
-        pieChart.setExtraOffsets(5,10,5,5);
-        pieChart.setDragDecelerationFrictionCoef(0.95f);
-        pieChart.setDrawHoleEnabled(false);
-        pieChart.setHoleColor(Color.BLACK);
-        pieChart.setTransparentCircleRadius(55f);
-        Description description = new Description();
-        description.setText(""); //라벨
-        description.setTextSize(15);
-        pieChart.setDescription(description);
-        pieChart.animateY(1000, Easing.EaseInOutCubic); //애니메이션 효과
+        showpiechart = (com.github.mikephil.charting.charts.PieChart) view.findViewById(R.id.piechart);
+        pieChart = (PieChart) view.findViewById(R.id.piechart);
 
+        /*기본세팅은 파이차트*/
+        showpiechart.setVisibility(PieChart.VISIBLE);
+        pieChart(inflater,container,savedInstanceState);
 
         //-------여기부터 페이지 하단의 Todo,총비행시간 ArrayList출력하는 부분------//
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
+        if(user != null){
+            UID  = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
+        }
+
         databaseReference =  FirebaseDatabase.getInstance().getReference();
         databaseReference.child("TICKET").child(UID).addValueEventListener(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
+
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList<PieEntry> yValues = new ArrayList<>();
+                // 여기서 ticket이 다음 날 넘어가요!!
                 for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
-                    for(DataSnapshot fileSnapshot2 : fileSnapshot.getChildren()){
-                        if (fileSnapshot2.getValue(Ticket.class) != null)
-                        {
+                    if (fileSnapshot != null) {
+                        String arr_todo = null;
+                        int arr_time = 0;
+                        for(DataSnapshot fileSnapshot2 : fileSnapshot.getChildren()){
                             ticket = new Ticket();
                             ticket = fileSnapshot2.getValue(Ticket.class);
-                            if (ticket.getSuccess() == 2)
-                            {
-                                int arr_times = calculateMinute(ticket.getArrive_time(), ticket.getDepart_time());
+                            System.out.println("확인");
+                            arr_todo = ticket.getTodo();
 
-                                Dictionary data = new Dictionary(ticket.getTodo(), arr_times);
+                            //비율계산//
+                            String[] arr1 = ticket.getDepart_time().split(":"); //출발시간
+                            String[] arr2 = ticket.getArrive_time().split(":"); //도착시간
+                            int depart_hour=Integer.parseInt(arr1[0]);//출발시간 시
+                            int depart_minute=Integer.parseInt(arr1[1]);//출발시간 분
+                            int arrive_hour=Integer.parseInt(arr2[0]); //도착시간 시
+                            int arrive_minute=Integer.parseInt(arr2[1]); //도착시간 분
 
-                                mArrayList.add(data);
-                                yValues.add(new PieEntry(arr_times, ticket.getTodo())); // getTodo 읽어와서 파이차트 엔트리에 추가하는 곳
-                            }
-                            PieDataSet dataSet = new PieDataSet(yValues,"<Todo List>");
-                            dataSet.setSliceSpace(3f);
-                            dataSet.setSelectionShift(5f);
-                            dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+                            int term_hour = arrive_hour-depart_hour;
+                            int term_minute = arrive_minute-depart_minute;
+                            //------//
 
-                            PieData data = new PieData((dataSet));
-                            data.setValueTextSize(10f);
-                            data.setValueTextColor(Color.DKGRAY);
+                            arr_time= term_hour*60+term_minute; //시간을 분으로 계산 (예를들어 1시간 30분-> 90분으로 계산)
 
-                            pieChart.setEntryLabelColor(Color.BLACK); //Todo 글씨 색깔
-                            pieChart.setEntryLabelTextSize(10f); //Todo 글씨 사이즈
-                            pieChart.setData(data);
+                            String arr_times = arr_time + "분";
+
+                            System.out.println(ticket);
+                            System.out.println(ticket.getTodo());
+                            System.out.println(arr_time);
+
+                            Dictionary data = new Dictionary("◼︎  "+arr_todo,arr_times);
+                            mArrayList.add(data); // RecyclerView의 마지막 줄에 삽입
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    }}}
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });return view; }
+
+    private void pieChart(LayoutInflater inflater, ViewGroup container,
+                          Bundle savedInstanceState)
+    {
+        View view1 = inflater.inflate(R.layout.fragment_1, container, false);
+        String date;
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져옴
+        if(user != null){
+            UID  = user.getUid(); // 로그인한 유저의 고유 uid 가져옴
+        }
+
+        databaseReference =  FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("TICKET").child(UID).addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                pieChart.setUsePercentValues(true);
+                pieChart.getDescription().setEnabled(false);
+                pieChart.setExtraOffsets(5,10,5,5);
+                pieChart.setDragDecelerationFrictionCoef(0.95f);
+                pieChart.setDrawHoleEnabled(false);
+                pieChart.setHoleColor(Color.BLACK);
+                pieChart.setTransparentCircleRadius(55f);
+                Description description = new Description();
+                description.setText(""); //라벨
+                description.setTextSize(15);
+                pieChart.setDescription(description);
+                pieChart.animateY(1000, Easing.EaseInOutCubic); //애니메이션 효과
+
+                // 여기서 ticket이 다음 날 넘어가요!!
+                ArrayList<PieEntry> yValues = new ArrayList<PieEntry>();
+                for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
+                    if (fileSnapshot != null) {
+                        String arr_todo = null;
+                        int arr_time = 0;
+                        for(DataSnapshot fileSnapshot2 : fileSnapshot.getChildren()){
+                            ticket = new Ticket();
+                            ticket = fileSnapshot2.getValue(Ticket.class);
+
+                            arr_todo = ticket.getTodo();
+
+                            //비율계산//
+                            String[] arr1 = ticket.getDepart_time().split(":"); //출발시간
+                            String[] arr2 = ticket.getArrive_time().split(":"); //도착시간
+                            int depart_hour=Integer.parseInt(arr1[0]);//출발시간 시
+                            int depart_minute=Integer.parseInt(arr1[1]);//출발시간 분
+                            int arrive_hour=Integer.parseInt(arr2[0]); //도착시간 시
+                            int arrive_minute=Integer.parseInt(arr2[1]); //도착시간 분
+
+                            int term_hour = arrive_hour-depart_hour;
+                            int term_minute = arrive_minute-depart_minute;
+                            //------//
+
+                            arr_time= term_hour*60+term_minute; //시간을 분으로 계산 (예를들어 1시간 30분-> 90분으로 계산)
+
+                            System.out.println(ticket);
+                            System.out.println("출발시간"+ticket.getDepart_time());
+                            System.out.println("도착시간"+ticket.getArrive_time());
+                            System.out.println("계산한시간"+arr_time);
+                            System.out.println("---조건문 끝---");
+                            yValues.add(new PieEntry(arr_time,arr_todo)); // getTodo 읽어와서 파이차트 엔트리에 추가하는 곳
+
                         }
                     }
                 }
-                mAdapter.notifyDataSetChanged();
+
+                PieDataSet dataSet = new PieDataSet(yValues,"<Todo List>");
+                dataSet.setSliceSpace(3f);
+                dataSet.setSelectionShift(5f);
+                dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+
+                PieData data = new PieData((dataSet));
+                data.setValueTextSize(10f);
+                data.setValueTextColor(Color.DKGRAY);
+
+                pieChart.setEntryLabelColor(Color.BLACK); //Todo 글씨 색깔
+                pieChart.setEntryLabelTextSize(10f); //Todo 글씨 사이즈
+                pieChart.setData(data);
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
             }
-        });return view;
+        });
+
     }
-
-//    private void pieChart(LayoutInflater inflater, ViewGroup container,
-//                          Bundle savedInstanceState)
-//    {
-//
-//        databaseReference =  FirebaseDatabase.getInstance().getReference();
-//        databaseReference.child("TICKET").child(UID).addValueEventListener(new ValueEventListener() {
-//            @RequiresApi(api = Build.VERSION_CODES.N)
-//            @Override
-//
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                // 여기서 ticket이 다음 날 넘어가요!!
-//                ArrayList<PieEntry> yValues = new ArrayList<PieEntry>();
-//                for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
-//                    if (fileSnapshot != null) {
-//                        String arr_todo = null;
-//                        int arr_time = 0;
-//                        for(DataSnapshot fileSnapshot2 : fileSnapshot.getChildren()){
-//                            ticket = new Ticket();
-//                            ticket = fileSnapshot2.getValue(Ticket.class);
-//
-//                            arr_todo = ticket.getTodo();
-//
-//                            //비율계산//
-//                            String[] arr1 = ticket.getDepart_time().split(":"); //출발시간
-//                            String[] arr2 = ticket.getArrive_time().split(":"); //도착시간
-//                            int depart_hour=Integer.parseInt(arr1[0]);//출발시간 시
-//                            int depart_minute=Integer.parseInt(arr1[1]);//출발시간 분
-//                            int arrive_hour=Integer.parseInt(arr2[0]); //도착시간 시
-//                            int arrive_minute=Integer.parseInt(arr2[1]); //도착시간 분
-//
-//                            int term_hour = arrive_hour-depart_hour;
-//                            int term_minute = arrive_minute-depart_minute;
-//                            //------//
-//
-//                            arr_time= term_hour*60+term_minute; //시간을 분으로 계산 (예를들어 1시간 30분-> 90분으로 계산)
-//
-//                            System.out.println(ticket);
-//                            System.out.println(ticket.getTodo());
-//                            System.out.println(arr_time);
-//
-//                            yValues.add(new PieEntry(arr_time,arr_todo)); // getTodo 읽어와서 파이차트 엔트리에 추가하는 곳
-//
-//                        }
-//                    }
-//                }
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
-//            }
-//        });
-//    }
-
-    private int calculateMinute(String arr_time, String dpt_time)
-    {
-        int result = 0;
-        String[] dptTime = dpt_time.split(":");
-        String[] arrTime = arr_time.split(":");
-
-        //형변환
-        int dpt_h2 = Integer.parseInt(dptTime[0]);
-        int dpt_m2 = Integer.parseInt(dptTime[1]);
-        int arr_h2 = Integer.parseInt(arrTime[0]);
-        int arr_m2 = Integer.parseInt(arrTime[1]);
-
-        // 도착시간이 출발시간보다 큰 경우
-        if((arr_h2 - dpt_h2) >= 0){
-            result = (arr_h2 * 60 + arr_m2) - (dpt_h2 * 60 + dpt_m2);
-            System.out.println("time check "+ result);
-        }
-        // 도착시간이 출발시간보다 작은 경우 ex) 출발시간에서 ~ 24:00까지
-        else {
-
-            int midnight = (24 - dpt_h2 - 1) * 60 + ( 60 - dpt_m2);
-            //24:00부터 도착시간까지
-            if(arr_h2 == 0){
-                result = midnight + arr_m2;
-            }
-            else{
-                result = midnight + arr_h2 * 60 + arr_m2;
-            }
-        }
-
-        return result;
-    }
-
 
 }
-
