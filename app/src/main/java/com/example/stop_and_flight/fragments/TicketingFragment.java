@@ -122,6 +122,7 @@ public class TicketingFragment extends Fragment {
 
             // update인 경우 - ticketbottomSheetDialog에서 데이터를 가져옴
             Todo = getArguments().getString("Todo");
+            Friend = getArguments().getString("Friend");
             updateId = getArguments().getInt("Id");
             ticket_Date = getArguments().getString("Date");
         }
@@ -137,6 +138,7 @@ public class TicketingFragment extends Fragment {
 
         Button select_data_button = view.findViewById(R.id.select_data_button);
         Button select_todo_button = view.findViewById(R.id.select_todo_button);
+        Button select_friend_button = view.findViewById(R.id.select_friend_button);
         TimePicker depart_time = view.findViewById(R.id.depart_time);
         TimePicker arrive_time = view.findViewById(R.id.arrive_time);
         Button ticketing_button = view.findViewById(R.id.ticketing_button);
@@ -309,6 +311,36 @@ public class TicketingFragment extends Fragment {
             }
         });
     }
+private void check_Friend(String UID, String ticket_Date, Ticket ticket)
+    {
+        Button select_friend_button= (Button)getView().findViewById(R.id.select_friend_button);
+        String friend_UID = select_friend_button.getText().toString();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("users").child(friend_UID).child("together").addListenerForSingleValueEvent(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
+                    if (fileSnapshot != null) {
+                        count3++;
+                    }
+                }
+            System.out.println(friend_UID);
+
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
+            }
+
+        });
+        mDatabase.child("users").child(friend_UID).child("together").child(UID).child(ticket_Date).child(String.valueOf(Id)).setValue(ticket);
+
+
+   /*     mDatabase.child("TICKET").child(UID).child(date).child(String.valueOf(count3)).setValue(UID);
+        mDatabase.child("TICKET").child(friend_UID).child(date).child(Integer.toString(ticket.getId())).setValue(ticket);*/
+    }
 
     private void time_Validity(String ticket_Date, int depart_hour , int depart_min, int arrive_hour, int arrive_min)
     {
@@ -333,6 +365,7 @@ public class TicketingFragment extends Fragment {
             else
             {
                 db.insert_ticketDB(UID, ticket_Date, ticket);
+                check_Friend(UID,ticket_Date,ticket);
                 SetAlarmManager(ticket_Date, depart_hour, depart_min, requestcode);
             }
             Toast.makeText(getContext(),  "예약 되었습니다.", Toast.LENGTH_SHORT).show();
@@ -349,6 +382,7 @@ public class TicketingFragment extends Fragment {
                 {
                     db.insert_ticketDB(UID, ticket_Date, ticket);
                     SetAlarmManager(ticket_Date, depart_hour, depart_min, requestcode);
+                    check_Friend(UID,ticket_Date,ticket);
                 }
                 Toast.makeText(getContext(),  "예약 되었습니다.", Toast.LENGTH_SHORT).show();
             }
