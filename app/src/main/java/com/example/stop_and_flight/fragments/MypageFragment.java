@@ -1,4 +1,5 @@
-package com.example.stop_and_flight;
+package com.example.stop_and_flight.fragments;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,6 +39,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.stop_and_flight.AppGuideActivity;
+import com.example.stop_and_flight.FragmentLicense;
+import com.example.stop_and_flight.MainActivity;
+import com.example.stop_and_flight.R;
 import com.example.stop_and_flight.model.AppInfo;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
@@ -273,7 +278,6 @@ public class MypageFragment extends Fragment {
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"클릭?",Toast.LENGTH_SHORT).show();
 
                 ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},777);//세번째 파라매터 int requestcode 실행 후 전달 받을 코드 분기에 쓰이는것같음
                 Intent intent = new Intent();

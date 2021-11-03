@@ -112,16 +112,16 @@ public class friend_adapter3 extends BaseAdapter implements View.OnClickListener
 
         try{
 
-            File file2=friend1.getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES+"/ProfileImage");
+            File file2=mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES+"/ProfileImage");
             if(!file2.isDirectory()){
                 file2.mkdir();
             }
 
             StorageReference storageRef=storage.getReference();
-            storageRef.child("ProfileImage/"+file_name).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            storageRef.child("ProfileImage/"+filename).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
-                    Glide.with(friend1.getContext()).load(uri).circleCrop().into(image);
+                    Glide.with(mContext).load(uri).circleCrop().into(image);
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
