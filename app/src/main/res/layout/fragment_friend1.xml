@@ -33,18 +33,19 @@
         <TextView
             android:id="@+id/code"
             style="@style/Text.BasicStyle"
-            android:layout_width="225dp"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:text=""
             android:textColor="@color/color_4" />
+
         <ImageButton
             android:id="@+id/copy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:src="@drawable/copy"
-            android:background="@android:color/transparent">
+            android:background="@android:color/transparent"
+            android:src="@drawable/copy">
 
         </ImageButton>
     </LinearLayout>

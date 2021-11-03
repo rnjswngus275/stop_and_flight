@@ -25,6 +25,8 @@ import com.example.stop_and_flight.fragments.RankingFragment;
 import com.example.stop_and_flight.model.main_model;
 import com.example.stop_and_flight.utils.TicketDatabaseHandler;
 import com.example.stop_and_flight.model.Ticket;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -148,10 +150,10 @@ public class MainFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         db = new TicketDatabaseHandler(mDatabase);
 
-//        AdView mAdView;
-//        mAdView = v.findViewById(R.id.adView);
-//        AdRequest adRequest = new AdRequest.Builder().build();
-//        mAdView.loadAd(adRequest);
+        AdView mAdView;
+        mAdView = v.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         /* 현재 시간과 날짜를 받아오는 부분 */
         long now = System.currentTimeMillis();

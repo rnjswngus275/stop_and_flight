@@ -61,8 +61,8 @@ public class Fragment_friend1 extends Fragment{
     private String Nickname2;
     private String Message2;
     private String friend_uid2;
-    String Id_idle;
-    String Id_myidle;
+    String Id_idle="0";
+    String Id_myidle="0";
 
     int num_idle=0;
     int num_myidle=0;
@@ -140,6 +140,7 @@ public class Fragment_friend1 extends Fragment{
             }
         });
 //count 세기위해서
+        try{
         mDatabase.child("users").child(UID).child("friend").child("myidle").addValueEventListener(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -157,9 +158,11 @@ public class Fragment_friend1 extends Fragment{
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
             }
-        });
+        });}catch (Exception e){
+            Id_myidle="0";
+        }
         System.out.println("확인 count"+count);
-
+try{
         friend_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,6 +182,7 @@ public class Fragment_friend1 extends Fragment{
                                 String friend_UID = et2.getText().toString();
                                 mDatabase = FirebaseDatabase.getInstance().getReference(); // 파이어베이스 realtime database 에서 정보 가져오기
                                 //count 세기위해서
+                                try{
                                 mDatabase.child("users").child(friend_UID).child("friend").child("idle").addValueEventListener(new ValueEventListener() {
                                     @RequiresApi(api = Build.VERSION_CODES.N)
                                     @Override
@@ -195,7 +199,9 @@ public class Fragment_friend1 extends Fragment{
                                     public void onCancelled(@NonNull DatabaseError error) {
                                         Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
                                     }
-                                });
+                                });}catch(Exception e){
+                                    Id_idle="0";
+                                }
                                 mDatabase.child("users").child(UID).child("friend").child("myidle").child(Id_myidle).setValue(friend_UID);          //내 db에 update
                                 mDatabase.child("users").child(friend_UID).child("friend").child("idle").child(Id_idle).setValue(UID);//친구 db에 update
                                 Toast.makeText(getActivity(),"친구신청을 보냈습니다"+friend_UID,Toast.LENGTH_LONG).show();
@@ -204,7 +210,9 @@ public class Fragment_friend1 extends Fragment{
                 AlertDialog alert = alt_bld.create();
                 alert.show();
             }
-        });
+        });}catch (Exception e){
+
+}
         friend_list=new ArrayList<>();
 
         ListView listView=(ListView)view.findViewById(R.id.list1);

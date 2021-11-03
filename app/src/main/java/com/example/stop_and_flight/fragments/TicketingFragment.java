@@ -11,6 +11,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 
@@ -71,6 +72,7 @@ public class TicketingFragment extends Fragment {
     private int mParam1;
     private String mParam2;
     private String Todo = null;
+    private String Friend = null;
     private String UID;
     private String Friend = null;
     private AlarmManager AM;

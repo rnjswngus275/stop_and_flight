@@ -39,7 +39,8 @@ public class friend_adapter2 extends BaseAdapter {
     ArrayList<friend_model2> friend;
     String picturePath;
     Uri selectedImage;
-    Fragment_friend1 friend1;
+
+    FriendFragment friend2;
     private DatabaseReference mDatabase;
     private String UID;
 
@@ -83,35 +84,39 @@ public class friend_adapter2 extends BaseAdapter {
 
 
         FirebaseStorage storage=FirebaseStorage.getInstance();
-        StorageReference ref=storage.getReference();
 
         String filename=file_name+"_ProfileImage";     //파일명
         Uri file =selectedImage;
-        StorageReference ref2=ref.child("ProfileImage/"+filename);
+
 
 
         try{
+            System.out.println("로그 0번");
 
-            File file2=friend1.getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES+"/ProfileImage");
+            File file2=mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES+"/ProfileImage");
             if(!file2.isDirectory()){
                 file2.mkdir();
             }
+            System.out.println("로그 1번");
 
             StorageReference storageRef=storage.getReference();
-            storageRef.child("ProfileImage/"+file_name).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            storageRef.child("ProfileImage/"+filename).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
-                    Glide.with(friend1.getContext()).load(uri).circleCrop().into(image);
+                    Glide.with(mContext).load(uri).circleCrop().into(image);
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     image.setImageResource(R.drawable.profile);
+                    System.out.println("프로필 나오지 않음1");
 
                 }
             });}catch (Exception e){
             image.setImageResource(R.drawable.profile);
+            System.out.println("프로필 나오지 않음2");
+
         }
 
 
@@ -138,6 +143,7 @@ public class friend_adapter2 extends BaseAdapter {
 
          return view;
     }
+
 
 
 
