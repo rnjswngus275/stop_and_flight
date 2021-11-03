@@ -58,14 +58,14 @@
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottie"
             android:layout_width="388dp"
-            android:layout_height="423dp"
+            android:layout_height="366dp"
             android:layout_gravity="center_horizontal" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="86dp"
         android:layout_marginBottom="30dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
@@ -74,17 +74,17 @@
             android:id="@+id/button_emergency"
             style="@style/Text.BasicStyle"
             android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_height="68dp"
             android:layout_marginRight="15dp"
-            android:padding="10dp"
             android:background="@drawable/circle"
+            android:padding="10dp"
             android:text="비상탈출" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_app"
             style="@style/Text.BasicStyle"
             android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_height="68dp"
             android:background="@drawable/circle"
             android:padding="10dp"
             android:text="허용앱" />
