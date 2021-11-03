@@ -72,6 +72,7 @@ public class TicketingFragment extends Fragment {
     private String mParam2;
     private String Todo = null;
     private String UID;
+    private String Friend = null;
     private AlarmManager AM;
     private PendingIntent ServicePending;
     private final Context context;
@@ -83,7 +84,7 @@ public class TicketingFragment extends Fragment {
     private List<String> select_Date = new ArrayList<>();
     private CurTime curTime;
     private HashMap<String, Object> TicketMap;
-
+    int count3=1;
 
     public TicketingFragment(Context context) {
         this.context = context;
@@ -158,10 +159,32 @@ public class TicketingFragment extends Fragment {
             }
         });
 
+        select_friend_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (updateId != DEFAULT)
+                {
+                    ((TicketingBottomSheetDialog) getParentFragment()).DialogReplaceFragment(SelectFriendFragment.newInstance(updateId, Friend, Todo, context));
+
+                }
+                else
+                {
+                    ((TicketingBottomSheetDialog) getParentFragment()).DialogReplaceFragment(SelectFriendFragment.newInstance(updateId, null,null,  context));
+                }
+            }
+
+        });
+
         if (Todo != null)
         {
             select_todo_button.setText(Todo);
         }
+
+        if (Friend != null)
+        {
+            select_friend_button.setText(Friend);
+        }
+
         if (ticket_Date == null)
         {
             ticket_Date = curTime.getWeekset();
@@ -317,7 +340,6 @@ private void check_Friend(String UID, String ticket_Date, Ticket ticket)
         String friend_UID = select_friend_button.getText().toString();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("users").child(friend_UID).child("together").addListenerForSingleValueEvent(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
