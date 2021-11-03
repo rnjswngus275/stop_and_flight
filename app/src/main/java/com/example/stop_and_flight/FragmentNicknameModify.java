@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.stop_and_flight.fragments.MypageFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -83,6 +84,7 @@ public class FragmentNicknameModify extends Fragment {
                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference(); // 파이어베이스 realtime database 에서 정보 가져오기
                 mDatabase.child("users").child(uid).child("nickname").setValue(Nickname);
                 Fragment newFragment = new com.example.stop_and_flight.fragments.MypageFragment();
+
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.container, newFragment);
                 transaction.addToBackStack(null);

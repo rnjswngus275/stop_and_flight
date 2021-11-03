@@ -61,23 +61,12 @@ public class SelectFriendFragment extends Fragment {
 
     private DatabaseReference mDatabase;
     private String UID;
-    private String Nickname;
-    private String Message;
-    private String friend_uid;
-    private String UID2;
     private String Nickname2;
     private String Message2;
     private String friend_uid2;
     private int updateId;
     private Fragment fragment;
 
-    int num_idle = 0;
-    int num_myidle = 0;
-    int count = 0;
-    int count2 = 0;
-    int count3 = 0;
-
-    ArrayList<friend_model> friend_list;
     ArrayList<friend_model2> accept_friend_list;
 
     private RecyclerView selectFriendRecyclerView;
@@ -142,8 +131,6 @@ public class SelectFriendFragment extends Fragment {
         if (user != null) {
             UID = user.getUid(); // 로그인한 유저의 고유 uid 가져오기
         }
-        System.out.println(UID);
-
 
         ListView accept_friend_listView2=(ListView)v.findViewById(R.id.selectFriendListView);//리사이클뷰 정의(친구목록 보이게 하는곳)
 
@@ -166,20 +153,15 @@ public class SelectFriendFragment extends Fragment {
                 TicketingFragment ticketingFragment = new TicketingFragment(context);
                 Bundle bundle = new Bundle();
                 bundle.putInt("Id", mParam1);
+                bundle.putString("Todo", mParam3);
                 bundle.putString("Friend", selected_frinend_UID.getUID());
                 ticketingFragment.setArguments(bundle);
-                System.out.println("클릭한 친구닉네임: "+selected_frinend_UID.getUID());
-
                 ((TicketingBottomSheetDialog) getParentFragment()).DialogReplaceFragment(ticketingFragment);
 
             }
         });
 
-
-        Fragment BottomSheetdialog = ((TicketingBottomSheetDialog) getParentFragment());
-
         friendSelectAdapter = new FriendSelectAdapter(getContext(),accept_friend_list);
-
 
         //1.친구 uid 읽어오기
         mDatabase.child("users").child(UID).child("friend").child("accept").addValueEventListener(new ValueEventListener() {
@@ -187,75 +169,48 @@ public class SelectFriendFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 accept_friend_list.clear();
-                System.out.println("확인 트라이");
-
                 for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
-
                     if (fileSnapshot != null) {
                         friend_uid2 = fileSnapshot.getValue(String.class);
-                        System.out.println("2확인 진입1" + friend_uid2);
-
                         //2. 친구 닉네임 읽어오기
-
                         final DatabaseReference ref2 = mDatabase.child("users").child(friend_uid2).child("nickname");
                         ref2.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 Nickname2 = snapshot.getValue(String.class);
-                                System.out.println("2확인 진입2" + Nickname2);
-
                             }
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
                             }
                         });
-
-
                         //3. 친구 상태 메세지 읽어오기
                         final DatabaseReference ref3 = mDatabase.child("users").child(friend_uid2).child("message");
                         ref3.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot2) {
                                 Message2 = snapshot2.getValue(String.class);
-
                                 list_add2(Nickname2, Message2, friend_uid2);
                                 adapter2.notifyDataSetChanged();
                             }
-
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
                             }
 
                         });
-
-
-                        System.out.println("2확인 1번 블록" + Nickname2 + Message2 + friend_uid2);
-
                     }
-
-                    System.out.println("2확인 2번 블록");
                 }
-                System.out.println("2확인 3번 블록");
-
             }
-
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
             }
-
         });
         Collections.reverse(accept_friend_list);
         return v;
-
     }
 
     public void list_add2(String Nickname2, String Message2, String Friend_Uid2) {
-
         accept_friend_list.add(new friend_model2(Nickname2, Message2, Friend_Uid2));
-
-
     }
 }

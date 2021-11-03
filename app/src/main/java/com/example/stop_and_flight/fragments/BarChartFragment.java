@@ -94,15 +94,12 @@ public class BarChartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_2, container, false);
-        CurTime curTime = new CurTime();
         barChart = (BarChart) view.findViewById(R.id.barchart);
 
         ArrayList<BarEntry> barEntry = new ArrayList<>();
         ArrayList<String> week = new ArrayList<>();
         TextView week_total_time= (TextView)view.findViewById(R.id.textView30);
         TextView today_total_time=(TextView)view.findViewById(R.id.textView28);
-
-        int curIntTime = curTime.getIntYear() * 10000 + curTime.getIntMonth() * 100 + curTime.getIntDay() * 1;
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); // 로그인한 유저의 정보 가져오기
         if(user != null){

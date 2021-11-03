@@ -163,7 +163,7 @@ public class PieChartFragment extends Fragment {
                             System.out.println(ticket.getTodo());
                             System.out.println(arr_time);
 
-                            Dictionary data = new Dictionary("◼︎  "+arr_todo,arr_times);
+                            Dictionary data = new Dictionary("◼︎  "+arr_todo, arr_times);
                             mArrayList.add(data); // RecyclerView의 마지막 줄에 삽입
                             mAdapter.notifyDataSetChanged();
                         }
