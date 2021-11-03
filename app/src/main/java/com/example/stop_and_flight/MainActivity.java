@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.stop_and_flight.fragments.MypageFragment;
 import com.example.stop_and_flight.fragments.StatisticsFragment;
 //import com.google.android.gms.ads.MobileAds;
 //import com.google.android.gms.ads.initialization.InitializationStatus;
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         CalendarFragment calendarFragment = new CalendarFragment();
         TaskFragment taskFragment = new TaskFragment();
-        com.example.stop_and_flight.MypageFragment mypage = new com.example.stop_and_flight.MypageFragment();
+        MypageFragment mypage = new MypageFragment();
         RankingFragment rankingFragment = new RankingFragment();
         FriendFragment friend=new FriendFragment();
         StatisticsFragment statisticsFragment = new StatisticsFragment();

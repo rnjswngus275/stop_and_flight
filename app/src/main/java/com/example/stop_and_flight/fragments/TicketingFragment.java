@@ -74,7 +74,6 @@ public class TicketingFragment extends Fragment {
     private String Todo = null;
     private String Friend = null;
     private String UID;
-    private String Friend = null;
     private AlarmManager AM;
     private PendingIntent ServicePending;
     private final Context context;
@@ -171,7 +170,7 @@ public class TicketingFragment extends Fragment {
                 }
                 else
                 {
-                    ((TicketingBottomSheetDialog) getParentFragment()).DialogReplaceFragment(SelectFriendFragment.newInstance(updateId, null,null,  context));
+                    ((TicketingBottomSheetDialog) getParentFragment()).DialogReplaceFragment(SelectFriendFragment.newInstance(updateId, null, Todo,  context));
                 }
             }
 
@@ -218,7 +217,6 @@ public class TicketingFragment extends Fragment {
                 CurTime curTime = new CurTime();
 
                 select_Date = curTime.getDatesBetweenUsingJava7(start, end);
-                System.out.println(select_Date);
                 select_data_button.setText(dateformat.format(start) +" ~ " +dateformat.format(end));
             }
         });
@@ -338,32 +336,8 @@ public class TicketingFragment extends Fragment {
     }
 private void check_Friend(String UID, String ticket_Date, Ticket ticket)
     {
-        Button select_friend_button= (Button)getView().findViewById(R.id.select_friend_button);
-        String friend_UID = select_friend_button.getText().toString();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("users").child(friend_UID).child("together").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot fileSnapshot : snapshot.getChildren()) {
-                    if (fileSnapshot != null) {
-                        count3++;
-                    }
-                }
-            System.out.println(friend_UID);
-
-
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.w("ReadAndWriteSnippets", "loadPost:onCancelled", error.toException());
-            }
-
-        });
-        mDatabase.child("users").child(friend_UID).child("together").child(UID).child(ticket_Date).child(String.valueOf(Id)).setValue(ticket);
-
-
-   /*     mDatabase.child("TICKET").child(UID).child(date).child(String.valueOf(count3)).setValue(UID);
-        mDatabase.child("TICKET").child(friend_UID).child(date).child(Integer.toString(ticket.getId())).setValue(ticket);*/
+        if (Friend != null)
+            mDatabase.child("users").child(Friend).child("together").child(UID).child(ticket_Date).child(String.valueOf(Id)).setValue(ticket);
     }
 
     private void time_Validity(String ticket_Date, int depart_hour , int depart_min, int arrive_hour, int arrive_min)

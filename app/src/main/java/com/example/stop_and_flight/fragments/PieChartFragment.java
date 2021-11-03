@@ -18,7 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.stop_and_flight.R;
+import com.example.stop_and_flight.model.Dictionary;
 import com.example.stop_and_flight.model.Ticket;
+import com.example.stop_and_flight.utils.CustomAdapter;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
@@ -161,7 +163,7 @@ public class PieChartFragment extends Fragment {
                             System.out.println(ticket.getTodo());
                             System.out.println(arr_time);
 
-                            Dictionary data = new Dictionary("◼︎  "+arr_todo,arr_times);
+                            Dictionary data = new Dictionary("◼︎  "+arr_todo, arr_times);
                             mArrayList.add(data); // RecyclerView의 마지막 줄에 삽입
                             mAdapter.notifyDataSetChanged();
                         }
