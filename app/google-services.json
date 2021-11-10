@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:229769436108:android:6e0b9e0cb10ada9ba01b69",
         "android_client_info": {
-          "package_name": "com.example.stop_and_flight"
+          "package_name": "com.doremifa.stop_and_flight"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "229769436108-1ph2052elq3e6bsr453afomvllf8t8t4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.stop_and_flight",
+            "package_name": "com.doremifa.stop_and_flight",
             "certificate_hash": "c6ee12443899153bbbca0c788d2218ec6ed53b06"
           }
         },

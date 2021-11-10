@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.stop_and_flight">
+    package="com.doremifa.stop_and_flight">
 
     <application
         android:allowBackup="true"
@@ -11,11 +11,11 @@
         android:theme="@style/Theme.Stop_and_flight"
         android:usesCleartextTraffic="true"
         >
-        <activity android:name=".AppGuideActivity"/>
+        <activity android:name="com.doremifa.stop_and_flight.AppGuideActivity"/>
 
-        <activity android:name=".LoginMethodActivity" />
-        <activity android:name=".JoinSNSNickname" />
-        <activity android:name=".IntroActivity">
+        <activity android:name="com.doremifa.stop_and_flight.LoginMethodActivity" />
+        <activity android:name="com.doremifa.stop_and_flight.JoinSNSNickname" />
+        <activity android:name="com.doremifa.stop_and_flight.IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,12 +23,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity" />
-        <activity android:name=".select_signup_method" />
-        <activity android:name=".JoinActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".InfoActivity"/>
-        <activity android:name=".FilghtActivity">
+        <activity android:name="com.doremifa.stop_and_flight.MainActivity" />
+        <activity android:name="com.doremifa.stop_and_flight.select_signup_method" />
+        <activity android:name="com.doremifa.stop_and_flight.JoinActivity" />
+        <activity android:name="com.doremifa.stop_and_flight.LoginActivity" />
+        <activity android:name="com.doremifa.stop_and_flight.InfoActivity"/>
+        <activity android:name="com.doremifa.stop_and_flight.FilghtActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.FLIGHTACTIVITY" />
@@ -36,14 +36,14 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <receiver android:name=".AlarmReceiver">
+        <receiver android:name="com.doremifa.stop_and_flight.AlarmReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.sec" />
             </intent-filter>
         </receiver>
 
         <service
-            android:name=".utils.Accessibility"
+            android:name="com.doremifa.stop_and_flight.utils.Accessibility"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />

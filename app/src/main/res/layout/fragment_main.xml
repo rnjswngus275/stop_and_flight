@@ -45,7 +45,7 @@
         android:layout_below="@id/btn2"
         />
 
-    <com.example.stop_and_flight.MeasuredViewPager
+    <com.doremifa.stop_and_flight.MeasuredViewPager
         android:id="@+id/viewPager"
         android:layout_below="@id/line2"
         android:layout_width="match_parent"
@@ -53,7 +53,7 @@
         android:clipToPadding="false"
         android:overScrollMode="never">
 
-    </com.example.stop_and_flight.MeasuredViewPager>
+    </com.doremifa.stop_and_flight.MeasuredViewPager>
 
     <ImageView
         android:id="@+id/line1"

@@ -7,7 +7,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.example.stop_and_flight"
+        applicationId "com.doremifa.stop_and_flight"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
