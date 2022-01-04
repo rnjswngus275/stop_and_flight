@@ -18,7 +18,7 @@
 > 일정 및 목표 등록, 친구 등록, 다른 앱 사용 차단 기능, 통계기능 등이 포함 되어있다.
 > 개발은 Android Studio를 이용하여 진행되고 완성된 어플리케이션은 Google Play Store에 런칭할 것 이다.
 
-[완성된 어플리케이션 실행 동영상](https://youtu.be/1fWKVeo8RYM)
+[완성된 어플리케이션 실행 동영상](https://youtu.be/1fWKVeo8RYM)<br>
 <포스터>
 ![01-16 _스탑앤플라이트_작품포스터](https://user-images.githubusercontent.com/38181228/147875374-6c5495f2-2801-4bc9-9f43-ece5e734a833.png)
 <온보딩>
